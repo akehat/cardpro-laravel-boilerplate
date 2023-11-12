@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,15 +11,29 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.sass('resources/assets/sass/frontend/app.scss', 'public/css/frontend.css')
-    .sass('resources/assets/sass/backend/app.scss', 'public/css/backend.css')
-    .js('resources/assets/js/frontend/app.js', 'public/js/frontend.js')
-    .js([
-        'resources/assets/js/backend/before.js',
-        'resources/assets/js/backend/app.js',
-        'resources/assets/js/backend/after.js'
-    ], 'public/js/backend.js');
+mix.setPublicPath('public')
+    .setResourceRoot('../') // Turns assets paths in css relative to css file
+    .vue()
+    .sass('resources/sass/frontend/app.scss', 'css/frontend.css')
+    .sass('resources/sass/backend/app.scss', 'css/backend.css')
+    .js('resources/js/frontend/app.js', 'js/frontend.js')
+    .js('resources/js/backend/app.js', 'js/backend.js')
+    .extract([
+        'alpinejs',
+        'jquery',
+        'bootstrap',
+        'popper.js',
+        'axios',
+        'sweetalert2',
+        'lodash'
+    ])
+    .sourceMaps();
 
-if (mix.inProduction() || process.env.npm_lifecycle_event !== 'hot') {
+if (mix.inProduction()) {
     mix.version();
+} else {
+    // Uses inline source-maps on development
+    mix.webpackConfig({
+        devtool: 'inline-source-map'
+    });
 }

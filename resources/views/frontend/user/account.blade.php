@@ -1,51 +1,85 @@
 @extends('frontend.layouts.app')
 
+@section('title', __('My Account'))
+
 @section('content')
-    <div class="row justify-content-center align-items-center mb-3">
-        <div class="col col-sm-10 align-self-center">
-            <div class="card">
-                <div class="card-header">
-                    <strong>
-                        {{ __('navs.frontend.user.account') }}
-                    </strong>
-                </div>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <x-frontend.card>
+                    <x-slot name="header">
+                        @lang('My Account')
+                    </x-slot>
 
-                <div class="card-body">
-                    <div role="tabpanel">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a href="#profile" class="nav-link active" aria-controls="profile" role="tab" data-toggle="tab">{{ __('navs.frontend.user.profile') }}</a>
-                            </li>
+                    <x-slot name="body">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <x-utils.link
+                                    :text="__('My Profile')"
+                                    class="nav-link active"
+                                    id="my-profile-tab"
+                                    data-toggle="pill"
+                                    href="#my-profile"
+                                    role="tab"
+                                    aria-controls="my-profile"
+                                    aria-selected="true" />
 
-                            <li class="nav-item">
-                                <a href="#edit" class="nav-link" aria-controls="edit" role="tab" data-toggle="tab">{{ __('labels.frontend.user.profile.update_information') }}</a>
-                            </li>
+                                <x-utils.link
+                                    :text="__('Edit Information')"
+                                    class="nav-link"
+                                    id="information-tab"
+                                    data-toggle="pill"
+                                    href="#information"
+                                    role="tab"
+                                    aria-controls="information"
+                                    aria-selected="false"/>
 
-                            @if ($logged_in_user->canChangePassword())
-                            <li class="nav-item">
-                                <a href="#password" class="nav-link" aria-controls="password" role="tab" data-toggle="tab">{{ __('navs.frontend.user.change_password') }}</a>
-                            </li>
-                            @endif
-                        </ul>
+                                @if (! $logged_in_user->isSocial())
+                                    <x-utils.link
+                                        :text="__('Password')"
+                                        class="nav-link"
+                                        id="password-tab"
+                                        data-toggle="pill"
+                                        href="#password"
+                                        role="tab"
+                                        aria-controls="password"
+                                        aria-selected="false" />
+                                @endif
 
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade show active pt-3" id="profile" aria-labelledby="profile-tab">
+                                <x-utils.link
+                                    :text="__('Two Factor Authentication')"
+                                    class="nav-link"
+                                    id="two-factor-authentication-tab"
+                                    data-toggle="pill"
+                                    href="#two-factor-authentication"
+                                    role="tab"
+                                    aria-controls="two-factor-authentication"
+                                    aria-selected="false"/>
+                            </div>
+                        </nav>
+
+                        <div class="tab-content" id="my-profile-tabsContent">
+                            <div class="tab-pane fade pt-3 show active" id="my-profile" role="tabpanel" aria-labelledby="my-profile-tab">
                                 @include('frontend.user.account.tabs.profile')
-                            </div><!--tab panel profile-->
+                            </div><!--tab-profile-->
 
-                            <div role="tabpanel" class="tab-pane fade show pt-3" id="edit" aria-labelledby="edit-tab">
-                                @include('frontend.user.account.tabs.edit')
-                            </div><!--tab panel profile-->
+                            <div class="tab-pane fade pt-3" id="information" role="tabpanel" aria-labelledby="information-tab">
+                                @include('frontend.user.account.tabs.information')
+                            </div><!--tab-information-->
 
-                            @if ($logged_in_user->canChangePassword())
-                                <div role="tabpanel" class="tab-pane fade show pt-3" id="password" aria-labelledby="password-tab">
-                                    @include('frontend.user.account.tabs.change-password')
-                                </div><!--tab panel change password-->
+                            @if (! $logged_in_user->isSocial())
+                                <div class="tab-pane fade pt-3" id="password" role="tabpanel" aria-labelledby="password-tab">
+                                    @include('frontend.user.account.tabs.password')
+                                </div><!--tab-password-->
                             @endif
-                        </div><!--tab content-->
-                    </div><!--tab panel-->
-                </div><!--card body-->
-            </div><!-- card -->
-        </div><!-- col-xs-12 -->
-    </div><!-- row -->
+
+                            <div class="tab-pane fade pt-3" id="two-factor-authentication" role="tabpanel" aria-labelledby="two-factor-authentication-tab">
+                                @include('frontend.user.account.tabs.two-factor-authentication')
+                            </div><!--tab-information-->
+                        </div><!--tab-content-->
+                    </x-slot>
+                </x-frontend.card>
+            </div><!--col-md-10-->
+        </div><!--row-->
+    </div><!--container-->
 @endsection

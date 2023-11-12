@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,11 +12,6 @@ return [
     |
     */
 
-    'failed'        => 'Las credenciales no se han encontrado.',
-    'general_error' => 'No tiene suficientes permisos..',
-    'socialite'     => [
-        'unacceptable' => ':provider no es un tipo de autenticación válida.',
-    ],
+    'failed' => 'Las credenciales no se han encontrado.',
     'throttle' => 'Demasiados intentos de inicio de sesión. Vuelva a intentarlo en :seconds segundos.',
-    'unknown'  => 'Se ha producido un error desconocido.',
 ];

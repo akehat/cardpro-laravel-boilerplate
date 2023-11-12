@@ -1,158 +1,64 @@
-@extends ('backend.layouts.app')
+@inject('model', '\App\Domains\Auth\Models\User')
 
-@section ('title', __('labels.backend.access.users.management') . ' | ' . __('labels.backend.access.users.edit'))
+@extends('backend.layouts.app')
 
-@section('breadcrumb-links')
-    @include('backend.auth.user.includes.breadcrumb-links')
-@endsection
+@section('title', __('Update User'))
 
 @section('content')
-{{ html()->modelForm($user, 'PATCH', route('admin.auth.user.update', $user->id))->class('form-horizontal')->open() }}
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-5">
-                    <h4 class="card-title mb-0">
-                        {{ __('labels.backend.access.users.management') }}
-                        <small class="text-muted">{{ __('labels.backend.access.users.edit') }}</small>
-                    </h4>
-                </div><!--col-->
-            </div><!--row-->
+    <x-forms.patch :action="route('admin.auth.user.update', $user)">
+        <x-backend.card>
+            <x-slot name="header">
+                @lang('Update User')
+            </x-slot>
 
-            <hr />
+            <x-slot name="headerActions">
+                <x-utils.link class="card-header-action" :href="route('admin.auth.user.index')" :text="__('Cancel')" />
+            </x-slot>
 
-            <div class="row mt-4 mb-4">
-                <div class="col">
+            <x-slot name="body">
+                <div x-data="{userType : '{{ $user->type }}'}">
+                    @if (!$user->isMasterAdmin())
+                        <div class="form-group row">
+                            <label for="name" class="col-md-2 col-form-label">@lang('Type')</label>
+
+                            <div class="col-md-10">
+                                <select name="type" class="form-control" required x-on:change="userType = $event.target.value">
+                                    <option value="{{ $model::TYPE_USER }}" {{ $user->type === $model::TYPE_USER ? 'selected' : '' }}>@lang('User')</option>
+                                    <option value="{{ $model::TYPE_ADMIN }}" {{ $user->type === $model::TYPE_ADMIN ? 'selected' : '' }}>@lang('Administrator')</option>
+                                </select>
+                            </div>
+                        </div><!--form-group-->
+                    @endif
+
                     <div class="form-group row">
-                    {{ html()->label(__('validation.attributes.backend.access.users.first_name'))->class('col-md-2 form-control-label')->for('first_name') }}
+                        <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
 
                         <div class="col-md-10">
-                            {{ html()->text('first_name')
-                                ->class('form-control')
-                                ->placeholder(__('validation.attributes.backend.access.users.first_name'))
-                                ->attribute('maxlength', 191)
-                                ->required() }}
-                        </div><!--col-->
+                            <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $user->name }}" maxlength="100" required />
+                        </div>
                     </div><!--form-group-->
 
                     <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.access.users.last_name'))->class('col-md-2 form-control-label')->for('last_name') }}
+                        <label for="email" class="col-md-2 col-form-label">@lang('E-mail Address')</label>
 
                         <div class="col-md-10">
-                            {{ html()->text('last_name')
-                                ->class('form-control')
-                                ->placeholder(__('validation.attributes.backend.access.users.last_name'))
-                                ->attribute('maxlength', 191)
-                                ->required() }}
-                        </div><!--col-->
+                            <input type="email" name="email" id="email" class="form-control" placeholder="{{ __('E-mail Address') }}" value="{{ old('email') ?? $user->email }}" maxlength="255" required />
+                        </div>
                     </div><!--form-group-->
 
-                    <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.access.users.email'))->class('col-md-2 form-control-label')->for('email') }}
+                    @if (!$user->isMasterAdmin())
+                        @include('backend.auth.includes.roles')
 
-                        <div class="col-md-10">
-                            {{ html()->email('email')
-                                ->class('form-control')
-                                ->placeholder(__('validation.attributes.backend.access.users.email'))
-                                ->attribute('maxlength', 191)
-                                ->required() }}
-                        </div><!--col-->
-                    </div><!--form-group-->
+                        @if (!config('boilerplate.access.user.only_roles'))
+                            @include('backend.auth.includes.permissions')
+                        @endif
+                    @endif
+                </div>
+            </x-slot>
 
-                    <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.access.users.timezone'))->class('col-md-2 form-control-label')->for('timezone') }}
-
-                        <div class="col-md-10">
-                            <select name="timezone" id="timezone" class="form-control" required="required">
-                                @foreach (timezone_identifiers_list() as $timezone)
-                                    <option value="{{ $timezone }}" {{ $timezone == $logged_in_user->timezone ? 'selected' : '' }} {{ $timezone == old('timezone') ? ' selected' : '' }}>{{ $timezone }}</option>
-                                @endforeach
-                            </select>
-                        </div><!--col-->
-                    </div><!--form-group-->
-
-                    <div class="form-group row">
-                        {{ html()->label('Abilities')->class('col-md-2 form-control-label') }}
-
-                        <div class="table-responsive col-md-10">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('labels.backend.access.users.table.roles') }}</th>
-                                        <th>{{ __('labels.backend.access.users.table.permissions') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            @if ($roles->count())
-                                                @foreach($roles as $role)
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            <div class="checkbox">
-                                                                {{ html()->label(
-                                                                        html()->checkbox('roles[]', in_array($role->name, $userRoles), $role->name)
-                                                                              ->class('switch-input')
-                                                                              ->id('role-'.$role->id)
-                                                                        . '<span class="switch-label"></span><span class="switch-handle"></span>')
-                                                                    ->class('switch switch-sm switch-3d switch-primary')
-                                                                    ->for('role-'.$role->id) }}
-                                                                {{ html()->label(ucwords($role->name))->for('role-'.$role->id) }}
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            @if ($role->id != 1)
-                                                                @if ($role->permissions->count())
-                                                                    @foreach ($role->permissions as $permission)
-                                                                        <i class="fa fa-dot-circle-o"></i> {{ ucwords($permission->name) }}
-                                                                    @endforeach
-                                                                @else
-                                                                    {{ __('labels.general.none') }}
-                                                                @endif
-                                                            @else
-                                                                {{ __('labels.backend.access.users.all_permissions') }}
-                                                            @endif
-                                                        </div>
-                                                    </div><!--card-->
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($permissions->count())
-                                                @foreach($permissions as $permission)
-                                                    <div class="checkbox">
-                                                        {{ html()->label(
-                                                                html()->checkbox('permissions[]', in_array($permission->name, $userPermissions), $permission->name)
-                                                                      ->class('switch-input')
-                                                                      ->id('permission-'.$permission->id)
-                                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
-                                                            ->class('switch switch-sm switch-3d switch-primary')
-                                                            ->for('permission-'.$permission->id) }}
-                                                        {{ html()->label(ucwords($permission->name))->for('permission-'.$permission->id) }}
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div><!--col-->
-                    </div><!--form-group-->
-                </div><!--col-->
-            </div><!--row-->
-        </div><!--card-body-->
-
-        <div class="card-footer">
-            <div class="row">
-                <div class="col">
-                    {{ form_cancel(route('admin.auth.user.index'), __('buttons.general.cancel')) }}
-                </div><!--col-->
-
-                <div class="col text-right">
-                    {{ form_submit(__('buttons.general.crud.update')) }}
-                </div><!--row-->
-            </div><!--row-->
-        </div><!--card-footer-->
-    </div><!--card-->
-{{ html()->closeModelForm() }}
+            <x-slot name="footer">
+                <button class="btn btn-sm btn-primary float-right" type="submit">@lang('Update User')</button>
+            </x-slot>
+        </x-backend.card>
+    </x-forms.patch>
 @endsection

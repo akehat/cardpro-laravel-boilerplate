@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,11 +12,6 @@ return [
     |
     */
 
-    'failed'        => 'Bu kimlik bilgileri kayıtlarımızla eşleşmiyor.',
-    'general_error' => 'Bunu yapmak için erişiminiz yok.',
-    'socialite'     => [
-        'unacceptable' => ':provider kabul edilen bir oturum açma türü değil.',
-    ],
+    'failed' => 'Bu kimlik bilgileri kayıtlarımızla eşleşmiyor.',
     'throttle' => 'Çok fazla giriş denemesi. Lütfen :seconds saniye sonra yeniden deneyin.',
-    'unknown'  => 'Bilinmeyen bir hata oluştu',
 ];

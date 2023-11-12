@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,11 +12,6 @@ return [
     |
     */
 
-    'failed'        => 'Identitas tersebut tidak cocok dengan catatan kami.',
-    'general_error' => 'Anda tidak memiliki akses untuk melakukan itu.',
-    'socialite'     => [
-        'unacceptable' => ':provider bukanlah jenis login diterima.',
-    ],
+    'failed' => 'Identitas tersebut tidak cocok dengan catatan kami.',
     'throttle' => 'Terlalu banyak usaha login. Coba lagi dalam :seconds detik.',
-    'unknown'  => 'Terjadi kesalahan yang tidak diketahui',
 ];

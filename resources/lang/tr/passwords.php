@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Password Reset Language Lines
@@ -13,9 +12,9 @@ return [
     |
     */
 
-    'password' => 'Parolalar en az altı karakter olmalıdır ve onayla eşleşmelidir.',
-    'reset'    => 'Şifreniz sıfırlandı!',
-    'sent'     => 'Parola sıfırlama bağlantınızı e-posta ile gönderdik!',
-    'token'    => 'Bu parola sıfırlama simgesi geçersiz.',
-    'user'     => 'Bu e-posta adresine sahip bir kullanıcı bulamıyoruz.',
+    'reset' => 'Şifreniz sıfırlandı!',
+    'sent' => 'Parola sıfırlama bağlantınızı e-posta ile gönderdik!',
+    'throttled' => 'Please wait before retrying.',
+    'token' => 'Bu parola sıfırlama simgesi geçersiz.',
+    'user' => 'Bu e-posta adresine sahip bir kullanıcı bulamıyoruz.',
 ];

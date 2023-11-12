@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,11 +12,6 @@ return [
     |
     */
 
-    'failed'        => 'Brukernavn eller passord stemmer ikke.',
-    'general_error' => 'Du har ikke tilgang til at utføre denne handling.',
-    'socialite'     => [
-        'unacceptable' => ':provider kan ikke brukes som login.',
-    ],
+    'failed' => 'Brukernavn eller passord stemmer ikke.',
     'throttle' => 'For mange mislykkede forsøk. Prøv igen om :seconds sekunder.',
-    'unknown'  => 'Det oppstod en ukjent feil.',
 ];

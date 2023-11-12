@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-use Webpatser\Uuid\Uuid as PackageUuid;
+use Ramsey\Uuid\Uuid as PackageUuid;
 
 /**
  * Trait Uuid.
@@ -12,7 +12,6 @@ trait Uuid
     /**
      * @param $query
      * @param $uuid
-     *
      * @return mixed
      */
     public function scopeUuid($query, $uuid)
@@ -28,12 +27,13 @@ trait Uuid
         return property_exists($this, 'uuidName') ? $this->uuidName : 'uuid';
     }
 
-    protected static function boot()
+    /**
+     * Use Laravel bootable traits.
+     */
+    protected static function bootUuid()
     {
-        parent::boot();
-
         static::creating(function ($model) {
-            $model->{$model->getUuidName()} = PackageUuid::generate(4)->string;
+            $model->{$model->getUuidName()} = PackageUuid::uuid4()->toString();
         });
     }
 }

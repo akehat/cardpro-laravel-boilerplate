@@ -1,56 +1,135 @@
 <?php
 
-use Faker\Generator;
-use Webpatser\Uuid\Uuid;
-use App\Models\Auth\User;
+namespace Database\Factories;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
+use App\Domains\Auth\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-$factory->define(User::class, function (Generator $faker) {
-    static $password;
+/**
+ * Class UserFactory.
+ */
+class UserFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
 
-    return [
-        'uuid' 			    => Uuid::generate(4)->string,
-        'first_name'        => $faker->firstName,
-        'last_name'         => $faker->lastName,
-        'email'             => $faker->safeEmail,
-        'password'          => $password ?: $password = bcrypt('secret'),
-        'remember_token'    => str_random(10),
-        'confirmation_code' => md5(uniqid(mt_rand(), true)),
-        'active' => 1,
-        'confirmed' => 1,
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'type' => $this->faker->randomElement([User::TYPE_ADMIN, User::TYPE_USER]),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => 'secret',
+            'password_changed_at' => null,
+            'remember_token' => Str::random(10),
+            'active' => true,
+        ];
+    }
 
-$factory->state(User::class, 'active', function () {
-    return [
-        'active' => 1,
-    ];
-});
+    /**
+     * @return UserFactory
+     */
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => User::TYPE_ADMIN,
+            ];
+        });
+    }
 
-$factory->state(User::class, 'inactive', function () {
-    return [
-        'active' => 0,
-    ];
-});
+    /**
+     * @return UserFactory
+     */
+    public function user()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => User::TYPE_USER,
+            ];
+        });
+    }
 
-$factory->state(User::class, 'confirmed', function () {
-    return [
-        'confirmed' => 1,
-    ];
-});
+    /**
+     * @return UserFactory
+     */
+    public function active()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'active' => true,
+            ];
+        });
+    }
 
-$factory->state(User::class, 'unconfirmed', function () {
-    return [
-        'confirmed' => 0,
-    ];
-});
+    /**
+     * @return UserFactory
+     */
+    public function inactive()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'active' => false,
+            ];
+        });
+    }
+
+    /**
+     * @return UserFactory
+     */
+    public function confirmed()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => now(),
+            ];
+        });
+    }
+
+    /**
+     * @return UserFactory
+     */
+    public function unconfirmed()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+
+    /**
+     * @return UserFactory
+     */
+    public function passwordExpired()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'password_changed_at' => now()->subYears(5),
+            ];
+        });
+    }
+
+    /**
+     * @return UserFactory
+     */
+    public function deleted()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'deleted_at' => now(),
+            ];
+        });
+    }
+}

@@ -28,5 +28,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], f
 });
 
 Route::get("/", function(){
-    return view("welcome");
+    return view("FAQ");
 });

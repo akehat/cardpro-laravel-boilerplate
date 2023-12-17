@@ -20,6 +20,7 @@ class CreateContactLog extends Migration
 	    $table->text('message');
 	    $table->string('email');
 
+
         });
     }
 

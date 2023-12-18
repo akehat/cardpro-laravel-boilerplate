@@ -27,6 +27,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], f
     includeRouteFiles(__DIR__.'/backend/');
 });
 
-Route::get("/", function(){
+Route::get("/faq", function(){
     return view("FAQ");
 });
+
+Route::get("/", function(){
+    return view("welcome");
+});
+
+
+
+

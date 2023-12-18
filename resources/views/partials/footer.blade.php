@@ -12,7 +12,7 @@
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
               <a href="#" class="flex items-center space-x-4">
-                  <img src="https://www.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif" class="h-8 me-3" alt="Logo"  />
+                  <img src="#" class="h-8 me-3" alt="Logo"  />
                   <span class=" text-2xl font-semibold whitespace-nowrap dark:text-white">Card Wiz Pro</span>
               </a>
           </div>

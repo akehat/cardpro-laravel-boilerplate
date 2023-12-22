@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use CURLFile;
 use Illuminate\Http\Request;
 
 class merchantsController extends Controller
@@ -986,5 +987,335 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-            
+    public static function createHold(
+    $username,
+    $password,
+    $amount,
+    $currency,
+    $merchant,
+    $source,
+    $tags,
+    $endpoint='https://finix.sandbox-payments-api.com'){
+        $data = [
+            "amount" => $amount,
+            "currency" => $currency,
+            "merchant" => $merchant,
+            "source" => $source,
+            "tags" => $tags,
+        ];
+        
+        // Encode the array to JSON
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function listHolds(
+    $username,
+    $password,
+    $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function fetchHold(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function captureHold(
+        $username,
+        $password,
+        $id,
+        $capture_amount,
+        $fee,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $data = [
+            "capture_amount" => $capture_amount,
+            "fee" => $fee,
+        ];
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function releaseHold(
+        $username,
+        $password,
+        $id,
+        $void_me,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $data = [
+            "void_me" => $void_me,
+        ];
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    //pci complience
+    public static function fetchPCIForm(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function completePCIForm(
+        $username,
+        $password,
+        $id,
+        $ip_address,
+        $name,
+        $signed_at,
+        $title,
+        $user_agent,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $pci_saq_a = [
+            "ip_address" => $ip_address,
+            "name" => $name,
+            "signed_at" => $signed_at,
+            "title" => $title,
+            "user_agent" => $user_agent,
+        ];
+        $data = [
+            "pci_saq_a" => $pci_saq_a,
+        ];
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public function listPCIforms(
+        $username,
+        $password,
+        $all=false,
+        $completed_forms=true,
+        $endpoint='https://finix.sandbox-payments-api.com'
+
+    ){
+        $state=$completed_forms==false?"INCOMPLETE":"COMPLETE";
+        $param=$all==false?"?state=$state":"";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms$param");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    //disputes
+    public static function listDisputes(
+        $username,
+        $password,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/disputes/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function fetchDispute(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/disputes/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function updateDispute(
+        $username,
+        $password,
+        $id,
+        $tags,//assoc array key => value
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $data = [
+            "tags" => $tags,
+        ];
+        
+        // Encode the array to JSON
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/disputes/$id");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function uploadFileToProveDispute(
+        $username,
+        $password,
+        $id,
+        $filePath,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/disputes/$id/evidence");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: multipart/form-data',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, [
+            'file' => new CURLFile($filePath),
+        ]);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public function listEvidenceAboutDispute(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com'
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/disputes/$id/evidence");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
 }

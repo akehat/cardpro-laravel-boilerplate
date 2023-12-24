@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
@@ -238,9 +238,10 @@ class formController extends Controller
     $addedQuery=[]
     ){
         $state=$completed_forms==false?"INCOMPLETE":"COMPLETE";
-        $param=$all==false?"?state=$state":"";
+        $param=$all==false?("?state=$state".(!empty($addedQuery)?http_build_query($addedQuery):"")):
+        (!empty($addedQuery)?"?". http_build_query($addedQuery):"");
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms$param".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms$param");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [

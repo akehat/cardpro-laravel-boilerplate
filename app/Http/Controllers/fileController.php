@@ -31,7 +31,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $type,
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
-        $addedData=[],
+        $addedData=[]
     ){
         $data = [
             "display_name" => $display_name,
@@ -62,7 +62,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $username,
         $password,
         $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
+        $addedQuery=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/files".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -83,7 +83,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $password,
         $id,
         $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
+        $addedQuery=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/files/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -105,7 +105,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $password,
         $id,
         $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
+        $addedQuery=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/files/$id/external_links".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -160,7 +160,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $filePath,
         $id,
         $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
+        $addedQuery=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/files/$id/upload".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -185,7 +185,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $password,
         $id,
         $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
+        $addedQuery=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/files/$id/download".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -207,7 +207,7 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         $id,
         $externalLinkID,
         $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
+        $addedQuery=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/files/$id/external_links/$externalLinkID".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));

@@ -779,6 +779,40 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    //not sure but updates info about customers
+    public static function createInstramentUpdate(
+        $username,
+        $password,
+        $merchant,
+        $idempotency_id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $requestData = [
+            'merchant' => $merchant,
+            'idempotency_id' => $idempotency_id,
+        ];
+        $data = [
+            'request' => $requestData,
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData), JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/instrument_updates".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: multipart/form-data',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
     //make a payment with the identity merchant and payment_instrament also will need fraud_id stopper.
     public static function makePayment(
         $username,
@@ -1174,92 +1208,6 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    //pci complience
-    public static function fetchPCIForm(
-        $username,
-        $password,
-        $id,
-        $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[]
-    ){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Finix-Version: 2022-02-01',
-        ]);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        return [$response,$httpcode];
-    }
-    public static function completePCIForm(
-        $username,
-        $password,
-        $id,
-        $ip_address,
-        $name,
-        $signed_at,
-        $title,
-        $user_agent,
-        $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[],
-        $addedData=[]
-    ){
-        $pci_saq_a = [
-            "ip_address" => $ip_address,
-            "name" => $name,
-            "signed_at" => $signed_at,
-            "title" => $title,
-            "user_agent" => $user_agent,
-        ];
-        $data = [
-            "pci_saq_a" => $pci_saq_a,
-        ];
-        $jsonData = json_encode(array_merge($data,$addedData), JSON_PRETTY_PRINT);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Finix-Version: 2022-02-01',
-        ]);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        return [$response,$httpcode];
-    }
-    public function listPCIforms(
-        $username,
-        $password,
-        $all=false,
-        $completed_forms=true,
-        $endpoint='https://finix.sandbox-payments-api.com',
-        $addedQuery=[]
-    ){
-        $state=$completed_forms==false?"INCOMPLETE":"COMPLETE";
-        $param=$all==false?"?state=$state":"";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "$endpoint/compliance_forms$param".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Finix-Version: 2022-02-01',
-        ]);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        return [$response,$httpcode];
-    }
     //disputes
     public static function listDisputes(
         $username,
@@ -1532,6 +1480,357 @@ class merchantsController extends Controller
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/disputes/$id/evidence/$evidenceID/download".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    //payment links
+    public static function listPymentLink(
+        $username,
+        $password,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_links".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public function createPaymentLink( 
+        $username,
+        $password,
+        $amount_type,
+        $total_amount,
+        $currency,
+        $min_amount,
+        $max_amount,
+        $subtotal_amount,
+        $shipping_amount,
+        $estimated_tax_amount,
+        $discount_amount,
+        $tip_amount,
+        $brand_color,
+        $accent_color,
+        $logo,
+        $icon,
+        $collect_name,
+        $collect_email,
+        $collect_phone_number,
+        $collect_billing_address,
+        $collect_shipping_address,
+        $success_return_url,
+        $cart_return_url,
+        $expired_session_url,
+        $terms_of_service_url,
+        $expiration_in_minutes,
+        $merchant_id,
+        $payment_frequency,
+        $is_multiple_use,
+        $allowed_payment_methods,
+        $nickname,
+        $image_details,
+        $description,
+        $price_details,
+        $quantity,
+        $buyer,
+        $amount_details,
+        $branding,
+        $additional_details,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $amount_details = [
+            "amount_type" => $amount_type,
+            "total_amount" => $total_amount,
+            "currency" => $currency,
+            "min_amount" => $min_amount,
+            "max_amount" => $max_amount,
+            "amount_breakdown" => [
+                "subtotal_amount" => $subtotal_amount,
+                "shipping_amount" => $shipping_amount,
+                "estimated_tax_amount" => $estimated_tax_amount,
+                "discount_amount" => $discount_amount,
+                "tip_amount" => $tip_amount
+            ]
+        ];
+        
+        // Branding details
+        $branding = [
+            "brand_color" => $brand_color,
+            "accent_color" => $accent_color,
+            "logo" => $logo,
+            "icon" => $icon
+        ];
+        
+        // Additional details
+        $additional_details = [
+            "collect_name" => $collect_name,
+            "collect_email" => $collect_email,
+            "collect_phone_number" => $collect_phone_number,
+            "collect_billing_address" => $collect_billing_address,
+            "collect_shipping_address" => $collect_shipping_address,
+            "success_return_url" => $success_return_url,
+            "cart_return_url" => $cart_return_url,
+            "expired_session_url" => $expired_session_url,
+            "terms_of_service_url" => $terms_of_service_url,
+            "expiration_in_minutes" => $expiration_in_minutes
+        ];
+        
+        // Create array
+        $data = [
+            "merchant_id" => $merchant_id,
+            "payment_frequency" => $payment_frequency,
+            "is_multiple_use" => $is_multiple_use,
+            "allowed_payment_methods" => $allowed_payment_methods,
+            "nickname" => $nickname,
+            "items" => [
+                [
+                    "image_details" => $image_details,
+                    "description" => $description,
+                    "price_details" => $price_details,
+                    "quantity" => $quantity
+                ]
+            ],
+            "buyer" => $buyer,
+            "amount_details" => $amount_details,
+            "branding" => $branding,
+            "additional_details" => $additional_details
+        ];
+        $data=array_merge($data,$addedData);
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_links".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function fetchPaymentLink(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_links/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    //settlements
+    public static function listSettlements(
+        $username,
+        $password,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/settlements/".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function fetchSettlement(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/settlements/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function closeSettlement(
+        $username,
+        $password,
+        $action,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "action" => $action
+        ];
+        $data=array_merge($data,$addedData);
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/settlements/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function listSettlementsFuncingTransfers(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/settlements/$id/funding_transfers".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function deleteSettlementTransfer(
+        $username,
+        $password,
+        $id,
+        $transfer,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData
+    ){
+        $data = [
+            "transfers" => [
+                $transfer
+            ]
+        ];
+        $data=array_merge($data,$addedData);
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/settlements/$id//transfers".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function listTransfersInSettlement(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/settlements/$id/transfers".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    //split payments
+    public static function fetchSplitTransfer(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+        ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/split_transfers/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function fetchSplitTransferFees(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+        ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/split_transfers/$id/fees".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [

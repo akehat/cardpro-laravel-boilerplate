@@ -223,4 +223,80 @@ static $fileTypes=['DRIVERS_LICENSE_FRONT',
         curl_close($ch);
         return [$response,$httpcode];
     }
+    //not sure but updates info about customers
+    public static function createInstramentUpdate(
+        $username,
+        $password,
+        $merchant,
+        $idempotency_id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $requestData = [
+            'merchant' => $merchant,
+            'idempotency_id' => $idempotency_id,
+        ];
+        $data = [
+            'request' => $requestData,
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData), JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/instrument_updates".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: multipart/form-data',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function downloadInstramentUpdates(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/instrument_updates/$id/download".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function fetchInstramentUpdate(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[]
+    ){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/instrument_updates/$id/".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];;
+    }
 }

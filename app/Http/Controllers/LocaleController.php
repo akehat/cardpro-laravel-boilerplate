@@ -19,4 +19,9 @@ class LocaleController
 
         return redirect()->back();
     }
+    public function showLoginForm()
+{
+    return view('frontend.auth.login');
 }
+}
+

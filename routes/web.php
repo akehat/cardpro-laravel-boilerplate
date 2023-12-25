@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\LocaleController;
-
+use app\Domains\Auth\Http\Controllers\Frontend\Auth\LoginController;
+use app\Domains\Auth\Http\Controllers\Frontend\Auth\RegisterController;
 /*
  * Global Routes
  *
@@ -31,10 +32,22 @@ Route::get("/faq", function(){
     return view("FAQ");
 });
 
-Route::get("/", function(){
-    return view("welcome");
+Route::get("/privacy", function(){
+    return view("privacy");
 });
 
 
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+
+
+
+
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+
+});
 
 

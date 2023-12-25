@@ -40,6 +40,9 @@ Route::get("/termsOfUsage", function(){
     return view("termsOfUsage");
 });
 
+Route::get("/prices", function(){
+    return view("prices");
+});
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');

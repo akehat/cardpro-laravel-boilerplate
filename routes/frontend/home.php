@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\TermsController;
+use App\Http\Controllers\MerchantSignUpController;
 use Tabuna\Breadcrumbs\Trail;
 
 /*
@@ -20,3 +21,5 @@ Route::get('terms', [TermsController::class, 'index'])
         $trail->parent('frontend.index')
             ->push(__('Terms & Conditions'), route('frontend.pages.terms'));
     });
+Route::get("testSignup",[MerchantSignUpController::class, 'get']);
+Route::post("signup",[MerchantSignUpController::class, 'signup']);

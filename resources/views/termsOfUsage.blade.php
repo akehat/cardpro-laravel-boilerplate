@@ -6,7 +6,7 @@
     @include('partials.header')
 </head>
 <body>
-<p class=" flex justify-center text-blue-600"> Privacy Page </p>
+<p class=" flex justify-center text-blue-600"> Terms Of Usage</p>
 @include('partials.footer')   
 </body>
 </html>

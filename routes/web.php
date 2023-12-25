@@ -36,6 +36,9 @@ Route::get("/privacy", function(){
     return view("privacy");
 });
 
+Route::get("/termsOfUsage", function(){
+    return view("termsOfUsage");
+});
 
 
 Route::group(['middleware' => 'guest'], function () {

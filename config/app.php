@@ -12,7 +12,8 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
+    'api_username' => env("API_USERNAME"),
+    'api_password' => env("API_PASSWORD"),
     'name' => env('APP_NAME', 'Laravel Boilerplate'),
 
     /*

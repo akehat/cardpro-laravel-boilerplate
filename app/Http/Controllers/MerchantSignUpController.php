@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\merchantsController;
 use Illuminate\Http\Request;
 
 class MerchantSignUpController extends Controller

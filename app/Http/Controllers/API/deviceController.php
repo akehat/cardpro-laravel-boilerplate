@@ -37,6 +37,112 @@ class deviceController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    public static function initiateActionOnDeviceTriposCloudV1(
+        $username,
+        $password,
+        $id,
+        $action,
+        $activation_code,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData
+    ){
+        $data = [
+            "action" => $action,
+            "activation_code" => $activation_code,
+            ];
+        $data=array_merge($data,$addedData);
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/devices/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function setIdleMessageForDevice(
+        $username,
+        $password,
+        $id,
+        $idle_message,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData
+    ){
+        $data = [
+            "action" => "CREATE_IDLE_MESSAGE",
+            "idle_message" => $idle_message,
+            ];
+        $data=array_merge($data,$addedData);
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/devices/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function updateDetails(
+        $username,
+        $password,
+        $id,
+        $allow_debit,
+        $bypass_device_on_capture,
+        $prompt_signature,
+        $description,
+        $name,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData
+    ){
+        $data = [
+            "configuration" => [
+                "allow_debit" => $allow_debit,
+                "bypass_device_on_capture" => $bypass_device_on_capture,
+                "prompt_signature" => $prompt_signature,
+                ],
+            "description" => $description,
+            "name" => $name,
+            ];
+        $data=array_merge($data,$addedData);
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/devices/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
     public static function fetchADevice(
         $username,
         $password,

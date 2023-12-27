@@ -80,7 +80,7 @@ true,
         var_dump($id[0]);
         $id=json_decode($id[0],true)['id'];
         merchantsController::createBankAccount(config("app.api_username"),config("app.api_password"),
-        "123123123","PERSONAL_SAVINGS","123123123",$id,"John Smith","BANK_ACCOUNT");
+        "123123123","BUSINESS_SAVINGS","123123123",$id,"John Smith","BANK_ACCOUNT");
         $merchant=merchantsController::createAMerchantMinReq(config("app.api_username"),config("app.api_password"),$id,merchantsController::$processors[0]);
         var_dump($merchant[0]);
         $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),"byersolomon@mail.com");

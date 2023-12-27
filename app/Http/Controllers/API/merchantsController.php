@@ -517,7 +517,7 @@ class merchantsController extends Controller
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     'phone' => $phone,
-                ],
+                ]
             ];
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -609,7 +609,7 @@ class merchantsController extends Controller
             'phone' => $phone,
             'personal_address' => $personal_address,
             'email' => $email,
-            'tax_id' => $tax_id,
+            'tax_id' => $tax_id
         ],
     ];
     $jsonData = json_encode(array_merge($data,$addedData));
@@ -833,6 +833,101 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    public static function updateMerchantEnableTwoThirdCharges(
+        $username,
+        $password,
+        $level_two_level_three_data_enabled,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "level_two_level_three_data_enabled" => $level_two_level_three_data_enabled,
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+
+        $headers = array();
+        $headers[] = 'Accept: application/hal+json';
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Finix-Version: 2022-02-01';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function updateMerchantEnablePartialAutherization(
+        $username,
+        $password,
+        $default_partial_authorization_enabled,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "default_partial_authorization_enabled" => $default_partial_authorization_enabled,
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+
+        $headers = array();
+        $headers[] = 'Accept: application/hal+json';
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Finix-Version: 2022-02-01';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function updateMerchantEnableBuyerCharges(
+        $username,
+        $password,
+        $convenience_charges_enabled,
+        $rent_surcharges_enabled,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "convenience_charges_enabled" => $convenience_charges_enabled,
+            "rent_surcharges_enabled" => $rent_surcharges_enabled,
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+
+        $headers = array();
+        $headers[] = 'Accept: application/hal+json';
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Finix-Version: 2022-02-01';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
     public static function reverifyMerchant(
         $username,
         $password,
@@ -996,6 +1091,72 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    public static function createPaymentCardFromToken(
+        $username,
+        $password,
+        $token,
+        $type,
+        $identity,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data=[
+            "token" => $token,
+            "type" => $type,
+            "identity" => $identity,
+        ];
+            $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function createPaymentCardFromToken(
+        $username,
+        $password,
+        $token,
+        $type,
+        $identity,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data=[
+            "token" => $token,
+            "type" => $type,
+            "identity" => $identity,
+        ];
+            $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
     public static function listPaymentInstraments(
         $username,
         $password,
@@ -1085,6 +1246,98 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    public static function disablePaymentInstrament(
+        $username,
+        $password,
+        $id,
+        $enabled,
+        $tags,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "enabled" => $enabled,
+            "tags" => $tags,
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function bankValidationPaymentInstrament(
+        $username,
+        $password,
+        $id,
+        $attempt_bank_account_validation_check,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = {
+            "attempt_bank_account_validation_check": "true"
+          };
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function updateTagsPaymentInstrament(
+        $username,
+        $password,
+        $id,
+        $tags,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "tags" => $tags
+            ];
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
     public static function verifyPaymentInstrament(
         $username,
         $password,
@@ -1100,6 +1353,86 @@ class merchantsController extends Controller
             'merchant' => $merchant,
             'security_code' => $security_code,
             'verify_payment_card' => $verify_payment_card,
+        ];
+        
+        // Encode the array to JSON
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function verifyPaymentInstramentAddress(
+        $username,
+        $password,
+        $id,
+        $city,
+        $country,
+        $line1,
+        $postal_code,
+        $region,
+        $merchant,
+        $verify_payment_card,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "address" => [
+                "city" => $city,
+                "country" => $country,
+                "line1" => $line1,
+                "postal_code" => $postal_code,
+                "region" => $region
+            ],
+            "merchant" => $merchant,
+            "verify_payment_card" => $verify_payment_card,
+        ];
+        
+        // Encode the array to JSON
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
+    public static function verifyPaymentInstramentPushToCard(
+        $username,
+        $password,
+        $id,
+        $processor,
+        $tags,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "processor" => $processor,
+            "tags" => $tags
         ];
         
         // Encode the array to JSON
@@ -1577,6 +1910,349 @@ class merchantsController extends Controller
             curl_close($ch);
             return [$response,$httpcode];
         }
+        public static function createHold3DSecure(
+            $username,
+            $password,
+            $cardholder_authentication,
+            $electronic_commerce_indicator,
+            $transaction_id,
+            $amount,
+            $currency,
+            $merchant,
+            $source,
+            $tags,
+            $endpoint='https://finix.sandbox-payments-api.com',
+            $addedQuery=[],
+            $addedData=[]
+            ){
+                $data = [
+                    "3d_secure_authentication" => [
+                    "cardholder_authentication" => $cardholder_authentication,
+                    "electronic_commerce_indicator" => $electronic_commerce_indicator,
+                    "transaction_id" => $transaction_id,
+                    ],
+                    "amount" => $amount,
+                    "currency" => $currency,
+                    "merchant" => $merchant,
+                    "source" => $source,
+                    "tags" => $tags
+                    ];
+                
+                // Encode the array to JSON
+                $jsonData = json_encode(array_merge($data,$addedData));
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Accept: application/hal+json',
+                    'Content-Type: application/json',
+                    'Finix-Version: 2022-02-01',
+                ]);
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                $response = curl_exec($ch);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+                return [$response,$httpcode];
+            }
+            public static function createHoldWithCvv(
+                $username,
+                $password,
+                $amount,
+                $currency,
+                $merchant,
+                $security_code,
+                $source,
+                $endpoint='https://finix.sandbox-payments-api.com',
+                $addedQuery=[],
+                $addedData=[]
+                ){
+                    $data = [
+                        "amount" => $amount,
+                        "currency" => $currency,
+                        "merchant" => $merchant,
+                        "security_code" => $security_code,
+                        "source" => $source,
+                    ];
+                    
+                    // Encode the array to JSON
+                    $jsonData = json_encode(array_merge($data,$addedData));
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'Accept: application/hal+json',
+                        'Content-Type: application/json',
+                        'Finix-Version: 2022-02-01',
+                    ]);
+                    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                    $response = curl_exec($ch);
+                    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+                    return [$response,$httpcode];
+                }
+                public static function createHoldWithBuyerCharges(
+                    $username,
+                    $password,
+                    $convenience_amount,
+                    $amount,
+                    $currency,
+                    $merchant,
+                    $source,
+                    $test,
+                    $endpoint='https://finix.sandbox-payments-api.com',
+                    $addedQuery=[],
+                    $addedData=[]
+                    ){
+                        $data = [
+                            "additional_buyer_charges" => [
+                            "convenience_amount" => $convenience_amount,
+                            ],
+                            "amount" => $amount,
+                            "currency" => $currency,
+                            "merchant" => $merchant,
+                            "source" => $source,
+                            "tags" => [
+                            "test" => $test,
+                            ],
+                        ];
+                        
+                        // Encode the array to JSON
+                        $jsonData = json_encode(array_merge($data,$addedData));
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                            'Accept: application/hal+json',
+                            'Content-Type: application/json',
+                            'Finix-Version: 2022-02-01',
+                        ]);
+                        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                        $response = curl_exec($ch);
+                        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
+                        return [$response,$httpcode];
+                    }
+                    public static function createHoldWithBuyerCharges(
+                        $username,
+                        $password,
+                        $convenience_amount,
+                        $amount,
+                        $currency,
+                        $merchant,
+                        $source,
+                        $test,
+                        $endpoint='https://finix.sandbox-payments-api.com',
+                        $addedQuery=[],
+                        $addedData=[]
+                        ){
+                            $data = [
+                                "additional_buyer_charges" => [
+                                "convenience_amount" => $convenience_amount,
+                                ],
+                                "amount" => $amount,
+                                "currency" => $currency,
+                                "merchant" => $merchant,
+                                "source" => $source,
+                                "tags" => [
+                                "test" => $test,
+                                ],
+                            ];
+                            
+                            // Encode the array to JSON
+                            $jsonData = json_encode(array_merge($data,$addedData));
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                                'Accept: application/hal+json',
+                                'Content-Type: application/json',
+                                'Finix-Version: 2022-02-01',
+                            ]);
+                            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                            $response = curl_exec($ch);
+                            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                            curl_close($ch);
+                            return [$response,$httpcode];
+                        }
+                        public static function createHoldWithHSAorFSA(
+                            $username,
+                            $password,
+                            $amount,
+                            $currency,
+                            $hsa_fsa_payment,
+                            $merchant,
+                            $source,
+                            $order_number,
+                            $tags,
+                            $endpoint='https://finix.sandbox-payments-api.com',
+                            $addedQuery=[],
+                            $addedData=[]
+                            ){
+                                $data = [
+                                    "amount" => $amount,
+                                    "currency" => $currency,
+                                    "hsa_fsa_payment" => $hsa_fsa_payment,
+                                    "merchant" => $merchant,
+                                    "source" => $source,
+                                    "tags" => $tags
+                                    ];
+                                
+                                // Encode the array to JSON
+                                $jsonData = json_encode(array_merge($data,$addedData));
+                                $ch = curl_init();
+                                curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                                    'Accept: application/hal+json',
+                                    'Content-Type: application/json',
+                                    'Finix-Version: 2022-02-01',
+                                ]);
+                                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                                curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                                $response = curl_exec($ch);
+                                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                curl_close($ch);
+                                return [$response,$httpcode];
+                            }
+                            public static function createHoldWithLevel2Processing(
+                                $username,
+                                $password,
+                                $customer_reference_number,
+                                $sales_tax,
+                                $amount,
+                                $currency,
+                                $merchant,
+                                $source,
+                                $tags,
+                                $endpoint='https://finix.sandbox-payments-api.com',
+                                $addedQuery=[],
+                                $addedData=[]
+                                ){
+                                    $data = [
+                                        "additional_purchase_data" => [
+                                        "customer_reference_number" => $customer_reference_number,
+                                        "sales_tax" => $sales_tax,
+                                        ],
+                                        "amount" => $amount,
+                                        "currency" => $currency,
+                                        "merchant" => $merchant,
+                                        "source" => $source,
+                                        "tags" => $tags
+                                        ];
+                                    
+                                    // Encode the array to JSON
+                                    $jsonData = json_encode(array_merge($data,$addedData));
+                                    $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                                        'Accept: application/hal+json',
+                                        'Content-Type: application/json',
+                                        'Finix-Version: 2022-02-01',
+                                    ]);
+                                    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                                    curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                                    $response = curl_exec($ch);
+                                    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                    curl_close($ch);
+                                    return [$response,$httpcode];
+                                }
+                                public static function createHoldWithPartialAutherization(
+                                    $username,
+                                    $password,
+                                    $amount,
+                                    $currency,
+                                    $merchant,
+                                    $partial_authorization,
+                                    $source,
+                                    $tags,
+                                    $endpoint='https://finix.sandbox-payments-api.com',
+                                    $addedQuery=[],
+                                    $addedData=[]
+                                    ){
+                                        $data = [
+                                            "amount" => $amount,
+                                            "currency" => $currency,
+                                            "merchant" => $merchant,
+                                            "partial_authorization" => $partial_authorization,
+                                            "source" => $source,
+                                            "tags" => $tags
+                                        ];
+                                        
+                                        // Encode the array to JSON
+                                        $jsonData = json_encode(array_merge($data,$addedData));
+                                        $ch = curl_init();
+                                        curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                                        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                                            'Accept: application/hal+json',
+                                            'Content-Type: application/json',
+                                            'Finix-Version: 2022-02-01',
+                                        ]);
+                                        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                                        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                                        $response = curl_exec($ch);
+                                        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        curl_close($ch);
+                                        return [$response,$httpcode];
+                                    }
+                                    public static function createHoldWithEmvCard(
+                                        $username,
+                                        $password,
+                                        $amount,
+                                        $currency,
+                                        $device,
+                                        $operation_key,
+                                        $tags,
+                                        $endpoint='https://finix.sandbox-payments-api.com',
+                                        $addedQuery=[],
+                                        $addedData=[]
+                                        ){
+                                            $data = [
+                                                "amount" => $amount,
+                                                "currency" => $currency,
+                                                "device" => $device,
+                                                "operation_key" => $operation_key,
+                                                "tags" => $tags
+                                                ];
+                                            
+                                            // Encode the array to JSON
+                                            $jsonData = json_encode(array_merge($data,$addedData));
+                                            $ch = curl_init();
+                                            curl_setopt($ch, CURLOPT_URL, "$endpoint/authorizations".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+                                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                                            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                                                'Accept: application/hal+json',
+                                                'Content-Type: application/json',
+                                                'Finix-Version: 2022-02-01',
+                                            ]);
+                                            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                                            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+                                            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                                            $response = curl_exec($ch);
+                                            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                            curl_close($ch);
+                                            return [$response,$httpcode];
+                                        }
     public static function listHolds(
     $username,
     $password,

@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-
+use App\Http\Controllers\MerchantsController;
+use App\Models\ApiKey;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,9 +18,6 @@ use Illuminate\Routing\Route;
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-use App\Http\Controllers\MerchantsController;
-use App\Models\ApiKey;
-use Illuminate\Support\Facades\Route;
 
 Route::post('/listPayments', function () {
     // Get request parameters

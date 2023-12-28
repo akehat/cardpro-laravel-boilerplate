@@ -120,7 +120,7 @@ public static function updateApplicationProfile(
 ){
     $data=[
         "tags"=>$tags
-    ]
+    ];
     $jsonData = json_encode(array_merge($data,$addedData));
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "$endpoint/application_profiles/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -421,11 +421,11 @@ public static function updatePayoutProfile(
     $submission_delay_days,
     $payment_instrument_id,
     $rail,
-    $frequency,
-    $day_of_month,
-    $submission_delay_days,
-    $payment_instrument_id,
-    $rail,
+    $fees_frequency,
+    $fees_day_of_month,
+    $fees_submission_delay_days,
+    $fees_payment_instrument_id,
+    $fees_rail,
     $endpoint='https://finix.sandbox-payments-api.com',
     $addedQuery=[],
     $addedData=[]
@@ -440,11 +440,11 @@ public static function updatePayoutProfile(
                 "rail" => $rail,
                 ],
             "fees" => [
-                "frequency" => $frequency,
-                "day_of_month" => $day_of_month,
-                "submission_delay_days" => $submission_delay_days,
-                "payment_instrument_id" => $payment_instrument_id,
-                "rail" => $rail,
+                "frequency" => $fees_frequency,
+                "day_of_month" => $fees_day_of_month,
+                "submission_delay_days" => $fees_submission_delay_days,
+                "payment_instrument_id" => $fees_payment_instrument_id,
+                "rail" => $fees_rail,
                 ],
             ],
         ];

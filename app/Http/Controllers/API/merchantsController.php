@@ -468,7 +468,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public static function listIdentity($username,$password, $endpoint='https://finix.sandbox-payments-api.com',
+    public static function listIdentities($username,$password, $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[]){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/identities".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -673,7 +673,7 @@ class merchantsController extends Controller
         $processor,
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
-        $addedData=[],
+        $addedData=[]
     ){
         $data = [
             "processor" => $processor,
@@ -706,7 +706,7 @@ class merchantsController extends Controller
         $processor,
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
-        $addedData=[],
+        $addedData=[]
     ){
         $data = [
             "processor" => $processor,
@@ -1566,7 +1566,7 @@ class merchantsController extends Controller
         $password,
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
-        $addedData=[],
+        $addedData=[]
     ){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/transfers".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));

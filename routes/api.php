@@ -19,10 +19,10 @@ use App\Models\ApiKey;
 //    return $request->user();
 //});
 
-Route::post('/listPayments', function () {
+Route::post('/listPayments', function (Request $request) {
     // Get request parameters
-    $apiKey = request('api_key');
-    $live = request('live', false);
+    $apiKey = $request->api_key;
+    $live =$request->live?? false;
     // Check if API key exists in the database
     $api = ApiKey::where('api_key', $apiKey)->first();
 

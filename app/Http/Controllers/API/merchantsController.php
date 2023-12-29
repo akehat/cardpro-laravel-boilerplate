@@ -468,6 +468,42 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    public static function createIdentityBuyerWithAddedInfo($username,
+    $password,
+    $email,
+    $addedInfo,
+    $endpoint='https://finix.sandbox-payments-api.com',
+    $addedQuery=[],
+    $addedData=[]
+    ){
+        // Define your data as an associative array
+        $data = [
+            "entity" => [
+                "email"=>$email
+            ],
+            "tags" => null
+        ];
+        $data["entity"]  = array_merge($data["entity"],$addedInfo)
+        // Encode the array to JSON
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/identities".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/hal+json',
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$response,$httpcode];
+    }
     public static function listIdentities($username,$password, $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[]){
         $ch = curl_init();

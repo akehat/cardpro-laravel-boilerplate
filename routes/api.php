@@ -8,3 +8,5 @@ Route::post('/listPayments', [RoutesController::class,'listPayments' ]);
 
 // Define the fetchPayment route
 Route::post('/fetchPayment', [RoutesController::class,'fetchPayment' ]);
+
+Route::post('/refundPayment', [RoutesController::class,'refundPayment' ]);

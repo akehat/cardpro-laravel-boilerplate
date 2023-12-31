@@ -10,3 +10,5 @@ Route::post('/listPayments', [RoutesController::class,'listPayments' ]);
 Route::post('/fetchPayment', [RoutesController::class,'fetchPayment' ]);
 
 Route::post('/refundPayment', [RoutesController::class,'refundPayment' ]);
+
+Route::post('/makePyament', [RoutesController::class,'makePyament' ]);

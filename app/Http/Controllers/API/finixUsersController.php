@@ -104,6 +104,7 @@ class finixUsersController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    
     // public static function createADevice(
     //     $username,
     //     $password,

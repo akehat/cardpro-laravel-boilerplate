@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ApiKey extends Model
 {
     use HasFactory;
+    protected $table="api_keys";
+    protected $guarded=['id'];
 }

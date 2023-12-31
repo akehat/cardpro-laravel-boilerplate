@@ -483,7 +483,7 @@ class merchantsController extends Controller
             ],
             "tags" => null
         ];
-        $data["entity"]  = array_merge($data["entity"],$addedInfo)
+        $data["entity"]  = array_merge($data["entity"],$addedInfo);
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -521,7 +521,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public static function fetchIDIdentity($id,$username,$password, $endpoint='https://finix.sandbox-payments-api.com',
+    public static function fetchIDIdentity($username,$password,$id, $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[]){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$endpoint/identities/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
@@ -767,7 +767,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public static function fetchMerchants(
+    public static function listMerchants(
         $username,
         $password,
         $endpoint='https://finix.sandbox-payments-api.com',
@@ -787,7 +787,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public static function fetchAMerchant(
+    public static function fetchMerchant(
         $username,
         $password,
         $id,

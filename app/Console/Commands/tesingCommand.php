@@ -86,26 +86,28 @@ class tesingCommand extends Command
 //         "123123123","BUSINESS_SAVINGS","123123123",$id,"John Smith","BANK_ACCOUNT");
 //         $merchant=merchantsController::createAMerchantMinReq(config("app.api_username"),config("app.api_password"),$id,merchantsController::$processors[0]);
 //         var_dump($merchant[0]);
-//         $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),"byersolomon@mail.com");
-//         var_dump($id[0]);
-//         $id=json_decode($id[0],true)['id'];
-//         $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
-//         12,2029,$id,"John Smith","5200828282828210","022","PAYMENT_CARD");
-//         var_dump($card[0]);
-//         $card=json_decode($card[0],true)['id'];
-//         $merchant=json_decode($merchant[0],true)['id'];
-//         $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$merchant,"USD",2000,$card);
-//         var_dump($payment[0]);
+        // $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),"byersolomon@mail.com");
+        // var_dump($id[0]);
+        // $id=json_decode($id[0],true)['id'];
+        // $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
+        // 12,2029,$id,"John Smith","5200828282828210","022","PAYMENT_CARD");
+        // var_dump($card[0]);
+        // $card=json_decode($card[0],true)['id'];
+        // // $merchant=json_decode($merchant[0],true)['id'];
+        // $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),"MUtq8ZsxgcqW7W3uBDSFypek","USD",2000,$card);
+        // var_dump($payment[0]);
         // $ids=json_decode(merchantsController::listIdentities(config("app.api_username"),config("app.api_password"))[0],true);
         // $ids=array_filter($ids,function($var){return $var["business_name"] == "Finix Flowers";});
         // $app=json_decode(payfacController::listApplications(config("app.api_username"),config("app.api_password"))[0],true)["_embedded"]["applications"];
         // $new_user=finixUsersController::createAUser(config("app.api_username"),config("app.api_password"),$app[0]["id"]);
     
-        $update=finixUsersController::updateAuser(
-        config("app.api_username"),config("app.api_password"),
-        "US4yMeXtk92bgb1wcZQECRQz",
-        null,'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
-        var_dump($update[0]);
+        // $update=finixUsersController::updateAuser(
+        // config("app.api_username"),config("app.api_password"),
+        // "US4yMeXtk92bgb1wcZQECRQz",
+        // null,'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
+        // var_dump($update[0]);
+        //  $result=finixUsersController::updateAuser(config("app.api_username"),config("app.api_password"),'US4yMeXtk92bgb1wcZQECRQz',["update"=>"user"],'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
+        //     var_dump($result[0]);
         return 0;
     }
 }

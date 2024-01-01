@@ -55,7 +55,7 @@
               if (typeof value === 'object' && !Array.isArray(value)) {
                   createForm(value);
               } else if (Array.isArray(value)) {
-                  arrayToTable(value);
+                  arrayToTable2(value);
               } else {
                   // Modified stringify for objects
                   const stringValue = stringifyObject(value);
@@ -73,30 +73,69 @@
           }
       }
 
-      function arrayToTable(array) {
-          // Create a table element
-          const table = document.createElement('table');
+    //   function arrayToTable(array) {
+    //       // Create a table element
+    //       const table = document.createElement('table');
 
-          // Create the header row
-          const headerRow = table.insertRow(0);
-          for (const key in array[0]) {
-              const th = document.createElement('th');
-              th.textContent = key;
-              headerRow.appendChild(th);
-          }
+    //       // Create the header row
+    //       const headerRow = table.insertRow(0);
+    //       for (const key in array[0]) {
+    //           const th = document.createElement('th');
+    //           th.textContent = key;
+    //           headerRow.appendChild(th);
+    //       }
 
-          // Create rows and cells
-          array.forEach(obj => {
-              const row = table.insertRow();
-              for (const key in obj) {
-                  const cell = row.insertCell();
-                  cell.textContent = stringifyObject(obj[key]);
-              }
-          });
-          var container = document.getElementById("container");
-          container.appendChild(table);
-          createTotal(array.length);
-      }
+    //       // Create rows and cells
+    //       array.forEach(obj => {
+    //           const row = table.insertRow();
+    //           for (const key in obj) {
+    //               const cell = row.insertCell();
+    //               cell.textContent = stringifyObject(obj[key]);
+    //           }
+    //       });
+    //       var container = document.getElementById("container");
+    //       container.appendChild(table);
+    //       createTotal(array.length);
+    //   }
+    function arrayToTable2(array) {
+    // Create a Set of all unique keys in the array
+    const allKeysSet = new Set();
+
+    // Iterate through each object in the array and add its keys to the Set
+    array.forEach(obj => {
+        Object.keys(obj).forEach(key => {
+            allKeysSet.add(key);
+        });
+    });
+
+    // Convert the Set back to an array
+    const allKeysArray = Array.from(allKeysSet);
+
+    // Create a table element
+    const table = document.createElement('table');
+
+    // Create the header row using all keys in the array
+    const headerRow = table.insertRow(0);
+    allKeysArray.forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key;
+        headerRow.appendChild(th);
+    });
+
+    // Create rows and cells
+    array.forEach(obj => {
+        const row = table.insertRow();
+        allKeysArray.forEach(key => {
+            const cell = row.insertCell();
+            cell.textContent = stringifyObject(obj[key]);
+        });
+    });
+
+    var container = document.getElementById("container");
+    container.appendChild(table);
+    createTotal(array.length);
+}
+
       function createButton(buttonText) {
           var buttonContainer = document.getElementById("buttons");
           const button = document.createElement('button');

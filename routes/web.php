@@ -10,6 +10,10 @@ use App\Http\Controllers\LocaleController;
 
 // Switch between the included languages
 Route::get('lang/{lang}', [LocaleController::class, 'change'])->name('locale.change');
+// routes/web.php
+
+Route::get('/contact', 'ContactController@showForm');
+Route::post('/contact', 'ContactController@sendEmail')->name('contact.send');
 
 /*
  * Frontend Routes

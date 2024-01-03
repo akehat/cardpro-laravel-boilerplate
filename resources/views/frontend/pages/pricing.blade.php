@@ -1,29 +1,153 @@
-@extends('frontend.layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ appName() }}</title>
+    <meta name="description" content="@yield('meta_description', appName())">
+    <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+    @yield('meta')
 
-@section('title', __('Terms & Conditions'))
+    @stack('before-styles')
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
 
-@section('content')
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <x-frontend.card>
-                    <x-slot name="header">
-                        @lang('Terms & Conditions')
-                    </x-slot>
+    @stack('after-styles')
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif; /* Replace with your preferred font */
+        }
 
-                    <x-slot name="body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie ac feugiat sed lectus. Egestas diam in arcu cursus. Vitae nunc sed velit dignissim sodales ut eu sem. Nibh praesent tristique magna sit amet purus gravida quis. Tincidunt lobortis feugiat vivamus at augue. Mi quis hendrerit dolor magna eget est lorem. Dapibus ultrices in iaculis nunc sed augue lacus viverra vitae. Ullamcorper malesuada proin libero nunc consequat interdum varius. Tellus elementum sagittis vitae et leo duis ut diam quam. Nisl pretium fusce id velit. Sed enim ut sem viverra aliquet.</p>
+        .pricing-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px;
+        }
 
-                        <p>Laoreet suspendisse interdum consectetur libero id. Duis ut diam quam nulla porttitor massa id neque. Nullam eget felis eget nunc lobortis mattis aliquam faucibus. Tristique sollicitudin nibh sit amet commodo. A erat nam at lectus urna duis convallis convallis. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque eleifend donec. Bibendum ut tristique et egestas. Risus sed vulputate odio ut enim blandit volutpat maecenas. Lorem dolor sed viverra ipsum nunc aliquet bibendum enim. Tristique sollicitudin nibh sit amet commodo. Ac felis donec et odio pellentesque diam volutpat commodo sed. Quam quisque id diam vel. Massa tempor nec feugiat nisl pretium fusce id. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.</p>
+        .pricing-feature {
+            flex: 1;
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px;
+            text-align: center;
 
-                        <p>Gravida rutrum quisque non tellus orci. Eget mauris pharetra et ultrices neque. Habitasse platea dictumst quisque sagittis purus sit amet volutpat. Nunc consequat interdum varius sit amet mattis vulputate enim. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique senectus. Tempor nec feugiat nisl pretium. Fames ac turpis egestas integer eget aliquet nibh. Mus mauris vitae ultricies leo integer. Vitae proin sagittis nisl rhoncus mattis rhoncus. Commodo odio aenean sed adipiscing diam donec. Purus semper eget duis at tellus at urna condimentum mattis.</p>
+        }
 
-                        <p>Porttitor rhoncus dolor purus non enim praesent elementum facilisis. Massa massa ultricies mi quis hendrerit. Nunc id cursus metus aliquam eleifend mi in nulla posuere. In nisl nisi scelerisque eu ultrices vitae auctor eu augue. Libero nunc consequat interdum varius sit amet mattis vulputate enim. Accumsan tortor posuere ac ut consequat semper viverra nam. Massa tincidunt dui ut ornare. Elit sed vulputate mi sit amet mauris commodo. Faucibus nisl tincidunt eget nullam non nisi. Tortor condimentum lacinia quis vel eros donec ac odio. Posuere ac ut consequat semper. Vestibulum mattis ullamcorper velit sed ullamcorper. Blandit libero volutpat sed cras. Ultricies integer quis auctor elit sed vulputate mi. In hendrerit gravida rutrum quisque non tellus orci ac. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Etiam non quam lacus suspendisse faucibus interdum. Ornare lectus sit amet est. Bibendum est ultricies integer quis auctor elit sed vulputate. Eget duis at tellus at urna.</p>
+        .pricing-feature h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-                        <p>Sit amet massa vitae tortor condimentum lacinia quis. Id venenatis a condimentum vitae sapien pellentesque habitant. Ac tortor dignissim convallis aenean. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat. Consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis. Id porta nibh venenatis cras sed felis. Fermentum odio eu feugiat pretium. Id velit ut tortor pretium viverra. Quis auctor elit sed vulputate mi sit amet mauris. Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Facilisis volutpat est velit egestas dui id ornare. Pretium viverra suspendisse potenti nullam ac. Nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus. Amet purus gravida quis blandit turpis.</p>
-                    </x-slot>
-                </x-frontend.card>
-            </div><!--col-md-10-->
-        </div><!--row-->
-    </div><!--container-->
-@endsection
+        .pricing-form {
+            max-width:400px;
+            margin: auto;
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .pricing-form h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #666; /* Label color */
+        }
+
+        .form-group input[type=email] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc; /* Input border color */
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px; /* Input font size */
+        }
+
+        .pricing-form button {
+            background-color: #3498db; /* Button background color */
+            color: #fff; /* Button text color */
+            padding: 5px 50px; /* Increased padding */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            font-size: 16px; /* Button font size */
+            transition: background-color 0.3s;
+        }
+
+        .pricing-form button:hover {
+            background-color: #007bb5; /* Button background color on hover */
+        }
+    </style>
+</head>
+<body>
+    @include('frontend.includes.header')
+
+    @include('includes.partials.read-only')
+    @include('includes.partials.logged-in-as')
+
+    <div class="pricing-container flex-wrap">
+        <!-- Pricing Features -->
+        <div class="pricing-feature">
+            <h2>Feature 1</h2>
+            <p>Description of Feature 1.</p>
+        </div>
+
+        <div class="pricing-feature">
+            <h2>Feature 2</h2>
+            <p>Description of Feature 2.</p>
+        </div>
+
+        <div class="pricing-feature">
+            <h2>Feature 3</h2>
+            <p>Description of Feature 3.</p>
+        </div>
+
+        <!-- Pricing Form -->
+        <div class="col-12">
+        <div class="pricing-form mx-auto">
+            <img src="{{ asset('img/logo.png') }}" alt="Card Wiz Pro" height="100">
+
+            <h2>Interested in a Demo?</h2>
+            <form method="post" action="{{ route('frontend.demo.request') }}" class="form-horizontal">
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <label for="email">Enter your email:</label>
+                    <input type="email" name="email" id="email" placeholder="Your Email" required="required" autocomplete="email">
+                </div>
+
+                <button type="submit">Request Demo</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    @include('frontend.includes.footer')
+
+    @stack('before-scripts')
+    <script src="{{ mix('js/manifest.js') }}"></script>
+    <script src="{{ mix('js/vendor.js') }}"></script>
+    <script src="{{ mix('js/frontend.js') }}"></script>
+    @stack('after-scripts')
+</body>
+</html>

@@ -189,7 +189,21 @@
     </head>
     <body>
         @include('frontend.includes.header')
+        <div style="display: none;">
+             @auth
+                @if ($logged_in_user->isUser())
+                    <a href="{{ route('frontend.user.dashboard') }}">@lang('Dashboard')</a>
+                @endif
 
+                <a href="{{ route('frontend.user.account') }}">@lang('Account')</a>
+            @else
+                <a href="{{ route('frontend.auth.login') }}">@lang('Login')</a>
+
+                @if (config('boilerplate.access.user.registration'))
+                    <a href="{{ route('frontend.auth.register') }}">@lang('Register')</a>
+                @endif
+            @endauth
+        </div>
         @include('includes.partials.read-only')
         @include('includes.partials.logged-in-as')
         @include('includes.partials.announcements')

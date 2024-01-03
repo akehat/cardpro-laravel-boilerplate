@@ -21,9 +21,10 @@ Route::get('api/endpoint', [HomeController::class, 'apiEndpoint'])
 Route::get('portal', [HomeController::class, 'dashboard'])
     ->name('dashboard');
 
-Route::get('pricing', [HomeController::class, 'pricing'])
+Route::get('demo', [HomeController::class, 'pricing'])
     ->name('pricing');
-
+Route::post('demo', [HomeController::class, 'demoRequest'])
+    ->name('demo.request');
 Route::get('contact', [HomeController::class, 'contact'])
     ->name('contact');
 Route::post('contact', [HomeController::class, 'contactSubmit'])

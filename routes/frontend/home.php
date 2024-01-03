@@ -15,7 +15,7 @@ Route::get('/', [HomeController::class, 'index'])
         $trail->push(__('Home'), route('frontend.index'));
     });
 
-Route::get('api/endpoint', [HomeController::class, 'apiEndpoint'])
+Route::get('docs', [HomeController::class, 'apiEndpoint'])
     ->name('api.endpoint');
 
 Route::get('portal', [HomeController::class, 'dashboard'])

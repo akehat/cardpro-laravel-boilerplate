@@ -106,8 +106,8 @@ class tesingCommand extends Command
         // "US4yMeXtk92bgb1wcZQECRQz",
         // null,'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
         // var_dump($update[0]);
-        //  $result=finixUsersController::updateAuser(config("app.api_username"),config("app.api_password"),'US4yMeXtk92bgb1wcZQECRQz',["update"=>"user"],'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
-        //     var_dump($result[0]);
+        $result=finixUsersController::updateAuser(config("app.api_username"),config("app.api_password"),"US8ee88MDeR4hw4SzjaVpSWm",['updateing'=>"test"],'https://finix.sandbox-payments-api.com',[],["role"=>"merchant"]);
+        
         return 0;
     }
 }

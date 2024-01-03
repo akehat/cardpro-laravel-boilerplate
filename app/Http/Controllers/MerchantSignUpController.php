@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\finixUsersController;
 use App\Http\Controllers\API\merchantsController;
 use Illuminate\Http\Request;
 use App\Models\ApiKey;
@@ -100,6 +101,15 @@ class MerchantSignUpController extends Controller
     public function identities(){
         return view("frontend.jsonViewer",["json"=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
+    public function apiusers(){
+        return view("frontend.jsonViewer",["json"=>finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function settlements(){
+        return view("frontend.jsonViewer",["json"=>merchantsController::listSettlements(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function settlement($id){
+        return view("frontend.jsonViewer",["json"=>merchantsController::fetchSettlement(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
     public function identity($id){
         return view("frontend.jsonViewer",["json"=>merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
@@ -124,6 +134,12 @@ class MerchantSignUpController extends Controller
     public function identities_live(){
         return view("frontend.jsonViewer",["json"=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
+    public function apiusers_live(){
+        return view("frontend.jsonViewer",["json"=>finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function apiuser_live($id){
+        return view("frontend.jsonViewer",["json"=>finixUsersController::fetchAUser(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
     public function identity_live($id){
         return view("frontend.jsonViewer",["json"=>merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
@@ -145,5 +161,11 @@ class MerchantSignUpController extends Controller
     public function merchant_live($id){
         return view("frontend.jsonViewer",['json'=>merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
+    public function settlements_live(){
+        return view("frontend.jsonViewer",["json"=>merchantsController::listSettlements(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function settlement_live($id){
+        return view("frontend.jsonViewer",["json"=>merchantsController::fetchSettlement(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+   
 }
-

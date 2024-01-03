@@ -65,4 +65,3 @@
         </div><!--container-->
     </nav>
 
-    @include('frontend.includes.nav')

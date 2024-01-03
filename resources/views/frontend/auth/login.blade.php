@@ -1,239 +1,70 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ appName() }}</title>
-        <meta name="description" content="@yield('meta_description', appName())">
-        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
-        @yield('meta')
+@extends('frontend.layouts.app')
 
-        @stack('before-styles')
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
+@section('title', __('Login'))
 
-        @stack('after-styles')
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: 'Arial', sans-serif; /* Replace with your preferred font */
-            }
+@section('content')
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <x-frontend.card>
+                    <x-slot name="header">
+                        @lang('Login')
+                    </x-slot>
 
-            .index-container {
-                display: flex;
-            }
+                    <x-slot name="body">
+                        <x-forms.post :action="route('frontend.auth.login')">
+                            <div class="form-group row">
+                                <label for="email" class="col-md-4 col-form-label text-md-right">@lang('E-mail Address')</label>
 
-            .left-section {
-                flex: 1;
-                background-color: #3498db; /* Your brand color */
-                color: #fff;
-                padding: 40px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
+                                <div class="col-md-6">
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="{{ __('E-mail Address') }}" value="{{ old('email') }}" maxlength="255" required autofocus autocomplete="email" />
+                                </div>
+                            </div><!--form-group-->
 
-            .left-section h1 {
-                font-size: 36px;
-                margin-bottom: 20px;
-            }
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">@lang('Password')</label>
 
-            .right-section {
-                flex: 1;
-                padding: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+                                <div class="col-md-6">
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}" maxlength="100" required autocomplete="current-password" />
+                                </div>
+                            </div><!--form-group-->
 
-            .login-card {
-                max-width: 400px;
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            }
-            .login-card {
-                max-width: 400px;
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="form-check">
+                                        <input name="remember" id="remember" class="form-check-input" type="checkbox" {{ old('remember') ? 'checked' : '' }} />
 
-            .login-card img {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
+                                        <label class="form-check-label" for="remember">
+                                            @lang('Remember Me')
+                                        </label>
+                                    </div><!--form-check-->
+                                </div>
+                            </div><!--form-group-->
 
-            .login-card h2 {
-                font-size: 24px;
-                margin-bottom: 20px;
-                color: #333; /* Heading color */
-            }
+                            @if(config('boilerplate.access.captcha.login'))
+                                <div class="row">
+                                    <div class="col">
+                                        @captcha
+                                        <input type="hidden" name="captcha_status" value="true" />
+                                    </div><!--col-->
+                                </div><!--row-->
+                            @endif
 
-            .login-card form {
-                margin-bottom: 20px;
-            }
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button class="btn btn-primary" type="submit">@lang('Login')</button>
 
-            .login-card label {
-                display: block;
-                text-align: left;
-                margin-bottom: 5px;
-                color: #666; /* Label color */
-            }
+                                    <x-utils.link :href="route('frontend.auth.password.request')" class="btn btn-link" :text="__('Forgot Your Password?')" />
+                                </div>
+                            </div><!--form-group-->
 
-            .login-card input {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ccc; /* Input border color */
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
-
-            .login-card button {
-                background-color: #3498db; /* Button background color */
-                color: #fff; /* Button text color */
-                padding: 10px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-
-            .login-card button:hover {
-                background-color: #007bb5; /* Button background color on hover */
-            }
-
-            .login-card a {
-                color: #3498db; /* Link color */
-                text-decoration: none;
-                margin-left: 10px;
-            }
-
-            .login-card a:hover {
-                text-decoration: underline;
-            }
-            .login-card {
-            max-width: 400px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .login-card img {
-            max-width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .login-card h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333; /* Heading color */
-        }
-
-        .login-card form {
-            margin-bottom: 20px;
-        }
-
-        .login-card label {
-            display: block;
-            text-align: left;
-            margin-bottom: 5px;
-            color: #666; /* Label color */
-            font-size: 14px; /* Label font size */
-        }
-
-        .login-card input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px; /* Increased margin */
-            border: 1px solid #ccc; /* Input border color */
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px; /* Input font size */
-        }
-
-        .login-card button {
-            background-color: #3498db; /* Button background color */
-            color: #fff; /* Button text color */
-            padding: 5px; /* Increased padding */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px; /* Button font size */
-            letter-spacing: 2px;
-            transition: background-color 0.3s;
-            width:100%;
-        }
-
-        .login-card button:hover {
-            background-color: #007bb5; /* Button background color on hover */
-        }
-
-        .login-card a {
-            color: #3498db; /* Link color */
-            text-decoration: none;
-            margin-left: 10px;
-            font-size: 14px; /* Link font size */
-        }
-
-        .login-card a:hover {
-            text-decoration: underline;
-        }
-        </style>
-    </head>
-    <body>
-        @include('frontend.includes.header')
-
-        @include('includes.partials.read-only')
-        @include('includes.partials.logged-in-as')
-        <div class="index-container">
-            <!-- Left Section with Praise Words -->
-            <div class="left-section">
-                <h1>Login to Card Wiz Pro</h1>
-                <p>Your trusted platform for seamless and secure payments.</p>
-                <!-- Add more praising words or testimonials here -->
-            </div>
-
-            <!-- Right Section with Login Card -->
-            <div class="right-section">
-            <div class="login-card">
-            <img src="{{ asset('img/logo.png') }}" alt="Card Wiz Pro" height="100">
-            <h2>Login</h2>
-            <form method="post" action="{{route('frontend.auth.login')}}" class="form-horizontal">
-                {{ csrf_field() }}
-                <label for="email">E-mail Address</label>
-                <input type="email" name="email" id="email" placeholder="E-mail Address" value="" maxlength="255" required="required" autofocus="autofocus" autocomplete="email">
-
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Password" maxlength="100" required="required" autocomplete="current-password">
-
-                <div class="form-check">
-                    <input name="remember" id="remember" type="checkbox" class="form-check-input">
-                    <label for="remember">Remember Me</label>
-                </div>
-
-                <button type="submit">Login</button>
-            </form>
-            <a href="{{route('frontend.auth.password.request')}}">Forgot Your Password?</a>
-        </div>
-</div>
-
-        </div>
-
-        @include('frontend.includes.footer')
-
-        @stack('before-scripts')
-        <script src="{{ mix('js/manifest.js') }}"></script>
-        <script src="{{ mix('js/vendor.js') }}"></script>
-        <script src="{{ mix('js/frontend.js') }}"></script>
-        @stack('after-scripts')
-    </body>
-</html>
+                            <div class="text-center">
+                                @include('frontend.auth.includes.social')
+                            </div>
+                        </x-forms.post>
+                    </x-slot>
+                </x-frontend.card>
+            </div><!--col-md-8-->
+        </div><!--row-->
+    </div><!--container-->
+@endsection

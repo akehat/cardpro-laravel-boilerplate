@@ -34,7 +34,7 @@ class HomeController
     {
         return view('frontend.pages.privacy');
     }
-    
+
     /**
      * @return Application|Factory|View
      */
@@ -42,7 +42,20 @@ class HomeController
     {
         return view('frontend.pages.pricing');
     }
-
+     /**
+     * @return Application|Factory|View
+     */
+    public function signin()
+    {
+        return view('frontend.auth.loginCardWiz');
+    }
+ /**
+     * @return Application|Factory|View
+     */
+    public function signup()
+    {
+        return view('frontend.auth.registerCardWiz');
+    }
     /**
      * @return Application|Factory|View
      */

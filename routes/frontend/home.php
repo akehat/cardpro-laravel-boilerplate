@@ -33,6 +33,11 @@ Route::post('contact', [HomeController::class, 'contactSubmit'])
 Route::get('privacy', [HomeController::class, 'privacy'])
     ->name('privacy');
 
+Route::get('signin', [HomeController::class, 'signin'])
+    ->name('signin');
+
+Route::get('signup', [HomeController::class, 'signup'])
+->name('signup');
 Route::get('terms', [TermsController::class, 'index'])
     ->name('pages.terms')
     ->breadcrumbs(function (Trail $trail) {

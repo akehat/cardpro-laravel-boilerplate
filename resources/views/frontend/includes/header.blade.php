@@ -46,8 +46,8 @@
                     <li><a href="{{ route('frontend.dashboard') }}" id="navLink">Dashboard</a></li>
                     <li><a href="{{ route('frontend.pricing') }}" id="navLink">Request A Demo</a></li>
                     <li><a href="{{ route('frontend.contact') }}" id="navLink">Contact</a></li>
-                    <li><a href="{{ route('frontend.auth.register') }}" id="navLink">Sign Up</a></li>
-                    <li><a href="{{ route('frontend.auth.login') }}" id="navLink">Sign In</a></li>
+                    <li><a href="{{ route('frontend.signup') }}" id="navLink">Sign Up</a></li>
+                    <li><a href="{{ route('frontend.signin') }}" id="navLink">Sign In</a></li>
                 </ul>
             </div><!--navbar-collapse-->
         </div><!--container-->

@@ -1,197 +1,79 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ appName() }}</title>
-        <meta name="description" content="@yield('meta_description', appName())">
-        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
-        @yield('meta')
+@extends('frontend.layouts.app')
 
-        @stack('before-styles')
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
+@section('title', __('Register'))
 
-        @stack('after-styles')
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: 'Arial', sans-serif; /* Replace with your preferred font */
-            }
+@section('content')
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <x-frontend.card>
+                    <x-slot name="header">
+                        @lang('Register')
+                    </x-slot>
 
-            .index-container {
-                display: flex;
-            }
+                    <x-slot name="body">
+                        <x-forms.post :action="route('frontend.auth.register')">
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('Name')</label>
 
-            .left-section {
-                flex: 1;
-                background-color: #3498db; /* Your brand color */
-                color: #fff;
-                padding: 40px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
+                                <div class="col-md-6">
+                                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" placeholder="{{ __('Name') }}" maxlength="100" required autofocus autocomplete="name" />
+                                </div>
+                            </div><!--form-group-->
 
-            .left-section h1 {
-                font-size: 36px;
-                margin-bottom: 20px;
-            }
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('E-mail Address')</label>
 
-            .right-section {
-                flex: 1;
-                padding: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+                                <div class="col-md-6">
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="{{ __('E-mail Address') }}" value="{{ old('email') }}" maxlength="255" required autocomplete="email" />
+                                </div>
+                            </div><!--form-group-->
 
-            .signup-card {
-                max-width: 800px;
-                background-color: #fff;
-                padding: 40px;
-                border-radius: 8px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('Password')</label>
 
-            .signup-card img {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
+                                <div class="col-md-6">
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password') }}" maxlength="100" required autocomplete="new-password" />
+                                </div>
+                            </div><!--form-group-->
 
-            .signup-card h2 {
-                font-size: 36px;
-                margin-bottom: 20px;
-                color: #333; /* Heading color */
-            }
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">@lang('Password Confirmation')</label>
 
-            .signup-card form {
-                margin-bottom: 20px;
-            }
+                                <div class="col-md-6">
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="{{ __('Password Confirmation') }}" maxlength="100" required autocomplete="new-password" />
+                                </div>
+                            </div><!--form-group-->
 
-            .form-group {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-            }
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="terms" value="1" id="terms" class="form-check-input" required>
+                                        <label class="form-check-label" for="terms">
+                                            @lang('I agree to the') <a href="{{ route('frontend.pages.terms') }}" target="_blank">@lang('Terms & Conditions')</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div><!--form-group-->
 
-            .form-group label {
-                width: 100%;
-                text-align: left;
-                margin-bottom: 5px;
-                color: #666; /* Label color */
-            }
+                            @if(config('boilerplate.access.captcha.registration'))
+                                <div class="row">
+                                    <div class="col">
+                                        @captcha
+                                        <input type="hidden" name="captcha_status" value="true" />
+                                    </div><!--col-->
+                                </div><!--row-->
+                            @endif
 
-            .form-group input[type=text],.form-group input[type=password], .form-group input[type=email] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 15px;
-                border: 1px solid #ccc; /* Input border color */
-                border-radius: 4px;
-                box-sizing: border-box;
-                font-size: 14px; /* Input font size */
-            }
-
-            .form-group .form-check {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            .signup-card button {
-                background-color: #3498db; /* Button background color */
-                color: #fff; /* Button text color */
-                padding: 5px 50px; /* Increased padding */
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                letter-spacing: 2px;
-                font-size: 16px; /* Button font size */
-                transition: background-color 0.3s;
-            }
-
-            .signup-card button:hover {
-                background-color: #007bb5; /* Button background color on hover */
-            }
-
-            .signup-card a {
-                color: #3498db; /* Link color */
-                text-decoration: none;
-                margin-left: 10px;
-                font-size: 14px; /* Link font size */
-            }
-
-            .signup-card a:hover {
-                text-decoration: underline;
-            }
-        </style>
-    </head>
-    <body>
-        @include('frontend.includes.header')
-
-        @include('includes.partials.read-only')
-        @include('includes.partials.logged-in-as')
-        <div class="index-container">
-            <!-- Left Section with Praise Words -->
-            <div class="left-section">
-                <h1>Sign Up to Card Wiz Pro</h1>
-                <p>Your trusted platform for seamless and secure payments.</p>
-                <!-- Add more praising words or testimonials here -->
-            </div>
-
-            <!-- Right Section with Login Card -->
-            <div class="right-section">
-                <div class="signup-card">
-                    <img src="{{ asset('img/logo.png') }}" alt="Card Wiz Pro" height="100">
-                    <h2>Register</h2>
-                    <form method="post" action="{{ route('frontend.auth.register') }}" class="form-horizontal">
-                        {{ csrf_field() }}
-                        <div class="d-flex flex-wrap">
-                        <div class="form-group col-6">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" value="" placeholder="Name" maxlength="100" required="required" autofocus="autofocus" autocomplete="name">
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="email">E-mail Address</label>
-                            <input type="email" name="email" id="email" placeholder="E-mail Address" value="" maxlength="255" required="required" autocomplete="email">
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Password" maxlength="100" required="required" autocomplete="new-password">
-                        </div>
-
-                        <div class="form-group col-6">
-                            <label for="password_confirmation">Password Confirmation</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Password Confirmation" maxlength="100" required="required" autocomplete="new-password">
-                        </div>
-
-                        <div class="form-group col-12">
-                            <div class="form-check">
-                                <input type="checkbox" name="terms" value="1" id="terms" required="required" class="form-check-input">
-                                <label for="terms" class="form-check-label">
-                                    I agree to the <a href="{{ route('frontend.pages.terms') }}"  target="_blank">Terms &amp; Conditions</a>
-                                </label>
-                            </div>
-                        </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-
-        @include('frontend.includes.footer')
-
-        @stack('before-scripts')
-        <script src="{{ mix('js/manifest.js') }}"></script>
-        <script src="{{ mix('js/vendor.js') }}"></script>
-        <script src="{{ mix('js/frontend.js') }}"></script>
-        @stack('after-scripts')
-    </body>
-</html>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button class="btn btn-primary" type="submit">@lang('Register')</button>
+                                </div>
+                            </div><!--form-group-->
+                        </x-forms.post>
+                    </x-slot>
+                </x-frontend.card>
+            </div><!--col-md-8-->
+        </div><!--row-->
+    </div><!--container-->
+@endsection

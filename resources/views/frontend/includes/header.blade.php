@@ -1,4 +1,6 @@
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+
+   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom Styles -->
     <style>
         #logo {
@@ -63,3 +65,4 @@
         </div><!--container-->
     </nav>
 
+    @include('frontend.includes.nav')

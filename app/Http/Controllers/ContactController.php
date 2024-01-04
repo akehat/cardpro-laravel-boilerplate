@@ -23,9 +23,12 @@ class ContactController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
+         // Save contact information to the database
+        ContactUs::create($request->all());
 
         // Send the email
         Mail::to(config('mail.admin_email'))->queue(new ContactUs($request->all()));
+
 
         // Redirect with a success message
         return redirect('/contact')->with('success', 'Your message has been sent successfully!');

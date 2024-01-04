@@ -138,6 +138,7 @@
         button.textContent="return";
         button.onclick=function(){
             var amount = prompt("Please enter return amount", obj['amount']);
+            if (amount != null) {
             $.ajax({
             type: 'POST', // You can change the HTTP method as needed
             url: '{{url("makeReturn")}}', // Replace with your actual Laravel route
@@ -159,6 +160,7 @@
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
             }
         });
+    }
         }
         cell.appendChild(button);
     });

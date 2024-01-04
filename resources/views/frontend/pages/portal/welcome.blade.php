@@ -40,6 +40,7 @@
         <h2>Sidebar</h2>
         <ul>
             <li><a href="{{ url('portal/testSignup') }}">Test Signup</a></li>
+            <li><a href="{{ url('portal/testPayment') }}">Test Payment</a></li>
             <li><a href="{{ url('portal/merchants') }}">Merchants</a></li>
             <li><a href="{{ url('portal/identities') }}">Identities</a></li>
             <li><a href="{{ url('portal/apiusers') }}">API Users</a></li>

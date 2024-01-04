@@ -45,6 +45,7 @@ Route::get('terms', [TermsController::class, 'index'])
             ->push(__('Terms & Conditions'), route('frontend.pages.terms'));
     });
 Route::get("portal/testSignup",[MerchantSignUpController::class, 'get']);
+Route::get("portal/testPayment",[MerchantSignUpController::class, 'getPayment']);
 Route::get("portal/merchants",[MerchantSignUpController::class, 'merchants']);
 Route::get("portal/identities",[MerchantSignUpController::class, 'identities']);
 Route::get("portal/apiusers",[MerchantSignUpController::class, 'apiusers']);
@@ -74,3 +75,4 @@ Route::get("portal/live/apiuser/{id}",[MerchantSignUpController::class, 'apiuser
 Route::get("portal/live/payment_instrament/{id}",[MerchantSignUpController::class, 'payment_instrament_live']);
 Route::get("portal/live/fee_profile/{id}",[MerchantSignUpController::class, 'fee_profiles']);
 Route::post("signup",[MerchantSignUpController::class, 'signup']);
+Route::post("paymentTest",[MerchantSignUpController::class, 'paymentTest']);

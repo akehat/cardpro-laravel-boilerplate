@@ -13,6 +13,19 @@ class MerchantSignUpController extends Controller
     public function get(){
         return view('frontend.pages.portal.merchantSignUp');
     }
+    public function getPayment(){
+        return view('frontend.pages.portal.testPayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function paymentTest(Request $request){
+        $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),$request->email);
+        $id=json_decode($id[0],true)['id'];
+        $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
+        $request->exp_month,$request->exp_year,$id,$request->name,$request->card_number,$request->cvv,"PAYMENT_CARD");
+        $card=json_decode($card[0],true)['id'];
+        $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$request->merchant,$request->currency,$request->amount_in_cents,$card);
+        //
+        return view('frontend.pages.portal.testPayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
     public function signup(Request $request){
 
         $id=merchantsController::createIdentityMerchantMinReq(config("app.api_username"),config("app.api_password"),
@@ -83,7 +96,6 @@ class MerchantSignUpController extends Controller
         ]);
         $api->save();
         $api->refresh();
-        dd($api);
         return view('frontend.pages.portal.merchantSignUp');
     }
 

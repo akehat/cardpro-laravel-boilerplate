@@ -50,6 +50,7 @@ Route::get("portal/merchants",[MerchantSignUpController::class, 'merchants']);
 Route::get("portal/identities",[MerchantSignUpController::class, 'identities']);
 Route::get("portal/apiusers",[MerchantSignUpController::class, 'apiusers']);
 Route::get("portal/payments",[MerchantSignUpController::class, 'payments']);
+Route::get("portal/balenceTransfers",[MerchantSignUpController::class, 'balenceTransfer']);
 Route::get("portal/settlements",[MerchantSignUpController::class, 'settlements']);
 Route::get("portal/fee_profiles",[MerchantSignUpController::class, 'fee_profiles']);
 Route::get("portal/payment_instraments",[MerchantSignUpController::class, 'payment_instraments']);
@@ -57,6 +58,7 @@ Route::get("portal/merchant/{id}",[MerchantSignUpController::class, 'merchant'])
 Route::get("portal/identity/{id}",[MerchantSignUpController::class, 'identity']);
 Route::get("portal/payment/{id}",[MerchantSignUpController::class, 'payments']);
 Route::get("portal/settlement/{id}",[MerchantSignUpController::class, 'settlement']);
+Route::get("portal/balenceTransfer/{id}",[MerchantSignUpController::class, 'balenceTransfer']);
 Route::get("portal/apiuser/{id}",[MerchantSignUpController::class, 'apiuser']);
 Route::get("portal/payment_instrament/{id}",[MerchantSignUpController::class, 'payment_instrament']);
 Route::get("portal/fee_profile/{id}",[MerchantSignUpController::class, 'fee_profiles']);
@@ -70,9 +72,12 @@ Route::get("portal/live/fee_profiles",[MerchantSignUpController::class, 'fee_pro
 Route::get("portal/live/merchant/{id}",[MerchantSignUpController::class, 'merchant_live']);
 Route::get("portal/live/identity/{id}",[MerchantSignUpController::class, 'identity_live']);
 Route::get("portal/live/payment/{id}",[MerchantSignUpController::class, 'payments_live']);
+Route::get("portal/live/balenceTransfers",[MerchantSignUpController::class, 'balenceTransfer']);
+Route::get("portal/live/balenceTransfer/{id}",[MerchantSignUpController::class, 'balenceTransfer_live']);
 Route::get("portal/live/settlement/{id}",[MerchantSignUpController::class, 'settlement_live']);
 Route::get("portal/live/apiuser/{id}",[MerchantSignUpController::class, 'apiuser_live']);
 Route::get("portal/live/payment_instrament/{id}",[MerchantSignUpController::class, 'payment_instrament_live']);
 Route::get("portal/live/fee_profile/{id}",[MerchantSignUpController::class, 'fee_profiles']);
 Route::post("signup",[MerchantSignUpController::class, 'signup']);
+Route::post("makeReturn",[MerchantSignUpController::class, 'makeReturn']);
 Route::post("paymentTest",[MerchantSignUpController::class, 'paymentTest']);

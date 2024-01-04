@@ -134,6 +134,8 @@
 
         @include('includes.partials.read-only')
         @include('includes.partials.logged-in-as')
+        @include('includes.partials.messages')
+
         <div class="index-container">
             <!-- Left Section with Praise Words -->
             <div class="left-section">

@@ -24,7 +24,7 @@ class HomeController
      */
     public function dashboard()
     {
-        return view('frontend.pages.dashboard');
+        return view('frontend.pages.portal.welcome');
     }
 
       /**

@@ -60,9 +60,39 @@
             color: blue!important;
             text-decoration: none;
         }
+        #navList {
+            position: absolute;
+            top: 100px; /* Adjust as needed based on your layout */
+            left: 0;
+        }
         #navList a:visited{
             color: blue!important;
         }
+        @media only screen and (max-width: 480px) {
+        nav{
+            width: min-content;
+            max-width: min-content;
+        }
+        #navList {
+            display: none;
+            width: 50%;
+            position: absolute;
+            top: 100px; /* Adjust as needed based on your layout */
+            left: 0;
+            background-color: #f0f0f0;/* Your brand color */
+        }
+
+        #navList li {
+            display: block;
+            margin: 10px 0;
+        }
+        #sidenavButton{
+            display: block!important;
+        }
+        #navList:hover {
+            display: block;
+        }
+}
     </style>
 </head>
 <body>
@@ -72,7 +102,8 @@
     </header>
 
     <div class="container">
-        <nav>
+        <nav id="sidenav">
+            <button id="sidenavButton" style="display: none">></button>
             <ul id="navList"></ul>
         </nav>
 
@@ -81,6 +112,23 @@
     </div>
 
     <script>
+        // JavaScript to toggle the display of the navigation menu on hover for phones
+        document.querySelector('#sidenav').addEventListener('mouseenter', function () {
+    if (window.innerWidth <= 480) { // Check if screen size is phone
+        document.querySelector('#navList').style.display = 'block';
+        document.querySelector('#sidenav').style.width = '50%';
+        document.querySelector('#sidenav').style.minWidth = '50%';
+    }
+});
+
+document.querySelector('#sidenav').addEventListener('mouseleave', function () {
+    if (window.innerWidth <= 480) { // Check if screen size is phone
+        document.querySelector('#navList').style.display = 'none';
+        document.querySelector('#sidenav').style.width = 'min-content';
+        document.querySelector('#sidenav').style.minWidth = 'min-content';
+    }
+});
+
         var data = `[
     {
         "routeName": "Test Route 1",

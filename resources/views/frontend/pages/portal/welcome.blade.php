@@ -48,6 +48,7 @@
             <li><a href="{{ url('portal/settlements') }}">Settlements</a></li>
             <li><a href="{{ url('portal/fee_profiles') }}">Fee Profiles</a></li>
             <li><a href="{{ url('portal/payment_instraments') }}">Payment Instruments</a></li>
+
             <!-- Add more routes as needed -->
         </ul>
     </div>

@@ -23,6 +23,7 @@
 
             .index-container {
                 display: flex;
+                height: calc(100vh- 260px);
             }
 
             .left-section {
@@ -35,6 +36,19 @@
                 justify-content: center;
                 align-items: center;
             }
+
+        @media only screen and (max-width: 768px) {
+            .left-section {
+                flex: 0.5;
+            }
+        }
+
+        /* Phone styles */
+        @media only screen and (max-width: 480px) {
+            .left-section {
+                display: none;
+            }
+        }
 
             .left-section h1 {
                 font-size: 36px;
@@ -194,6 +208,8 @@
 
         @include('includes.partials.read-only')
         @include('includes.partials.logged-in-as')
+        @include('includes.partials.messages')
+
         <div class="index-container">
             <!-- Left Section with Praise Words -->
             <div class="left-section">

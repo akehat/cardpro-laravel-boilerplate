@@ -36,6 +36,19 @@
                 align-items: center;
             }
 
+        @media only screen and (max-width: 1200px) {
+            .left-section {
+                flex: 0.5;
+            }
+        }
+
+        /* Phone styles */
+        @media only screen and (max-width: 768px) {
+            .left-section {
+                display: none;
+            }
+        }
+
             .left-section h1 {
                 font-size: 36px;
                 margin-bottom: 20px;

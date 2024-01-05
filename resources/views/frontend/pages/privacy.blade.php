@@ -37,7 +37,20 @@
         .left-section {
             background-color: #3498db; /* Your brand color */
             color: #fff;
-            text-align: center;
+            text-align: cent
+
+        @media only screen and (max-width: 768px) {
+            .left-section {
+                flex: 0.5;
+            }
+        }
+
+        /* Phone styles */
+        @media only screen and (max-width: 480px) {
+            .left-section {
+                display: none;
+            }
+        }er;
         }
 
         .left-section h1 {
@@ -86,6 +99,8 @@
 
     @include('includes.partials.read-only')
     @include('includes.partials.logged-in-as')
+    @include('includes.partials.messages')
+
     <div class="index-container">
         <!-- Left Section with Welcome Message -->
         <div class="left-section d-flex flex-column">

@@ -40,6 +40,19 @@
             text-align: center;
         }
 
+        @media only screen and (max-width: 768px) {
+            .left-section {
+                flex: 0.5;
+            }
+        }
+
+        /* Phone styles */
+        @media only screen and (max-width: 480px) {
+            .left-section {
+                display: none;
+            }
+        }
+
         .left-section h1 {
             font-size: 36px;
             margin-bottom: 20px;
@@ -86,6 +99,8 @@
 
     @include('includes.partials.read-only')
     @include('includes.partials.logged-in-as')
+    @include('includes.partials.messages')
+
     <div class="index-container">
         <!-- Left Section with Welcome Message -->
 

@@ -105,6 +105,8 @@
 
     @include('includes.partials.read-only')
     @include('includes.partials.logged-in-as')
+    @include('includes.partials.messages')
+
 
     <div class="pricing-container flex-wrap">
         <!-- Pricing Features -->

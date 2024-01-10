@@ -65,7 +65,7 @@ class formController extends Controller
                 "tip_amount" => $tip_amount
             ]
         ];
-        
+
         // Branding details
         $branding = [
             "brand_color" => $brand_color,
@@ -73,7 +73,7 @@ class formController extends Controller
             "logo" => $logo,
             "icon" => $icon
         ];
-        
+
         // Additional details
         $additional_details = [
             "collect_name" => $collect_name,
@@ -87,7 +87,7 @@ class formController extends Controller
             "terms_of_service_url" => $terms_of_service_url,
             "expiration_in_minutes" => $expiration_in_minutes
         ];
-        
+
         // Create array
         $data = [
             "merchant_id" => $merchant_id,
@@ -138,7 +138,7 @@ class formController extends Controller
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Finix-Version: 2022-02-01',
-        ]); 
+        ]);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
         $response = curl_exec($ch);
@@ -229,7 +229,7 @@ class formController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public function listPCIforms(
+    public static function listPCIforms(
     $username,
     $password,
     $all=false,
@@ -520,7 +520,7 @@ class formController extends Controller
             "return_url" => $return_url,
             "terms_of_service_url" => $terms_of_service_url
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData), JSON_PRETTY_PRINT);
         $ch = curl_init();

@@ -100,15 +100,16 @@ class tesingCommand extends Command
         // $ids=array_filter($ids,function($var){return $var["business_name"] == "Finix Flowers";});
         // $app=json_decode(payfacController::listApplications(config("app.api_username"),config("app.api_password"))[0],true)["_embedded"]["applications"];
         // $new_user=finixUsersController::createAUser(config("app.api_username"),config("app.api_password"),$app[0]["id"]);
-    
+
         // $update=finixUsersController::updateAuser(
         // config("app.api_username"),config("app.api_password"),
         // "US4yMeXtk92bgb1wcZQECRQz",
         // null,'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
         // var_dump($update[0]);
-        $result=finixUsersController::updateAuser(config("app.api_username"),config("app.api_password"),"US8ee88MDeR4hw4SzjaVpSWm",['updateing'=>"test"],'https://finix.sandbox-payments-api.com',[],["role"=>"merchant"]);
-        
-        return 0;
+        // $result=finixUsersController::updateAuser(config("app.api_username"),config("app.api_password"),"US8ee88MDeR4hw4SzjaVpSWm",['updateing'=>"test"],'https://finix.sandbox-payments-api.com',[],["role"=>"merchant"]);
+        $result= merchantsController::listSettlements(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',['tags.key'=>'refund']);
+        var_dump($result[0]);
+                return 0;
     }
 }
 

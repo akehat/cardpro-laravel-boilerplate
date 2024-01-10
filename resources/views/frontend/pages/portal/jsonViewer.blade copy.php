@@ -3,26 +3,10 @@
 @section('content')
    <style>
       table, th, td {
+        border: 1px solid black;
         border-collapse: collapse;
     }
-    th:first-of-type{
-        border-radius: 25px 0px 0px 0px;
-    }
-    th:last-of-type{
-        border-radius: 0px 25px 0px 0px;
-    }
-    td, th ,tbody {
-        border: none!important;
-    }
-     tr:not(:first-of-type){
-        border-bottom: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-     }
-    th{
-        text-align: center!important;
-        align-items: center;
-    }
+
     td, th {
         padding: 10px;
         white-space: nowrap;
@@ -34,7 +18,6 @@
     table {
         border-collapse: collapse;
         width: 100%;
-        border-radius: 25px;
     }
 
     th, td {
@@ -91,6 +74,30 @@
           }
       }
 
+    //   function arrayToTable(array) {
+    //       // Create a table element
+    //       const table = document.createElement('table');
+
+    //       // Create the header row
+    //       const headerRow = table.insertRow(0);
+    //       for (const key in array[0]) {
+    //           const th = document.createElement('th');
+    //           th.textContent = key;
+    //           headerRow.appendChild(th);
+    //       }
+
+    //       // Create rows and cells
+    //       array.forEach(obj => {
+    //           const row = table.insertRow();
+    //           for (const key in obj) {
+    //               const cell = row.insertCell();
+    //               cell.textContent = stringifyObject(obj[key]);
+    //           }
+    //       });
+    //       var container = document.getElementById("container");
+    //       container.appendChild(table);
+    //       createTotal(array.length);
+    //   }
     function arrayToTable2(array) {
     // Create a Set of all unique keys in the array
     const allKeysSet = new Set();
@@ -121,16 +128,7 @@
         const row = table.insertRow();
         allKeysArray.forEach(key => {
             const cell = row.insertCell();
-            if(key=="id"){
-                var link= document.createElement('a');
-                var getUrl = (window.location+'');
-                var Url = getUrl.substring(0,getUrl.length - 1) +"/"+ obj[key];
-                link.href=Url;
-                link.textContent=obj[key];
-                cell.appendChild(link);
-            }else{
-                cell.textContent = stringifyObject(obj[key]);
-            }
+            cell.textContent = stringifyObject(obj[key]);
         });
     });
 

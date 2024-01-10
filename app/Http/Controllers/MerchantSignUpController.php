@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\API\finixUsersController;
+use App\Http\Controllers\API\formController;
 use App\Http\Controllers\API\merchantsController;
+use App\Http\Controllers\API\payfacController;
+use App\Http\Controllers\API\subscriptionController;
 use Illuminate\Http\Request;
 use App\Models\ApiKey;
 use Illuminate\Support\Facades\Log;
@@ -50,7 +53,7 @@ class MerchantSignUpController extends Controller
         $request->entity_doing_business_as,
         $request->entity_email,
         $request->entity_first_name,
-        $request->entity_has_accepted_credit_cards_previously,
+        $request->entity_has_accepted_credit_cards_previously??'false',
         $request->entity_incorporation_date_year,
         $request->entity_incorporation_date_day,
         $request->entity_incorporation_date_month,
@@ -194,6 +197,131 @@ class MerchantSignUpController extends Controller
     public function fee_profile_live($id){
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchFeeProfile(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
-
+    public function disputes(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listDisputes(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function dispute($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchDispute(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function disputes_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listDisputes(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function dispute_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchDispute(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function compliances(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::listPCIforms(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function compliance($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchPCIForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function compliances_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::listPCIforms(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function compliance_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchPCIForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function holds(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listHolds(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function hold($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchHold(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function holds_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listHolds(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function hold_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchHolds(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function checkouts(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::listCheckoutForm(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function checkout($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchCheckoutForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function checkouts_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::listCheckoutForm(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function checkout_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchCheckoutForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function onboarding($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchOnBoardingForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function onboarding_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchOnBoardingForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function paymentLinks(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPymentLink(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function paymentLink($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPaymentLink(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function paymentLinks_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPymentLink(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function paymentLink_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPaymentLink(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function balanceTransfers(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::listBalanceTransfers(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function balanceTransfer($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::fetchBalanceTransfers(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function balanceTransfers_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::listBalanceTransfers(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function balanceTransfer_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::fetchBalanceTransfers(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function verifications(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::listVerifications(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function verification($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::fetchVerifications(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function verifications_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::listVerifications(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function verification_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>payfacController::fetchVerifications(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionSchedules(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::listsubscriptionSchedule(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionSchedule($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::fetchsubscriptionSchedule(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionSchedules_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::listSubscriptionSchedule(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionSchedule_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::fetchSubscriptionSchedule(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionAmounts(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::listSubscriptionAmounts(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionAmount($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::fetchSubscriptionAmount(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionAmounts_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::listSubscriptionAmounts(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionAmount_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::fetchSubscriptionAmount(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionEnrollments(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::listSubscriptionEnrollments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionEnrollment($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::fetchSubscriptionEnrollment(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionEnrollments_live(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::listSubscriptionEnrollments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
+    public function subscriptionEnrollment_live($id){
+        return view("frontend.pages.portal.jsonViewer",["json"=>subscriptionController::fetchSubscriptionEnrollment(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+    }
 
 }

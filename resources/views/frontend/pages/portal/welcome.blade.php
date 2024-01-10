@@ -18,9 +18,19 @@
             padding: 20px;
             width: 150px;
             height:95vh;
+            overflow-y:scroll;
                 }
         #sidebar a {
             color: white;
+            font-size: 17px;
+            font-weight: bold;
+            padding: 3px;
+        }
+        #sidebar ul {
+            padding: 0px
+        }
+        #sidebar li {
+            margin-top: 5px
         }
 
         #content {
@@ -48,7 +58,29 @@
             <li><a href="{{ url('portal/settlements') }}">Settlements</a></li>
             <li><a href="{{ url('portal/fee_profiles') }}">Fee Profiles</a></li>
             <li><a href="{{ url('portal/payment_instraments') }}">Payment Instruments</a></li>
-
+            <li><a href="{{ url('portal/checkouts') }}">Checkouts</a></li>
+            <li><a href="{{ url('portal/paymentLinks') }}">Payment Link</a></li>
+            <li><a href="{{ url('portal/verifications') }}">Verifications</a></li>
+            <li><a href="{{ url('portal/balanceTransfers') }}">Balance Transfers</a></li>
+            <li><a href="{{ url('portal/compliances') }}">PCI Forms</a></li>
+            <li><a href="{{ url('portal/disputes') }}">Disputes</a></li>
+            <li><a href="{{ url('portal/subscriptionSchedules') }}">Subscription Schedules</a></li>
+            <li><a href="{{ url('portal/subscriptionEnrollments') }}">Subscription Enrollment</a></li>
+            <li><a href="{{ url('portal/live/merchants') }}"> Live Merchants</a></li>
+            <li><a href="{{ url('portal/live/identities') }}"> Live Identities</a></li>
+            <li><a href="{{ url('portal/live/apiusers') }}"> Live API Users</a></li>
+            <li><a href="{{ url('portal/live/payments') }}"> Live Payments</a></li>
+            <li><a href="{{ url('portal/live/settlements') }}"> Live Settlements</a></li>
+            <li><a href="{{ url('portal/live/fee_profiles') }}"> Live Fee Profiles</a></li>
+            <li><a href="{{ url('portal/live/payment_instraments') }}"> Live Payment Instruments</a></li>
+            <li><a href="{{ url('portal/live/checkouts') }}"> Live Checkouts</a></li>
+            <li><a href="{{ url('portal/live/paymentLinks') }}"> Live Payment Link</a></li>
+            <li><a href="{{ url('portal/live/verifications') }}"> Live Verifications</a></li>
+            <li><a href="{{ url('portal/live/balanceTransfers') }}"> Live Balance Transfers</a></li>
+            <li><a href="{{ url('portal/live/compliances') }}"> Live PCI Forms</a></li>
+            <li><a href="{{ url('portal/live/disputes') }}"> Live Disputes</a></li>
+            <li><a href="{{ url('portal/live/subscriptionSchedules') }}"> Live Subscription Schedules</a></li>
+            <li><a href="{{ url('portal/live/subscriptionEnrollments') }}"> Live Subscription Enrollment</a></li>
             <!-- Add more routes as needed -->
         </ul>
     </div>

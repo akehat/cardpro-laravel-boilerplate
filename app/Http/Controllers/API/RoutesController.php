@@ -13,18 +13,18 @@ class RoutesController extends Controller
     {
         // Check if API key exists in the database
         $api = ApiKey::where('api_key', $apiKey)->first();
-    
+
         if ($api) {
             // Set endpoint based on the "live" parameter
             $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-    
+
             // Call the appropriate function based on the presence of $paymentId
             if ($paymentId) {
                 $result = merchantsController::fetchPayment(config("app.api_username"), config("app.api_password"), $paymentId, $endpoint);
             } else {
                 $result = merchantsController::listPayments(config("app.api_username"), config("app.api_password"), config(), $endpoint, ['filter' => json_encode(['tags.api' => $apiKey])]);
             }
-    
+
             return $result[0];
         } else {
             // API key not found
@@ -42,7 +42,7 @@ class RoutesController extends Controller
             $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),"byersolomon@mail.com",$endpoint);
             $id=json_decode($id[0],true)['id'];
             $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
-            $exp_month,$exp_year,$id,$name,$cardNumber,$cvv,"PAYMENT_CARD",$endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]); 
+            $exp_month,$exp_year,$id,$name,$cardNumber,$cvv,"PAYMENT_CARD",$endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]);
             $card=json_decode($card[0],true)['id'];
             $result=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$api->merchant,$currency,$amount,$card, $endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]);
             return $result[0];
@@ -55,18 +55,18 @@ class RoutesController extends Controller
     {
         // Check if API key exists in the database
         $api = ApiKey::where('api_key', $apiKey)->first();
-    
+
         if ($api) {
             // Set endpoint based on the "live" parameter
             $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-    
+
             // Call the appropriate function based on the presence of $paymentId
             if ($paymentMethodId) {
                 $result = merchantsController::fetchPayment(config("app.api_username"), config("app.api_password"), $paymentMethodId, $endpoint);
             } else {
                 $result = merchantsController::listPaymentInstraments(config("app.api_username"), config("app.api_password"), config(), $endpoint, ['filter' => json_encode(['tags.api' => $apiKey])]);
             }
-    
+
             return $result[0];
         } else {
             // API key not found
@@ -77,16 +77,16 @@ class RoutesController extends Controller
     {
         // Check if API key exists in the database
         $api = ApiKey::where('api_key', $apiKey)->first();
-    
+
         if ($api) {
             // Set endpoint based on the "live" parameter
             $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-    
+
             // Call the appropriate function based on the presence of $paymentId
             if ($paymentId) {
                 $result = merchantsController::createRefund(config("app.api_username"), config("app.api_password"), $paymentId, $refundAmount ,$endpoint);
-            } 
-    
+            }
+
             return $result[0];
         } else {
             // API key not found
@@ -194,4 +194,108 @@ class RoutesController extends Controller
         }
         return response()->json(['error' => 'Invalid API key'], 401);
     }
+public function getBalance(){}
+public function createCustomer(){}
+public function updateCustomer(){}
+public function getCustomer(){}
+public function getCustomers(){}
+public function customers_search(){}
+public function getCampaignCustomers(){}
+public function getCampaignBalance(){}
+
+public function createCharges(){}
+public function updateCharge(){}
+public function getCharge(){}
+public function getCharges(){}
+public function charges_search(){}
+
+
+public function updateDispute(){}
+public function getDispute(){}
+public function getDisputes(){}
+// public function postDisputeClose(){}
+
+
+// public function event(){}
+// public function events(){}
+
+
+public function createFile(){}
+public function getfile(){}
+public function getfiles(){}
+
+public function createFile_links(){}
+public function file_link(){}
+public function file_links(){}
+
+
+public function createPayout(){}
+public function updatePayout(){}
+public function getPayout(){}
+public function getPayouts(){}
+public function cancelPayout(){}
+public function reversePayout(){}
+
+public function createRefund(){}
+public function updateRefund(){}
+public function getRefund(){}
+public function getRefunds(){}
+
+public function createBalenceTransfer(){}
+public function updateBalenceTransfer(){}
+public function getBalenceTransfer(){}
+public function createBalenceTransfers(){}
+public function balence_transfers_search(){}
+
+
+public function postTokenize(){}
+
+public function createPaymentWay(){}
+public function updatePaymentWay(){}
+public function getCustomerPaymentWay(){}
+public function getCustomerPaymentWays(){}
+public function getPaymentWays(){}
+public function getPaymentWay(){}
+public function payment_ways_search(){}
+
+
+public function createCustomerCard(){}
+public function updateCustomerCard(){}
+public function updateCustomerBankAcount(){}
+public function createCustomerBankAcount(){}
+public function updateMerchantBankAcount(){}
+public function createMerchantBankAcount(){}
+public function getMerchantBankAcount(){}
+public function getMerchantBankAcounts(){}
+public function getCustomerCards(){}
+public function getCustomerCard(){}
+public function getCustomerBankAcount(){}
+public function getCustomerBankAcounts(){}
+
+
+public function createPaymentLink(){}
+public function updatePaymentLink(){}
+public function getPaymentLinks(){}
+public function getPaymentLink(){}
+public function payment_links_search(){}
+
+
+public function createCheckout(){}
+public function updateCheckout(){}
+public function getCheckouts(){}
+public function getCheckout(){}
+public function checkout_search(){}
+
+
+public function createHold(){}
+public function updateHold(){}
+public function getHold(){}
+public function getHolds(){}
+public function hold_search(){}
+
+public function createSubscription(){}
+public function updateSubscription(){}
+public function getSubscription(){}
+public function getSubscriptions(){}
+public function subscriptions_search(){}
 }

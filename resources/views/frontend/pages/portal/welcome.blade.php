@@ -51,6 +51,7 @@
         <ul>
             <li><a href="{{ url('portal/testSignup') }}">Test Signup</a></li>
             <li><a href="{{ url('portal/testPayment') }}">Test Payment</a></li>
+            <li><a href="{{ url('portal/testHold') }}">Test Hold</a></li>
             <li><a href="{{ url('portal/merchants') }}">Merchants</a></li>
             <li><a href="{{ url('portal/identities') }}">Identities</a></li>
             <li><a href="{{ url('portal/apiusers') }}">API Users</a></li>
@@ -60,6 +61,7 @@
             <li><a href="{{ url('portal/payment_instraments') }}">Payment Instruments</a></li>
             <li><a href="{{ url('portal/checkouts') }}">Checkouts</a></li>
             <li><a href="{{ url('portal/paymentLinks') }}">Payment Link</a></li>
+            <li><a href="{{ url('portal/holds') }}">Holds</a></li>
             <li><a href="{{ url('portal/verifications') }}">Verifications</a></li>
             <li><a href="{{ url('portal/balanceTransfers') }}">Balance Transfers</a></li>
             <li><a href="{{ url('portal/compliances') }}">PCI Forms</a></li>
@@ -75,6 +77,7 @@
             <li><a href="{{ url('portal/live/payment_instraments') }}"> Live Payment Instruments</a></li>
             <li><a href="{{ url('portal/live/checkouts') }}"> Live Checkouts</a></li>
             <li><a href="{{ url('portal/live/paymentLinks') }}"> Live Payment Link</a></li>
+            <li><a href="{{ url('portal/live/holds') }}">Live Holds</a></li>
             <li><a href="{{ url('portal/live/verifications') }}"> Live Verifications</a></li>
             <li><a href="{{ url('portal/live/balanceTransfers') }}"> Live Balance Transfers</a></li>
             <li><a href="{{ url('portal/live/compliances') }}"> Live PCI Forms</a></li>
@@ -85,6 +88,16 @@
         </ul>
     </div>
     <div id="content">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-success">
+            {{ session('error') }}
+        </div>
+    @endif
     @yield("content")
     </div>
 </body>

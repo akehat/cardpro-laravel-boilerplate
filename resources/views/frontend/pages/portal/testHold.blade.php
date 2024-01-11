@@ -47,9 +47,9 @@
         }
     </style>
 
-    <h1>Test Payment Form</h1>
+    <h1>Test Hold Form</h1>
 
-    <form id="jsonForm" action="{{url('paymentTest')}}" method="POST">
+    <form id="jsonForm" action="{{url('holdTest')}}" method="POST">
         {{ csrf_field() }}
         <select id="merchant" name="merchant"></select>
     </form>

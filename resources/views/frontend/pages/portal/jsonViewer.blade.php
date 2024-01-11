@@ -11,14 +11,7 @@
     th:last-of-type{
         border-radius: 0px 25px 0px 0px;
     }
-    td, th ,tbody {
-        border: none!important;
-    }
-     tr:not(:first-of-type){
-        border-bottom: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-     }
+
     th{
         text-align: center!important;
         align-items: center;
@@ -29,6 +22,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
         max-width:400px!important;
+        min-width:400px!important;
+        width:400px!important;
     }
 
     table {
@@ -44,6 +39,7 @@
     }
 
     th {
+        border: none;
         background-color: #f2f2f2;
     }
 
@@ -53,7 +49,8 @@
         word-break: break-word;
         white-space: normal!important;
         overflow: visible!important;
-        text-overflow: inherit!important;
+
+        /* text-overflow: inherit!important; */
 
     }
    </style>
@@ -123,7 +120,8 @@
             const cell = row.insertCell();
             if(key=="id"){
                 var link= document.createElement('a');
-                var getUrl = (window.location+'');
+                var getUrl = (window.location+'').split("?")[0];
+                getUrl = getUrl.endsWith("ies")?getUrl.substring(0,getUrl.length - 3) +'ys':getUrl;
                 var Url = getUrl.substring(0,getUrl.length - 1) +"/"+ obj[key];
                 link.href=Url;
                 link.textContent=obj[key];
@@ -170,7 +168,14 @@
       }
          // Sample JSON data
          let jsonData = JSON.parse(`{!!$json!!}`);
+         try{
          createForm(jsonData);
+         }catch(e){
+         var container = document.getElementById("container");
+        container.innerHTML='';
+         createForm({json:[jsonData]});
+
+         }
 
    </script>
 @endsection

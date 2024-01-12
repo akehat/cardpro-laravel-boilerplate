@@ -45,6 +45,8 @@ Route::get('terms', [TermsController::class, 'index'])
             ->push(__('Terms & Conditions'), route('frontend.pages.terms'));
     });
 Route::get("portal/testSignup",[MerchantSignUpController::class, 'get']);
+Route::get("portal/testCheckout",[MerchantSignUpController::class, 'getCheckout']);
+Route::get("portal/testPaylink",[MerchantSignUpController::class, 'getPaylink']);
 Route::get("portal/testPayment",[MerchantSignUpController::class, 'getPayment']);
 Route::get("portal/testHold",[MerchantSignUpController::class, 'getHold']);
 Route::get("portal/merchants",[MerchantSignUpController::class, 'merchants']);
@@ -124,4 +126,8 @@ Route::get("portal/live/fee_profile/{id}",[MerchantSignUpController::class, 'fee
 Route::post("signup",[MerchantSignUpController::class, 'signup']);
 Route::post("makeReturn",[MerchantSignUpController::class, 'makeReturn']);
 Route::post("paymentTest",[MerchantSignUpController::class, 'paymentTest']);
+Route::post("checkoutTest",[MerchantSignUpController::class, 'checkoutTest']);
+Route::post("paylinkTest",[MerchantSignUpController::class, 'paylinkTest']);
 Route::post("holdTest",[MerchantSignUpController::class, 'holdTest']);
+Route::post("captureHold",[MerchantSignUpController::class, 'captureHold']);
+Route::post("returnHold",[MerchantSignUpController::class, 'returnHold']);

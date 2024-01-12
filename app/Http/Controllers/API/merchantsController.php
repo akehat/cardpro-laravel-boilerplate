@@ -372,7 +372,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    
+
 
     public static function createIdentityBuyer($username,
     $password,
@@ -531,6 +531,7 @@ class merchantsController extends Controller
             'Finix-Version: 2022-02-01',
         ]);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
@@ -715,7 +716,7 @@ class merchantsController extends Controller
             "processor" => $processor,
             "tags" => $tag_array,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -747,7 +748,7 @@ class merchantsController extends Controller
         $data = [
             "processor" => $processor,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -827,7 +828,7 @@ class merchantsController extends Controller
         curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
 
         $headers = array();
@@ -856,7 +857,7 @@ class merchantsController extends Controller
         curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
 
         $headers = array();
@@ -887,7 +888,7 @@ class merchantsController extends Controller
         curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
 
         $headers = array();
@@ -918,7 +919,7 @@ class merchantsController extends Controller
         curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
 
         $headers = array();
@@ -951,7 +952,7 @@ class merchantsController extends Controller
         curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
 
         $headers = array();
@@ -980,7 +981,7 @@ class merchantsController extends Controller
             'Content-Type: application/json',
             'Finix-Version: 2022-02-01',
         ]);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);        
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
         curl_setopt($ch, CURLOPT_POSTFIELDS, '{}');
         $response = curl_exec($ch);
@@ -1025,7 +1026,7 @@ class merchantsController extends Controller
         'security_code' => $security_code,
         'type' => $type,
     ];
-    
+
     // Encode the array to JSON
     $jsonData = json_encode(array_merge($data,$addedData));
     $ch = curl_init();
@@ -1068,7 +1069,7 @@ class merchantsController extends Controller
         'security_code' => $security_code,
         'type' => $type,
     ];
-    
+
     // Encode the array to JSON
     $jsonData = json_encode(array_merge($data,$addedData));
     $ch = curl_init();
@@ -1160,7 +1161,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-   
+
     public static function listPaymentInstraments(
         $username,
         $password,
@@ -1226,7 +1227,7 @@ class merchantsController extends Controller
             'line2' => $line2,
             'country' => $country,
         ];
-    
+
         $data = [
             'address' => $address,
             'merchant' => $merchant,
@@ -1358,7 +1359,7 @@ class merchantsController extends Controller
             'security_code' => $security_code,
             'verify_payment_card' => $verify_payment_card,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1404,7 +1405,7 @@ class merchantsController extends Controller
             "merchant" => $merchant,
             "verify_payment_card" => $verify_payment_card,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1438,7 +1439,7 @@ class merchantsController extends Controller
             "processor" => $processor,
             "tags" => $tags
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1475,7 +1476,7 @@ class merchantsController extends Controller
             "merchant_identity" => $merchant_identity,
             "validation_url" => $validation_url,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1503,7 +1504,7 @@ class merchantsController extends Controller
     ){
         $data = [
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1542,7 +1543,7 @@ class merchantsController extends Controller
             "source" => $source,
             "fraud_session_id" => $fraud_session_id,//from the js in https://finix.com/docs/guides/payments/risk/fraud-detection/
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1578,7 +1579,7 @@ class merchantsController extends Controller
             "amount" => $amount,
             "source" => $source
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1684,7 +1685,7 @@ class merchantsController extends Controller
             "refund_amount" => $refund_amount,
             "tags" => $tags
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1717,7 +1718,7 @@ class merchantsController extends Controller
             "device" => $device,
             "refund_amount" => $refund_amount,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1756,7 +1757,7 @@ class merchantsController extends Controller
             "operation_key" => $operation_key,
             "tags" => $tags
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1786,7 +1787,7 @@ class merchantsController extends Controller
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
         $addedData=[]
-    ){  
+    ){
         $transactions=[];
         for ($i = 0; $i < count($merchants); $i++) {
             $transactions[] = [$merchants[$i],$amounts[$i]];
@@ -1796,7 +1797,7 @@ class merchantsController extends Controller
             "split_transfers" => $transactions,
             "tags" => $tags,
             ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -1969,7 +1970,7 @@ class merchantsController extends Controller
             "source" => $source,
             "tags" => $tags,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -2006,7 +2007,7 @@ class merchantsController extends Controller
                 "merchant" => $merchant,
                 "source" => $source,
             ];
-            
+
             // Encode the array to JSON
             $jsonData = json_encode(array_merge($data,$addedData));
             $ch = curl_init();
@@ -2053,7 +2054,7 @@ class merchantsController extends Controller
                     "source" => $source,
                     "tags" => $tags
                     ];
-                
+
                 // Encode the array to JSON
                 $jsonData = json_encode(array_merge($data,$addedData));
                 $ch = curl_init();
@@ -2092,7 +2093,7 @@ class merchantsController extends Controller
                         "security_code" => $security_code,
                         "source" => $source,
                     ];
-                    
+
                     // Encode the array to JSON
                     $jsonData = json_encode(array_merge($data,$addedData));
                     $ch = curl_init();
@@ -2137,7 +2138,7 @@ class merchantsController extends Controller
                             "test" => $test,
                             ],
                         ];
-                        
+
                         // Encode the array to JSON
                         $jsonData = json_encode(array_merge($data,$addedData));
                         $ch = curl_init();
@@ -2157,7 +2158,7 @@ class merchantsController extends Controller
                         curl_close($ch);
                         return [$response,$httpcode];
                     }
-                   
+
                         public static function createHoldWithHSAorFSA(
                             $username,
                             $password,
@@ -2179,7 +2180,7 @@ class merchantsController extends Controller
                                     "source" => $source,
                                     "tags" => $tags
                                     ];
-                                
+
                                 // Encode the array to JSON
                                 $jsonData = json_encode(array_merge($data,$addedData));
                                 $ch = curl_init();
@@ -2224,7 +2225,7 @@ class merchantsController extends Controller
                                         "source" => $source,
                                         "tags" => $tags
                                         ];
-                                    
+
                                     // Encode the array to JSON
                                     $jsonData = json_encode(array_merge($data,$addedData));
                                     $ch = curl_init();
@@ -2265,7 +2266,7 @@ class merchantsController extends Controller
                                             "source" => $source,
                                             "tags" => $tags
                                         ];
-                                        
+
                                         // Encode the array to JSON
                                         $jsonData = json_encode(array_merge($data,$addedData));
                                         $ch = curl_init();
@@ -2304,7 +2305,7 @@ class merchantsController extends Controller
                                                 "operation_key" => $operation_key,
                                                 "tags" => $tags
                                                 ];
-                                            
+
                                             // Encode the array to JSON
                                             $jsonData = json_encode(array_merge($data,$addedData));
                                             $ch = curl_init();
@@ -2343,7 +2344,7 @@ class merchantsController extends Controller
                                                     "operation_key" => $operation_key,
                                                     "tags" => $tags
                                                     ];
-                                                
+
                                                 // Encode the array to JSON
                                                 $jsonData = json_encode(array_merge($data,$addedData));
                                                 $ch = curl_init();
@@ -2520,7 +2521,7 @@ class merchantsController extends Controller
         $data = [
             "tags" => $tags,
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -2676,7 +2677,7 @@ class merchantsController extends Controller
         $data = [
             "note" => $note
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -2706,7 +2707,7 @@ class merchantsController extends Controller
         $data = [
             "note" => $note
         ];
-        
+
         // Encode the array to JSON
         $jsonData = json_encode(array_merge($data,$addedData));
         $ch = curl_init();
@@ -2725,7 +2726,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    
+
     public static function downloadDisputeEvidence(
         $username,
         $password,
@@ -2769,7 +2770,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public function createPaymentLink( 
+    public static function createPaymentLink(
         $username,
         $password,
         $amount_type,
@@ -2827,7 +2828,7 @@ class merchantsController extends Controller
                 "tip_amount" => $tip_amount
             ]
         ];
-        
+
         // Branding details
         $branding = [
             "brand_color" => $brand_color,
@@ -2835,7 +2836,7 @@ class merchantsController extends Controller
             "logo" => $logo,
             "icon" => $icon
         ];
-        
+
         // Additional details
         $additional_details = [
             "collect_name" => $collect_name,
@@ -2849,7 +2850,7 @@ class merchantsController extends Controller
             "terms_of_service_url" => $terms_of_service_url,
             "expiration_in_minutes" => $expiration_in_minutes
         ];
-        
+
         // Create array
         $data = [
             "merchant_id" => $merchant_id,
@@ -2888,7 +2889,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    public function createPaymentLinkMinReq( 
+    public static function createPaymentLinkMinReq(
         $username,
         $password,
         $merchant_id,
@@ -2899,6 +2900,28 @@ class merchantsController extends Controller
         $description,
         $price_details,
         $quantity,
+        $amount_type,
+        $total_amount,
+        $currency,
+        $subtotal_amount,
+        $shipping_amount,
+        $estimated_tax_amount,
+        $discount_amount,
+        $tip_amount,
+        $brand_color,
+        $accent_color,
+        $logo,
+        $icon,
+        $collect_name,
+        $collect_email,
+        $collect_phone_number,
+        $collect_billing_address,
+        $collect_shipping_address,
+        $success_return_url,
+        $cart_return_url,
+        $expired_session_url,
+        $terms_of_service_url,
+        $expiration_in_minutes,
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
         $addedData=[]
@@ -2907,7 +2930,7 @@ class merchantsController extends Controller
         $data = [
             "merchant_id" => $merchant_id,
             "payment_frequency" => $payment_frequency,
-            "allowed_payment_methods" => $allowed_payment_methods,
+            "allowed_payment_methods" => [$allowed_payment_methods],
             "nickname" => $nickname,
             "items" => [
                 [
@@ -2917,7 +2940,36 @@ class merchantsController extends Controller
                     "quantity" => $quantity
                 ]
             ],
-            
+            "amount_details" => [
+                "amount_type" => $amount_type,
+                "total_amount" => $total_amount,
+                "currency" => $currency,
+                "amount_breakdown" => [
+                    "subtotal_amount" => $subtotal_amount,
+                    "shipping_amount" => $shipping_amount,
+                    "estimated_tax_amount" => $estimated_tax_amount,
+                    "discount_amount" => $discount_amount,
+                    "tip_amount" => $tip_amount,
+                    ],
+                ],
+                "branding" => [
+                    "brand_color" => $brand_color,
+                    "accent_color" => $accent_color,
+                    "logo" => $logo,
+                    "icon" => $icon,
+                    ],
+                    "additional_details" => [
+                        "collect_name" => $collect_name,
+                        "collect_email" => $collect_email,
+                        "collect_phone_number" => $collect_phone_number,
+                        "collect_billing_address" => $collect_billing_address,
+                        "collect_shipping_address" => $collect_shipping_address,
+                        "success_return_url" => $success_return_url,
+                        "cart_return_url" => $cart_return_url,
+                        "expired_session_url" => $expired_session_url,
+                        "terms_of_service_url" => $terms_of_service_url,
+                        "expiration_in_minutes" => $expiration_in_minutes,
+                        ],
         ];
         $data=array_merge($data,$addedData);
         $jsonData = json_encode($data);
@@ -3148,5 +3200,5 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    
+
 }

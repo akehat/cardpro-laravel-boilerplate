@@ -123,7 +123,7 @@
                 var getUrl = (window.location+'').split("?")[0];
                 getUrl = getUrl.endsWith("ies")?getUrl.substring(0,getUrl.length - 3) +'ys':getUrl;
                 var Url = getUrl.substring(0,getUrl.length - 1) +"/"+ obj[key];
-                link.href=Url;
+                link.href=getUrl.endsWith(obj[key])?getUrl:Url;
                 link.textContent=obj[key];
                 cell.appendChild(link);
             }else{

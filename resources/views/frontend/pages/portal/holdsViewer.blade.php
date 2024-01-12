@@ -158,14 +158,42 @@
             }
         });
         const cell = row.insertCell();
-        const button = document.createElement('button');
+        var button = document.createElement('button');
         button.textContent="return";
         button.onclick=function(){
-            var amount = prompt("Please enter return amount", obj['amount']);
+            var confirmed = confirm("Are you sure you want to void the hold?");
+            if (confirmed) {
+            $.ajax({
+            type: 'POST', // You can change the HTTP method as needed
+            url: '{{url("returnHold")}}', // Replace with your actual Laravel route
+            data: {
+                id: obj['id'],
+                _token: '{{ csrf_token() }}' // Include Laravel CSRF token
+            },
+            success: function (data) {
+                // Handle success, you can alert the user or perform other actions
+                alert('message= ' + JSON.stringify(data));
+            },
+            error: function (xhr, status, error) {
+                // Handle errors if needed
+                console.error(xhr.responseText);
+            },
+            beforeSend: function (xhr) {
+                // Set the CSRF token in the request header
+                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+            }
+        });
+    }
+        }
+        cell.appendChild(button);
+        button = document.createElement('button');
+        button.textContent="Capture";
+        button.onclick=function(){
+            var amount = prompt("Please enter capture amount", obj['amount']);
             if (amount != null) {
             $.ajax({
             type: 'POST', // You can change the HTTP method as needed
-            url: '{{url("makeReturn")}}', // Replace with your actual Laravel route
+            url: '{{url("captureHold")}}', // Replace with your actual Laravel route
             data: {
                 id: obj['id'],
                 amount: amount,

@@ -22,6 +22,9 @@ class MerchantSignUpController extends Controller
     public function getHold(){
         return view('frontend.pages.portal.testHold',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
+    public function getCheckout(){
+        return view('frontend.pages.portal.testCheckout',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+    }
     public function paymentTest(Request $request){
         $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),$request->email);
         $id=json_decode($id[0],true)['id'];
@@ -45,6 +48,55 @@ class MerchantSignUpController extends Controller
     }
     public function makeReturn(Request $request){
         return merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$request->id,["refund"=>"made"],$request->amount)[0];
+    }
+    public function captureHold(Request $request){
+        return merchantsController::captureHold(config("app.api_username"),config("app.api_password"),$request->id,$request->amount,0)[0];
+    }
+    public function returnHold(Request $request){
+        return merchantsController::releaseHold(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
+    }
+    public function checkoutTest(Request $request){
+        // dd($request);
+        return merchantsController::createPaymentLinkMinReq(config("app.api_username"),config("app.api_password"),
+        $request->merchant,
+        "ONE_TIME",
+        $request->allowed_payment_methods_0,
+        $request->nickname,
+        ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
+        "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
+        "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
+        $request->description,
+        ["sale_amount" => $request->items_0_price_details_sale_amount,
+        "currency" => $request->items_0_price_details_currency,
+         "price_type" => $request->items_0_price_details_price_type,
+        "regular_amount" => $request->items_0_price_details_regular_amount],
+        1,
+        $request->amount_details_amount_type,
+        $request->amount_details_total_amount,
+        $request->amount_details_currency,
+        $request->amount_details_amount_breakdown_subtotal_amount,
+        $request->amount_details_amount_breakdown_shipping_amount,
+        $request->amount_details_amount_breakdown_estimated_tax_amount,
+        $request->amount_details_amount_breakdown_discount_amount,
+        $request->amount_details_amount_breakdown_tip_amount,
+        $request->branding_brand_color,
+      $request->branding_accent_color,
+      $request->branding_logo,
+      $request->branding_icon,
+      $request->additional_details_collect_name??'false',
+      $request->additional_details_collect_email??'false',
+      $request->additional_details_collect_phone_number??'false',
+      $request->additional_details_collect_billing_address??'false',
+      $request->additional_details_collect_shipping_address??'false',
+      $request->additional_details_success_return_url,
+      $request->additional_details_cart_return_url,
+      $request->additional_details_expired_session_url,
+      $request->additional_details_terms_of_service_url,
+      $request->additional_details_expiration_in_minutes
+        )[0];
+    }
+    public function paylinkTest(Request $request){
+        return 0;//formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
     }
     public function signup(Request $request){
 
@@ -155,7 +207,7 @@ class MerchantSignUpController extends Controller
         return view("frontend.pages.portal.paymentsViewer",["json"=>merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function payment($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function payment_instraments(){
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
@@ -182,10 +234,10 @@ class MerchantSignUpController extends Controller
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function payments_live(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function payment_live($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function payment_instraments_live(){
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
@@ -236,16 +288,16 @@ class MerchantSignUpController extends Controller
         return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchPCIForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function holds(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listHolds(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.holdsViewer",["json"=>merchantsController::listHolds(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function hold($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchHold(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.holdsViewer",["json"=>merchantsController::fetchHold(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function holds_live(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listHolds(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.holdsViewer",["json"=>merchantsController::listHolds(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function hold_live($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchHold(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.holdsViewer",["json"=>merchantsController::fetchHold(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function checkouts(){
         return view("frontend.pages.portal.jsonViewer",["json"=>formController::listCheckoutForm(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);

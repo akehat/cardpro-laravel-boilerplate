@@ -67,7 +67,7 @@ class payfacController extends Controller
     public static function listApplicationProfiles(
         $username,
     $password,
-   
+
     $endpoint='https://finix.sandbox-payments-api.com',
     $addedQuery=[]
     ){
@@ -258,7 +258,7 @@ $endpoint='https://finix.sandbox-payments-api.com',
 $addedQuery=[]
 ){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "$endpoint/balance_transfers".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+    curl_setopt($ch, CURLOPT_URL, "$endpoint/balance_transfers/".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -513,7 +513,7 @@ $addedQuery=[]
     curl_close($ch);
     return [$response,$httpcode];
 }
-//verifications 
+//verifications
 public static function listMerchantVerification(
     $username,
 $password,

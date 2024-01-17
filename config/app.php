@@ -15,7 +15,7 @@ return [
     'api_username' => env("API_USERNAME"),
     'api_password' => env("API_PASSWORD"),
     'name' => env('APP_NAME', 'Laravel Boilerplate'),
-
+    'contact_us_email_limit' => env('NUMBER_OF_EMAILS'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -119,7 +119,9 @@ return [
     | will not be safe. Please do this before deploying an application!
     |
     */
-
+    'to_mail' => env('SUPPORT_MAIL', 'support@cardwiz.com'),
+    'from_mail' => env('SUPPORT_MAIL', 'support@cardwiz.com'),
+//    'from_mail' => env('MAIL_USERNAME'),
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',

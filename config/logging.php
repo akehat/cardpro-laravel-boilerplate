@@ -91,7 +91,11 @@ return [
             'driver' => 'errorlog',
             'level' => env('LOG_LEVEL', 'debug'),
         ],
-
+        'emails' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/emails.log'),
+            'level' => 'info',
+        ],
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,

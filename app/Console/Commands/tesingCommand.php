@@ -6,6 +6,7 @@ use App\Http\Controllers\API\finixUsersController;
 use App\Http\Controllers\API\payfacController;
 use App\Http\Controllers\API\merchantsController;
 use App\Models\ApiUser;
+use App\Models\Email;
 use Illuminate\Console\Command;
 
 class tesingCommand extends Command
@@ -107,8 +108,19 @@ class tesingCommand extends Command
         // null,'https://finix.sandbox-payments-api.com',[],["role"=>"ROLE_MERCHANT"]);
         // var_dump($update[0]);
         // $result=finixUsersController::updateAuser(config("app.api_username"),config("app.api_password"),"US8ee88MDeR4hw4SzjaVpSWm",['updateing'=>"test"],'https://finix.sandbox-payments-api.com',[],["role"=>"merchant"]);
-        $result= merchantsController::listSettlements(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',['tags.key'=>'refund']);
-        var_dump($result[0]);
+        // $result= merchantsController::listSettlements(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',['tags.key'=>'refund']);
+        // var_dump(json_decode(payfacController::listApplications(config("app.api_username"),config("app.api_password"))[0])->_embedded->applications[0]->id);
+        $email= Email::create([
+            'type' => 'Test Type',
+            'from_name' => 'Test Sender',
+            'from_email' => 'test.sender@example.com',
+            'to_email' => 'byersolomon@gmail.com', // Replace with the desired email
+            'content' => 'Test Content',
+            'title' => 'Test Title',
+        ]);
+        $email->save();
+        $email->refresh();
+        $this->info('Test data inserted into the emails table.');
                 return 0;
     }
 }

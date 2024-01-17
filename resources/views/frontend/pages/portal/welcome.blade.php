@@ -50,6 +50,7 @@
         <h2>Sidebar</h2>
         <ul>
             <li><a href="{{ url('portal/testSignup') }}">Test Signup</a></li>
+            {{-- @if(Auth::user()->hasID) --}}
             <li><a href="{{ url('portal/testPayment') }}">Test Payment</a></li>
             <li><a href="{{ url('portal/testHold') }}">Test Hold</a></li>
             <li><a href="{{ url('portal/testCheckout') }}">Test Checkout</a></li>
@@ -85,6 +86,8 @@
             <li><a href="{{ url('portal/live/disputes') }}"> Live Disputes</a></li>
             <li><a href="{{ url('portal/live/subscriptionSchedules') }}"> Live Subscription Schedules</a></li>
             <li><a href="{{ url('portal/live/subscriptionEnrollments') }}"> Live Subscription Enrollment</a></li>
+            {{-- @endif --}}
+
             <!-- Add more routes as needed -->
         </ul>
     </div>

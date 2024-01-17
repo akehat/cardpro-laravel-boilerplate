@@ -9,12 +9,17 @@ use App\Http\Controllers\API\payfacController;
 use App\Http\Controllers\API\subscriptionController;
 use Illuminate\Http\Request;
 use App\Models\ApiKey;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class MerchantSignUpController extends Controller
 {
     public function get(){
+        if(Auth::user()->hasID){
         return view('frontend.pages.portal.merchantSignUp');
+        }else{
+        return view('frontend.pages.portal.organizationSignUp');
+        }
     }
     public function getPayment(){
         return view('frontend.pages.portal.testPayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
@@ -141,17 +146,8 @@ class MerchantSignUpController extends Controller
         $request->entity_url);
         Log::info($id[0]);
         $identity=json_decode($id[0],true)['id'];
-        merchantsController::createBankAccount(config("app.api_username"),config("app.api_password"),
-        $request->bank_account_number,
-        $request->bank_account_type,
-        $request->bank_bank_code,
-        $identity,
-        $request->bank_name,
-        $request->bank_type);
         $apiKeyPrefix = "SECRET_";
-        $merchant=merchantsController::createAMerchantMinReq(config("app.api_username"),config("app.api_password"), $identity,merchantsController::$processors[0]);
-        Log::info($merchant[0]);
-        $merchantId=json_decode($merchant[0],true)["identity"];
+
         $apiKey = $apiKeyPrefix . $this->generateApiKey();
 
         // Check if the API key already exists in the database
@@ -159,6 +155,27 @@ class MerchantSignUpController extends Controller
             // If it exists, generate a new API key
             $apiKey = $apiKeyPrefix . $this->generateApiKey();
         }
+        // if(!Auth::user()->hasID){
+        //     $application=json_decode(payfacController::listApplications(config("app.api_username"),config("app.api_password"))[0])->_embedded->applications[0]->id;
+        //     $user = finixUsersController::createAUser(config("app.api_username"),config("app.api_password"), $application,'https://finix.sandbox-payments-api.com',[],
+        //     ["role"=> "ROLE_MERCHANT",
+        //     "identity_id"=> $identity]
+        // );
+            // $user=Auth::user();
+        //     Log::info($user[0]);
+
+        //     return back();
+        // }
+        merchantsController::createBankAccount(config("app.api_username"),config("app.api_password"),
+        $request->bank_account_number,
+        $request->bank_account_type,
+        $request->bank_bank_code,
+        $identity,
+        $request->bank_name,
+        $request->bank_type);
+        $merchant=merchantsController::createAMerchantMinReq(config("app.api_username"),config("app.api_password"), $identity,merchantsController::$processors[0]);
+        Log::info($merchant[0]);
+        $merchantId=json_decode($merchant[0],true)["identity"];
         $api = ApiKey::create([
             'api_key' =>  $apiKey,
             'merchant_id' => $merchantId, // Associate with the merchant

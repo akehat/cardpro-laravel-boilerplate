@@ -31,8 +31,8 @@ class Finix_Disputes extends Model
             if ($found == null) {
                 $found = self::create([
                     'finix_id' => $data->id ?? null,
-                    'created_at' => $data->created_at ?? null,
-                    'updated_at' => $data->updated_at ?? null,
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
                     'action' => $data->action ?? null,
                     'amount' => $data->amount ?? null,
                     'application' => $data->application ?? null,
@@ -49,8 +49,8 @@ class Finix_Disputes extends Model
             } else {
                 $found->update([
                     'finix_id' => $data->id ?? null,
-                    'created_at' => $data->created_at ?? null,
-                    'updated_at' => $data->updated_at ?? null,
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
                     'action' => $data->action ?? null,
                     'amount' => $data->amount ?? null,
                     'application' => $data->application ?? null,

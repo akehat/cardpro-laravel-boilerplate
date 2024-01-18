@@ -27,12 +27,13 @@ class finixUsersController extends Controller
         ]);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, '{}');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         return [$response,$httpcode];
     }
+
     public static function listAllUsers(
         $username,
         $password,
@@ -78,7 +79,7 @@ class finixUsersController extends Controller
         $username,
         $password,
         $id,
-        $tag_array,//assoc array a =>b 
+        $tag_array,//assoc array a =>b
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
         $addedData=[]
@@ -104,7 +105,7 @@ class finixUsersController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    
+
     // public static function createADevice(
     //     $username,
     //     $password,

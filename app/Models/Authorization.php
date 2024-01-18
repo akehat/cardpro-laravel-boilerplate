@@ -31,8 +31,8 @@ class Authorization extends Model
             if ($found == null) {
                 $found = self::create([
                     'finix_id' => $data->id ?? null,
-                    'created_at' => $data->created_at ?? null,
-                    'updated_at' => $data->updated_at ?? null,
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
                     '3ds_redirect_url' => $data->{'3ds_redirect_url'} ?? null,
                     'additional_buyer_charges' => $data->additional_buyer_charges ?? null,
                     'additional_healthcare_data' => $data->additional_healthcare_data ?? null,
@@ -61,8 +61,8 @@ class Authorization extends Model
                 ]);
             } else {
                 $found->update([
-                    'created_at' => $data->created_at ?? null,
-                    'updated_at' => $data->updated_at ?? null,
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
                     '3ds_redirect_url' => $data->{'3ds_redirect_url'} ?? null,
                     'additional_buyer_charges' => $data->additional_buyer_charges ?? null,
                     'additional_healthcare_data' => $data->additional_healthcare_data ?? null,

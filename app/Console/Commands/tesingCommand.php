@@ -124,7 +124,8 @@ class tesingCommand extends Command
         // ]);
         // $email->save();
         // $email->refresh();        identities::runUpdate();
-        dd(identities::all());
+        $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"));
+        $object=json_decode($result[0]);
                 return 0;
     }
 }

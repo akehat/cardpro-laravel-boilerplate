@@ -8,6 +8,7 @@ use App\Http\Controllers\API\merchantsController;
 use App\Models\ApiUser;
 use App\Models\applications;
 use App\Models\Email;
+use App\Models\identities;
 use App\Models\payment_ways;
 use App\Models\settlements;
 use Illuminate\Console\Command;
@@ -122,8 +123,8 @@ class tesingCommand extends Command
         //     'title' => 'Test Title',
         // ]);
         // $email->save();
-        // $email->refresh();
-        applications::runUpdate();
+        // $email->refresh();        identities::runUpdate();
+        dd(identities::all());
                 return 0;
     }
 }

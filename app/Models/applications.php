@@ -20,14 +20,13 @@ class applications extends Model
          $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
-        dd(finix_users::all());
      }
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
-            $found=finix_users::where('finix_id',$value->id)->first();
+            $found=applications::where('finix_id',$value->id)->first();
             if($found==null){
-                $found=finix_users::create([
+                $found=applications::create([
                     'finix_id'=>$value->id,
                     'card_cvv_required'=>$value->card_cvv_required??null,
                     'card_expiration_date_required'=>$value->card_expiration_date_required??null,

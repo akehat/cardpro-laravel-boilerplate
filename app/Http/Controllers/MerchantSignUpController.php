@@ -15,11 +15,10 @@ use Illuminate\Support\Facades\Log;
 class MerchantSignUpController extends Controller
 {
     public function get(){
-        if(Auth::user()->hasID){
         return view('frontend.pages.portal.merchantSignUp');
-        }else{
-        return view('frontend.pages.portal.organizationSignUp');
-        }
+    }
+    public function getFeeForm(){
+        return view('frontend.pages.portal.feeProfileAdmin');
     }
     public function getPayment(){
         return view('frontend.pages.portal.testPayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
@@ -39,6 +38,23 @@ class MerchantSignUpController extends Controller
         $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$request->merchant,$request->currency,$request->amount_in_cents,$card);
         session()->flash('success', json_encode($payment[0]));
         return redirect()->back();
+    }
+    public function feeProfileTest(Request $request){
+        $application=json_decode(payfacController::listApplications(config("app.api_username"),config("app.api_password"))[0])->_embedded->applications[0]->id;
+        $id=merchantsController::createFeeProfile(config("app.api_username"),config("app.api_password"),
+        $request->ach_basis_points,
+        $request->ach_fixed_fee,
+        $application,
+        $request->basis_points,
+        $request->card_cross_border_basis_points,
+        $request->card_cross_border_fixed_fee,
+        $request->charge_interchange??false,
+        $request->fixed_fee,
+        ['test'=>"made"]
+    );
+    session()->flash('success', json_encode($id[0]));
+        return redirect()->back();
+
     }
     public function holdTest(Request $request){
         // dd($request);

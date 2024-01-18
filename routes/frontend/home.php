@@ -47,6 +47,7 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::get('portal', [HomeController::class, 'dashboard'])
     ->name('dashboard');
     Route::get("portal/testSignup",[MerchantSignUpController::class, 'get']);
+    Route::get("portal/testFee",[MerchantSignUpController::class, 'getFeeForm']);
     Route::get("portal/testCheckout",[MerchantSignUpController::class, 'getCheckout']);
     Route::get("portal/testPaylink",[MerchantSignUpController::class, 'getPaylink']);
     Route::get("portal/testPayment",[MerchantSignUpController::class, 'getPayment']);
@@ -131,6 +132,7 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::post("checkoutTest",[MerchantSignUpController::class, 'checkoutTest']);
     Route::post("paylinkTest",[MerchantSignUpController::class, 'paylinkTest']);
     Route::post("holdTest",[MerchantSignUpController::class, 'holdTest']);
+    Route::post("feeTest",[MerchantSignUpController::class, 'feeProfileTest']);
     Route::post("captureHold",[MerchantSignUpController::class, 'captureHold']);
     Route::post("returnHold",[MerchantSignUpController::class, 'returnHold']);
     });

@@ -48,8 +48,12 @@
                     <li><a href="{{ route('frontend.dashboard') }}" id="navLink">Dashboard</a></li>
                     <li><a href="{{ route('frontend.pricing') }}" id="navLink">Request A Demo</a></li>
                     <li><a href="{{ route('frontend.contact') }}" id="navLink">Contact</a></li>
+                    @if(Auth::user()==null)
                     <li><a href="{{ route('frontend.signup') }}" id="navLink">Sign Up</a></li>
                     <li><a href="{{ route('frontend.signin') }}" id="navLink">Sign In</a></li>
+                    @else
+                    <li><a href="{{ route('frontend.auth.logout')}}" id="navLink">Log out</a></li>
+                    @endif
                 </ul>
             </div><!--navbar-collapse-->
         </div><!--container-->

@@ -2,14 +2,26 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class payment_ways extends Model
 {
     use HasFactory;
     protected $table="payment_ways";
     protected $guarded=['id'];
+    public static function runUpdate(){
+       $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"));
+       $object=json_decode($result[0]);
+       while(isset($object->_embedded)&&isset($object->_embedded->payment_instruments)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->payment_instruments)>0){
+        payment_ways::fromArray($object->_embedded->payment_instruments);
+        $nextArray=['after_cursor'=>$object->page->next_cursor];
+        $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+        $object=json_decode($result[0]);
+       }
+    }
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;

@@ -231,7 +231,9 @@
             <!-- Right Section with Login Card -->
             <div class="right-section">
             <div class="login-card">
+
             <img src="{{ asset('img/logo.png') }}" alt="Card Wiz Pro" height="100">
+            @if(Auth::user()==null)
             <h2>Login</h2>
             <form method="post" action="{{route('frontend.auth.login')}}" class="form-horizontal">
                 {{ csrf_field() }}
@@ -249,6 +251,12 @@
                 <button type="submit">Login</button>
             </form>
             <a href="{{route('frontend.auth.password.request')}}">Forgot Your Password?</a>
+            @else
+            <ul style="padding: 100px">
+            <li><a href="{{ route('frontend.dashboard') }}" id="navLink">Dashboard</a></li>
+            <li><a href="{{ route('frontend.auth.logout')}}" id="navLink">Log out</a></li>
+            </ul>
+            @endif
         </div>
         <div class="text-center"></div>
     </form>

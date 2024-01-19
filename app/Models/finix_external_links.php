@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\API\fileController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +12,16 @@ class finix_external_links extends Model
     protected $table="finix_external_links";
     protected $guarded=['id'];
 
-
+    public static function runUpdateWithID($id){
+        $result= fileController::listAllexternalLinks(config("app.api_username"),config("app.api_password"),$id);
+        $object=json_decode($result[0]);
+        while(isset($object->_embedded)&&isset($object->_embedded->external_links)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->external_links)>0){
+            self::fromArray($object->_embedded->external_links);
+         $nextArray=['after_cursor'=>$object->page->next_cursor];
+         $result= fileController::listAllexternalLinks(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$nextArray);
+         $object=json_decode($result[0]);
+        }
+     }
 public static function fromArray(array $array)
 {
     foreach ($array as $data) {

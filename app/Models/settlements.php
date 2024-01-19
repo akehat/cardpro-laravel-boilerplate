@@ -43,7 +43,7 @@ class settlements extends Model
                 'tags'=>json_encode($value->tags??[])??null,
                 ]);
             }else{
-                $found::update([
+                $found->update([
                     'created_at_finix'=>$value->created_at??null,
                     'updated_at_finix'=>$value->updated_at??null,
                     'application'=>$value->application??null,

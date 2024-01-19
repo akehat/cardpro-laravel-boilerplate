@@ -62,7 +62,7 @@ class payment_ways extends Model
                 'transit_number'=>$value->transit_number??null
                 ]);
             }else{
-                $found::update([
+                $found->update([
                     'finix_id'=>$value->id??null,
                      'created_at_finix'=>$value->created_at??null,
                      'updated_at_finix'=>$value->updated_at??null,

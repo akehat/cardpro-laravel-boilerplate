@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('activitylog:clean')->daily();
         $schedule->command('cron:sendemails')->everyMinute();
+        $schedule->command('update:db')->everyThirtyMinutes();
 
     }
 

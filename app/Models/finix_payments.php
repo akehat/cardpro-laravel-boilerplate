@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,16 @@ class finix_payments extends Model
     use HasFactory;
     protected $table="finix_payments";
     protected $guarded=['id'];
+    public static function runUpdate(){
+        $result= merchantsController::listPayments(config("app.api_username"),config("app.api_password"));
+        $object=json_decode($result[0]);
+        while(isset($object->_embedded)&&isset($object->_embedded->transfers)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->transfers)>0){
+            self::fromArray($object->_embedded->transfers);
+         $nextArray=['after_cursor'=>$object->page->next_cursor];
+         $result= merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $object=json_decode($result[0]);
+        }
+     }
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
@@ -35,7 +46,7 @@ class finix_payments extends Model
                     'idempotency_id'=>$value->idempotency_id??null,
                     'merchant'=>$value->merchant??null,
                     'merchant_identity'=>$value->merchant_identity??null,
-                    'messages'=>$value->messages??null,
+                    'messages'=>json_encode($value->messages??[])??null,
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
@@ -43,17 +54,17 @@ class finix_payments extends Model
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,
-                    'split_transfers'=>$value->split_transfers??null,
+                    'split_transfers'=>json_encode($value->split_transfers??[])??null,
                     'state'=>$value->state??null,
                     'statement_descriptor'=>$value->statement_descriptor??null,
                     'subtype'=>$value->subtype??null,
-                    'tags'=>json_encode($value->tags)??null,
+                    'tags'=>json_encode($value->tags??[])??null,
                     'trace_id'=>$value->trace_id??null,
                     'type'=>$value->type??null,
                     'fee_type'=>$value->fee_type??null
                 ]);
             }else{
-                $found::update([
+                $found->update([
                     'finix_id'=>$value->id??null,
                     'created_at_finix'=>$value->created_at??null,
                     'updated_at_finix'=>$value->updated_at??null,
@@ -73,7 +84,7 @@ class finix_payments extends Model
                     'idempotency_id'=>$value->idempotency_id??null,
                     'merchant'=>$value->merchant??null,
                     'merchant_identity'=>$value->merchant_identity??null,
-                    'messages'=>$value->messages??null,
+                    'messages'=>json_encode($value->messages??[])??null,
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
@@ -81,11 +92,11 @@ class finix_payments extends Model
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,
-                    'split_transfers'=>$value->split_transfers??null,
+                    'split_transfers'=>json_encode($value->split_transfers??[])??null,
                     'state'=>$value->state??null,
                     'statement_descriptor'=>$value->statement_descriptor??null,
                     'subtype'=>$value->subtype??null,
-                    'tags'=>json_encode($value->tags)??null,
+                    'tags'=>json_encode($value->tags??[])??null,
                     'trace_id'=>$value->trace_id??null,
                     'type'=>$value->type??null,
                     'fee_type'=>$value->fee_type??null

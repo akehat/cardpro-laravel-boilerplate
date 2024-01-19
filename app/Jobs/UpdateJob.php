@@ -2,12 +2,17 @@
 
 namespace App\Jobs;
 
+use Error;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class UpdateJob implements ShouldQueue
 {
@@ -30,6 +35,34 @@ class UpdateJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $modelsPath = app_path('Models');
+
+        if (File::isDirectory($modelsPath)) {
+            $files = File::allFiles($modelsPath);
+
+            foreach ($files as $file) {
+                $modelClass = $this->getModelNamespace($file);
+
+                if (class_exists($modelClass) && method_exists($modelClass, 'runUpdate')) {
+                    Log::info("Executing runUpdate on $modelClass");
+                    try{
+                    $modelClass::runUpdate();
+                    }catch(Exception | Error $e){
+                        Log::info($e->getMessage());
+                    }
+                }
+            }
+        } else {
+            Log::error("Models directory not found.");
+        }
+    }
+
+    protected function getModelNamespace($file)
+    {
+        $namespace = 'App\\Models';
+
+        $class = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+
+        return $namespace . '\\' . $class;
     }
 }

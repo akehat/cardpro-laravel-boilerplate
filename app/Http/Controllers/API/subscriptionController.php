@@ -212,19 +212,18 @@ class subscriptionController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
-    
+
     //subscription amount
 
     public static function listSubscriptionAmounts(
         $username,
     $password,
     $sub_id,
-    $amount_id,
     $endpoint='https://finix.sandbox-payments-api.com',
     $addedQuery=[]
     ){
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "$endpoint/subscription/subscription_schedules/$sub_id/subscription_amounts/$amount_id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+        curl_setopt($ch, CURLOPT_URL, "$endpoint/subscription/subscription_schedules/$sub_id/subscription_amounts/".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [

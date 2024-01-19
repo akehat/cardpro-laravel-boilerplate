@@ -35,8 +35,8 @@ class payoutProfile extends Model
                     'finix_updated_at' => $data->updated_at ?? null,
                     'linked_id' => $data->linked_id ?? null,
                     'linked_type' => $data->linked_type ?? null,
-                    'gross' => json_encode($data->gross) ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'gross' => json_encode($data->gross??[]) ?? null,
+                    'tags' => json_encode($data->tags??[]) ?? null,
                     'type' => $data->type ?? null,
                 ]);
             } else {
@@ -45,8 +45,8 @@ class payoutProfile extends Model
                     'finix_updated_at' => $data->updated_at ?? null,
                     'linked_id' => $data->linked_id ?? null,
                     'linked_type' => $data->linked_type ?? null,
-                    'gross' => json_encode($data->gross) ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'gross' => json_encode($data->gross??[]) ?? null,
+                    'tags' => json_encode($data->tags??[]) ?? null,
                     'type' => $data->type ?? null,
                 ]);
             }

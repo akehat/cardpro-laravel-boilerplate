@@ -42,7 +42,7 @@ class applications extends Model
                 ]);
 
             }else{
-                $found::update([
+                $found->update([
                     'finix_id'=>$value->id,
                     'card_cvv_required'=>$value->card_cvv_required??null,
                     'card_expiration_date_required'=>$value->card_expiration_date_required??null,

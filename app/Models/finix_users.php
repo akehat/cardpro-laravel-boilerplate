@@ -20,7 +20,6 @@ class finix_users extends Model
          $result= finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
-        dd(finix_users::all());
      }
     public static function fromArray($array){
         foreach ($array as $value) {

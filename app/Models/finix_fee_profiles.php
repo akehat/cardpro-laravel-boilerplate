@@ -82,7 +82,7 @@ class finix_fee_profiles extends Model
                 'visa_kilobyte_access_fixed_fee' => $value->visa_kilobyte_access_fixed_fee ?? null,
             ]);
             }else{
-                $found::update([
+                $found->update([
                     'finix_id' => $value->id ?? null,
                     'ach_basis_points' => $value->ach_basis_points ?? null,
                     'ach_credit_return_fixed_fee' => $value->ach_credit_return_fixed_fee ?? null,

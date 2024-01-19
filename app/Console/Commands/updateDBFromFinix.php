@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\UpdateJob;
 use Illuminate\Console\Command;
 
 class updateDBFromFinix extends Command
@@ -11,7 +12,7 @@ class updateDBFromFinix extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'update:db';
 
     /**
      * The console command description.
@@ -37,6 +38,9 @@ class updateDBFromFinix extends Command
      */
     public function handle()
     {
+        $updateJob = new UpdateJob();
+        // Dispatch the job
+        dispatch($updateJob);
         return 0;
     }
 }

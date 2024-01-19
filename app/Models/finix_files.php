@@ -61,7 +61,7 @@ class finix_files extends Model
             // Save and refresh the model
             $found->save();
             $found->refresh();
-            finix_external_links::runUpdate($found->id);
+            finix_external_links::runUpdateWithID($found->finix_id);
         }
     }
 }

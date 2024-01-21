@@ -78,6 +78,45 @@ class MerchantSignUpController extends Controller
     }
     public function checkoutTest(Request $request){
         // dd($request);
+        return formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),
+        $request->amount_details_amount_type,
+        $request->amount_details_total_amount,
+        $request->amount_details_currency,
+        null,null,
+        $request->amount_details_amount_breakdown_subtotal_amount,
+        $request->amount_details_amount_breakdown_shipping_amount,
+        $request->amount_details_amount_breakdown_estimated_tax_amount,
+        $request->amount_details_amount_breakdown_discount_amount,
+        $request->amount_details_amount_breakdown_tip_amount,
+        $request->branding_brand_color,
+        $request->branding_accent_color,
+        $request->branding_logo,
+        $request->branding_icon,
+        $request->additional_details_collect_name??'false',
+        $request->additional_details_collect_email??'false',
+        $request->additional_details_collect_phone_number??'false',
+        $request->additional_details_collect_phone_number??'false',
+        $request->additional_details_collect_billing_address??'false',
+        $request->additional_details_collect_shipping_address??'false',
+        $request->additional_details_success_return_url,
+      $request->additional_details_cart_return_url,
+        $request->additional_details_expired_session_url,
+        $request->additional_details_terms_of_service_url,
+        $request->merchant,
+        [$request->allowed_payment_methods_0],
+        $request->nickname,
+        ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
+        "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
+        "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
+        $request->description,
+        ["sale_amount" => $request->items_0_price_details_sale_amount,
+        "currency" => $request->items_0_price_details_currency,
+         "price_type" => $request->items_0_price_details_price_type,
+        "regular_amount" => $request->items_0_price_details_regular_amount],
+        1,'IDsYp3gxHLxkTrVgTuhwz3K6'
+        )[0];
+    }
+    public function paylinkTest(Request $request){
         return merchantsController::createPaymentLinkMinReq(config("app.api_username"),config("app.api_password"),
         $request->merchant,
         "ONE_TIME",
@@ -114,10 +153,7 @@ class MerchantSignUpController extends Controller
       $request->additional_details_expired_session_url,
       $request->additional_details_terms_of_service_url,
       $request->additional_details_expiration_in_minutes
-        )[0];
-    }
-    public function paylinkTest(Request $request){
-        return 0;//formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
+        )[0];//formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
     }
     public function signup(Request $request){
 

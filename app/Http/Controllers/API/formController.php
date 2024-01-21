@@ -33,9 +33,7 @@ class formController extends Controller
         $cart_return_url,
         $expired_session_url,
         $terms_of_service_url,
-        $expiration_in_minutes,
         $merchant_id,
-        $payment_frequency,
         $is_multiple_use,
         $allowed_payment_methods,
         $nickname,
@@ -44,9 +42,6 @@ class formController extends Controller
         $price_details,
         $quantity,
         $buyer,
-        $amount_details,
-        $branding,
-        $additional_details,
         $endpoint='https://finix.sandbox-payments-api.com',
         $addedQuery=[],
         $addedData=[]
@@ -85,13 +80,12 @@ class formController extends Controller
             "cart_return_url" => $cart_return_url,
             "expired_session_url" => $expired_session_url,
             "terms_of_service_url" => $terms_of_service_url,
-            "expiration_in_minutes" => $expiration_in_minutes
         ];
 
         // Create array
         $data = [
             "merchant_id" => $merchant_id,
-            "payment_frequency" => $payment_frequency,
+            "payment_frequency" => 'ONE_TIME',
             "is_multiple_use" => $is_multiple_use,
             "allowed_payment_methods" => $allowed_payment_methods,
             "nickname" => $nickname,

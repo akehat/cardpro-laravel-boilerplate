@@ -142,4 +142,26 @@ class identities extends Model
             return ['worked'=>false,"responce"=>$merchant[0]];
         }
     }
+       public static function makeBuyerIdentity($email,$userID,$api_userID,$islive=false,$apikeyID=0){
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $buyer=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),$email,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+        if($buyer[1]>=200&&$buyer[1]<300){
+        $value=(object)json_decode($buyer[0]);
+        $buyerMade=self::create([
+            'application'=>$value->application??null,
+            'entity'=>json_encode($value->entity??[])??null,
+            'identity_roles'=>json_encode($value->identity_roles??[])??null,
+            'tags'=>json_encode($value->tags??[])??null,
+            'finix_id'=>$value->id??null,
+            'api_user'=>$api_userID??null,
+            'is_live'=>$islive??null,
+            "api_key"=>''.$apikeyID
+        ]);
+        $buyerMade->save();
+        $buyerMade->refresh();
+            return ['worked'=>true,"responce"=>$buyer[0],"ref"=>$buyerMade];
+        }else{
+            return ['worked'=>false,"responce"=>$buyer[0]];
+        }
+    }
 }

@@ -160,6 +160,7 @@ public static function makeMerchant($merchantIdentity,$userID,$api_userID,$isliv
 'live'=>$islive,
 'merchant_id'=>$merchantMade->id,
 'balance'=>0,
+'api_user'=>$api_userID
 ]);
 $key->save();
 $key->refresh();

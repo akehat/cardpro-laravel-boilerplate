@@ -2750,7 +2750,7 @@ class merchantsController extends Controller
         return [$response,$httpcode];
     }
     //payment links
-    public static function listPymentLink(
+    public static function listPaymentLink(
         $username,
         $password,
         $endpoint='https://finix.sandbox-payments-api.com',

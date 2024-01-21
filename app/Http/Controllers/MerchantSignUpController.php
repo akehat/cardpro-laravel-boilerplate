@@ -351,13 +351,13 @@ class MerchantSignUpController extends Controller
         return view("frontend.pages.portal.jsonViewer",["json"=>formController::fetchOnBoardingForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function paymentLinks(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPymentLink(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPaymentLink(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function paymentLink($id){
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPaymentLink(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function paymentLinks_live(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPymentLink(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPaymentLink(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function paymentLink_live($id){
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPaymentLink(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com',request()->query())[0]]);

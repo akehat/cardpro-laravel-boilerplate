@@ -11,6 +11,10 @@ class identities extends Model
     use HasFactory;
     protected $table="identities";
     protected $guarded=['id'];
+    public static $name='identities';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= merchantsController::listIdentities(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

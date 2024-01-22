@@ -11,7 +11,10 @@ class finix_payment_links extends Model
     use HasFactory;
     protected $table="finix_payment_links";
     protected $guarded=['id'];
-
+    public static $name='payment_links';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(merchantsController::fetchPaymentLink(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= merchantsController::listPaymentLink(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);
@@ -77,6 +80,7 @@ class finix_payment_links extends Model
         $found->save();
         $found->refresh();
     }
+
 }
 
 }

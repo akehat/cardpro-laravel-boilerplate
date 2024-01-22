@@ -11,7 +11,10 @@ class finix_external_links extends Model
     use HasFactory;
     protected $table="finix_external_links";
     protected $guarded=['id'];
-
+    public static $name='external_links';
+    public static function updateFromIds($file_id,$id){
+       self::fromArray([json_decode(fileController::fetchExternalFile(config("app.api_username"),config("app.api_password"),$file_id,$id)[0])]);
+    }
     public static function runUpdateWithID($id){
         $result= fileController::listAllexternalLinks(config("app.api_username"),config("app.api_password"),$id);
         $object=json_decode($result[0]);

@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class finix_payments extends Model
 {
     use HasFactory;
+    public static $name='transfers';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     protected $table="finix_payments";
     protected $guarded=['id'];
     public static function runUpdate(){

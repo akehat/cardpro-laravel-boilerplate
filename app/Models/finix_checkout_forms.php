@@ -11,6 +11,10 @@ class finix_checkout_forms extends Model
     use HasFactory;
     protected $table="finix_checkout_forms";
     protected $guarded=['id'];
+    public static $name='checkout_forms';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(formController::fetchCheckoutForm(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= formController::listCheckoutForm(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

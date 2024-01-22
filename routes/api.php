@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\RoutesController;
+use App\Http\Controllers\API\webhooksController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/listPayments', [RoutesController::class, 'listPayments' ]);
@@ -130,3 +131,4 @@ Route::post('/cardwiz/subscriptions/{id}', [RoutesController::class,'updateSubsc
 Route::get('/cardwiz/subscriptions/{id}', [RoutesController::class,'getSubscription' ]);
 Route::get('/cardwiz/subscriptions', [RoutesController::class,'getSubscriptions' ]);
 Route::get('/cardwiz/subscriptions/search', [RoutesController::class,'subscriptions_search' ]);
+Route::post('websocket', [webhooksController::class,'webhookUpdateRoute' ]);

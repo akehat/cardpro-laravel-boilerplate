@@ -11,6 +11,10 @@ class subscription_enrollments extends Model
     use HasFactory;
     protected $table="subscription_enrollments";
     protected $guarded=['id'];
+    public static $name='subscription_enrollments';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(subscriptionController::fetchSubscriptionEnrollment(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= subscriptionController::listSubscriptionEnrollments(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

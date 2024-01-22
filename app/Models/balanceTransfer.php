@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class balanceTransfer extends Model
 {
     use HasFactory;
-    protected $table = 'authorizations';
+    protected $table = 'finix_balance_transfers';
     protected $guarded = ['id'];
+    public static $name='balance_transfers';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(payfacController::fetchBalanceTransfers(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= payfacController::listBalanceTransfers(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

@@ -11,6 +11,10 @@ class finix_fee_profiles extends Model
     use HasFactory;
     protected $table="finix_fee_profiles";
     protected $guarded=['id'];
+    public static $name='fee_profiles';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(merchantsController::fetchFeeProfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= merchantsController::listFeeProfile(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

@@ -11,6 +11,10 @@ class subscription_amounts extends Model
     use HasFactory;
     protected $table="subscription_amounts";
     protected $guarded=['id'];
+    public static $name='subscription_amounts';
+    public static function updateFromIds($sub_id,$amount_id){
+        self::fromArray([json_decode(subscriptionController::fetchSubscriptionAmount(config("app.api_username"),config("app.api_password"),$sub_id,$amount_id)[0])]);
+     }
     public static function runUpdateWithID($sub_id){
         $result= subscriptionController::listSubscriptionAmounts(config("app.api_username"),config("app.api_password"),$sub_id);
         $object=json_decode($result[0]);

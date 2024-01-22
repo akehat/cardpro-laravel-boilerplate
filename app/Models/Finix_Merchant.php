@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Finix_Merchant extends Model
 {
+    public static $name='merchants';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     use HasFactory;
     protected $table="finix_merchants";
     protected $guarded=['id'];

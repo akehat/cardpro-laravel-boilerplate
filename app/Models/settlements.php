@@ -11,6 +11,10 @@ class settlements extends Model
     use HasFactory;
     protected $table="settlements";
     protected $guarded=['id'];
+    public static $name='settlements';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(merchantsController::fetchSettlement(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= merchantsController::listSettlements(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

@@ -11,6 +11,10 @@ class Finix_Disputes extends Model
     use HasFactory;
     protected $table="finix_disputes";
     protected $guarded=['id'];
+    public static $name='disputes';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(merchantsController::fetchDispute(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= merchantsController::listDisputes(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

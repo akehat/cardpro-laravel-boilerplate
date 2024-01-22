@@ -11,6 +11,9 @@ class merchantProfile extends Model
     use HasFactory;
     protected $table="finix_merchant_profiles";
     protected $guarded=['id'];
+    public static function updateFromId($id){
+        self::fromArray([json_decode(payfacController::fetchMerchantProfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= payfacController::listMerchantProfiles(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

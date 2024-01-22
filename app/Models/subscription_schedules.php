@@ -12,6 +12,10 @@ class subscription_schedules extends Model
     use HasFactory;
     protected $table="subscription_schedules";
     protected $guarded=['id'];
+    public static $name='subscription_schedules';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(subscriptionController::fetchSubscriptionSchedule(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= subscriptionController::listSubscriptionSchedule(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

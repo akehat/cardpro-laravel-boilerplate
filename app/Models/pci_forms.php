@@ -11,6 +11,10 @@ class pci_forms extends Model
     use HasFactory;
     protected $table="pci_forms";
     protected $guarded=['id'];
+    public static $name='compliance_forms';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(formController::fetchPCIForm(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= formController::listPCIforms(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

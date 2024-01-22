@@ -11,6 +11,10 @@ class finix_files extends Model
     use HasFactory;
     protected $table="finix_files";
     protected $guarded=['id'];
+    public static $name='files';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(fileController::fetchAfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= fileController::listAllFiles(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

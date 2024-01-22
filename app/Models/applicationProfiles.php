@@ -11,6 +11,10 @@ class applicationProfiles extends Model
     use HasFactory;
     protected $table='finix_application_profiles';
     protected $guarded=['id'];
+    public static $name='application_profiles';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(payfacController::fetchApplicationProfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= payfacController::listApplicationProfiles(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

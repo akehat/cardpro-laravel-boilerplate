@@ -11,6 +11,10 @@ class verifications extends Model
     use HasFactory;
     protected $table="finix_verifications";
     protected $guarded=['id'];
+    public static $name='verifications';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(payfacController::fetchVerifications(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
         $result= payfacController::listVerifications(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

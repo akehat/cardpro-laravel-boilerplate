@@ -11,6 +11,10 @@ class applications extends Model
     use HasFactory;
     protected $table = 'applications';
     protected $guarded = ['id'];
+    public static $name='applications';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(payfacController::fetchApplication(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

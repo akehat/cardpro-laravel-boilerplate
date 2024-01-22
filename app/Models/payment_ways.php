@@ -12,6 +12,10 @@ class payment_ways extends Model
     use HasFactory;
     protected $table="payment_ways";
     protected $guarded=['id'];
+    public static $name='payment_instruments';
+    public static function updateFromId($id){
+        self::fromArray([json_decode(merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id)[0])]);
+     }
     public static function runUpdate(){
        $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"));
        $object=json_decode($result[0]);

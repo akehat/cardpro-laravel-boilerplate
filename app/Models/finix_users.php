@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class finix_users extends Model
 {
     use HasFactory;
+    public static $name='users';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(finixUsersController::fetchAUser(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     protected $table="finix_users";
     protected $guarded=['id'];
     public static function runUpdate(){

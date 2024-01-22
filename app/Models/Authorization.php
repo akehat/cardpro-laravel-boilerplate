@@ -11,6 +11,10 @@ class Authorization extends Model
     use HasFactory;
     protected $table = 'authorizations';
     protected $guarded = ['id'];
+    public static $name='authorizations';
+    public static function updateFromId($id){
+       self::fromArray([json_decode(merchantsController::fetchHold(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
         $result= merchantsController::listHolds(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);

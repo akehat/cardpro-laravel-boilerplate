@@ -158,7 +158,7 @@ class webhooksController extends Controller
 
                 foreach ($files as $file) {
                     $modelClass = $this->getModelNamespace($file);
-                    if(class_exists($modelClass) && array_keys((array)$eventData->_embedded)[0]==$modelClass::$name){
+                    if(class_exists($modelClass) && isset($modelClass::$name) && array_keys((array)$eventData->_embedded)[0]==$modelClass::$name){
                         foreach($eventData->_embedded->{$modelClass::$name} as $item){
                             $item=(object)$item;
                         if (method_exists($modelClass, 'updateFromId')) {

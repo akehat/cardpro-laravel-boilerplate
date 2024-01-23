@@ -16,6 +16,7 @@ return [
     'api_password' => env("API_PASSWORD"),
     'api_webhook_username' => env("API_WEBHOOK_USERNAME"),
     'api_webhook_password' => env("API_WEBHOOK_PASSWORD"),
+    'full_home_url' => env('FULL_HOME_URL'),
     'name' => env('APP_NAME', 'Laravel Boilerplate'),
     'contact_us_email_limit' => env('NUMBER_OF_EMAILS'),
     /*

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\API\webhooksController;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\URL;
 
 class registerWebhook extends Command
 {
@@ -50,6 +51,7 @@ class registerWebhook extends Command
                     ],
                 ],
             ];
+        URL::forceRootUrl(config('app.full_home_url'));
         webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),url('/api/websocket'),'https://finix.sandbox-payments-api.com',[],$addedData);
         return 0;
     }

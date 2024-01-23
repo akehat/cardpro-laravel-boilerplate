@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\API\merchantsController;
+use Doctrine\DBAL\Query;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -98,6 +99,75 @@ class Authorization extends Model
             // Save and refresh the model
             $found->save();
             $found->refresh();
+        }
+    }
+    public static function makeHold($merchant,$currency,$amount_in_cents,$card,$userID,$api_userID,$islive=false,$apikeyID=0){
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $hold=merchantsController::createHoldMinReq(config("app.api_username"),config("app.api_password"),$amount_in_cents,$currency,$merchant,$card,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+        if($hold[1]>=200&&$hold[1]<300){
+        $value=(object)json_decode($hold[0]);
+        $holdMade=self::create([
+            'finix_id' => $value->id ?? null,
+            'finix_created_at' => $value->created_at ?? null,
+            'finix_updated_at' => $value->updated_at ?? null,
+            '3ds_redirect_url' => $value->{'3ds_redirect_url'} ?? null,
+            'additional_buyer_charges' => $value->additional_buyer_charges ?? null,
+            'additional_healthcare_value' => $value->additional_healthcare_value ?? null,
+            'address_verification' => $value->address_verification ?? null,
+            'amount' => $value->amount ?? null,
+            'amount_requested' => $value->amount_requested ?? null,
+            'application' => $value->application ?? null,
+            'card_present_details' => json_encode($value->card_present_details) ?? null,
+            'currency' => $value->currency ?? null,
+            'device' => $value->device ?? null,
+            'expires_at' => $value->expires_at ?? null,
+            'failure_code' => $value->failure_code ?? null,
+            'failure_message' => $value->failure_message ?? null,
+            'idempotency_id' => $value->idempotency_id ?? null,
+            'is_void' => $value->is_void ?? false,
+            'merchant_identity' => $value->merchant_identity ?? null,
+            'messages' => json_encode($value->messages) ?? null,
+            'raw' => json_encode($value->raw) ?? null,
+            'security_code_verification' => $value->security_code_verification ?? null,
+            'source' => $value->source ?? null,
+            'state' => $value->state ?? null,
+            'tags' => json_encode($value->tags) ?? null,
+            'trace_id' => $value->trace_id ?? null,
+            'transfer' => $value->transfer ?? null,
+            'void_state' => $value->void_state ?? null,
+            'api_user'=>$api_userID??null,
+            'is_live'=>$islive??null,
+            'api_key'=>''.$apikeyID??null
+        ]);
+        $holdMade->save();
+        $holdMade->refresh();
+            return ['worked'=>true,"responce"=>$hold[0],"ref"=>$holdMade];
+        }else{
+            return ['worked'=>false,"responce"=>$hold[0]];
+        }
+    }
+    public static function makeCapture($islive,$id,$amount_in_cents,$api_userID,$apikeyID=0){
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $exists=null;
+        if(!empty($api_userID)){
+        $exists=self::where('finix_id',$id)->where('api_user', $api_userID)->first();
+        }else if(!empty($apikeyID)&&$apikeyID!=0){
+        $exists=self::where('finix_id',$id)->where('api_key', $api_userID)->first();
+        }
+        if($exists!==null){
+            merchantsController::captureHold(config("app.api_username"),config("app.api_password"),$id,$amount_in_cents,0,$endpoint,[],['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+        }
+    }
+    public static function voidCapture($islive,$id,$api_userID,$apikeyID=0){
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $exists=null;
+        if(!empty($api_userID)){
+        $exists=self::where('finix_id',$id)->where('api_user', $api_userID)->first();
+        }else if(!empty($apikeyID)&&$apikeyID!=0){
+        $exists=self::where('finix_id',$id)->where('api_key', $api_userID)->first();
+        }
+        if($exists!==null){
+            merchantsController::releaseHold(config("app.api_username"),config("app.api_password"),$id,true,$endpoint);
         }
     }
 }

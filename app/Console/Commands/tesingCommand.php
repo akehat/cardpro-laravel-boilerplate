@@ -124,8 +124,26 @@ class tesingCommand extends Command
         // ]);
         // $email->save();
         // $email->refresh();        identities::runUpdate();
-        $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"));
-        $object=json_decode($result[0]);
+        $username=config("app.api_username");
+        $password=config("app.api_password");
+       $data=[
+    ];
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://finix.sandbox-payments-api.com/identities/IDv6WhNukeJmaRMhmetQviDg/users");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Finix-Version: 2022-02-01',
+        ]);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        var_dump($response);
                 return 0;
     }
 }

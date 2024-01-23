@@ -162,6 +162,16 @@ class finix_payments extends Model
             return ['worked'=>false,"responce"=>$payment[0]];
         }
     }
-
-
+    public static function makeRefund($islive,$id,$amount_in_cents,$api_userID,$apikeyID=0){
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $exists=null;
+        if(!empty($api_userID)){
+        $exists=self::where('finix_id',$id)->where('api_user', $api_userID)->first();
+        }else if(!empty($apikeyID)&&$apikeyID!=0){
+        $exists=self::where('finix_id',$id)->where('api_key', $api_userID)->first();
+        }
+        if($exists!==null){
+            merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$id,['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID,'refund'=>'made']],$amount_in_cents,$endpoint);
+        }
+    }
 }

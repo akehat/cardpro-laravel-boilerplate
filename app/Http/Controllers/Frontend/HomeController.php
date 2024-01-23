@@ -39,7 +39,7 @@ class HomeController
             $apiuser->refresh();
             $user=User::where('id',$user_id)->first();
             $user->update([
-                'api_key'=>"USER_KEY_".$this->generateApiKey(),
+                'api_key'=>"USER_KEY_".$user_id.$this->generateApiKey(),
                 'api_users_id'=>$apiuser->id
             ]);
             $user->save();

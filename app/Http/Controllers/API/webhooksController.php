@@ -188,6 +188,73 @@ class webhooksController extends Controller
 
             return response()->json(['message' => 'Event processed successfully'], 200);
     }
+    public function webhookUpdateRouteLive(Request $request){
+        if ($request->header('Authorization')!==null) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Extract the basic authentication credentials
+        $authHeader = $request->header('Authorization');
+        list($type, $data) = explode(' ', $authHeader, 2);
+
+        // Check if the type is 'Basic'
+        if (strcasecmp($type, 'Basic') !== 0) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Decode the base64-encoded credentials
+        $credentials = base64_decode($data);
+
+        // Extract the username and password
+        list($username, $password) = explode(':', $credentials, 2);
+
+        // Check if username and password match the expected values
+        $expectedUsername = config('app.api_webhook_username');
+        $expectedPassword = config('app.api_webhook_password');
+
+        if ($username !== $expectedUsername || $password !== $expectedPassword) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $jsonData = $request->getContent();
+        $eventData = json_decode($jsonData);
+            $modelsPath = app_path('Models');
+
+            if (File::isDirectory($modelsPath)) {
+                $files = File::allFiles($modelsPath);
+
+                foreach ($files as $file) {
+                    $modelClass = $this->getModelNamespace($file);
+                    if(class_exists($modelClass) && isset($modelClass::$name) && array_keys((array)$eventData->_embedded)[0]==$modelClass::$name){
+                        foreach($eventData->_embedded->{$modelClass::$name} as $item){
+                            $item=(object)$item;
+                        if (method_exists($modelClass, 'updateFromId_live')) {
+                            Log::info("Executing updateFromId on $modelClass");
+                            try{
+                            $modelClass::updateFromId_live($item->id);
+                            }catch(Exception | Error $e){
+                                Log::info($e->getMessage());
+                            }
+                        }
+                        if (method_exists($modelClass, 'updateFromIds_live')) {
+                            if($modelClass::$name == 'external_links' ){
+                                Log::info("Executing updateFromId on $modelClass");
+                                try{
+                                $modelClass::updateFromIds_live($item->file_id,$item->file_id);
+                                }catch(Exception | Error $e){
+                                    Log::info($e->getMessage());
+                                }
+                            }
+                        }
+                        }
+                    }
+                }
+            } else {
+                Log::error("Models directory not found.");
+            }
+
+            return response()->json(['message' => 'Event processed successfully'], 200);
+    }
     protected function getModelNamespace($file)
     {
         $namespace = 'App\\Models';

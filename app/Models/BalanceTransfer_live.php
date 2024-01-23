@@ -6,14 +6,14 @@ use App\Http\Controllers\API\payfacController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class balanceTransfer extends Model
+class BalanceTransfer_live extends Model
 {
     use HasFactory;
-    protected $table = 'finix_balance_transfers';
+    protected $table = 'finix_balance_transfers_live';
     protected $guarded = ['id'];
     public static $name='balance_transfers';
-    public static function updateFromId($id){
-       self::fromArray([json_decode(payfacController::fetchBalanceTransfers(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    public static function updateFromId_live($id){
+       self::fromArray([json_decode(payfacController::fetchBalanceTransfers(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
     public static function runUpdate(){
         $result= payfacController::listBalanceTransfers(config("app.api_username"),config("app.api_password"));
@@ -21,7 +21,7 @@ class balanceTransfer extends Model
         while(isset($object->_embedded)&&isset($object->_embedded->balance_transfers)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->balance_transfers)>0){
             self::fromArray($object->_embedded->balance_transfers);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= payfacController::listBalanceTransfers(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= payfacController::listBalanceTransfers(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }

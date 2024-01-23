@@ -6,14 +6,14 @@ use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class identities extends Model
+class identities_live extends Model
 {
     use HasFactory;
-    protected $table="identities";
+    protected $table="identities_live";
     protected $guarded=['id'];
     public static $name='identities';
-    public static function updateFromId($id){
-       self::fromArray([json_decode(merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    public static function updateFromId_live($id){
+       self::fromArray([json_decode(merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
     public static function runUpdate(){
         $result= merchantsController::listIdentities(config("app.api_username"),config("app.api_password"));
@@ -21,7 +21,7 @@ class identities extends Model
         while(isset($object->_embedded)&&isset($object->_embedded->identities)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->identities)>0){
             identities::fromArray($object->_embedded->identities);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= merchantsController::listIdentities(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= merchantsController::listIdentities(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }
@@ -88,7 +88,7 @@ class identities extends Model
     $entity_tax_id,
     $entity_title,
     $entity_url,$userID,$api_userID){
-        $islive=false;
+        $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
         $merchant=merchantsController::createIdentityMerchantMinReq(config("app.api_username"),config("app.api_password"),
         $entity_annual_card_volume,
@@ -148,7 +148,7 @@ class identities extends Model
         }
     }
        public static function makeBuyerIdentity($email,$userID,$api_userID,$apikeyID=0){
-        $islive=false;
+        $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
         $buyer=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),$email,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
         if($buyer[1]>=200&&$buyer[1]<300){

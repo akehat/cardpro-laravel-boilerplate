@@ -6,14 +6,14 @@ use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Finix_Merchant extends Model
+class Finix_Merchant_live extends Model
 {
     use HasFactory;
-    protected $table="finix_merchants";
+    protected $table="finix_merchants_live";
     protected $guarded=['id'];
     public static $name='merchants';
-    public static function updateFromId($id){
-       self::fromArray([json_decode(merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    public static function updateFromId_live($id){
+       self::fromArray([json_decode(merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
 
     public static function runUpdate(){
@@ -22,7 +22,7 @@ class Finix_Merchant extends Model
         while(isset($object->_embedded)&&isset($object->_embedded->merchants)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->merchants)>0){
             self::fromArray($object->_embedded->merchants);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }
@@ -115,7 +115,7 @@ public static function fromArray(array $array)
     }
 }
 public static function makeMerchant($merchantIdentity,$userID,$api_userID,$apikeyID=0){
-    $islive=false;
+    $islive=true;
     $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
     $processor=$islive?merchantsController::$processors[0]:merchantsController::$processors[1];
     $merchant=merchantsController::createAMerchantMinReq(config("app.api_username"),config("app.api_password"), $merchantIdentity,$processor,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);

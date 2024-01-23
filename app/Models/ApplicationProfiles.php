@@ -6,22 +6,22 @@ use App\Http\Controllers\API\payfacController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class merchantProfile extends Model
+class ApplicationProfiles extends Model
 {
     use HasFactory;
-    protected $table="finix_merchant_profiles";
+    protected $table='finix_application_profiles';
     protected $guarded=['id'];
-    public static $name='merchant_profiles';
+    public static $name='application_profiles';
     public static function updateFromId($id){
-        self::fromArray([json_decode(payfacController::fetchMerchantProfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
-     }
+       self::fromArray([json_decode(payfacController::fetchApplicationProfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    }
     public static function runUpdate(){
-        $result= payfacController::listMerchantProfiles(config("app.api_username"),config("app.api_password"));
+        $result= payfacController::listApplicationProfiles(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);
-        while(isset($object->_embedded)&&isset($object->_embedded->merchant_profiles)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->merchant_profiles)>0){
-            self::fromArray($object->_embedded->merchant_profiles);
+        while(isset($object->_embedded)&&isset($object->_embedded->application_profiles)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->application_profiles)>0){
+            self::fromArray($object->_embedded->application_profiles);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= payfacController::listMerchantProfiles(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= payfacController::listApplicationProfiles(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }
@@ -39,7 +39,6 @@ class merchantProfile extends Model
                     'finix_updated_at' => $data->updated_at ?? null,
                     'application' => $data->application ?? null,
                     'fee_profile' => $data->fee_profile ?? null,
-                    'payout_profile' => $data->payout_profile ?? null,
                     'risk_profile' => $data->risk_profile ?? null,
                     'tags' => json_encode($data->tags) ?? null,
                 ]);
@@ -50,7 +49,6 @@ class merchantProfile extends Model
                     'finix_updated_at' => $data->updated_at ?? null,
                     'application' => $data->application ?? null,
                     'fee_profile' => $data->fee_profile ?? null,
-                    'payout_profile' => $data->payout_profile ?? null,
                     'risk_profile' => $data->risk_profile ?? null,
                     'tags' => json_encode($data->tags) ?? null,
                 ]);

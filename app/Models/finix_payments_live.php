@@ -6,14 +6,14 @@ use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class finix_payments extends Model
+class finix_payments_live extends Model
 {
     use HasFactory;
     public static $name='transfers';
-    public static function updateFromId($id){
-       self::fromArray([json_decode(merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id)[0])]);
+    public static function updateFromId_live($id){
+       self::fromArray([json_decode(merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
-    protected $table="finix_payments";
+    protected $table="finix_payments_live";
     protected $guarded=['id'];
     public static function runUpdate(){
         $result= merchantsController::listPayments(config("app.api_username"),config("app.api_password"));
@@ -21,7 +21,7 @@ class finix_payments extends Model
         while(isset($object->_embedded)&&isset($object->_embedded->transfers)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->transfers)>0){
             self::fromArray($object->_embedded->transfers);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }
@@ -111,7 +111,7 @@ class finix_payments extends Model
         }
     }
     public static function makePayment($merchant,$currency,$amount_in_cents,$card,$userID,$api_userID,$apikeyID=0){
-        $islive=false;
+        $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
         $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$merchant,$currency,$amount_in_cents,$card,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
         if($payment[1]>=200&&$payment[1]<300){
@@ -164,7 +164,7 @@ class finix_payments extends Model
         }
     }
     public static function makeRefund($id,$amount_in_cents,$api_userID,$apikeyID=0){
-        $islive=false;
+        $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
         $exists=null;
         if(!empty($api_userID)){

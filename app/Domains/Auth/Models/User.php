@@ -63,6 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'finix_username',
         'finix_password',
         'api_key',
+        'api_users_id',
         'hasID',
         'live_finix_username',
         'live_finix_password',

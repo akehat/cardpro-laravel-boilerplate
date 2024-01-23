@@ -6,7 +6,7 @@ use App\Http\Controllers\API\payfacController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class applications extends Model
+class Applications extends Model
 {
     use HasFactory;
     protected $table = 'applications';
@@ -19,7 +19,7 @@ class applications extends Model
         $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->applications)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->applications)>0){
-            applications::fromArray($object->_embedded->applications);
+            self::fromArray($object->_embedded->applications);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
          $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
@@ -28,9 +28,9 @@ class applications extends Model
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
-            $found=applications::where('finix_id',$value->id)->first();
+            $found=self::where('finix_id',$value->id)->first();
             if($found==null){
-                $found=applications::create([
+                $found=self::create([
                     'finix_id'=>$value->id,
                     'card_cvv_required'=>$value->card_cvv_required??null,
                     'card_expiration_date_required'=>$value->card_expiration_date_required??null,

@@ -50,8 +50,8 @@
         <h2>Sidebar</h2>
         <ul>
             <li><a href="{{ url('portal/testSignup') }}">Test Signup</a></li>
-            <li><a href="{{ url('portal/testFee') }}">Test Fee Form</a></li>
             {{-- @if(Auth::user()->hasID) --}}
+            {{-- <li><a href="{{ url('portal/testFee') }}">Test Fee Form</a></li> --}}
             <li><a href="{{ url('portal/testPayment') }}">Test Payment</a></li>
             <li><a href="{{ url('portal/testHold') }}">Test Hold</a></li>
             <li><a href="{{ url('portal/testCheckout') }}">Test Checkout</a></li>

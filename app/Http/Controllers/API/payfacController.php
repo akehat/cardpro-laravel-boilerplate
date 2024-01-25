@@ -565,7 +565,7 @@ $endpoint='https://finix.sandbox-payments-api.com',
 $addedQuery=[]
 ){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/verifications".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+    curl_setopt($ch, CURLOPT_URL, "$endpoint/verifications".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -587,7 +587,7 @@ $endpoint='https://finix.sandbox-payments-api.com',
 $addedQuery=[]
 ){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "$endpoint/payment_instruments/verifications/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+    curl_setopt($ch, CURLOPT_URL, "$endpoint/verifications/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_HTTPHEADER, [

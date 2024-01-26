@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domains\Auth\Models\User;
 use App\Http\Controllers\API\finixUsersController;
 use App\Http\Controllers\API\formController;
 use App\Http\Controllers\API\merchantsController;
@@ -9,13 +10,25 @@ use App\Http\Controllers\API\payfacController;
 use App\Http\Controllers\API\subscriptionController;
 use Illuminate\Http\Request;
 use App\Models\ApiKey;
+use App\Models\ApiUser;
+use App\Models\awaiting_PCI;
+use App\Models\awaiting_users;
+use App\Models\finix_fee_profiles;
+use App\Models\Finix_Merchant;
+use App\Models\finix_payments;
+use App\Models\identities;
+use App\Models\payment_ways;
+use App\Models\settlements;
+use Browser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class MerchantSignUpController extends Controller
 {
     public function get(){
         if(Auth::user()->hasID){
+            $this->loadUserSession();
             return view('frontend.pages.portal.merchantSignUp');
         }else{
             return view('frontend.pages.portal.organizationSignUp');
@@ -210,12 +223,7 @@ class MerchantSignUpController extends Controller
             // If it exists, generate a new API key
             $apiKey = $apiKeyPrefix . $this->generateApiKey();
         }
-        if(!Auth::user()->hasID){
-            $application=json_decode(payfacController::listApplications(config("app.api_username"),config("app.api_password"))[0])->_embedded->applications[0]->id;
-            $user = finixUsersController::createAMerchantUser(config("app.api_username"),config("app.api_password"), $identity,'https://finix.sandbox-payments-api.com',[]);
-            session()->flash('success', json_encode($user[0]));
-            return back();
-        }
+
         merchantsController::createBankAccount(config("app.api_username"),config("app.api_password"),
         $request->bank_account_number,
         $request->bank_account_type,
@@ -235,9 +243,42 @@ class MerchantSignUpController extends Controller
         ]);
         $api->save();
         $api->refresh();
+        if(!Auth::user()->hasID){
+            $awaiting=awaiting_users::create([
+                'identity'=>$identity,
+                'user_id'=>Auth::id()
+            ]);
+            $awaiting->save();
+            $awaiting->refresh();
+            session()->flash('success', 'working on it please wait for the merchant to verify... check back later');
+        }
+        $browser = new Browser();
+        $awaiting=awaiting_PCI::create([
+            'name'=>$request->entity_first_name." ".$request->entity_last_name,
+            'ip'=>$this->getIp(),
+            'user_id'=>Auth::id(),
+            'merchant_id'=>$merchantId,
+            'browser'=>$browser->getUserAgent()
+        ]);
+        $awaiting->save();
+        $awaiting->refresh();
+        session()->flash('success', 'working on it please wait for the merchant to verify... check back later');
+        return back();
         return view('frontend.pages.portal.merchantSignUp');
     }
-
+    public function getIp(){
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+            if (array_key_exists($key, $_SERVER) === true){
+                foreach (explode(',', $_SERVER[$key]) as $ip){
+                    $ip = trim($ip); // just to be safe
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                        return $ip;
+                    }
+                }
+            }
+        }
+        return request()->ip(); // it will return the server IP if the client IP is not found using this method.
+    }
     function generateApiKey($length = 32)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -265,45 +306,52 @@ class MerchantSignUpController extends Controller
 
             return $convertedParameters;
         }
+    function loadUserSession(){
+        $apiUser=ApiUser::where('user_id',Auth::id())->first();
+        Session::put('api_username',$apiUser->username);
+        Session::put('api_password',$apiUser->password);
+        Session::put('api_username_live',$apiUser->username_live);
+        Session::put('api_password_live',$apiUser->password_live);
+    }
     public function identities(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>identities::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function apiusers(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>ApiUser::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function fee_profiles(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listFeeProfile(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_fee_profiles::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function fee_profile($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchFeeProfile(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_fee_profiles::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function settlements(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listSettlements(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>settlements::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function settlement($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchSettlement(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>settlements::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function identity($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>identities::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function payments(){
         // dd( request()->header('User-Agent'));
-        return view("frontend.pages.portal.paymentsViewer",["json"=>merchantsController::listPayments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_payments::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function payment($id){
-        return view("frontend.pages.portal.paymentsViewer",["json"=>merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_payments::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function payment_instraments(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>payment_ways::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function payment_instrament($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>payment_ways::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function merchants(){
-        return view("frontend.pages.portal.jsonViewer",['json'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>Finix_Merchant::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function merchant($id){
-        return view("frontend.pages.portal.jsonViewer",['json'=>merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id,'https://finix.sandbox-payments-api.com',$this->queryParamsAllowDots())[0]]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>Finix_Merchant::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function identities_live(){
         return view("frontend.pages.portal.jsonViewer",["json"=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$this->queryParamsAllowDots())[0]]);

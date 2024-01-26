@@ -5,9 +5,20 @@ namespace App\Models;
 use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Finix_Disputes_live extends Model
 {
+public function scopeAccessible($query)
+    {
+        // Check if the authenticated user is an admin
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return $query; // No additional condition needed for admins
+        }
+
+        // If not an admin, add the additional condition
+        return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
+    }
     use HasFactory;
     protected $table="finix_disputes_live";
     protected $guarded=['id'];

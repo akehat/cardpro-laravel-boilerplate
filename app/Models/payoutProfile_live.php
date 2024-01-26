@@ -5,15 +5,26 @@ namespace App\Models;
 use App\Http\Controllers\API\payfacController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-class payoutProfile extends Model
+class payoutProfile_live extends Model
 {
+public function scopeAccessible($query)
+    {
+        // Check if the authenticated user is an admin
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return $query; // No additional condition needed for admins
+        }
+
+        // If not an admin, add the additional condition
+        return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
+    }
     use HasFactory;
     protected $table ='finix_payout_profiles';
     protected $guarded=['id'];
     public static $name='payout_profiles';
     public static function updateFromId_live($id){
-        self::fromArray([json_decode(payfacController::fetchPayoutProfile(config("app.api_username"),config("app.api_password"),$id)[0])]);
+        self::fromArray([json_decode(payfacController::fetchPayoutProfile(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
      }
     public static function runUpdate(){
         $result= payfacController::listPayoutProfiles(config("app.api_username"),config("app.api_password"));
@@ -21,7 +32,7 @@ class payoutProfile extends Model
         while(isset($object->_embedded)&&isset($object->_embedded->payout_profiles)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->payout_profiles)>0){
             self::fromArray($object->_embedded->payout_profiles);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= payfacController::listPayoutProfiles(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= payfacController::listPayoutProfiles(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }

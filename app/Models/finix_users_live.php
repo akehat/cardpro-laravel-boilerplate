@@ -5,13 +5,24 @@ namespace App\Models;
 use App\Http\Controllers\API\finixUsersController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class finix_users_live extends Model
 {
+public function scopeAccessible($query)
+    {
+        // Check if the authenticated user is an admin
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return $query; // No additional condition needed for admins
+        }
+
+        // If not an admin, add the additional condition
+        return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
+    }
     use HasFactory;
     public static $name='users';
     public static function updateFromId_live($id){
-       self::fromArray([json_decode(finixUsersController::fetchAUser(config("app.api_username"),config("app.api_password"),$id)[0])]);
+       self::fromArray([json_decode(finixUsersController::fetchAUser(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
     protected $table="finix_users_live";
     protected $guarded=['id'];
@@ -21,7 +32,7 @@ class finix_users_live extends Model
         while(isset($object->_embedded)&&isset($object->_embedded->users)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->users)>0){
             finix_users::fromArray($object->_embedded->users);
          $nextArray=['after_cursor'=>$object->page->next_cursor];
-         $result= finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+         $result= finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
      }

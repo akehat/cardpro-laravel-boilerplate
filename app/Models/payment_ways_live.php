@@ -6,15 +6,26 @@ use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
-class payment_ways extends Model
+class payment_ways_live extends Model
 {
+public function scopeAccessible($query)
+    {
+        // Check if the authenticated user is an admin
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return $query; // No additional condition needed for admins
+        }
+
+        // If not an admin, add the additional condition
+        return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
+    }
     use HasFactory;
-    protected $table="payment_ways";
+    protected $table="payment_ways_live";
     protected $guarded=['id'];
     public static $name='payment_instruments';
     public static function updateFromId_live($id){
-        self::fromArray([json_decode(merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id)[0])]);
+        self::fromArray([json_decode(merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
      }
     public static function runUpdate(){
        $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"));
@@ -22,7 +33,7 @@ class payment_ways extends Model
        while(isset($object->_embedded)&&isset($object->_embedded->payment_instruments)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->payment_instruments)>0){
         payment_ways::fromArray($object->_embedded->payment_instruments);
         $nextArray=['after_cursor'=>$object->page->next_cursor];
-        $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
+        $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',$nextArray);
         $object=json_decode($result[0]);
        }
     }

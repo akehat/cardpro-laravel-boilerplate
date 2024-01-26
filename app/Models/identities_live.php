@@ -5,9 +5,20 @@ namespace App\Models;
 use App\Http\Controllers\API\merchantsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class identities_live extends Model
 {
+public function scopeAccessible($query)
+    {
+        // Check if the authenticated user is an admin
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return $query; // No additional condition needed for admins
+        }
+
+        // If not an admin, add the additional condition
+        return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
+    }
     use HasFactory;
     protected $table="identities_live";
     protected $guarded=['id'];
@@ -50,6 +61,7 @@ class identities_live extends Model
             $found->refresh();
         }
     }
+
     public static function makeMerchantIdentity($entity_annual_card_volume,
     $entity_business_address_city,
     $entity_business_address_country,

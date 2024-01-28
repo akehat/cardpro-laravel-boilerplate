@@ -116,7 +116,8 @@ public function scopeAccessible($query)
             $found->refresh();
         }
     }
-    public static function makeCard($exp_month,$exp_year,$identity,$name,$card_number,$cvv,$userID,$api_userID,$islive=false,$apikeyID=0){
+    public static function makeCard($exp_month,$exp_year,$identity,$name,$card_number,$cvv,$userID,$api_userID,$apikeyID=0){
+        $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
         $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
         $exp_month,$exp_year,$identity,$name,$card_number,$cvv,"PAYMENT_CARD",$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
@@ -171,7 +172,8 @@ public function scopeAccessible($query)
     $bank_bank_code,
     $identity,
     $bank_name,
-    $bank_type,$userID,$api_userID,$islive=false,$apikeyID=0){
+    $bank_type,$userID,$api_userID,$apikeyID=0){
+        $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
         $bank=  merchantsController::createBankAccount(config("app.api_username"),config("app.api_password"),
         $bank_account_number,

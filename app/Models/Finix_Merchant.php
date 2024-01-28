@@ -177,7 +177,8 @@ public static function makeMerchant($merchantIdentity,$userID,$api_userID,$apike
 'live'=>$islive,
 'merchant_id'=>$merchantMade->id,
 'balance'=>0,
-'api_user'=>$api_userID
+'api_user'=>$api_userID,
+'identity'=>$merchantMade->finix_id
 ]);
 $key->save();
 $key->refresh();
@@ -194,7 +195,11 @@ public static function generateApiKey($length = 32)
     for ($i = 0; $i < $length; $i++) {
         $apiKey .= $characters[rand(0, strlen($characters) - 1)];
     }
-
-    return $apiKey;
+    if (ApiKey::where('api_key', $apiKey)->exists()) {
+        // If it exists, generate a new API key
+        return self::generateApiKey($length);
+    }else{
+        return $apiKey;
+    }
 }
 }

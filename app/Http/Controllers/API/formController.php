@@ -84,7 +84,7 @@ class formController extends Controller
 
         // Create array
         $data = [
-            "merchant_id" => $merchant_id,
+            "merchant_id" =>  $merchant_id,
             "payment_frequency" => 'ONE_TIME',
             "is_multiple_use" => $is_multiple_use,
             "allowed_payment_methods" => $allowed_payment_methods,

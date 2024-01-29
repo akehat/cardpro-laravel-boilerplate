@@ -15,6 +15,8 @@ use App\Models\Authorization;
 use App\Models\Authorization_live;
 use App\Models\awaiting_PCI;
 use App\Models\awaiting_users;
+use App\Models\BalanceTransfer;
+use App\Models\BalanceTransfer_live;
 use App\Models\finix_checkout_forms;
 use App\Models\finix_checkout_forms_live;
 use App\Models\Finix_Disputes;
@@ -68,16 +70,45 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.testHold',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function getCheckout(){
-        return view('frontend.pages.portal.testCheckout',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view('frontend.pages.portal.testCheckout',['buyers'=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password")),'merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
     }
     public function paymentTest(Request $request){
-        $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),$request->email);
-        $id=json_decode($id[0],true)['id'];
-        $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
-        $request->exp_month,$request->exp_year,$id,$request->name,$request->card_number,$request->cvv,"PAYMENT_CARD");
-        $card=json_decode($card[0],true)['id'];
-        $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$request->merchant,$request->currency,$request->amount_in_cents,$card);
-        session()->flash('success', json_encode($payment[0]));
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        $apiKeyID=ApiKey::where("merchant_id",$request->merchant)->select("id")->first();
+        $apiKeyID=($apiKeyID!=null)?$apiKeyID->id:0;
+        $buyerIdentity=identities::makeBuyerIdentity($request->email,
+        $user_id,
+        $apiUser_id,
+        $apiKeyID
+    );
+        if(!$buyerIdentity["worked"]){
+            session()->flash('success', 'unable to make buyer identity '.$buyerIdentity["responce"]);
+            return redirect()->back();
+        }
+        $buyerId=$buyerIdentity["ref"]->finix_id;
+        $card=payment_ways::makeCard(
+            $request->exp_month,$request->exp_year,$buyerId,$request->name,$request->card_number,$request->cvv,
+            $user_id,
+            $apiUser_id,
+            $apiKeyID
+        );
+        if(!$card["worked"]){
+            session()->flash('success', 'unable to make card object '.$card["responce"]);
+            return redirect()->back();
+        }
+        $cardId=$card["ref"]->finix_id;
+        $payment=finix_payments::makePayment(
+            $request->merchant,$request->currency,$request->amount_in_cents,$cardId,
+            $user_id,
+            $apiUser_id,
+            $apiKeyID
+        );
+        if(!$payment["worked"]){
+            session()->flash('success', 'unable to make payment '.$payment["responce"]);
+            return redirect()->back();
+        }
+        session()->flash('success', json_encode($payment["responce"]));
         return redirect()->back();
     }
     public function feeProfileTest(Request $request){
@@ -119,7 +150,7 @@ class MerchantSignUpController extends Controller
     }
     public function checkoutTest(Request $request){
         // dd($request);
-        return formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),
+                                        return formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),
         $request->amount_details_amount_type,
         $request->amount_details_total_amount,
         $request->amount_details_currency,
@@ -136,7 +167,6 @@ class MerchantSignUpController extends Controller
         $request->additional_details_collect_name??'false',
         $request->additional_details_collect_email??'false',
         $request->additional_details_collect_phone_number??'false',
-        $request->additional_details_collect_phone_number??'false',
         $request->additional_details_collect_billing_address??'false',
         $request->additional_details_collect_shipping_address??'false',
         $request->additional_details_success_return_url,
@@ -144,6 +174,7 @@ class MerchantSignUpController extends Controller
         $request->additional_details_expired_session_url,
         $request->additional_details_terms_of_service_url,
         $request->merchant,
+        false,
         [$request->allowed_payment_methods_0],
         $request->nickname,
         ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
@@ -154,7 +185,7 @@ class MerchantSignUpController extends Controller
         "currency" => $request->items_0_price_details_currency,
          "price_type" => $request->items_0_price_details_price_type,
         "regular_amount" => $request->items_0_price_details_regular_amount],
-        1,'IDsYp3gxHLxkTrVgTuhwz3K6'
+        1,$request->buyer
         )[0];
     }
     public function paylinkTest(Request $request){
@@ -242,7 +273,7 @@ class MerchantSignUpController extends Controller
     );
         if(!$merchantIdentity["worked"]){
             session()->flash('success', 'unable to make merchant identity '.$merchantIdentity["responce"]);
-            return back();
+            return redirect()->back();
         }
         $identity=$merchantIdentity["ref"]->finix_id;
 
@@ -258,7 +289,7 @@ class MerchantSignUpController extends Controller
         );
         if(!$bank["worked"]){
             session()->flash('success', 'unable to make bank '.$bank["responce"]);
-            return back();
+            return redirect()->back();
         }
         $merchant=Finix_Merchant::makeMerchant($identity,
         $user_id,
@@ -266,7 +297,7 @@ class MerchantSignUpController extends Controller
     );
     if(!$merchant["worked"]){
         session()->flash('success', 'unable to make merchant '.$merchant["responce"]);
-        return back();
+        return redirect()->back();
     }
         if(!Auth::user()->hasID){
             $awaiting=awaiting_users::create([
@@ -288,7 +319,7 @@ class MerchantSignUpController extends Controller
         $awaiting->save();
         $awaiting->refresh();
         session()->flash('success', 'working on it please wait for the merchant to verify... check back later');
-        return back();
+        return redirect()->back();
     }
     public function getIp(){
         foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
@@ -303,33 +334,6 @@ class MerchantSignUpController extends Controller
         }
         return request()->ip(); // it will return the server IP if the client IP is not found using this method.
     }
-    // function generateApiKey($length = 32)
-    // {
-    //     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    //     $apiKey = '';
-
-    //     for ($i = 0; $i < $length; $i++) {
-    //         $apiKey .= $characters[rand(0, strlen($characters) - 1)];
-    //     }
-
-    //     return $apiKey;
-    // }
-    // function queryParamsAllowDots()
-    //     {
-    //         $query=request()->getQueryString();
-    //         $convertedParameters = [];
-    //         $queryParameters = request()->query();
-
-    //         foreach ($queryParameters as $key => $value) {
-    //             // Replace double underscores with a single dot
-    //             $convertedKey = str_contains($key.'=',$query)?$key:str_replace('_',".",$key);
-
-    //             // Add the converted key and value to the new array
-    //             $convertedParameters[$convertedKey] = $value;
-    //         }
-
-    //         return $convertedParameters;
-    //     }
     function loadUserSession(){
         $apiUser=ApiUser::where('user_id',Auth::id())->first();
         Session::put('api_username',$apiUser->username);
@@ -467,12 +471,6 @@ class MerchantSignUpController extends Controller
     public function checkout_live($id){
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_checkout_forms_live::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
-    public function onboarding($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>onboarding::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
-    }
-    public function onboarding_live($id){
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>onboarding_live::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
-    }
     public function paymentLinks(){
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_payment_links::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
@@ -486,13 +484,13 @@ class MerchantSignUpController extends Controller
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>finix_payment_links_live::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function balanceTransfers(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>balanceTransfer::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>BalanceTransfer::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function balanceTransfer($id){
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>balanceTransfer::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function balanceTransfers_live(){
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>balanceTransfer_live::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>BalanceTransfer_live::accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);
     }
     public function balanceTransfer_live($id){
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>balanceTransfer_live::where('id',$id)->accessible()->get()->toArray()], JSON_PRETTY_PRINT))]);

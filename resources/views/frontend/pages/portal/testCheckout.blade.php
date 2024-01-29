@@ -181,7 +181,8 @@
       "expired_session_url": "https://example.com/error.html",
       "terms_of_service_url": "https://example.com/terms_of_service.html",
       "expiration_in_minutes": 10080
-    }
+    },
+    "buyer_email": "example@email.com"
   }`;
 
         // Example merchant data (replace with your actual merchant data)

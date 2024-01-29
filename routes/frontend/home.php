@@ -108,8 +108,6 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::get("portal/checkouts",[MerchantSignUpController::class, 'checkouts']);
     Route::get("portal/live/checkout/{id}",[MerchantSignUpController::class, 'checkout_live']);
     Route::get("portal/live/checkouts",[MerchantSignUpController::class, 'checkouts_live']);
-    Route::get("portal/onboarding/{id}",[MerchantSignUpController::class, 'onboarding']);
-    Route::get("portal/live/onboarding/{id}",[MerchantSignUpController::class, 'onboarding_live']);
     Route::get("portal/live/merchants",[MerchantSignUpController::class, 'merchants_live']);
     Route::get("portal/live/identities",[MerchantSignUpController::class, 'identities_live']);
     Route::get("portal/live/apiusers",[MerchantSignUpController::class, 'apiusers_live']);

@@ -77,4 +77,128 @@ public function scopeAccessible($query)
             $found->refresh();
         }
     }
+
+public static function makeCheckout($amount_details_amount_type,
+$amount_details_total_amount,
+$amount_details_currency,
+$amount_details_amount_breakdown_subtotal_amount,
+$amount_details_amount_breakdown_shipping_amount,
+$amount_details_amount_breakdown_estimated_tax_amount,
+$amount_details_amount_breakdown_discount_amount,
+$amount_details_amount_breakdown_tip_amount,
+$branding_brand_color,
+$branding_accent_color,
+$branding_logo,
+$branding_icon,
+$additional_details_collect_name,
+$additional_details_collect_email,
+$additional_details_collect_phone_number,
+$additional_details_collect_billing_address,
+$additional_details_collect_shipping_address,
+$additional_details_success_return_url,
+$additional_details_cart_return_url,
+$additional_details_expired_session_url,
+$additional_details_terms_of_service_url,
+$merchant,
+$allowed_payment_methods_0,
+$nickname,
+$items_0_image_details_primary_image_url,
+$items_0_image_details_alternative_image_urls_0,
+$items_0_image_details_alternative_image_urls_1,
+$description,
+$items_0_price_details_sale_amount,
+$items_0_price_details_currency,
+$items_0_price_details_price_type,
+$items_0_price_details_regular_amount,
+$buyer,$userID,$api_userID,$apikeyID=0){
+    $islive=false;
+    $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+    $checkout=formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),
+        $amount_details_amount_type,
+        $amount_details_total_amount,
+        $amount_details_currency,
+        null,null,
+        $amount_details_amount_breakdown_subtotal_amount,
+        $amount_details_amount_breakdown_shipping_amount,
+        $amount_details_amount_breakdown_estimated_tax_amount,
+        $amount_details_amount_breakdown_discount_amount,
+        $amount_details_amount_breakdown_tip_amount,
+        $branding_brand_color,
+        $branding_accent_color,
+        $branding_logo,
+        $branding_icon,
+        $additional_details_collect_name??'false',
+        $additional_details_collect_email??'false',
+        $additional_details_collect_phone_number??'false',
+        $additional_details_collect_billing_address??'false',
+        $additional_details_collect_shipping_address??'false',
+        $additional_details_success_return_url,
+      $additional_details_cart_return_url,
+        $additional_details_expired_session_url,
+        $additional_details_terms_of_service_url,
+        $merchant,
+        false,
+        [$allowed_payment_methods_0],
+        $nickname,
+        ["primary_image_url" =>  $items_0_image_details_primary_image_url,
+        "alternative_image_urls_0" => $items_0_image_details_alternative_image_urls_0,
+        "alternative_image_urls_1" => $items_0_image_details_alternative_image_urls_1],
+        $description,
+        ["sale_amount" => $items_0_price_details_sale_amount,
+        "currency" => $items_0_price_details_currency,
+         "price_type" => $items_0_price_details_price_type,
+        "regular_amount" => $items_0_price_details_regular_amount],
+        1,$buyer,
+        $endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]
+);
+    if($checkout[1]>=200&&$checkout[1]<300){
+    $value=(object)json_decode($checkout[0]);
+    $checkoutMade=self::create([
+        'finix_id' => $value->id ?? null,
+        'application' => $value->application ?? null,
+        'card_cvv_required' => $value->card_cvv_required ?? null,
+        'card_expiration_date_required' => $value->card_expiration_date_required ?? null,
+        'convenience_charges_enabled' => $value->convenience_charges_enabled ?? null,
+        'country' => $value->country ?? null,
+        'creating_transfer_from_report_enabled' => $value->creating_transfer_from_report_enabled ?? null,
+        'currencies' => json_encode($value->currencies??[]) ?? null,
+        'default_partial_authorization_enabled' => $value->default_partial_authorization_enabled ?? null,
+        'disbursements_ach_pull_enabled' => $value->disbursements_ach_pull_enabled ?? null,
+        'disbursements_ach_push_enabled' => $value->disbursements_ach_push_enabled ?? null,
+        'disbursements_card_pull_enabled' => $value->disbursements_card_pull_enabled ?? null,
+        'disbursements_card_push_enabled' => $value->disbursements_card_push_enabled ?? null,
+        'fee_ready_to_settle_upon' => $value->fee_ready_to_settle_upon ?? null,
+        'gateway' => $value->gateway ?? null,
+        'gross_settlement_enabled' => $value->gross_settlement_enabled ?? null,
+        'identity' => $value->identity ?? null,
+        'level_two_level_three_value_enabled' => $value->level_two_level_three_value_enabled ?? null,
+        'mcc' => $value->mcc ?? null,
+        'merchant_name' => $value->merchant_name ?? null,
+        'merchant_profile' => $value->merchant_profile ?? null,
+        'mid' => $value->mid ?? null,
+        'onboarding_state' => $value->onboarding_state ?? null,
+        'processing_enabled' => $value->processing_enabled ?? null,
+        'processor' => $value->processor ?? null,
+        'processor_details' => json_encode($value->processor_details??[]) ?? null,
+        'ready_to_settle_upon' => $value->ready_to_settle_upon ?? null,
+        'rent_surcharges_enabled' => $value->rent_surcharges_enabled ?? null,
+        'settlement_enabled' => $value->settlement_enabled ?? null,
+        'settlement_funding_identifier' => $value->settlement_funding_identifier ?? null,
+        'surcharges_enabled' => $value->surcharges_enabled ?? null,
+        'tags' => json_encode($value->tags??[]) ?? null,
+        'verification' => $value->verification ?? null,
+        '_links' => $value->_links ?? null,
+        'api_user'=>$api_userID??null,
+        'is_live'=>$islive??null,
+        'api_key'=>''.$apikeyID??null
+    ]);
+    $checkoutMade->save();
+    $checkoutMade->refresh();
+
+        return ['worked'=>true,"responce"=>$checkout[0],"ref"=>$checkoutMade];
+    }else{
+        return ['worked'=>false,"responce"=>$checkout[0]];
+    }
 }
+    }
+

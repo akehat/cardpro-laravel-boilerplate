@@ -129,64 +129,123 @@ class MerchantSignUpController extends Controller
 
     }
     public function holdTest(Request $request){
-        // dd($request);
-        $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),$request->email);
-        $id=json_decode($id[0],true)['id'];
-        $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
-        $request->exp_month,$request->exp_year,$id,$request->name,$request->card_number,$request->cvv,"PAYMENT_CARD");
-        $card=json_decode($card[0],true)['id'];
-        $hold=merchantsController::createHold(config("app.api_username"),config("app.api_password"),$request->amount_in_cents,$request->currency,$request->merchant,$card,['hold'=>'new']);
-        session()->flash('success', json_encode($hold[0]));
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        $apiKeyID=ApiKey::where("merchant_id",$request->merchant)->select("id")->first();
+        $apiKeyID=($apiKeyID!=null)?$apiKeyID->id:0;
+        $buyerIdentity=identities::makeBuyerIdentity($request->email,
+        $user_id,
+        $apiUser_id,
+        $apiKeyID
+    );
+        if(!$buyerIdentity["worked"]){
+            session()->flash('success', 'unable to make buyer identity '.$buyerIdentity["responce"]);
+            return redirect()->back();
+        }
+        $buyerId=$buyerIdentity["ref"]->finix_id;
+        $card=payment_ways::makeCard(
+            $request->exp_month,$request->exp_year,$buyerId,$request->name,$request->card_number,$request->cvv,
+            $user_id,
+            $apiUser_id,
+            $apiKeyID
+        );
+        if(!$card["worked"]){
+            session()->flash('success', 'unable to make card object '.$card["responce"]);
+            return redirect()->back();
+        }
+        $cardId=$card["ref"]->finix_id;
+        $hold=Authorization::makeHold(
+            $request->merchant,$request->currency,$request->amount_in_cents,$cardId,
+            $user_id,
+            $apiUser_id,
+            $apiKeyID
+        );
+        if(!$hold["worked"]){
+            session()->flash('success', 'unable to make hold '.$hold["responce"]);
+            return redirect()->back();
+        }
+        session()->flash('success', json_encode($hold["responce"]));
         return redirect()->back();
     }
     public function makeReturn(Request $request){
-        return merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$request->id,["refund"=>"made"],$request->amount)[0];
+        $payment=finix_payments::where('id',$request->id)->first();
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        $apiKeyID=ApiKey::where('merchant_id',$payment->merchant)->first();
+        $apiKeyID=($apiKeyID==null)?$apiKeyID->id:0;
+        return json_encode(finix_payments::makeRefund($payment->finix_id,$request->amount,$apiUser_id,$apiKeyID));
     }
     public function captureHold(Request $request){
-        return merchantsController::captureHold(config("app.api_username"),config("app.api_password"),$request->id,$request->amount,0)[0];
+        $payment=Authorization::where('id',$request->id)->first();
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        return json_encode(Authorization::makeCapture($payment->finix_id,$request->amount,$apiUser_id));
     }
     public function returnHold(Request $request){
-        return merchantsController::releaseHold(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
+        $payment=Authorization::where('id',$request->id)->first();
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        return json_encode(Authorization::returnHold($payment->finix_id,$request->amount,$apiUser_id));
     }
     public function checkoutTest(Request $request){
-        // dd($request);
-                                        return formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),
-        $request->amount_details_amount_type,
-        $request->amount_details_total_amount,
-        $request->amount_details_currency,
-        null,null,
-        $request->amount_details_amount_breakdown_subtotal_amount,
-        $request->amount_details_amount_breakdown_shipping_amount,
-        $request->amount_details_amount_breakdown_estimated_tax_amount,
-        $request->amount_details_amount_breakdown_discount_amount,
-        $request->amount_details_amount_breakdown_tip_amount,
-        $request->branding_brand_color,
-        $request->branding_accent_color,
-        $request->branding_logo,
-        $request->branding_icon,
-        $request->additional_details_collect_name??'false',
-        $request->additional_details_collect_email??'false',
-        $request->additional_details_collect_phone_number??'false',
-        $request->additional_details_collect_billing_address??'false',
-        $request->additional_details_collect_shipping_address??'false',
-        $request->additional_details_success_return_url,
-      $request->additional_details_cart_return_url,
-        $request->additional_details_expired_session_url,
-        $request->additional_details_terms_of_service_url,
-        $request->merchant,
-        false,
-        [$request->allowed_payment_methods_0],
-        $request->nickname,
-        ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
-        "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
-        "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
-        $request->description,
-        ["sale_amount" => $request->items_0_price_details_sale_amount,
-        "currency" => $request->items_0_price_details_currency,
-         "price_type" => $request->items_0_price_details_price_type,
-        "regular_amount" => $request->items_0_price_details_regular_amount],
-        1,$request->buyer
-        )[0];
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        $apiKeyID=ApiKey::where("merchant_id",$request->merchant)->select("id")->first();
+        $apiKeyID=($apiKeyID!=null)?$apiKeyID->id:0;
+        $buyerIdentity=identities::makeBuyerIdentity($request->email,
+        $user_id,
+        $apiUser_id,
+        $apiKeyID
+    );
+        if(!$buyerIdentity["worked"]){
+            session()->flash('success', 'unable to make buyer identity '.$buyerIdentity["responce"]);
+            return redirect()->back();
+        }
+        $checkout=finix_checkout_forms::makeCheckout(
+            $request->amount_details_amount_type,
+            $request->amount_details_total_amount,
+            $request->amount_details_currency,
+            null,null,
+            $request->amount_details_amount_breakdown_subtotal_amount,
+            $request->amount_details_amount_breakdown_shipping_amount,
+            $request->amount_details_amount_breakdown_estimated_tax_amount,
+            $request->amount_details_amount_breakdown_discount_amount,
+            $request->amount_details_amount_breakdown_tip_amount,
+            $request->branding_brand_color,
+            $request->branding_accent_color,
+            $request->branding_logo,
+            $request->branding_icon,
+            $request->additional_details_collect_name??'false',
+            $request->additional_details_collect_email??'false',
+            $request->additional_details_collect_phone_number??'false',
+            $request->additional_details_collect_billing_address??'false',
+            $request->additional_details_collect_shipping_address??'false',
+            $request->additional_details_success_return_url,
+          $request->additional_details_cart_return_url,
+            $request->additional_details_expired_session_url,
+            $request->additional_details_terms_of_service_url,
+            $request->merchant,
+            false,
+            [$request->allowed_payment_methods_0],
+            $request->nickname,
+            ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
+            "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
+            "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
+            $request->description,
+            ["sale_amount" => $request->items_0_price_details_sale_amount,
+            "currency" => $request->items_0_price_details_currency,
+             "price_type" => $request->items_0_price_details_price_type,
+            "regular_amount" => $request->items_0_price_details_regular_amount],
+            1,$buyerIdentity, $user_id,
+            $apiUser_id,
+            $apiKeyID
+        );
+        if(!$checkout["worked"]){
+            session()->flash('success', 'unable to make checkout '.$checkout["responce"]);
+            return redirect()->back();
+        }
+        session()->flash('success', 'checkout made '.$checkout["responce"]);
+         return redirect()->back();
     }
     public function paylinkTest(Request $request){
         return merchantsController::createPaymentLinkMinReq(config("app.api_username"),config("app.api_password"),

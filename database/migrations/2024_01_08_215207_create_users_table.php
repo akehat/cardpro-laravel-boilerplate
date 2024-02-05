@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContactUsTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -22,6 +22,7 @@ class CreateContactUsTable extends Migration
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -29,6 +30,6 @@ class CreateContactUsTable extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('users');
+        Schema::dropIfExists('users');
     }
 }

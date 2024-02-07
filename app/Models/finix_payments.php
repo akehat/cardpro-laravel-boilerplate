@@ -127,7 +127,7 @@ public function scopeAccessible($query)
         $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$merchant,$currency,$amount_in_cents,$card,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
         if($payment[1]>=200&&$payment[1]<300){
         $value=(object)json_decode($payment[0]);
-        $paymentMade=finix_payments::create([
+        $paymentMade=self::create([
             'finix_id'=>$value->id??null,
             'created_at_finix'=>$value->created_at??null,
             'updated_at_finix'=>$value->updated_at??null,
@@ -181,10 +181,18 @@ public function scopeAccessible($query)
         if(!empty($api_userID)){
         $exists=self::where('finix_id',$id)->where('api_user', $api_userID)->first();
         }else if(!empty($apikeyID)&&$apikeyID!=0){
-        $exists=self::where('finix_id',$id)->where('api_key', $api_userID)->first();
+        $exists=self::where('finix_id',$id)->where('api_key', $apikeyID)->first();
         }
         if($exists!==null){
-            merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$id,['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID,'refund'=>'made']],$amount_in_cents,$endpoint);
+            $refund=merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$id,['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID,'refund'=>'made']],$amount_in_cents,$endpoint);
+            if($refund[1]>=200&&$refund[1]<300){
+                self::fromArray([json_decode($refund[0])]);
+            return ['worked'=>true,"responce"=>$refund[0]];
+
+            }
+            return ['worked'=>false,"responce"=>$refund[0]];
+
         }
+        return ['worked'=>false,"responce"=>"We dont have a payment for that user"];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\API\merchantsController;
 use App\Models\ApiUser;
 use App\Models\applications;
 use App\Models\Email;
+use App\Models\finix_payments;
 use App\Models\identities;
 use App\Models\payment_ways;
 use App\Models\settlements;
@@ -124,26 +125,7 @@ class tesingCommand extends Command
         // ]);
         // $email->save();
         // $email->refresh();        identities::runUpdate();
-        $username=config("app.api_username");
-        $password=config("app.api_password");
-       $data=[];
-        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://finix.sandbox-payments-api.com/identities/IDrDicCq3oDe7b82VqzsUm57/users");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Finix-Version: 2022-02-01',
-        ]);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, '{}');
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        var_dump($response);
-                return 0;
+        finix_payments::updateFromId('TRn1iw1UvQXhQh6oBkCzrnJC');
     }
 }
 

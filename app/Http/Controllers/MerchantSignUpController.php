@@ -53,12 +53,12 @@ use Illuminate\Support\Facades\Session;
 class MerchantSignUpController extends Controller
 {
     public function get(){
-        if(Auth::user()->hasID){
+        // if(Auth::user()->hasID){
             $this->loadUserSession();
             return view('frontend.pages.portal.merchantSignUp');
-        }else{
+        // }else{
             return view('frontend.pages.portal.organizationSignUp');
-        }
+        // }
     }
     public function getFeeForm(){
         return view('frontend.pages.portal.feeProfileAdmin');
@@ -172,7 +172,7 @@ class MerchantSignUpController extends Controller
         $user_id=Auth::id();
         $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
         $apiKeyID=ApiKey::where('merchant_id',$payment->merchant)->first();
-        $apiKeyID=($apiKeyID==null)?$apiKeyID->id:0;
+        $apiKeyID=($apiKeyID!=null)?$apiKeyID->id:0;
         return json_encode(finix_payments::makeRefund($payment->finix_id,$request->amount,$apiUser_id,$apiKeyID));
     }
     public function captureHold(Request $request){
@@ -185,7 +185,7 @@ class MerchantSignUpController extends Controller
         $payment=Authorization::where('id',$request->id)->first();
         $user_id=Auth::id();
         $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
-        return json_encode(Authorization::returnHold($payment->finix_id,$request->amount,$apiUser_id));
+        return json_encode(Authorization::voidCapture($payment->finix_id,$apiUser_id));
     }
     public function checkoutTest(Request $request){
         $user_id=Auth::id();
@@ -248,43 +248,101 @@ class MerchantSignUpController extends Controller
          return redirect()->back();
     }
     public function paylinkTest(Request $request){
-        return merchantsController::createPaymentLinkMinReq(config("app.api_username"),config("app.api_password"),
-        $request->merchant,
-        "ONE_TIME",
-        $request->allowed_payment_methods_0,
-        $request->nickname,
-        ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
-        "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
-        "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
-        $request->description,
-        ["sale_amount" => $request->items_0_price_details_sale_amount,
-        "currency" => $request->items_0_price_details_currency,
-         "price_type" => $request->items_0_price_details_price_type,
-        "regular_amount" => $request->items_0_price_details_regular_amount],
-        1,
-        $request->amount_details_amount_type,
-        $request->amount_details_total_amount,
-        $request->amount_details_currency,
-        $request->amount_details_amount_breakdown_subtotal_amount,
-        $request->amount_details_amount_breakdown_shipping_amount,
-        $request->amount_details_amount_breakdown_estimated_tax_amount,
-        $request->amount_details_amount_breakdown_discount_amount,
-        $request->amount_details_amount_breakdown_tip_amount,
-        $request->branding_brand_color,
-      $request->branding_accent_color,
-      $request->branding_logo,
-      $request->branding_icon,
-      $request->additional_details_collect_name??'false',
-      $request->additional_details_collect_email??'false',
-      $request->additional_details_collect_phone_number??'false',
-      $request->additional_details_collect_billing_address??'false',
-      $request->additional_details_collect_shipping_address??'false',
-      $request->additional_details_success_return_url,
-      $request->additional_details_cart_return_url,
-      $request->additional_details_expired_session_url,
-      $request->additional_details_terms_of_service_url,
-      $request->additional_details_expiration_in_minutes
-        )[0];//formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
+        $user_id=Auth::id();
+        $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
+        $apiKeyID=ApiKey::where("merchant_id",$request->merchant)->select("id")->first();
+        $apiKeyID=($apiKeyID!=null)?$apiKeyID->id:0;
+        $buyerIdentity=identities::makeBuyerIdentity($request->email,
+        $user_id,
+        $apiUser_id,
+        $apiKeyID
+    );
+        if(!$buyerIdentity["worked"]){
+            session()->flash('success', 'unable to make buyer identity '.$buyerIdentity["responce"]);
+            return redirect()->back();
+        }
+        $paymentLink=finix_payment_links::makePaymentLink(
+            $request->amount_details_amount_type,
+            $request->amount_details_total_amount,
+            $request->amount_details_currency,
+            null,null,
+            $request->amount_details_amount_breakdown_subtotal_amount,
+            $request->amount_details_amount_breakdown_shipping_amount,
+            $request->amount_details_amount_breakdown_estimated_tax_amount,
+            $request->amount_details_amount_breakdown_discount_amount,
+            $request->amount_details_amount_breakdown_tip_amount,
+            $request->branding_brand_color,
+            $request->branding_accent_color,
+            $request->branding_logo,
+            $request->branding_icon,
+            $request->additional_details_collect_name??'false',
+            $request->additional_details_collect_email??'false',
+            $request->additional_details_collect_phone_number??'false',
+            $request->additional_details_collect_billing_address??'false',
+            $request->additional_details_collect_shipping_address??'false',
+            $request->additional_details_success_return_url,
+          $request->additional_details_cart_return_url,
+            $request->additional_details_expired_session_url,
+            $request->additional_details_terms_of_service_url,
+            $request->merchant,
+            false,
+            [$request->allowed_payment_methods_0],
+            $request->nickname,
+            ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
+            "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
+            "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
+            $request->description,
+            ["sale_amount" => $request->items_0_price_details_sale_amount,
+            "currency" => $request->items_0_price_details_currency,
+             "price_type" => $request->items_0_price_details_price_type,
+            "regular_amount" => $request->items_0_price_details_regular_amount],
+            1,$buyerIdentity, $user_id,
+            $apiUser_id,
+            $apiKeyID
+        );
+        if(!$paymentLink["worked"]){
+            session()->flash('success', 'unable to make payment link '.$paymentLink["responce"]);
+            return redirect()->back();
+        }
+        session()->flash('success', 'payment link made '.$paymentLink["responce"]);
+         return redirect()->back();
+    //     return merchantsController::createPaymentLinkMinReq(config("app.api_username"),config("app.api_password"),
+    //     $request->merchant,
+    //     "ONE_TIME",
+    //     $request->allowed_payment_methods_0,
+    //     $request->nickname,
+    //     ["primary_image_url" =>  $request->items_0_image_details_primary_image_url,
+    //     "alternative_image_urls_0" => $request->items_0_image_details_alternative_image_urls_0,
+    //     "alternative_image_urls_1" => $request->items_0_image_details_alternative_image_urls_1],
+    //     $request->description,
+    //     ["sale_amount" => $request->items_0_price_details_sale_amount,
+    //     "currency" => $request->items_0_price_details_currency,
+    //      "price_type" => $request->items_0_price_details_price_type,
+    //     "regular_amount" => $request->items_0_price_details_regular_amount],
+    //     1,
+    //     $request->amount_details_amount_type,
+    //     $request->amount_details_total_amount,
+    //     $request->amount_details_currency,
+    //     $request->amount_details_amount_breakdown_subtotal_amount,
+    //     $request->amount_details_amount_breakdown_shipping_amount,
+    //     $request->amount_details_amount_breakdown_estimated_tax_amount,
+    //     $request->amount_details_amount_breakdown_discount_amount,
+    //     $request->amount_details_amount_breakdown_tip_amount,
+    //     $request->branding_brand_color,
+    //   $request->branding_accent_color,
+    //   $request->branding_logo,
+    //   $request->branding_icon,
+    //   $request->additional_details_collect_name??'false',
+    //   $request->additional_details_collect_email??'false',
+    //   $request->additional_details_collect_phone_number??'false',
+    //   $request->additional_details_collect_billing_address??'false',
+    //   $request->additional_details_collect_shipping_address??'false',
+    //   $request->additional_details_success_return_url,
+    //   $request->additional_details_cart_return_url,
+    //   $request->additional_details_expired_session_url,
+    //   $request->additional_details_terms_of_service_url,
+    //   $request->additional_details_expiration_in_minutes
+    //     )[0];//formController::createCheckoutForm(config("app.api_username"),config("app.api_password"),$request->id,true)[0];
     }
     public function signup(Request $request){
         $user_id=Auth::id();
@@ -372,7 +430,7 @@ class MerchantSignUpController extends Controller
             'name'=>$request->entity_first_name." ".$request->entity_last_name,
             'ip'=>$this->getIp(),
             'user_id'=>Auth::id(),
-            'merchant_id'=>$$merchant["ref"]->finix_id,
+            'merchant_id'=>$merchant["ref"]->finix_id,
             'browser'=>$browser->getUserAgent()
         ]);
         $awaiting->save();

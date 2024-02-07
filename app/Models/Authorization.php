@@ -86,7 +86,7 @@ public function scopeAccessible($query)
                     'amount' => $data->amount ?? null,
                     'amount_requested' => $data->amount_requested ?? null,
                     'application' => $data->application ?? null,
-                    'card_present_details' => json_encode($data->card_present_details) ?? null,
+                    'card_present_details' => json_encode($data->card_present_details??[]) ?? null,
                     'currency' => $data->currency ?? null,
                     'device' => $data->device ?? null,
                     'expires_at' => $data->expires_at ?? null,
@@ -95,12 +95,12 @@ public function scopeAccessible($query)
                     'idempotency_id' => $data->idempotency_id ?? null,
                     'is_void' => $data->is_void ?? false,
                     'merchant_identity' => $data->merchant_identity ?? null,
-                    'messages' => json_encode($data->messages) ?? null,
-                    'raw' => json_encode($data->raw) ?? null,
+                    'messages' => json_encode($data->messages??[]) ?? null,
+                    'raw' => json_encode($data->raw??[]) ?? null,
                     'security_code_verification' => $data->security_code_verification ?? null,
                     'source' => $data->source ?? null,
                     'state' => $data->state ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags??[]) ?? null,
                     'trace_id' => $data->trace_id ?? null,
                     'transfer' => $data->transfer ?? null,
                     'void_state' => $data->void_state ?? null,
@@ -129,7 +129,7 @@ public function scopeAccessible($query)
             'amount' => $value->amount ?? null,
             'amount_requested' => $value->amount_requested ?? null,
             'application' => $value->application ?? null,
-            'card_present_details' => json_encode($value->card_present_details) ?? null,
+            'card_present_details' => json_encode($value->card_present_details??[]) ?? null,
             'currency' => $value->currency ?? null,
             'device' => $value->device ?? null,
             'expires_at' => $value->expires_at ?? null,
@@ -138,8 +138,8 @@ public function scopeAccessible($query)
             'idempotency_id' => $value->idempotency_id ?? null,
             'is_void' => $value->is_void ?? false,
             'merchant_identity' => $value->merchant_identity ?? null,
-            'messages' => json_encode($value->messages) ?? null,
-            'raw' => json_encode($value->raw) ?? null,
+            'messages' => json_encode($value->messages??[]) ?? null,
+            'raw' => json_encode($value->raw??[]) ?? null,
             'security_code_verification' => $value->security_code_verification ?? null,
             'source' => $value->source ?? null,
             'state' => $value->state ?? null,
@@ -165,11 +165,60 @@ public function scopeAccessible($query)
         if(!empty($api_userID)){
         $exists=self::where('finix_id',$id)->where('api_user', $api_userID)->first();
         }else if(!empty($apikeyID)&&$apikeyID!=0){
-        $exists=self::where('finix_id',$id)->where('api_key', $api_userID)->first();
+        $exists=self::where('finix_id',$id)->where('api_key', $apikeyID)->first();
         }
         if($exists!==null){
-            merchantsController::captureHold(config("app.api_username"),config("app.api_password"),$id,$amount_in_cents,0,$endpoint,[],['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+            $capture= merchantsController::captureHold(config("app.api_username"),config("app.api_password"),$id,$amount_in_cents,0,$endpoint,[],['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+            if($capture[1]>=200&&$capture[1]<300){
+                $value=json_decode($capture[0]);
+                $paymentMade=finix_payments::create([
+                    'finix_id'=>$value->id??null,
+                    'created_at_finix'=>$value->created_at??null,
+                    'updated_at_finix'=>$value->updated_at??null,
+                    'additional_buyer_charges'=>$value->additional_buyer_charges??null,
+                    'additional_healthcare_data'=>$value->additional_healthcare_data??null,
+                    'additional_purchase_data'=>$value->additional_purchase_data??null,
+                    'address_verification'=>$value->address_verification??null,
+                    'amount'=>$value->amount??null,
+                    'amount_requested'=>$value->amount_requested??null,
+                    'application'=>$value->application??null,
+                    'currency'=>$value->currency??null,
+                    'destination'=>$value->destination??null,
+                    'externally_funded'=>$value->externally_funded??null,
+                    'failure_code'=>$value->failure_code??null,
+                    'failure_message'=>$value->failure_message??null,
+                    'fee'=>$value->fee??null,
+                    'idempotency_id'=>$value->idempotency_id??null,
+                    'merchant'=>$value->merchant??null,
+                    'merchant_identity'=>$value->merchant_identity??null,
+                    'messages'=>json_encode($value->messages??[])??null,
+                    'parent_transfer'=>$value->parent_transfer??null,
+                    'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
+                    'raw'=>$value->raw??null,
+                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
+                    'security_code_verification'=>$value->security_code_verification??null,
+                    'source'=>$value->source??null,
+                    'split_transfers'=>json_encode($value->split_transfers??[])??null,
+                    'state'=>$value->state??null,
+                    'statement_descriptor'=>$value->statement_descriptor??null,
+                    'subtype'=>$value->subtype??null,
+                    'tags'=>json_encode($value->tags??[])??null,
+                    'trace_id'=>$value->trace_id??null,
+                    'type'=>$value->type??null,
+                    'fee_type'=>$value->fee_type??null,
+                    'api_user'=>$api_userID??null,
+                    'is_live'=>$islive??null,
+                    'api_key'=>''.$apikeyID??null
+                ]);
+                $paymentMade->save();
+                $paymentMade->refresh();
+            return ['worked'=>true,"responce"=>$capture[0]];
+
+            }
+            return ['worked'=>false,"responce"=>$capture[0]];
         }
+        return ['worked'=>false,"responce"=>"We dont have a hold for that user"];
     }
     public static function voidCapture($id,$api_userID,$apikeyID=0){
         $islive=false;
@@ -178,10 +227,18 @@ public function scopeAccessible($query)
         if(!empty($api_userID)){
         $exists=self::where('finix_id',$id)->where('api_user', $api_userID)->first();
         }else if(!empty($apikeyID)&&$apikeyID!=0){
-        $exists=self::where('finix_id',$id)->where('api_key', $api_userID)->first();
+        $exists=self::where('finix_id',$id)->where('api_key', $apikeyID)->first();
         }
         if($exists!==null){
-            merchantsController::releaseHold(config("app.api_username"),config("app.api_password"),$id,true,$endpoint);
+            $refund= merchantsController::releaseHold(config("app.api_username"),config("app.api_password"),$id,true,$endpoint);
+            if($refund[1]>=200&&$refund[1]<300){
+                self::fromArray([json_decode($refund[0])]);
+            return ['worked'=>true,"responce"=>$refund[0]];
+
+            }
+            return ['worked'=>false,"responce"=>$refund[0]];
         }
+        return ['worked'=>false,"responce"=>"We dont have a hold for that user"];
+
     }
 }

@@ -128,7 +128,7 @@ public static function fromArray(array $array)
 public static function makeMerchant($merchantIdentity,$userID,$api_userID,$apikeyID=0){
     $islive=false;
     $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
-    $processor=$islive?merchantsController::$processors[0]:merchantsController::$processors[1];
+    $processor=$islive?merchantsController::$processors[1]:merchantsController::$processors[0];
     $merchant=merchantsController::createAMerchantMinReq(config("app.api_username"),config("app.api_password"), $merchantIdentity,$processor,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
     if($merchant[1]>=200&&$merchant[1]<300){
     $value=(object)json_decode($merchant[0]);

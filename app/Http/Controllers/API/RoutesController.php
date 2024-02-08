@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
+use App\Domains\Auth\Models\User;
 use App\Http\Controllers\API\merchantsController;
 use App\Models\ApiKey;
 use App\Models\ApiUser;
-
+use App\Models\identities;
+use App\Models\identities_live;
 use Illuminate\Http\Request;
 
 class RoutesController extends Controller
@@ -194,10 +197,50 @@ class RoutesController extends Controller
         }
         return response()->json(['error' => 'Invalid API key'], 401);
     }
-public function getBalance(){}
-public function createCustomer(){}
-public function updateCustomer(){}
-public function getCustomer(){}
+public function retrieveInfo($apiKey){
+    $apiKey=ApiKey::where('api_key', $apiKey)->first();
+    if($apiKey==null){
+        $user=User::where('api_key', $apiKey)->first();
+        if($user!==null){
+            $api_userID=$user->api_users_id;
+            $live=$user->live;
+        }else{
+            return ['worked'=>false,"responce"=>"Invalid API key"];
+        }
+    }else{
+        $api_userID=$apiKey->api_user;
+        $apiKey=$apiKey->id;
+        $live=$apiKey->live;
+    }
+    $userID=$api_userID->user_id;
+    return ['worked'=>true,"apikey"=>$apiKey,'api_userID'=>$api_userID,'userID'=>$userID,"live"=>$live];
+}
+public function getBalance($request){}
+public function createCustomer(){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $custumer=identities_live::makeBuyerIdentity($request['email'],$request['userID'],$request['api_userID'],$request['apikey']??0);
+    }else{
+        $custumer=identities::makeBuyerIdentity($request['email'],$request['userID'],$request['api_userID'],$request['apikey']??0);
+    }
+    if($custumer['worked']){
+        return response()->json($custumer['responce'], 200);
+    }
+    return response()->json($custumer['responce'], 301);
+}
+public function updateCustomer($request){}
+public function getCustomer(){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if($info['live']){
+        $custumer=identities_live::authenticateGetCustomerByID($request['id'],$request['api_userID'],$request['apikey']);
+    }else{
+        $custumer=identities::authenticateGetCustomerByID($request['id'],$request['api_userID'],$request['apikey']);
+    }
+    return response()->json($custumer['responce'], 301);
+}
 public function getCustomers(){}
 public function customers_search(){}
 public function getCampaignCustomers(){}

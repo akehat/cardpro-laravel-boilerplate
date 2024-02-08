@@ -19,6 +19,41 @@ public function scopeAccessible($query)
         // If not an admin, add the additional condition
         return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
     }
+ public static function authenticateGetID($id, $api_userID , $api_key)
+    {
+        if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
+        // Check if the API key is a sub key
+        if ($api_key > 1 || $api_key === null) {
+            return self::where(function ($query) use ($id) {
+            $query->where('id', $id)
+                  ->orWhere('finix_id', $id);
+        })->where('api_key', $api_key)
+                ->where('api_user', $api_userID)
+                ->first();
+        } else {
+            // If the API key is not a sub key, no need to query the database
+            return self::where('api_user', $api_userID)
+                ->where(function ($query) use ($id) {
+            $query->where('id', $id)
+                  ->orWhere('finix_id', $id);
+        })
+                ->first();
+        }
+    }
+    public static function authenticateGet( $api_userID , $api_key)
+    {
+        if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
+        // Check if the API key is a sub key
+        if ($api_key > 1 || $api_key === null) {
+            return self::where('api_key', $api_key)
+                ->where('api_user', $api_userID)
+                ->first();
+        } else {
+            // If the API key is not a sub key, no need to query the database
+            return self::where('api_user', $api_userID)
+                ->first();
+        }
+    }
     use HasFactory;
     protected $table='finix_application_profiles';
     protected $guarded=['id'];

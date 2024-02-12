@@ -60,6 +60,10 @@ class MerchantSignUpController extends Controller
             return view('frontend.pages.portal.organizationSignUp');
         // }
     }
+    public function getKeys(){
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)["array"=>User::getApiDataByUserId(Auth::id())], JSON_PRETTY_PRINT))]);
+    }
+
     public function getFeeForm(){
         return view('frontend.pages.portal.feeProfileAdmin');
     }

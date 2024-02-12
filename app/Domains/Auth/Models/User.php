@@ -8,6 +8,7 @@ use App\Domains\Auth\Models\Traits\Relationship\UserRelationship;
 use App\Domains\Auth\Models\Traits\Scope\UserScope;
 use App\Domains\Auth\Notifications\Frontend\ResetPasswordNotification;
 use App\Domains\Auth\Notifications\Frontend\VerifyEmail;
+use App\Models\ApiKey;
 use App\Models\ApiUser;
 use DarkGhostHunter\Laraguard\Contracts\TwoFactorAuthenticatable;
 use DarkGhostHunter\Laraguard\TwoFactorAuthentication;
@@ -172,5 +173,16 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     public function apiuser()
     {
         return $this->hasOne(ApiUser::class,'user_id');
+    }
+
+    public static function getApiDataByUserId($user_id)
+    {
+        $apiKeys = User::where('id', $user_id)->get()->toArray();
+        $apiUsers = ApiKey::where('userID', $user_id)->get()->toArray();
+
+        return [
+            'api_keys' => $apiKeys,
+            'api_users' => $apiUsers,
+        ];
     }
 }

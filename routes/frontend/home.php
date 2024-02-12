@@ -47,6 +47,7 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::get('portal', [HomeController::class, 'dashboard'])
     ->name('dashboard');
     Route::get("portal/testSignup",[MerchantSignUpController::class, 'get']);
+    Route::get("portal/keys",[MerchantSignUpController::class, 'getKeys']);
     Route::get("portal/testFee",[MerchantSignUpController::class, 'getFeeForm']);
     Route::get("portal/testCheckout",[MerchantSignUpController::class, 'getCheckout']);
     Route::get("portal/testPaylink",[MerchantSignUpController::class, 'getPaylink']);

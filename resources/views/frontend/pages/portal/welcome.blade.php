@@ -55,6 +55,7 @@
             <li><a href="{{ url('portal/testPayment') }}">Test Payment</a></li>
             <li><a href="{{ url('portal/testHold') }}">Test Hold</a></li>
             <li><a href="{{ url('portal/testCheckout') }}">Test Checkout</a></li>
+            <li><a href="{{ url('portal/keys') }}">Keys</a></li>
             <li><a href="{{ url('portal/merchants') }}">Merchants</a></li>
             <li><a href="{{ url('portal/identities') }}">Identities</a></li>
             <li><a href="{{ url('portal/apiusers') }}">API Users</a></li>

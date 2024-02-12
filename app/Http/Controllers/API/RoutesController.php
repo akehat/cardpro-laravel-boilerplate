@@ -21,191 +21,191 @@ use Validator;
 
 class RoutesController extends Controller
 {
-     function handlePaymentRequest($apiKey, $paymentId = null)
-    {
-        // Check if API key exists in the database
-        $api = ApiKey::where('api_key', $apiKey)->first();
+    //  function handlePaymentRequest($apiKey, $paymentId = null)
+    // {
+    //     // Check if API key exists in the database
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
 
-        if ($api) {
-            // Set endpoint based on the "live" parameter
-            $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     if ($api) {
+    //         // Set endpoint based on the "live" parameter
+    //         $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
 
-            // Call the appropriate function based on the presence of $paymentId
-            if ($paymentId) {
-                $result = merchantsController::fetchPayment(config("app.api_username"), config("app.api_password"), $paymentId, $endpoint);
-            } else {
-                $result = merchantsController::listPayments(config("app.api_username"), config("app.api_password"), config(), $endpoint, ['filter' => json_encode(['tags.api' => $apiKey])]);
-            }
+    //         // Call the appropriate function based on the presence of $paymentId
+    //         if ($paymentId) {
+    //             $result = merchantsController::fetchPayment(config("app.api_username"), config("app.api_password"), $paymentId, $endpoint);
+    //         } else {
+    //             $result = merchantsController::listPayments(config("app.api_username"), config("app.api_password"), config(), $endpoint, ['filter' => json_encode(['tags.api' => $apiKey])]);
+    //         }
 
-            return $result[0];
-        } else {
-            // API key not found
-            return response()->json(['error' => 'Invalid API key'], 401);
-        }
-    }
-    function handleMakePaymentRequest($apiKey, $live, $email, $exp_month, $exp_year, $name, $cardNumber, $cvv, $amount, $currency)
-    {
-        // Check if API key exists in the database
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        $merchant = ApiUser::where('api_key',$apiKey)->first();
-        if ($api) {
-            // Set endpoint based on the "live" parameter
-            $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-            $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),"byersolomon@mail.com",$endpoint);
-            $id=json_decode($id[0],true)['id'];
-            $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
-            $exp_month,$exp_year,$id,$name,$cardNumber,$cvv,"PAYMENT_CARD",$endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]);
-            $card=json_decode($card[0],true)['id'];
-            $result=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$api->merchant,$currency,$amount,$card, $endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]);
-            return $result[0];
-        } else {
-            // API key not found
-            return response()->json(['error' => 'Invalid API key'], 401);
-        }
-    }
-    function handlePaymentMethodsRequest($apiKey, $live, $paymentMethodId = null)
-    {
-        // Check if API key exists in the database
-        $api = ApiKey::where('api_key', $apiKey)->first();
+    //         return $result[0];
+    //     } else {
+    //         // API key not found
+    //         return response()->json(['error' => 'Invalid API key'], 401);
+    //     }
+    // }
+    // function handleMakePaymentRequest($apiKey, $live, $email, $exp_month, $exp_year, $name, $cardNumber, $cvv, $amount, $currency)
+    // {
+    //     // Check if API key exists in the database
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     $merchant = ApiUser::where('api_key',$apiKey)->first();
+    //     if ($api) {
+    //         // Set endpoint based on the "live" parameter
+    //         $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //         $id=merchantsController::createIdentityBuyerMinReq(config("app.api_username"),config("app.api_password"),"byersolomon@mail.com",$endpoint);
+    //         $id=json_decode($id[0],true)['id'];
+    //         $card=merchantsController::createPaymentInstramentMinReq(config("app.api_username"),config("app.api_password"),
+    //         $exp_month,$exp_year,$id,$name,$cardNumber,$cvv,"PAYMENT_CARD",$endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]);
+    //         $card=json_decode($card[0],true)['id'];
+    //         $result=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$api->merchant,$currency,$amount,$card, $endpoint,[],["tags"=>["api"=>$api,"merchant"=>$merchant->id]]);
+    //         return $result[0];
+    //     } else {
+    //         // API key not found
+    //         return response()->json(['error' => 'Invalid API key'], 401);
+    //     }
+    // }
+    // function handlePaymentMethodsRequest($apiKey, $live, $paymentMethodId = null)
+    // {
+    //     // Check if API key exists in the database
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
 
-        if ($api) {
-            // Set endpoint based on the "live" parameter
-            $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     if ($api) {
+    //         // Set endpoint based on the "live" parameter
+    //         $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
 
-            // Call the appropriate function based on the presence of $paymentId
-            if ($paymentMethodId) {
-                $result = merchantsController::fetchPayment(config("app.api_username"), config("app.api_password"), $paymentMethodId, $endpoint);
-            } else {
-                $result = merchantsController::listPaymentInstraments(config("app.api_username"), config("app.api_password"), config(), $endpoint, ['filter' => json_encode(['tags.api' => $apiKey])]);
-            }
+    //         // Call the appropriate function based on the presence of $paymentId
+    //         if ($paymentMethodId) {
+    //             $result = merchantsController::fetchPayment(config("app.api_username"), config("app.api_password"), $paymentMethodId, $endpoint);
+    //         } else {
+    //             $result = merchantsController::listPaymentInstraments(config("app.api_username"), config("app.api_password"), config(), $endpoint, ['filter' => json_encode(['tags.api' => $apiKey])]);
+    //         }
 
-            return $result[0];
-        } else {
-            // API key not found
-            return response()->json(['error' => 'Invalid API key'], 401);
-        }
-    }
-    function handleRefundRequest($apiKey, $live, $paymentId, $refundAmount)
-    {
-        // Check if API key exists in the database
-        $api = ApiKey::where('api_key', $apiKey)->first();
+    //         return $result[0];
+    //     } else {
+    //         // API key not found
+    //         return response()->json(['error' => 'Invalid API key'], 401);
+    //     }
+    // }
+    // function handleRefundRequest($apiKey, $live, $paymentId, $refundAmount)
+    // {
+    //     // Check if API key exists in the database
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
 
-        if ($api) {
-            // Set endpoint based on the "live" parameter
-            $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     if ($api) {
+    //         // Set endpoint based on the "live" parameter
+    //         $endpoint = $live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
 
-            // Call the appropriate function based on the presence of $paymentId
-            if ($paymentId) {
-                $result = merchantsController::createRefund(config("app.api_username"), config("app.api_password"), $paymentId, $refundAmount ,$endpoint);
-            }
+    //         // Call the appropriate function based on the presence of $paymentId
+    //         if ($paymentId) {
+    //             $result = merchantsController::createRefund(config("app.api_username"), config("app.api_password"), $paymentId, $refundAmount ,$endpoint);
+    //         }
 
-            return $result[0];
-        } else {
-            // API key not found
-            return response()->json(['error' => 'Invalid API key'], 401);
-        }
-    }
-    function makePyament(){
-        return $this->handleMakePaymentRequest(request('api_key'), request('live', false), request('email'),request('$exp_month'),request('$exp_year'),request('$name'),request('$cardNumber'),request('$cvv'),request('$amount'),request('currency'),);
-    }
-    function listPayments(){
-        return $this->handlePaymentRequest(request('api_key'), request('live', false), null);
-    }
-    function fetchPayment(){
-        return $this->handlePaymentRequest(request('api_key'), request('live', false), request('payment_id'));
-    }
-    function refundPayment(){
-        return $this->handlePaymentRequest(request('api_key'), request('live', false), request('payment_id'),request('refund_amount'));
-    }public function identities(){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::listIdentities(config("app.api_username"),config("app.api_password"), $endpoint,array_merge(request()->query(),['filter' => json_encode(['tags.api' => $apiKey])]))[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function identity($id){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id, $endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function payments(){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::listPayments(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function payment($id){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function payment_instraments(){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function payment_instrament($id){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function merchants(){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-         return merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function merchant($id){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return  merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function fee_profile($id){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return  merchantsController::fetchFeeProfile(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
-    public function fee_profiles(){
-        $apiKey = request()->header('Authorization');
-        $api = ApiKey::where('api_key', $apiKey)->first();
-        if ($api) {
-        $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
-        return merchantsController::listFeeProfile(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
-        }
-        return response()->json(['error' => 'Invalid API key'], 401);
-    }
+    //         return $result[0];
+    //     } else {
+    //         // API key not found
+    //         return response()->json(['error' => 'Invalid API key'], 401);
+    //     }
+    // }
+    // function makePyament(){
+    //     return $this->handleMakePaymentRequest(request('api_key'), request('live', false), request('email'),request('$exp_month'),request('$exp_year'),request('$name'),request('$cardNumber'),request('$cvv'),request('$amount'),request('currency'),);
+    // }
+    // function listPayments(){
+    //     return $this->handlePaymentRequest(request('api_key'), request('live', false), null);
+    // }
+    // function fetchPayment(){
+    //     return $this->handlePaymentRequest(request('api_key'), request('live', false), request('payment_id'));
+    // }
+    // function refundPayment(){
+    //     return $this->handlePaymentRequest(request('api_key'), request('live', false), request('payment_id'),request('refund_amount'));
+    // }public function identities(){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::listIdentities(config("app.api_username"),config("app.api_password"), $endpoint,array_merge(request()->query(),['filter' => json_encode(['tags.api' => $apiKey])]))[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function identity($id){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::fetchIDIdentity(config("app.api_username"),config("app.api_password"),$id, $endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function payments(){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::listPayments(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function payment($id){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::fetchPayment(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function payment_instraments(){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function payment_instrament($id){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function merchants(){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //      return merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function merchant($id){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return  merchantsController::fetchMerchant(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function fee_profile($id){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return  merchantsController::fetchFeeProfile(config("app.api_username"),config("app.api_password"),$id,$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
+    // public function fee_profiles(){
+    //     $apiKey = request()->header('Authorization');
+    //     $api = ApiKey::where('api_key', $apiKey)->first();
+    //     if ($api) {
+    //     $endpoint = $api->live ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+    //     return merchantsController::listFeeProfile(config("app.api_username"),config("app.api_password"),$endpoint,request()->query())[0];
+    //     }
+    //     return response()->json(['error' => 'Invalid API key'], 401);
+    // }
 public function retrieveInfo($apiKey){
     $apiKey=ApiKey::where('api_key', $apiKey)->first();
     $merchant=false;
@@ -245,6 +245,7 @@ public function updateCustomer($request){}
 public function getCustomer(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $custumer=identities_live::authenticateGetCustomerByID($request['id'],$info['api_userID'],$info['apikey']);
     }else{
@@ -258,6 +259,7 @@ public function getCustomer(){
 public function getCustomers(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $custumers=identities_live::authenticateGetCustomer($info['api_userID'],$info['apikey']);
     }else{
@@ -268,13 +270,31 @@ public function getCustomers(){
     }
     return response()->json($custumers->toArray(), 201);
 }
-public function customers_search(){}
+public function customers_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $charges=finix_payments_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $charges=identities::authenticateSearchCustomer($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($charges)){
+         return response()->json(['error'=>"failed to get charges"], 301);
+    }
+    return response()->json($charges->toArray(), 201);
+}
 public function getCampaignCustomers(){}
 public function getCampaignBalance(){}
 
 public function createCharges(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $card=identities_live::authenticateGetCustomerByID($request['CardID'],$info['api_userID'],$info['apikey']);
     }else{
@@ -318,8 +338,9 @@ public function updateCharge(){}
 public function getCharge(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $payment=finix_payments::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $payment=finix_payments_live::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
     }else{
         $payment=finix_payments::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
     }
@@ -331,17 +352,35 @@ public function getCharge(){
 public function getCharges(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $charges=identities_live::authenticateGet($info['api_userID'],$info['apikey']);
+        $charges=finix_payments_live::authenticateGet($info['api_userID'],$info['apikey']);
     }else{
-        $charges=identities::authenticateGet($info['api_userID'],$info['apikey']);
+        $charges=finix_payments::authenticateGet($info['api_userID'],$info['apikey']);
     }
     if(empty($charges)){
          return response()->json(['error'=>"failed to get charges"], 301);
     }
     return response()->json($charges->toArray(), 201);
 }
-public function charges_search(){}
+public function charges_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $charges=finix_payments_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $charges=finix_payments::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($charges)){
+         return response()->json(['error'=>"failed to get charges"], 301);
+    }
+    return response()->json($charges->toArray(), 201);
+}
 
 
 public function updateDispute(){}
@@ -373,6 +412,7 @@ public function reversePayout(){}
 public function createRefund(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $payment=finix_payments::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
     }else{
@@ -435,6 +475,7 @@ public function createPaymentWay(){
     $card_number = $request['card_number'];
     $cvv = $request['cvv'];
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $custumer=identities_live::authenticateGetCustomerByID($request['id'],$info['api_userID'],$info['apikey']);
     }else{
@@ -502,6 +543,7 @@ public function checkout_search(){}
 public function createHold(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $card=identities_live::authenticateGetCustomerByID($request['CardID'],$info['api_userID'],$info['apikey']);
     }else{
@@ -545,6 +587,7 @@ public function updateHold(){}
 public function getHold(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $hold=Authorization_live::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
     }else{
@@ -558,6 +601,7 @@ public function getHold(){
 public function getHolds(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $charges=identities_live::authenticateGet($info['api_userID'],$info['apikey']);
     }else{

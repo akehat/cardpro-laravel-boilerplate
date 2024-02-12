@@ -40,20 +40,57 @@ public function scopeAccessible($query)
                 ->first();
         }
     }
-    public static function authenticateGet( $api_userID , $api_key)
-    {
-        if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
-        // Check if the API key is a sub key
-        if ($api_key > 1 || $api_key === null) {
-            return self::where('api_key', $api_key)
-                ->where('api_user', $api_userID)
-                ->first();
-        } else {
-            // If the API key is not a sub key, no need to query the database
-            return self::where('api_user', $api_userID)
-                ->first();
-        }
+   public static function authenticateGet($api_userID, $api_key)
+{
+    $perPage = 20; // Default items per page
+
+    if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) {
+        return false;
     }
+
+    // Check if the API key is a sub key
+    if ($api_key > 1 || $api_key === null) {
+        return self::where('api_key', $api_key)
+            ->where('api_user', $api_userID)
+            ->paginate($perPage);
+    } else {
+        // If the API key is not a sub key, no need to query the database
+        return self::where('api_user', $api_userID)
+            ->paginate($perPage);
+    }
+}
+public static function authenticateSearch($api_userID, $api_key, $search)
+{
+    $columns = \Schema::getColumnListing((new self())->getTable());
+    $perPage = 20; // Default items per page
+
+    if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) {
+        return false;
+    }
+
+    // Check if the API key is a sub key
+    if ($api_key > 1 || $api_key === null) {
+        return self::where('api_key', $api_key)
+            ->where('api_user', $api_userID)
+            ->where(function ($query) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'like', "%{$search}%");
+                }
+            })
+            ->paginate($perPage);
+    } else {
+        // If the API key is not a sub key, no need to query the database
+        return self::where('api_user', $api_userID)
+            ->where(function ($query) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'like', "%{$search}%");
+                }
+            })
+            ->paginate($perPage);
+    }
+}
+
+
     use HasFactory;
     protected $table='finix_application_profiles';
     protected $guarded=['id'];

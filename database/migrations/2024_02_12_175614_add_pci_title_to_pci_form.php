@@ -13,10 +13,10 @@ class AddPciTitleToPciForm extends Migration
      */
     public function up()
     {
-        Schema::create('awaiting_pci', function (Blueprint $table) {
+        Schema::table('awaiting_pci', function (Blueprint $table) {
             $table->string('pci_title')->nullable();
         });
-        Schema::create('awaiting_pci_live', function (Blueprint $table) {
+        Schema::table('awaiting_pci_live', function (Blueprint $table) {
             $table->string('pci_title')->nullable();
         });
     }
@@ -28,10 +28,10 @@ class AddPciTitleToPciForm extends Migration
      */
     public function down()
     {
-        Schema::create('awaiting_pci', function (Blueprint $table) {
+        Schema::table('awaiting_pci', function (Blueprint $table) {
             $table->dropColumn('pci_title');
         });
-        Schema::create('awaiting_pci_live', function (Blueprint $table) {
+        Schema::table('awaiting_pci_live', function (Blueprint $table) {
             $table->dropColumn('pci_title');
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\API\merchantsController;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -241,6 +242,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         ]);
         $paymentMade->save();
         $paymentMade->refresh();
+        $merchant=ApiKey::where('live',$islive)->where('merchant_id', $merchant)->increment('balance', $value->amount??0, ['increased_at' => Carbon::now()]);
             return ['worked'=>true,"responce"=>$payment[0],"ref"=>$paymentMade];
         }else{
             return ['worked'=>false,"responce"=>$payment[0]];
@@ -258,7 +260,10 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         if($exists!==null){
             $refund=merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$id,['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID,'refund'=>'made']],$amount_in_cents,$endpoint);
             if($refund[1]>=200&&$refund[1]<300){
-                self::fromArray([json_decode($refund[0])]);
+                $value=json_decode($refund[0]);
+                self::fromArray([$value]);
+            $merchant=ApiKey::where('live',$islive)->where('id', $apikeyID)->decrement('balance', $value->amount??0, ['increased_at' => Carbon::now()]);
+
             return ['worked'=>true,"responce"=>$refund[0]];
 
             }

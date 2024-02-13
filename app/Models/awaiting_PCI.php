@@ -115,7 +115,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         }
         $form = pci_forms::where('linked_to',$this->merchant_id)->first();
         if($form!=null){
-        $reponces=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$form->id,$this->ip,$this->name,now()->toDateTimeString(),"CTO",$this->browser);
+        $reponces=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$form->id,$this->ip,$this->name,now()->toDateTimeString(),$this->pci_title,$this->browser);
             if($reponces[1]>=200&&$reponces[1]<300){
                 return true;
             }

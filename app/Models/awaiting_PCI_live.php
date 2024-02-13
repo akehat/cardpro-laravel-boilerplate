@@ -122,7 +122,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         }
         $form = pci_forms_live::where('linked_to',$this->merchant_id)->first();
         if($form!=null){
-            $reponces=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$form->id,$this->ip,$this->name,now()->toDateTimeString(),"CTO",$this->browser,'https://finix.live-payments-api.com');
+            $reponces=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$form->id,$this->ip,$this->name,now()->toDateTimeString(),$this->pci_title,$this->browser,'https://finix.live-payments-api.com');
             if($reponces[1]>=200&&$reponces[1]<300){
                 return true;
             }

@@ -53,6 +53,12 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::get("portal/testPaylink",[MerchantSignUpController::class, 'getPaylink']);
     Route::get("portal/testPayment",[MerchantSignUpController::class, 'getPayment']);
     Route::get("portal/testHold",[MerchantSignUpController::class, 'getHold']);
+    Route::get("portal/liveSignup",[MerchantSignUpController::class, 'getLive']);
+    Route::get("portal/liveFee",[MerchantSignUpController::class, 'getLiveFeeForm']);
+    Route::get("portal/liveCheckout",[MerchantSignUpController::class, 'getLiveCheckout']);
+    Route::get("portal/livePaylink",[MerchantSignUpController::class, 'getLivePaylink']);
+    Route::get("portal/livePayment",[MerchantSignUpController::class, 'getLivePayment']);
+    Route::get("portal/liveHold",[MerchantSignUpController::class, 'getLiveHold']);
     Route::get("portal/merchants",[MerchantSignUpController::class, 'merchants']);
     Route::get("portal/identities",[MerchantSignUpController::class, 'identities']);
     Route::get("portal/apiusers",[MerchantSignUpController::class, 'apiusers']);

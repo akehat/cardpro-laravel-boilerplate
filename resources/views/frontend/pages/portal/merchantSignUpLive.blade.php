@@ -49,7 +49,7 @@
     </style>
     <h1>Merchant/Campaign Information Form</h1>
 
-    <form id="jsonForm" action="{{url('signup')}}" method="POST">{{ csrf_field() }}</form>
+    <form id="jsonForm" action="{{url('signupLive')}}" method="POST">{{ csrf_field() }}</form>
 
     <script>
         function createForm(data, parent = '') {
@@ -108,22 +108,22 @@
         submitButton.type = 'submit';
         submitButton.value = 'Submit';
         form.appendChild(submitButton);
-        const fillButton = document.createElement('input');
-        fillButton.type = 'button';
-        fillButton.innerText = 'fill with placeholder values';
-        fillButton.value = 'fill with placeholder values';
-        fillButton.onclick=function(){
-            var matches = document.querySelectorAll("input[type=text],input[type=number]");
-            matches.forEach((match) => {
-               match.value=match.placeholder;
-            });
-            var matches = document.querySelectorAll("input[type=checkbox]");
-            matches.forEach((match) => {
-                if(match.placeholder=='true'){
-                    match.checked=true;
-                }
-            });
-        };
-        form.appendChild(fillButton);
+        // const fillButton = document.createElement('input');
+        // fillButton.type = 'button';
+        // fillButton.innerText = 'fill with placeholder values';
+        // fillButton.value = 'fill with placeholder values';
+        // fillButton.onclick=function(){
+        //     var matches = document.querySelectorAll("input[type=text],input[type=number]");
+        //     matches.forEach((match) => {
+        //        match.value=match.placeholder;
+        //     });
+        //     var matches = document.querySelectorAll("input[type=checkbox]");
+        //     matches.forEach((match) => {
+        //         if(match.placeholder=='true'){
+        //             match.checked=true;
+        //         }
+        //     });
+        // };
+        // form.appendChild(fillButton);
     </script>
 @endsection

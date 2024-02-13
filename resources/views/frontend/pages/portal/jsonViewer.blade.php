@@ -137,12 +137,11 @@
     createTotal(array.length);
 }
 
-      function createButton(buttonText) {
+      function createButton(href,text) {
           var buttonContainer = document.getElementById("buttons");
           const button = document.createElement('button');
-          let path = window.location.href.split('?')[0]
-          button.textContent = `Next`;
-          button.onclick=function(){location.href = `${path}?after_cursor=${buttonText}`;};
+          button.textContent = text;
+          button.onclick=function(){location.href = `${href}`;};
           buttonContainer.appendChild(button);
       }
       function createLimit(limitText) {
@@ -176,6 +175,13 @@
          createForm({json:[jsonData]});
 
          }
-
+         let next=`{!!$next??0!!}`;
+         let prev=`{!!$prev??0!!}`;
+         if(next!=`0`){
+            createButton(next,"Next")
+         }
+         if(prev!=`0`){
+            createButton(prev,"Prev")
+         }
    </script>
 @endsection

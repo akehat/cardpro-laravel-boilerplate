@@ -129,15 +129,15 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
     }
 });
 
-        var data = `[
+var data = [
     {
-        "routeName": "Test Route 1",
-        "info": "Information about Route 1 goes here...",
-        "parameters": "Explain any parameters here...",
-        "header": "Explain any header information here...",
-        "query": "Explain any query parameters here...",
-        "data": "Explain the expected data format here...",
-        "exampleRequest": "curl -X GET -H \\"Content-Type: application/json\\" -H \\"Authorization: Bearer YOUR_TOKEN\\" https://api.example.com/route1?param1=value1&param2=value2",
+        "routeName": "Create Customer",
+        "info": "Create a customer to attach a card for payments.",
+        "parameters": "'apikey' either user or merchant. 'email' for the customer.",
+        "header": "Endpoint either live or sandbox",
+        "query": "N/A",
+        "data": "'apikey' either user or merchant. 'email' for the customer.",
+        "exampleRequest": "curl -X GET -H \"Content-Type: application/json\"  {{url('')}}/createCustomer -d '{\"apikey\":\"apikey\",\"email\":\"email@example.com\"}'",
         "exampleResponse": {
             "status": "success",
             "data": {
@@ -146,13 +146,13 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
         }
     },
     {
-        "routeName": "Test Route 2",
-        "info": "Information about Route 1 goes here...",
-        "parameters": "Explain any parameters here...",
-        "header": "Explain any header information here...",
-        "query": "Explain any query parameters here...",
-        "data": "Explain the expected data format here...",
-        "exampleRequest": "curl -X GET -H \\"Content-Type: application/json\\" -H \\"Authorization: Bearer YOUR_TOKEN\\" https://api.example.com/route1?param1=value1&param2=value2",
+        "routeName": "get Customer",
+        "info": "Get a customer by id.",
+        "parameters": "'apikey' either user or merchant. 'id' for the customer either the number or the long one.",
+        "header": "Endpoint either live or sandbox",
+        "query": "N/A",
+        "data": "'apikey' either user or merchant. 'id' for the customer.",
+        "exampleRequest": "curl -X GET -H \"Content-Type: application/json\"  {{url('')}}/getCustomer -d '{\"apikey\":\"apikey\",\"id\":\"7\"}'",
         "exampleResponse": {
             "status": "success",
             "data": {
@@ -160,9 +160,15 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
             }
         }
     }
-]`;
+];
 
-        data = JSON.parse(data);
+// Now you can access data like this:
+console.log(data[0].routeName); // Output: Create Customer
+console.log(data[0].info); // Output: Create a customer to attach a card for payments.
+console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: application/json"  {{url('')}}/createCustomer -d '{"apikey":"apikey","email":"email@example.com"}'
+
+
+        // data = JSON.parse(data);
 
         function loadData(data) {
             const navList = document.getElementById('navList');

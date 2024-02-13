@@ -237,7 +237,7 @@ public function createCustomer(){
         $custumer=identities::makeBuyerIdentity($request['email'],$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($custumer['worked']){
-        return response()->json([$custumer['responce']], 200);
+        return response()->json([$custumer['ref']], 200);
     }
     return response()->json([$custumer['responce']], 301);
 }

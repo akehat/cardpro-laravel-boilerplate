@@ -226,7 +226,9 @@ public function retrieveInfo($apiKey){
     $userID=$api_userID->user_id;
     return ['worked'=>true,"apikey"=>$apiKey,'api_userID'=>$api_userID,'userID'=>$userID,"live"=>$live,'merchant'=>$merchant];
 }
-public function getBalance(){}
+public function getBalance(){
+
+}
 public function createCustomer(){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
@@ -242,14 +244,13 @@ public function createCustomer(){
     return response()->json([$custumer['responce']], 301);
 }
 public function updateCustomer($request){}
-public function getCustomer(){
-    $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+public function getCustomer($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $custumer=identities_live::authenticateGetCustomerByID($request['id'],$info['api_userID'],$info['apikey']);
+        $custumer=identities_live::authenticateGetCustomerByID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $custumer=identities::authenticateGetCustomerByID($request['id'],$info['api_userID'],$info['apikey']);
+        $custumer=identities::authenticateGetCustomerByID($id,$info['api_userID'],$info['apikey']);
     }
     if($custumer==null){
         return response()->json(['error'=>"failed to get customer"], 300);
@@ -257,8 +258,7 @@ public function getCustomer(){
     return response()->json([$custumer], 201);
 }
 public function getCustomers(){
-    $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $custumers=identities_live::authenticateGetCustomer($info['api_userID'],$info['apikey']);
@@ -296,9 +296,9 @@ public function createCharges(){
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $card=identities_live::authenticateGetCustomerByID($request['CardID'],$info['api_userID'],$info['apikey']);
+        $card=payment_ways_live::authenticateGetID($request['CardID'],$info['api_userID'],$info['apikey']);
     }else{
-        $card=identities::authenticateGetCustomerByID($request['CardID'],$info['api_userID'],$info['apikey']);
+        $card=payment_ways::authenticateGetID($request['CardID'],$info['api_userID'],$info['apikey']);
     }
     if(empty($card)){
         return response()->json(['error'=>"failed to identify card"], 301);
@@ -332,17 +332,16 @@ public function createCharges(){
     if($payment['worked']){
         return response()->json($payment['responce'], 200);
     }
-    return response()->json($payment['responce'], 301);
+    return response()->json([$payment['ref']], 301);
 }
 public function updateCharge(){}
-public function getCharge(){
-    $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+public function getCharge($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $payment=finix_payments_live::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $payment=finix_payments_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $payment=finix_payments::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $payment=finix_payments::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
     }
     if($payment==null){
         return response()->json(['error'=>"failed to get charge"], 300);
@@ -350,8 +349,7 @@ public function getCharge(){
     return response()->json([$payment], 201);
 }
 public function getCharges(){
-    $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $charges=finix_payments_live::authenticateGet($info['api_userID'],$info['apikey']);
@@ -365,7 +363,7 @@ public function getCharges(){
 }
 public function charges_search(){
     $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if(!isset($request['search'])||empty($request['search'])){
         return response()->json(['error'=>"search not provided"], 301);

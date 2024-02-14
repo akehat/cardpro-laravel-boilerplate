@@ -49,7 +49,7 @@
 
     <h1>Test Checkout Form</h1>
 
-    <form id="jsonForm" action="{{url('checkoutTest')}}" method="POST">
+    <form id="jsonForm" action="{{url('paylinkTest')}}" method="POST">
         {{ csrf_field() }}
         <select id="merchant" name="merchant"></select>
     </form>

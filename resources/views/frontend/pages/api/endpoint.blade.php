@@ -134,7 +134,7 @@ var data = [
         "routeName": "Create Customer",
         "info": "Create a customer to attach a card for payments. POST Route",
         "parameters": "'apikey' either user or merchant. 'email' for the customer.",
-        "header": "Endpoint either live or sandbox",
+        "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'email' for the customer.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/customer -d '{\"apikey\":\"apikey\",\"email\":\"email@example.com\"}'",
@@ -149,7 +149,7 @@ var data = [
         "routeName": "Get Customer",
         "info": "Get a customer by id. GET Route",
         "parameters": " 'id' for the customer either the number or the long one.",
-        "header": "Endpoint either live or sandbox. 'apikey' either user or merchant.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the customer",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -166,7 +166,7 @@ var data = [
         "routeName": "Get Customers",
         "info": "Get a customers by 20.",
         "parameters": "'apikey' either user or merchant. GET Route",
-        "header": "Endpoint either live or sandbox. 'apikey' either user or merchant.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -189,7 +189,7 @@ var data = [
         "routeName": "Search Customers",
         "info": "Search for a customers by 20. GET Route",
         "parameters": "'apikey' either user or merchant.",
-        "header": "Endpoint either live or sandbox",
+        "header": "Endpoint",
         "query": "page the page of the query like page=2 by 20,'search' for in the customer.",
         "data": "'apikey' either user or merchant. ",
         "exampleRequest": "curl -X GET \
@@ -206,7 +206,7 @@ var data = [
         "routeName": "Create Charge",
         "info": "create a charge for a customer. POST Route",
         "parameters": "'apikey' either user or merchant.\n'cardID' of the card. \n'amount' the amount of the charge. \n'currency' of the charge. \nIf a user key is used the 'merchant' must be provided.",
-        "header": "Endpoint either live or sandbox",
+        "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the charge.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/charges -d '{\"apikey\":\"apikey\",\"cardID\":2,\"amount\":200,\"currency\":'USD'}'",
@@ -221,7 +221,7 @@ var data = [
         "routeName": "Get Charge",
         "info": "Get a charge by id. GET Route",
         "parameters": " 'id' for the charge either the number or the long one.",
-        "header": "Endpoint either live or sandbox. 'apikey' either user or merchant.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the charge",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -238,7 +238,7 @@ var data = [
         "routeName": "Get Charges",
         "info": "Get a charge by 20.",
         "parameters": "'apikey' either user or merchant. GET Route",
-        "header": "Endpoint either live or sandbox. 'apikey' either user or merchant.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -250,6 +250,85 @@ var data = [
                 "key": "value"
             }
         },
+    },
+    {
+        "routeName": "Search Charges",
+        "info": "Search a charge by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/charges/search?search=500\"",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
+    {
+        "routeName": "Create Refund",
+        "info": "Refund a charge.   Post route",
+        "parameters": "'apikey' either user or merchant.'amount' for the refund. POST Route",
+        "header": "Endpoint.",
+        "parameters": "'apikey' either user or merchant.\n'amount' for in the refund. 'id' for the charge",
+        "header": "Endpoint",
+        "query": "N/A",
+        "data": "'apikey' either user or merchant. 'amount' for in the refund.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":200.\"id\":2}'",
+       "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
+    {
+        "routeName": "Create Payment Way.",
+        "info": "Create a card. POST Route",
+        "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. POST Route",
+        "header": "Endpoint.",
+        "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card.",
+        "header": "Endpoint",
+        "query": "N/A",
+        "data": "'apikey' either user or merchant. 'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"exp_month\":\"12\",\"exp_year\":\"2029\",\"name\":\"John Doe\",\"card_number\":\"5200828282828210\",\"cvv\":331,\"id\":2}'",
+       "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
+    {
+        "routeName": "Get Payment Ways",
+        "info": "Get a charge by 20.",
+        "parameters": "'apikey' either user or merchant. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/payment_ways\"",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
+    {
+        "routeName": "Get Payment Way",
+        "info": "Get a Payment Way by id. GET Route",
+        "parameters": " 'id' for the Payment Way either the number or the long one.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "'id' for the Payment Way ",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/payment_ways/2\"",
         "exampleResponse": {
             "status": "success",
             "data": {
@@ -257,7 +336,89 @@ var data = [
             }
         }
     },
-
+    {
+        "routeName": "Search Payment Way",
+        "info": "Search a Payment Ways by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/payment_ways/search?search=500\"",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
+    {
+        "routeName": "Create Hold",
+        "info": "create a hold for a customer. POST Route",
+        "parameters": "'apikey' either user or merchant.\n'cardID' of the card. \n'amount' the amount of the hold. \n'currency' of the hold. \nIf a user key is used the 'merchant' must be provided.",
+        "header": "Endpoint",
+        "query": "N/A",
+        "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the hold.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/holds -d '{\"apikey\":\"apikey\",\"cardID\":2,\"amount\":200,\"currency\":'USD'}'",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        }
+    },
+    {
+        "routeName": "Get Holds",
+        "info": "Get a holds by 20.",
+        "parameters": "'apikey' either user or merchant. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/holds\"",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
+    {
+        "routeName": "Get Hold",
+        "info": "Get a Hold by id. GET Route",
+        "parameters": " 'id' for the Hold either the number or the long one.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "'id' for the Hold ",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/holds/2\"",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        }
+    },
+    {
+        "routeName": "Search Hold",
+        "info": "Search a Holds by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/cardwiz/holds/search?search=500\"",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        },
+    },
 ];
 
 // Now you can access data like this:

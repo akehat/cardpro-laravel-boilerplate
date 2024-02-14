@@ -71,7 +71,7 @@
             <li><a href="{{ url('portal/disputes') }}">Test Disputes</a></li>
             <li><a href="{{ url('portal/subscriptionSchedules') }}">Test Subscription Schedules</a></li>
             <li><a href="{{ url('portal/subscriptionEnrollments') }}">Test Subscription Enrollment</a></li>
-            <li><a href="{{ url('portal/testSignup') }}">Live Signup</a></li>
+            <li><a href="{{ url('portal/liveSignup') }}">Live Signup</a></li>
             <li><a href="{{ url('portal/livePayment') }}">Live Payment</a></li>
             <li><a href="{{ url('portal/liveHold') }}">Live Hold</a></li>
             <li><a href="{{ url('portal/liveCheckout') }}">Live Checkout</a></li>

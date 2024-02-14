@@ -279,7 +279,7 @@ public function customers_search(){
    }
    $search=$request['search'];
     if($info['live']){
-        $charges=finix_payments_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+        $charges=identities_live::authenticateSearchCustomer($info['api_userID'],$info['apikey'], $search);
     }else{
         $charges=identities::authenticateSearchCustomer($info['api_userID'],$info['apikey'], $search);
     }
@@ -505,9 +505,50 @@ $cvv,$info['api_userID'],$info['apikey']);
 public function updatePaymentWay(){}
 public function getCustomerPaymentWay(){}
 public function getCustomerPaymentWays(){}
-public function getPaymentWays(){}
-public function getPaymentWay(){}
-public function payment_ways_search(){}
+public function getPaymentWays(){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $paymentWay=payment_ways_live::authenticateGet($info['api_userID'],$info['apikey']);
+    }else{
+        $paymentWay=payment_ways::authenticateGet($info['api_userID'],$info['apikey']);
+    }
+    if(empty($paymentWay)){
+         return response()->json(['error'=>"failed to get payment way"], 301);
+    }
+    return response()->json($paymentWay->toArray(), 201);
+}
+public function getPaymentWay($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $paymentWay=payment_ways_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $paymentWay=payment_ways::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($paymentWay==null){
+        return response()->json(['error'=>"failed to get payment way"], 300);
+    }
+    return response()->json([$paymentWay], 201);
+}
+public function payment_ways_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $charges=payment_ways_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $charges=payment_ways::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($charges)){
+         return response()->json(['error'=>"failed to get payment way"], 301);
+    }
+    return response()->json($charges->toArray(), 201);
+}
 
 
 public function createCustomerCard(){}
@@ -582,14 +623,13 @@ public function createHold(){
     return response()->json($payment['responce'], 301);
 }
 public function updateHold(){}
-public function getHold(){
-    $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+public function getHold($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $hold=Authorization_live::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $hold=Authorization_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $hold=Authorization::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $hold=Authorization::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
     }
     if($hold==null){
         return response()->json(['error'=>"failed to get charge"], 300);
@@ -597,8 +637,7 @@ public function getHold(){
     return response()->json([$hold], 201);
 }
 public function getHolds(){
-    $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
         $charges=identities_live::authenticateGet($info['api_userID'],$info['apikey']);
@@ -610,7 +649,24 @@ public function getHolds(){
     }
     return response()->json($charges->toArray(), 201);
 }
-public function hold_search(){}
+public function hold_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $hold=Authorization_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $hold=Authorization::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($hold)){
+         return response()->json(['error'=>"failed to get hold"], 301);
+    }
+    return response()->json($hold->toArray(), 201);
+}
 
 public function createSubscription(){}
 public function updateSubscription(){}

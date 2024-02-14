@@ -140,4 +140,13 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::post("feeTest",[MerchantSignUpController::class, 'feeProfileTest']);
     Route::post("captureHold",[MerchantSignUpController::class, 'captureHold']);
     Route::post("returnHold",[MerchantSignUpController::class, 'returnHold']);
+    Route::post("signupLive",[MerchantSignUpController::class, 'signup']);
+    Route::post("makeReturnLive",[MerchantSignUpController::class, 'makeReturn']);
+    Route::post("paymentLive",[MerchantSignUpController::class, 'paymentLive']);
+    Route::post("checkoutLive",[MerchantSignUpController::class, 'checkoutLive']);
+    Route::post("paylinkLive",[MerchantSignUpController::class, 'paylinkLive']);
+    Route::post("holdLive",[MerchantSignUpController::class, 'holdLive']);
+    Route::post("feeLive",[MerchantSignUpController::class, 'feeProfileLive']);
+    Route::post("captureHoldLive",[MerchantSignUpController::class, 'captureHold']);
+    Route::post("returnHoldLive",[MerchantSignUpController::class, 'returnHold']);
     });

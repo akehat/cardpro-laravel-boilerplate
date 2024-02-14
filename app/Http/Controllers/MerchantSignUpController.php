@@ -982,14 +982,14 @@ class MerchantSignUpController extends Controller
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
     }
     public function payment_live($id){
         $array=finix_payments_live::where('id',$id)->accessible()->paginate(10)->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
     }
     public function payment_instraments_live(){
         $array=payment_ways_live::accessible()->paginate(10)->toArray();
@@ -1122,14 +1122,14 @@ class MerchantSignUpController extends Controller
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
     }
     public function hold_live($id){
         $array=Authorization_live::where('id',$id)->accessible()->paginate(10)->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
     }
     public function checkouts(){
         $array=finix_checkout_forms::accessible()->paginate(10)->toArray();

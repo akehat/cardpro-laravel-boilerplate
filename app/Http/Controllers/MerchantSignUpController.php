@@ -462,13 +462,13 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdminLive');
     }
     public function getPaymentLive(){
-        return view('frontend.pages.portal.livePayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view('frontend.pages.portal.livePayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function getHoldLive(){
-        return view('frontend.pages.portal.liveHold',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view('frontend.pages.portal.liveHold',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function getCheckoutLive(){
-        return view('frontend.pages.portal.liveCheckout',['buyers'=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password")),'merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        return view('frontend.pages.portal.liveCheckout',['buyers'=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password")),'merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
     }
     public function paymentLive(Request $request){
         $user_id=Auth::id();

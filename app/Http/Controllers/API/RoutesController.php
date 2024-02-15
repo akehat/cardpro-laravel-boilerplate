@@ -427,7 +427,7 @@ public function createRefund(){
             return response()->json(['error'=>"invalid amount"], 301);
     }
     if($info['live']){
-        $refund=finix_payments::makeRefund($payment->finix_id,$amount,$info['api_userID'],$info['apikey']);
+        $refund=finix_payments_live::makeRefund($payment->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }else{
         $refund=finix_payments::makeRefund($payment->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }
@@ -622,7 +622,51 @@ public function createHold(){
     }
     return response()->json($payment['responce'], 301);
 }
-public function updateHold(){}
+public function captureHold($id){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $hold=Authorization_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $hold=Authorization::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($hold!=null){
+        return response()->json(['error'=>"failed to get hold"], 300);
+    }
+    $amount=0;
+    try {
+       $amount=floatval($request['amount']);
+       if($amount<=0){return response()->json(['error'=>"invalid amount"], 301);}
+    } catch (\Throwable $th) {
+            return response()->json(['error'=>"invalid amount"], 301);
+    }
+    if($info['live']){
+        $refund=Authorization_live::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
+    }else{
+        $refund=Authorization::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
+    }
+    return response()->json([$refund], 201);
+}
+public function releaseHold($id){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $hold=Authorization_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $hold=Authorization::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($hold!=null){
+        return response()->json(['error'=>"failed to get hold"], 300);
+    }
+    if($info['live']){
+        $refund=Authorization_live::voidCapture($hold->finix_id,$info['api_userID'],$info['apikey']);
+    }else{
+        $refund=Authorization::voidCapture($hold->finix_id,$info['api_userID'],$info['apikey']);
+    }
+    return response()->json([$refund], 201);
+}
 public function getHold($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}

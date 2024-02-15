@@ -150,7 +150,7 @@ var data = [
         "info": "Get a customer by id. GET Route",
         "parameters": " 'id' for the customer either the number or the long one.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        "query": "'id' for the customer",
+        "query": "'id' for the customer in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
@@ -222,7 +222,7 @@ var data = [
         "info": "Get a charge by id. GET Route",
         "parameters": " 'id' for the charge either the number or the long one.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        "query": "'id' for the charge",
+        "query": "'id' for the charge in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
@@ -324,7 +324,7 @@ var data = [
         "info": "Get a Payment Way by id. GET Route",
         "parameters": " 'id' for the Payment Way either the number or the long one.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        "query": "'id' for the Payment Way ",
+        "query": "'id' for the Payment Way in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
@@ -390,7 +390,7 @@ var data = [
         "info": "Get a Hold by id. GET Route",
         "parameters": " 'id' for the Hold either the number or the long one.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        "query": "'id' for the Hold ",
+        "query": "'id' for the Hold in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
@@ -418,6 +418,36 @@ var data = [
                 "key": "value"
             }
         },
+    },
+    {
+        "routeName": "Capture Hold",
+        "info": "Capture a hold. POST Route",
+        "parameters": "'apikey' either user or merchant.\n'id' for the hold. \n'amount' the amount of the hold.",
+        "header": "Endpoint",
+        "query": "'id' for the hold in the url",
+        "data": "'apikey' either user or merchant. for the hold. 'amount' of the hold.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/holds/2/capture -d '{\"apikey\":\"apikey\",\"amount\":2000'}'",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        }
+    },
+    {
+        "routeName": "Release Hold",
+        "info": "Release a hold. POST Route",
+        "parameters": "'apikey' either user or merchant.\n'id' for the hold.",
+        "header": "Endpoint",
+        "query": "'id' for the hold in the url",
+        "data": "'apikey' either user or merchant.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/holds/2/release -d '{\"apikey\":\"apikey\"}'",
+        "exampleResponse": {
+            "status": "success",
+            "data": {
+                "key": "value"
+            }
+        }
     },
 ];
 

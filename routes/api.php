@@ -27,9 +27,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/cardwiz/customers', [RoutesController::class,'createCustomer' ]);
 Route::post('/cardwiz/customers/{id}', [RoutesController::class,'updateCustomer' ]);
+Route::get('/cardwiz/customers/search', [RoutesController::class,'customers_search' ]);
 Route::get('/cardwiz/customers/{id}', [RoutesController::class,'getCustomer' ]);
 Route::get('/cardwiz/customers', [RoutesController::class,'getCustomers' ]);
-Route::get('/cardwiz/customers/search', [RoutesController::class,'customers_search' ]);
 Route::get('/cardwiz/merchant/{id}/customers', [RoutesController::class,'getCampaignCustomers' ]);
 Route::get('/cardwiz/campaign/{id}/customers', [RoutesController::class,'getCampaignCustomers' ]);
 Route::get('/cardwiz/merchant/{id}/balance', [RoutesController::class,'getCampaignBalance' ]);

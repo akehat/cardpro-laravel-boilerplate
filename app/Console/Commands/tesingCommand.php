@@ -125,7 +125,76 @@ class tesingCommand extends Command
         // ]);
         // $email->save();
         // $email->refresh();        identities::runUpdate();
-        finix_payments::updateFromId('TRn1iw1UvQXhQh6oBkCzrnJC');
+        // var_dump(finix_payments::updateFromId('TRn1iw1UvQXhQh6oBkCzrnJC'));
+//         $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/customers');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_POST, 1);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"apikey\":\"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0\",\"email\":\"email@example.com\"}");
+
+// $headers = array();
+// $headers[] = 'Content-Type: application/json';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// var_dump($result);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/customers/74');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+// $headers = array();
+// $headers[] = 'Apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// var_dump($result);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/customers');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+// $headers = array();
+// $headers[] = 'Apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// var_dump($result);
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/customers/search?search=ID9BBQfNDBnt5hUxvp3W1w6S');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+$headers = array();
+$headers[] = 'Apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+$result = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+}
+curl_close($ch);
+var_dump($result);
+        return 0;
     }
 }
 

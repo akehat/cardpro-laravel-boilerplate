@@ -63,9 +63,10 @@ class MerchantSignUpController extends Controller
         // }
     }
     public function getKeys(){
-        $array=User::getApiDataByUserId(Auth::id());
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        $array['data']=User::getApiDataByUserId(Auth::id());
+        // dd($array);
+        $array['next_page_url']=null;
+        $array['prev_page_url']=null;
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
     }

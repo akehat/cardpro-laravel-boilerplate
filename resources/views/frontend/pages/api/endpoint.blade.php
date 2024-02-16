@@ -137,13 +137,25 @@ var data = [
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'email' for the customer.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/customer -d '{\"apikey\":\"apikey\",\"email\":\"email@example.com\"}'",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        }
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/customers -d '{\"apikey\":\"apikey\",\"email\":\"email@example.com\"}'",
+        "exampleResponse": `{
+    "id": 77,
+    "created_at": "2024-02-16T03:40:57.000000Z",
+    "updated_at": "2024-02-16T03:40:57.000000Z",
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+    "identity_roles": "[]",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "_links": null,
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1,
+    "finix_id": "ID9BBQfNDBnt5hUxvp3W1w6S",
+    "finix_merchant_id": null,
+    "customer_id": null,
+    "isBuyer": 1,
+    "isMerchant": 0
+}`
     },
     {
         "routeName": "Get Customer",
@@ -154,13 +166,25 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/cardwiz/customers/2\"",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        }
+  \"{{url('')}}/api/cardwiz/customers/74\"",
+        "exampleResponse": `{
+    "id": 74,
+    "created_at": "2024-02-15T19:18:04.000000Z",
+    "updated_at": "2024-02-15T19:18:04.000000Z",
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+    "identity_roles": "[]",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "_links": null,
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1,
+    "finix_id": "IDowzFBxyc6ZRUaR1Dag8idq",
+    "finix_merchant_id": null,
+    "customer_id": null,
+    "isBuyer": 1,
+    "isMerchant": 0
+}`
     },
     {
         "routeName": "Get Customers",
@@ -171,13 +195,111 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/cardwiz/customers\"",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
+  \"{{url('')}}/api/cardwiz/customers\"",
+        "exampleResponse": `{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 74,
+            "created_at": "2024-02-15T19:18:04.000000Z",
+            "updated_at": "2024-02-15T19:18:04.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+            "identity_roles": "[]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": "3",
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "IDowzFBxyc6ZRUaR1Dag8idq",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 1,
+            "isMerchant": 0
         },
+        {
+            "id": 75,
+            "created_at": "2024-02-16T03:39:59.000000Z",
+            "updated_at": "2024-02-16T03:39:59.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+            "identity_roles": "[]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": "3",
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "IDiUr4Jt2EkTuoUr7gZwC6ar",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 1,
+            "isMerchant": 0
+        },
+        {
+            "id": 76,
+            "created_at": "2024-02-16T03:40:05.000000Z",
+            "updated_at": "2024-02-16T03:40:05.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+            "identity_roles": "[]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": "3",
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "IDv6tyXgNNtJLH9x8GTWjK8H",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 1,
+            "isMerchant": 0
+        },
+        {
+            "id": 77,
+            "created_at": "2024-02-16T03:40:57.000000Z",
+            "updated_at": "2024-02-16T03:40:57.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+            "identity_roles": "[]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": "3",
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "ID9BBQfNDBnt5hUxvp3W1w6S",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 1,
+            "isMerchant": 0
+        }
+    ],
+    "first_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 4,
+    "total": 4
+}`,
         "exampleResponse": {
             "status": "success",
             "data": {
@@ -194,13 +316,57 @@ var data = [
         "data": "'apikey' either user or merchant. ",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-   {{url('')}}/customers/search?search=jhon",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
+   {{url('')}}/api/cardwiz/customers/search?search=ID9BBQfNDBnt5hUxvp3W1w6S",
+        "exampleResponse": `{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 77,
+            "created_at": "2024-02-16T03:40:57.000000Z",
+            "updated_at": "2024-02-16T03:40:57.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":0,\"amex_mid\":null,\"annual_card_volume\":0,\"business_address\":null,\"business_name\":null,\"business_phone\":null,\"business_tax_id_provided\":false,\"business_type\":null,\"default_statement_descriptor\":null,\"discover_mid\":null,\"dob\":null,\"doing_business_as\":null,\"email\":\"email@example.com\",\"first_name\":null,\"has_accepted_credit_cards_previously\":false,\"incorporation_date\":null,\"last_name\":null,\"max_transaction_amount\":0,\"mcc\":null,\"ownership_type\":null,\"personal_address\":{\"line1\":null,\"line2\":null,\"city\":null,\"region\":null,\"postal_code\":null,\"country\":null},\"phone\":null,\"principal_percentage_ownership\":null,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":false,\"title\":null,\"url\":null}",
+            "identity_roles": "[]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": "3",
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "ID9BBQfNDBnt5hUxvp3W1w6S",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 1,
+            "isMerchant": 0
         }
+    ],
+    "first_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers\/search?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers\/search?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers\/search?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/customers\/search",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+}`
     },
     {
         "routeName": "Create Charge",
@@ -498,7 +664,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                     <code>${route.exampleRequest}</code>
 
                     <h3>Example Response</h3>
-                    <pre>${JSON.stringify(route.exampleResponse, null, 2)}</pre>
+                    <pre>${route.exampleResponse}</pre>
                 `;
 
                 mainContent.appendChild(section);

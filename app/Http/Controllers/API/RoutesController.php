@@ -214,16 +214,17 @@ public function retrieveInfo($apiKey){
         if($user!==null){
             $api_userID=$user->api_users_id;
             $live=$user->live;
+            $userID=$user->id;
         }else{
             return ['worked'=>false,"responce"=>"Invalid API key"];
         }
     }else{
         $api_userID=$apiKey->api_user;
-        $apiKey=$apiKey->id;
+        $userID=$apiKey->userID??0;
         $live=$apiKey->live;
         $merchant=$apiKey->merchant_id;
+        $apiKey=$apiKey->id;
     }
-    $userID=$api_userID->user_id;
     return ['worked'=>true,"apikey"=>$apiKey,'api_userID'=>$api_userID,'userID'=>$userID,"live"=>$live,'merchant'=>$merchant];
 }
 public function getBalance(){
@@ -239,7 +240,7 @@ public function createCustomer(){
         $custumer=identities::makeBuyerIdentity($request['email'],$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($custumer['worked']){
-        return response()->json([$custumer['ref']], 200);
+        return response()->json($custumer['ref'], 200 , [] , JSON_PRETTY_PRINT);
     }
     return response()->json([$custumer['responce']], 301);
 }
@@ -255,7 +256,7 @@ public function getCustomer($id){
     if($custumer==null){
         return response()->json(['error'=>"failed to get customer"], 300);
     }
-    return response()->json([$custumer], 201);
+    return response()->json($custumer ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function getCustomers(){
     $info=$this->retrieveInfo(request()->header('apikey'));
@@ -268,11 +269,11 @@ public function getCustomers(){
     if(empty($custumers)){
          return response()->json(['error'=>"failed to get customer"], 301);
     }
-    return response()->json($custumers->toArray(), 201);
+    return response()->json($custumers->toArray(), 201 , [] , JSON_PRETTY_PRINT);
 }
 public function customers_search(){
     $request=request()->all();
-    $info=$this->retrieveInfo($request['apikey']);
+    $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if(!isset($request['search'])||empty($request['search'])){
         return response()->json(['error'=>"search not provided"], 301);
@@ -286,7 +287,7 @@ public function customers_search(){
     if(empty($charges)){
          return response()->json(['error'=>"failed to get charges"], 301);
     }
-    return response()->json($charges->toArray(), 201);
+    return response()->json($charges->toArray(), 201 , [] , JSON_PRETTY_PRINT);
 }
 public function getCampaignCustomers(){}
 public function getCampaignBalance(){}
@@ -346,7 +347,7 @@ public function getCharge($id){
     if($payment==null){
         return response()->json(['error'=>"failed to get charge"], 300);
     }
-    return response()->json([$payment], 201);
+    return response()->json($payment ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function getCharges(){
     $info=$this->retrieveInfo(request()->header('apikey'));
@@ -431,7 +432,7 @@ public function createRefund(){
     }else{
         $refund=finix_payments::makeRefund($payment->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }
-    return response()->json([$refund], 201);
+    return response()->json($refund ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function updateRefund(){}
 public function getRefund(){}
@@ -500,7 +501,7 @@ $cvv,$info['api_userID'],$info['apikey']);
     if($card==null){
         return response()->json(['error'=>"failed to create card"], 300);
     }
-    return response()->json([$card], 201);
+    return response()->json($card ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function updatePaymentWay(){}
 public function getCustomerPaymentWay(){}
@@ -529,7 +530,7 @@ public function getPaymentWay($id){
     if($paymentWay==null){
         return response()->json(['error'=>"failed to get payment way"], 300);
     }
-    return response()->json([$paymentWay], 201);
+    return response()->json($paymentWay ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function payment_ways_search(){
     $request=request()->all();
@@ -646,7 +647,7 @@ public function captureHold($id){
     }else{
         $refund=Authorization::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }
-    return response()->json([$refund], 201);
+    return response()->json($refund ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function releaseHold($id){
     $request=request()->all();
@@ -665,7 +666,7 @@ public function releaseHold($id){
     }else{
         $refund=Authorization::voidCapture($hold->finix_id,$info['api_userID'],$info['apikey']);
     }
-    return response()->json([$refund], 201);
+    return response()->json($refund ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function getHold($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
@@ -678,7 +679,7 @@ public function getHold($id){
     if($hold==null){
         return response()->json(['error'=>"failed to get charge"], 300);
     }
-    return response()->json([$hold], 201);
+    return response()->json($hold ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function getHolds(){
     $info=$this->retrieveInfo(request()->header('apikey'));

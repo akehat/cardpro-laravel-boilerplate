@@ -40,6 +40,18 @@ public function scopeAccessible($query)
                 ->first();
         }
     }
+    public static function authenticateGetIDWithUserID($id, $api_userID , $api_key)
+    {
+        if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
+
+            // If the API key is not a sub key, no need to query the database
+            return self::where('api_user', $api_userID)
+                ->where(function ($query) use ($id) {
+            $query->where('id', $id)
+                  ->orWhere('finix_id', $id);
+        })
+                ->first();
+    }
    public static function authenticateGet($api_userID, $api_key)
 {
     $perPage = 20; // Default items per page

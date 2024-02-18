@@ -294,23 +294,29 @@ public function getCampaignBalance(){}
 
 public function createCharges(){
     $request=request()->all();
+    // var_dump($request);
+    // return 0;
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $card=payment_ways_live::authenticateGetID($request['CardID'],$info['api_userID'],$info['apikey']);
+        $card=payment_ways_live::authenticateGetID($request['cardID'],$info['api_userID'],$info['apikey']);
     }else{
-        $card=payment_ways::authenticateGetID($request['CardID'],$info['api_userID'],$info['apikey']);
+        $card=payment_ways::authenticateGetID($request['cardID'],$info['api_userID'],$info['apikey']);
     }
     if(empty($card)){
         return response()->json(['error'=>"failed to identify card"], 301);
    }
    if($info['merchant']!=false){
-    $merchant=$info['merchant'];
-   }elseif($info['live']){
-        $merchant=Finix_Merchant_live::authenticateGetCustomerByID($request['MerchantID'],$info['api_userID'],$info['apikey']);
+    $request['MerchantID']=$info['merchant'];
+   }
+   if($info['live']){
+        $merchant=Finix_Merchant_live::authenticateGetIDWithUserID($request['MerchantID'],$info['api_userID'],$info['apikey']);
+        $merchant=$merchant->finix_id??0;
     }else{
-        $merchant=Finix_Merchant::authenticateGetCustomerByID($request['MerchantID'],$info['api_userID'],$info['apikey']);
+        $merchant=Finix_Merchant::authenticateGetIDWithUserID($request['MerchantID'],$info['api_userID'],$info['apikey']);
+        $merchant=$merchant->finix_id??0;
     }
+
     if(empty($merchant)){
         return response()->json(['error'=>"failed to identify merchant"], 301);
     }
@@ -326,23 +332,23 @@ public function createCharges(){
     }
     $currency=strtoupper($request['currency']);
     if($info['live']){
-        $payment=finix_payments_live::makePayment($merchant->finix_id,$currency,$amount,$card->finix_id,$request['userID'],$info['api_userID'],$info['apikey']??0);
+        $payment=finix_payments_live::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
     }else{
-        $payment=finix_payments::makePayment($merchant->finix_id,$currency,$amount,$card->finix_id,$request['userID'],$info['api_userID'],$info['apikey']??0);
+        $payment=finix_payments::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($payment['worked']){
-        return response()->json($payment['responce'], 200);
+        return response()->json($payment['ref'], 200, [] , JSON_PRETTY_PRINT);
     }
-    return response()->json([$payment['ref']], 301);
+    return response()->json($payment, 301 , [] , JSON_PRETTY_PRINT);
 }
 public function updateCharge(){}
 public function getCharge($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $payment=finix_payments_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $payment=finix_payments_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $payment=finix_payments::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $payment=finix_payments::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }
     if($payment==null){
         return response()->json(['error'=>"failed to get charge"], 300);
@@ -360,7 +366,7 @@ public function getCharges(){
     if(empty($charges)){
          return response()->json(['error'=>"failed to get charges"], 301);
     }
-    return response()->json($charges->toArray(), 201);
+    return response()->json($charges->toArray(), 201 , [] , JSON_PRETTY_PRINT);
 }
 public function charges_search(){
     $request=request()->all();
@@ -378,7 +384,7 @@ public function charges_search(){
     if(empty($charges)){
          return response()->json(['error'=>"failed to get charges"], 301);
     }
-    return response()->json($charges->toArray(), 201);
+    return response()->json($charges->toArray(), 201 , [] , JSON_PRETTY_PRINT);
 }
 
 
@@ -496,12 +502,12 @@ $exp_year,
 $custumer->finix_id,
 $name,
 $card_number,
-$cvv,$info['api_userID'],$info['apikey']);
+$cvv,$info['userID'],$info['api_userID'],$info['apikey']);
     }
     if($card==null){
         return response()->json(['error'=>"failed to create card"], 300);
     }
-    return response()->json($card ,  201 , [] , JSON_PRETTY_PRINT);
+    return response()->json($card['ref'] ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function updatePaymentWay(){}
 public function getCustomerPaymentWay(){}
@@ -517,15 +523,15 @@ public function getPaymentWays(){
     if(empty($paymentWay)){
          return response()->json(['error'=>"failed to get payment way"], 301);
     }
-    return response()->json($paymentWay->toArray(), 201);
+    return response()->json($paymentWay->toArray(), 201 , [] , JSON_PRETTY_PRINT );
 }
 public function getPaymentWay($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $paymentWay=payment_ways_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $paymentWay=payment_ways_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $paymentWay=payment_ways::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $paymentWay=payment_ways::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }
     if($paymentWay==null){
         return response()->json(['error'=>"failed to get payment way"], 300);
@@ -548,7 +554,7 @@ public function payment_ways_search(){
     if(empty($charges)){
          return response()->json(['error'=>"failed to get payment way"], 301);
     }
-    return response()->json($charges->toArray(), 201);
+    return response()->json($charges->toArray(), 201 , [] , JSON_PRETTY_PRINT );
 }
 
 

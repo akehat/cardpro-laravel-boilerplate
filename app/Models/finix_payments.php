@@ -62,9 +62,8 @@ public function scopeAccessible($query)
 }
 public static function authenticateSearch($api_userID, $api_key, $search)
 {
-    $columns = \Schema::getColumnListing((new self())->getTable());
+    $columns = \Schema::getColumnListing((new self)->getTable());
     $perPage = 20; // Default items per page
-
     if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) {
         return false;
     }
@@ -242,7 +241,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         ]);
         $paymentMade->save();
         $paymentMade->refresh();
-        $merchant=ApiKey::where('live',$islive)->where('merchant_id', $merchant)->increment('balance', $value->amount??0, ['increased_at' => Carbon::now()]);
+        $merchant=ApiKey::where('live',$islive)->where('merchant_id', $merchant)->increment('balance', $value->amount??0);
             return ['worked'=>true,"responce"=>$payment[0],"ref"=>$paymentMade];
         }else{
             return ['worked'=>false,"responce"=>$payment[0]];
@@ -262,7 +261,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             if($refund[1]>=200&&$refund[1]<300){
                 $value=json_decode($refund[0]);
                 self::fromArray([$value]);
-            $merchant=ApiKey::where('live',$islive)->where('id', $apikeyID)->decrement('balance', $value->amount??0, ['increased_at' => Carbon::now()]);
+            $merchant=ApiKey::where('live',$islive)->where('id', $apikeyID)->decrement('balance', $value->amount??0);
 
             return ['worked'=>true,"responce"=>$refund[0]];
 

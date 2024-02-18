@@ -37,10 +37,10 @@ Route::get('/cardwiz/campaign/{id}/balance', [RoutesController::class,'getCampai
 
 Route::post('/cardwiz/charges', [RoutesController::class,'createCharges' ]);
 Route::post('/cardwiz/charges/{id}', [RoutesController::class,'updateCharge' ]);
+Route::get('/cardwiz/charges/search', [RoutesController::class,'charges_search' ]);
 Route::get('/cardwiz/charges/{id}', [RoutesController::class,'getCharge' ]);
 Route::get('/cardwiz/charges', [RoutesController::class,'getCharges' ]);
 // Route::post('/cardwiz/charges/{id}/capture', [RoutesController::class,'postChargeCapture' ]);
-Route::get('/cardwiz/charges/search', [RoutesController::class,'charges_search' ]);
 
 
 Route::post('/cardwiz/disputes/{id}', [RoutesController::class,'updateDispute' ]);
@@ -88,8 +88,8 @@ Route::post('/cardwiz/payment_ways/{id}', [RoutesController::class,'updatePaymen
 Route::get('/cardwiz/customers/{id}/payment_ways/{payID}', [RoutesController::class,'getCustomerPaymentWay' ]);
 Route::get('/cardwiz/customers/{id}/payment_ways', [RoutesController::class,'getCustomerPaymentWays' ]);
 Route::get('/cardwiz/payment_ways', [RoutesController::class,'getPaymentWays' ]);
-Route::get('/cardwiz/payment_ways', [RoutesController::class,'getPaymentWay' ]);
 Route::get('/cardwiz/payment_ways/search', [RoutesController::class,'payment_ways_search' ]);
+Route::get('/cardwiz/payment_ways/{id}', [RoutesController::class,'getPaymentWay' ]);
 
 
 Route::post('/cardwiz/customers/{id}/cards', [RoutesController::class,'createCustomerCard' ]);

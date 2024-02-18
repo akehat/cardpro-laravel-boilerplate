@@ -177,23 +177,92 @@ class tesingCommand extends Command
 // }
 // curl_close($ch);
 // var_dump($result);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/customers');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+// $headers = array();
+// $headers[] = 'Apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/payment_ways');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'Content-Type: application/json',
+// ]);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, '{"apikey":"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0","exp_month":"12","exp_year":"2029","name":"John Doe","card_number":"5200828282828210","cvv":331,"id":74}');
+
+// $response = curl_exec($ch);
+
+// curl_close($ch);
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/payment_ways');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0',
+// ]);
+
+// $response = curl_exec($ch);
+
+// curl_close($ch);
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/payment_ways/56');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0',
+// ]);
+
+// $response = curl_exec($ch);
+
+// curl_close($ch);
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/payment_ways/search?search=APZmjWMcUWgvxGcBV3V6FJ7');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0',
+// ]);
+
+// $response = curl_exec($ch);
+
+// curl_close($ch);
+
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/charges');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'Content-Type: application/json',
+// ]);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, '{"apikey":"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0","cardID":56,"amount":2000,"currency":"USD"}');
+
+// $response = curl_exec($ch);
+
+// curl_close($ch);
 $ch = curl_init();
-
-curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/customers/search?search=ID9BBQfNDBnt5hUxvp3W1w6S');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/charges/search?search=TRh2kLF2dxdmrrNBGrm9fkx3');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0',
+]);
 
+$response = curl_exec($ch);
 
-$headers = array();
-$headers[] = 'Apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0';
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-$result = curl_exec($ch);
-if (curl_errno($ch)) {
-    echo 'Error:' . curl_error($ch);
-}
 curl_close($ch);
-var_dump($result);
+var_dump($response);
         return 0;
     }
 }

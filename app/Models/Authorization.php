@@ -129,7 +129,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'amount' => $data->amount ?? null,
                     'amount_requested' => $data->amount_requested ?? null,
                     'application' => $data->application ?? null,
-                    'card_present_details' => json_encode($data->card_present_details) ?? null,
+                    'card_present_details' => json_encode($data->card_present_details??[]) ?? null,
                     'currency' => $data->currency ?? null,
                     'device' => $data->device ?? null,
                     'expires_at' => $data->expires_at ?? null,
@@ -286,8 +286,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 ]);
                 $paymentMade->save();
                 $paymentMade->refresh();
+                self::updateFromId($id);
                 $merchant=ApiKey::where('live',$islive)->where('merchant_id', $value->merchant)->increment('balance', $value->amount??0);
-            return ['worked'=>true,"responce"=>$capture[0]];
+            return ['worked'=>true,"responce"=>$capture[0],'ref'=>$paymentMade];
 
             }
             return ['worked'=>false,"responce"=>$capture[0]];
@@ -306,8 +307,45 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         if($exists!==null){
             $refund= merchantsController::releaseHold(config("app.api_username"),config("app.api_password"),$id,true,$endpoint);
             if($refund[1]>=200&&$refund[1]<300){
-                self::fromArray([json_decode($refund[0])]);
-            return ['worked'=>true,"responce"=>$refund[0]];
+                $data=json_decode($refund[0]);
+                $found = self::where('finix_id', $data->id)->first();
+                $found->update([
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
+                    '3ds_redirect_url' => $data->{'3ds_redirect_url'} ?? null,
+                    'additional_buyer_charges' => $data->additional_buyer_charges ?? null,
+                    'additional_healthcare_data' => $data->additional_healthcare_data ?? null,
+                    'address_verification' => $data->address_verification ?? null,
+                    'amount' => $data->amount ?? null,
+                    'amount_requested' => $data->amount_requested ?? null,
+                    'application' => $data->application ?? null,
+                    'card_present_details' => json_encode($data->card_present_details??[]) ?? null,
+                    'currency' => $data->currency ?? null,
+                    'device' => $data->device ?? null,
+                    'expires_at' => $data->expires_at ?? null,
+                    'failure_code' => $data->failure_code ?? null,
+                    'failure_message' => $data->failure_message ?? null,
+                    'idempotency_id' => $data->idempotency_id ?? null,
+                    'is_void' => $data->is_void ?? false,
+                    'merchant_identity' => $data->merchant_identity ?? null,
+                    'messages' => json_encode($data->messages) ?? null,
+                    'raw' => json_encode($data->raw) ?? null,
+                    'security_code_verification' => $data->security_code_verification ?? null,
+                    'source' => $data->source ?? null,
+                    'state' => $data->state ?? null,
+                    'tags' => json_encode($data->tags) ?? null,
+                    'trace_id' => $data->trace_id ?? null,
+                    'transfer' => $data->transfer ?? null,
+                    'void_state' => $data->void_state ?? null,
+                    'api_user'=>$api_userID??null,
+                    'is_live'=>$islive??null,
+                    'api_key'=>''.$apikeyID??null
+                ]);
+
+            // Save and refresh the model
+            $found->save();
+            $found->refresh();
+            return ['worked'=>true,"responce"=>$refund[0],'ref'=>$found];
 
             }
             return ['worked'=>false,"responce"=>$refund[0]];

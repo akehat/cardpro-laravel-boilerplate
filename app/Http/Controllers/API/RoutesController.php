@@ -419,11 +419,11 @@ public function createRefund(){
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $payment=finix_payments::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $payment=finix_payments_live::authenticateGetID($request['id'],$info['api_userID'],$info['apikey']);
     }else{
-        $payment=finix_payments::authenticateGetByID($request['id'],$info['api_userID'],$info['apikey']);
+        $payment=finix_payments::authenticateGetID($request['id'],$info['api_userID'],$info['apikey']);
     }
-    if($payment!=null){
+    if(empty($payment)){
         return response()->json(['error'=>"failed to get charge"], 300);
     }
     $amount=0;
@@ -438,7 +438,7 @@ public function createRefund(){
     }else{
         $refund=finix_payments::makeRefund($payment->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }
-    return response()->json($refund ,  201 , [] , JSON_PRETTY_PRINT);
+    return response()->json($refund['ref'] ,  201 , [] , JSON_PRETTY_PRINT);
 }
 public function updateRefund(){}
 public function getRefund(){}
@@ -591,19 +591,20 @@ public function createHold(){
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $card=identities_live::authenticateGetCustomerByID($request['CardID'],$info['api_userID'],$info['apikey']);
+        $card=payment_ways_live::authenticateGetID($request['cardID'],$info['api_userID'],$info['apikey']);
     }else{
-        $card=identities::authenticateGetCustomerByID($request['CardID'],$info['api_userID'],$info['apikey']);
+        $card=payment_ways::authenticateGetID($request['cardID'],$info['api_userID'],$info['apikey']);
     }
     if(empty($card)){
         return response()->json(['error'=>"failed to identify card"], 301);
    }
    if($info['merchant']!=false){
-    $merchant=$info['merchant'];
-   }elseif($info['live']){
-        $merchant=Finix_Merchant_live::authenticateGetCustomerByID($request['MerchantID'],$info['api_userID'],$info['apikey']);
+    $request['MerchantID']=$info['merchant'];
+   }
+   if($info['live']){
+        $merchant=Finix_Merchant_live::authenticateGetIDWithUserID($request['MerchantID'],$info['api_userID'],$info['apikey']);
     }else{
-        $merchant=Finix_Merchant::authenticateGetCustomerByID($request['MerchantID'],$info['api_userID'],$info['apikey']);
+        $merchant=Finix_Merchant::authenticateGetIDWithUserID($request['MerchantID'],$info['api_userID'],$info['apikey']);
     }
     if(empty($merchant)){
         return response()->json(['error'=>"failed to identify merchant"], 301);
@@ -620,12 +621,12 @@ public function createHold(){
     }
     $currency=strtoupper($request['currency']);
     if($info['live']){
-        $payment=Authorization_live::makeHold($merchant->finix_id,$currency,$amount,$card->finix_id,$request['userID'],$info['api_userID'],$info['apikey']??0);
+        $payment=Authorization_live::makeHold($merchant->finix_id,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
     }else{
-        $payment=Authorization::makeHold($merchant->finix_id,$currency,$amount,$card->finix_id,$request['userID'],$info['api_userID'],$info['apikey']??0);
+        $payment=Authorization::makeHold($merchant->finix_id,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($payment['worked']){
-        return response()->json($payment['responce'], 200);
+        return response()->json($payment['ref'], 200 , [] , JSON_PRETTY_PRINT );
     }
     return response()->json($payment['responce'], 301);
 }
@@ -634,11 +635,11 @@ public function captureHold($id){
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $hold=Authorization_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $hold=Authorization_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $hold=Authorization::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $hold=Authorization::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }
-    if($hold!=null){
+    if(empty($hold)){
         return response()->json(['error'=>"failed to get hold"], 300);
     }
     $amount=0;
@@ -649,22 +650,25 @@ public function captureHold($id){
             return response()->json(['error'=>"invalid amount"], 301);
     }
     if($info['live']){
-        $refund=Authorization_live::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
+        $capture=Authorization_live::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }else{
-        $refund=Authorization::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
+        $capture=Authorization::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }
-    return response()->json($refund ,  201 , [] , JSON_PRETTY_PRINT);
+    if($capture['worked']){
+        return response()->json($capture['ref'], 200 , [] , JSON_PRETTY_PRINT );
+    }
+    return response()->json($capture['responce'], 301);
 }
 public function releaseHold($id){
     $request=request()->all();
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $hold=Authorization_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $hold=Authorization_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $hold=Authorization::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $hold=Authorization::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }
-    if($hold!=null){
+    if(empty($hold)){
         return response()->json(['error'=>"failed to get hold"], 300);
     }
     if($info['live']){
@@ -672,15 +676,18 @@ public function releaseHold($id){
     }else{
         $refund=Authorization::voidCapture($hold->finix_id,$info['api_userID'],$info['apikey']);
     }
-    return response()->json($refund ,  201 , [] , JSON_PRETTY_PRINT);
+    if($refund['worked']){
+        return response()->json($refund['ref'], 200 , [] , JSON_PRETTY_PRINT );
+    }
+    return response()->json($refund['responce'], 301);
 }
 public function getHold($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $hold=Authorization_live::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $hold=Authorization_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }else{
-        $hold=Authorization::authenticateGetByID($id,$info['api_userID'],$info['apikey']);
+        $hold=Authorization::authenticateGetID($id,$info['api_userID'],$info['apikey']);
     }
     if($hold==null){
         return response()->json(['error'=>"failed to get charge"], 300);
@@ -691,14 +698,14 @@ public function getHolds(){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     if($info['live']){
-        $charges=identities_live::authenticateGet($info['api_userID'],$info['apikey']);
+        $holds=Authorization_live::authenticateGet($info['api_userID'],$info['apikey']);
     }else{
-        $charges=identities::authenticateGet($info['api_userID'],$info['apikey']);
+        $holds=Authorization::authenticateGet($info['api_userID'],$info['apikey']);
     }
-    if(empty($charges)){
-         return response()->json(['error'=>"failed to get charges"], 301);
+    if(empty($holds)){
+         return response()->json(['error'=>"failed to get holds"], 301);
     }
-    return response()->json($charges->toArray(), 201);
+    return response()->json($holds->toArray(), 201 , [] , JSON_PRETTY_PRINT );
 }
 public function hold_search(){
     $request=request()->all();
@@ -716,7 +723,7 @@ public function hold_search(){
     if(empty($hold)){
          return response()->json(['error'=>"failed to get hold"], 301);
     }
-    return response()->json($hold->toArray(), 201);
+    return response()->json($hold->toArray(), 201 , [] , JSON_PRETTY_PRINT );
 }
 
 public function createSubscription(){}

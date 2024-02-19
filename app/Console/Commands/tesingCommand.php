@@ -251,18 +251,98 @@ class tesingCommand extends Command
 // $response = curl_exec($ch);
 
 // curl_close($ch);
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/charges/search?search=TRh2kLF2dxdmrrNBGrm9fkx3');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0',
+// ]);
+
+// $response = curl_exec($ch);
+
+// curl_close($ch);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/refunds');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_POST, 1);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"apikey\":\"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0\",\"amount\":1000,\"id\":29}");
+
+// $headers = array();
+// $headers[] = 'Content-Type: application/json';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/holds');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_POST, 1);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"apikey\":\"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0\",\"cardID\":55,\"amount\":2000,\"currency\":\"USD\"}");
+
+// $headers = array();
+// $headers[] = 'Content-Type: application/json';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/holds');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+// $headers = array();
+// $headers[] = 'Apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
+// $ch = curl_init();
+
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/holds/3/capture');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($ch, CURLOPT_POST, 1);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"apikey\":\"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0\",\"amount\":200}");
+
+// $headers = array();
+// $headers[] = 'Content-Type: application/json';
+// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+// $result = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     echo 'Error:' . curl_error($ch);
+// }
+// curl_close($ch);
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/charges/search?search=TRh2kLF2dxdmrrNBGrm9fkx3');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'apikey: Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0',
-]);
 
-$response = curl_exec($ch);
+curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/holds/6/release');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"apikey\":\"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0\"}");
 
+$headers = array();
+$headers[] = 'Content-Type: application/json';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+$result = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+}
 curl_close($ch);
-var_dump($response);
+var_dump($result);
         return 0;
     }
 }

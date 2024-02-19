@@ -1110,15 +1110,55 @@ var data = [
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'amount' for in the refund.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":200.\"id\":2}'",
-       "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        },
-    },
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":1000.\"id\":29}'",
+       "exampleResponse": `{
+    "id": 33,
+    "created_at": "2024-02-18T23:40:11.000000Z",
+    "updated_at": "2024-02-18T23:40:11.000000Z",
+    "finix_id": "TR5vH9RefrwW5wFspgBSHAxP",
+    "created_at_finix": "2024-02-18T23:40:10.94Z",
+    "updated_at_finix": "2024-02-18T23:40:11.03Z",
+    "additional_buyer_charges": null,
+    "additional_healthcare_data": null,
+    "additional_purchase_data": null,
+    "address_verification": null,
+    "amount": 1000,
+    "amount_requested": 1000,
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "currency": "USD",
+    "destination": "PIbyXuLgXsmwR6QZAkUfJydg",
+    "externally_funded": "UNKNOWN",
+    "failure_code": null,
+    "failure_message": null,
+    "fee": 0,
+    "idempotency_id": null,
+    "merchant": "MUaXkxZqRbtt641fvcSRrZx2",
+    "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+    "messages": "[]",
+    "parent_transfer": "TRbS8p7qMbTRRWcqMZ7tHpUC",
+    "parent_transfer_trace_id": null,
+    "raw": null,
+    "ready_to_settle_at": null,
+    "receipt_last_printed_at": null,
+    "security_code_verification": null,
+    "source": null,
+    "split_transfers": "[]",
+    "state": "PENDING",
+    "statement_descriptor": "FLX*FINIX FLOWERS",
+    "subtype": "API",
+    "tags": "{\"tags\":{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"refund\":\"made\"}}",
+    "trace_id": "b547ff55-0b17-4708-8075-4e70a4436ab1",
+    "type": "REVERSAL",
+    "_links": null,
+    "fee_type": null,
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1,
+    "merchant_id": null,
+    "customer_id": null
+}`
 
+    },
     {
         "routeName": "Create Hold",
         "info": "create a hold for a customer. POST Route",
@@ -1126,13 +1166,43 @@ var data = [
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the hold.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/holds -d '{\"apikey\":\"apikey\",\"cardID\":2,\"amount\":200,\"currency\":'USD'}'",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        }
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds -d '{\"apikey\":\"apikey\",\"cardID\":55,\"amount\":2000,\"currency\":\"USD\"}'",
+        "exampleResponse": `{
+    "id": 3,
+    "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
+    "finix_created_at": "2024-02-18T23:54:22.54Z",
+    "finix_updated_at": "2024-02-18T23:54:22.54Z",
+    "3ds_redirect_url": null,
+    "additional_buyer_charges": null,
+    "additional_healthcare_data": null,
+    "address_verification": "POSTAL_CODE_AND_STREET_MATCH",
+    "amount": 2000,
+    "amount_requested": 2000,
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "card_present_details": "[]",
+    "currency": "USD",
+    "device": null,
+    "expires_at": "2024-02-25T23:54:22.54Z",
+    "failure_code": null,
+    "failure_message": null,
+    "idempotency_id": null,
+    "is_void": 0,
+    "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+    "messages": "[]",
+    "raw": "[]",
+    "security_code_verification": "MATCHED",
+    "source": "PIo75Ymokiz32HXQYo3n6wDZ",
+    "state": "SUCCEEDED",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "trace_id": "f889b060-5f9a-47fe-b719-b43eb2e1c3d8",
+    "transfer": null,
+    "void_state": "UNATTEMPTED",
+    "created_at": "2024-02-18T23:54:23.000000Z",
+    "updated_at": "2024-02-18T23:54:23.000000Z",
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1
+}`
     },
     {
         "routeName": "Get Holds",
@@ -1143,13 +1213,75 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/cardwiz/holds\"",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
+  \"{{url('')}}/api/cardwiz/holds\"",
+        "exampleResponse": `{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 3,
+            "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
+            "finix_created_at": "2024-02-18T23:54:22.54Z",
+            "finix_updated_at": "2024-02-18T23:54:22.54Z",
+            "3ds_redirect_url": null,
+            "additional_buyer_charges": null,
+            "additional_healthcare_data": null,
+            "address_verification": "POSTAL_CODE_AND_STREET_MATCH",
+            "amount": 2000,
+            "amount_requested": 2000,
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "card_present_details": "[]",
+            "currency": "USD",
+            "device": null,
+            "expires_at": "2024-02-25T23:54:22.54Z",
+            "failure_code": null,
+            "failure_message": null,
+            "idempotency_id": null,
+            "is_void": 0,
+            "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+            "messages": "[]",
+            "raw": "[]",
+            "security_code_verification": "MATCHED",
+            "source": "PIo75Ymokiz32HXQYo3n6wDZ",
+            "state": "SUCCEEDED",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+            "trace_id": "f889b060-5f9a-47fe-b719-b43eb2e1c3d8",
+            "transfer": null,
+            "void_state": "UNATTEMPTED",
+            "created_at": "2024-02-18T23:54:23.000000Z",
+            "updated_at": "2024-02-18T23:54:23.000000Z",
+            "api_key": "3",
+            "is_live": 0,
+            "api_user": 1
+        }
+    ],
+    "first_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/holds?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/holds?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
         },
+        {
+            "url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/holds?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/holds",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+}`
     },
     {
         "routeName": "Get Hold",
@@ -1160,13 +1292,43 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/cardwiz/holds/2\"",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        }
+  \"{{url('')}}/api/cardwiz/holds/3\"",
+        "exampleResponse": `{
+    "id": 3,
+    "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
+    "finix_created_at": "2024-02-18T23:54:22.54Z",
+    "finix_updated_at": "2024-02-18T23:54:22.54Z",
+    "3ds_redirect_url": null,
+    "additional_buyer_charges": null,
+    "additional_healthcare_data": null,
+    "address_verification": "POSTAL_CODE_AND_STREET_MATCH",
+    "amount": 2000,
+    "amount_requested": 2000,
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "card_present_details": "[]",
+    "currency": "USD",
+    "device": null,
+    "expires_at": "2024-02-25T23:54:22.54Z",
+    "failure_code": null,
+    "failure_message": null,
+    "idempotency_id": null,
+    "is_void": 0,
+    "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+    "messages": "[]",
+    "raw": "[]",
+    "security_code_verification": "MATCHED",
+    "source": "PIo75Ymokiz32HXQYo3n6wDZ",
+    "state": "SUCCEEDED",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "trace_id": "f889b060-5f9a-47fe-b719-b43eb2e1c3d8",
+    "transfer": null,
+    "void_state": "UNATTEMPTED",
+    "created_at": "2024-02-18T23:54:23.000000Z",
+    "updated_at": "2024-02-18T23:54:23.000000Z",
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1
+}`
     },
     {
         "routeName": "Search Hold",
@@ -1177,13 +1339,43 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/cardwiz/holds/search?search=500\"",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        },
+  \"{{url('')}}/api/cardwiz/holds/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+        "exampleResponse": `{
+    "id": 3,
+    "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
+    "finix_created_at": "2024-02-18T23:54:22.54Z",
+    "finix_updated_at": "2024-02-18T23:54:22.54Z",
+    "3ds_redirect_url": null,
+    "additional_buyer_charges": null,
+    "additional_healthcare_data": null,
+    "address_verification": "POSTAL_CODE_AND_STREET_MATCH",
+    "amount": 2000,
+    "amount_requested": 2000,
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "card_present_details": "[]",
+    "currency": "USD",
+    "device": null,
+    "expires_at": "2024-02-25T23:54:22.54Z",
+    "failure_code": null,
+    "failure_message": null,
+    "idempotency_id": null,
+    "is_void": 0,
+    "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+    "messages": "[]",
+    "raw": "[]",
+    "security_code_verification": "MATCHED",
+    "source": "PIo75Ymokiz32HXQYo3n6wDZ",
+    "state": "SUCCEEDED",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "trace_id": "f889b060-5f9a-47fe-b719-b43eb2e1c3d8",
+    "transfer": null,
+    "void_state": "UNATTEMPTED",
+    "created_at": "2024-02-18T23:54:23.000000Z",
+    "updated_at": "2024-02-18T23:54:23.000000Z",
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1
+}`
     },
     {
         "routeName": "Capture Hold",
@@ -1192,13 +1384,53 @@ var data = [
         "header": "Endpoint",
         "query": "'id' for the hold in the url",
         "data": "'apikey' either user or merchant. for the hold. 'amount' of the hold.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/holds/2/capture -d '{\"apikey\":\"apikey\",\"amount\":2000'}'",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        }
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/3/capture -d '{\"apikey\":\"apikey\",\"amount\":200}'",
+        "exampleResponse": `{
+    "id": 35,
+    "created_at": "2024-02-19T00:34:06.000000Z",
+    "updated_at": "2024-02-19T00:34:06.000000Z",
+    "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
+    "created_at_finix": "2024-02-18T23:54:22.54Z",
+    "updated_at_finix": "2024-02-19T00:34:06.35Z",
+    "additional_buyer_charges": null,
+    "additional_healthcare_data": null,
+    "additional_purchase_data": null,
+    "address_verification": "POSTAL_CODE_AND_STREET_MATCH",
+    "amount": 2000,
+    "amount_requested": 2000,
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "currency": "USD",
+    "destination": null,
+    "externally_funded": null,
+    "failure_code": null,
+    "failure_message": null,
+    "fee": null,
+    "idempotency_id": null,
+    "merchant": "MUaXkxZqRbtt641fvcSRrZx2",
+    "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+    "messages": "[]",
+    "parent_transfer": null,
+    "parent_transfer_trace_id": null,
+    "raw": null,
+    "ready_to_settle_at": null,
+    "receipt_last_printed_at": null,
+    "security_code_verification": "MATCHED",
+    "source": "PIo75Ymokiz32HXQYo3n6wDZ",
+    "split_transfers": "[]",
+    "state": "SUCCEEDED",
+    "statement_descriptor": null,
+    "subtype": null,
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "trace_id": "f889b060-5f9a-47fe-b719-b43eb2e1c3d8",
+    "type": null,
+    "_links": null,
+    "fee_type": null,
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1,
+    "merchant_id": null,
+    "customer_id": null
+}`
     },
     {
         "routeName": "Release Hold",
@@ -1207,13 +1439,43 @@ var data = [
         "header": "Endpoint",
         "query": "'id' for the hold in the url",
         "data": "'apikey' either user or merchant.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/cardwiz/holds/2/release -d '{\"apikey\":\"apikey\"}'",
-        "exampleResponse": {
-            "status": "success",
-            "data": {
-                "key": "value"
-            }
-        }
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/6/release -d '{\"apikey\":\"apikey\"}'",
+        "exampleResponse": `{
+    "id": 6,
+    "finix_id": "AUfrMt9RPBk9zXLyp9ALjsTe",
+    "finix_created_at": "2024-02-19T00:59:33.77Z",
+    "finix_updated_at": "2024-02-19T00:59:50.16Z",
+    "3ds_redirect_url": null,
+    "additional_buyer_charges": null,
+    "additional_healthcare_data": null,
+    "address_verification": "POSTAL_CODE_AND_STREET_MATCH",
+    "amount": 2000,
+    "amount_requested": 2000,
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "card_present_details": "[]",
+    "currency": "USD",
+    "device": null,
+    "expires_at": "2024-02-26T00:59:33.77Z",
+    "failure_code": null,
+    "failure_message": null,
+    "idempotency_id": null,
+    "is_void": 1,
+    "merchant_identity": "IDewwm9KSQ7Ngttkg5myWYK6",
+    "messages": "[]",
+    "raw": "null",
+    "security_code_verification": "MATCHED",
+    "source": "PIo75Ymokiz32HXQYo3n6wDZ",
+    "state": "SUCCEEDED",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_3\",\"userID\":\"userID_1\"}",
+    "trace_id": "d92070c3-017d-46b6-ba1f-8dbcb16f1811",
+    "transfer": null,
+    "void_state": "PENDING",
+    "created_at": "2024-02-19T00:59:34.000000Z",
+    "updated_at": "2024-02-19T00:59:50.000000Z",
+    "api_key": "3",
+    "is_live": 0,
+    "api_user": 1
+}`
     },
 ];
 

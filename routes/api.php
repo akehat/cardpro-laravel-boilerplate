@@ -124,9 +124,9 @@ Route::post('/cardwiz/holds', [RoutesController::class,'createHold' ]);
 Route::post('/cardwiz/holds/{id}', [RoutesController::class,'updateHold' ]);
 Route::post('/cardwiz/holds/{id}/capture', [RoutesController::class,'captureHold' ]);
 Route::post('/cardwiz/holds/{id}/release', [RoutesController::class,'releaseHold' ]);
+Route::get('/cardwiz/holds/search', [RoutesController::class,'hold_search' ]);
 Route::get('/cardwiz/holds/{id}', [RoutesController::class,'getHold' ]);
 Route::get('/cardwiz/holds', [RoutesController::class,'getHolds' ]);
-Route::get('/cardwiz/holds/search', [RoutesController::class,'hold_search' ]);
 
 Route::post('/cardwiz/subscriptions', [RoutesController::class,'createSubscription' ]);
 Route::post('/cardwiz/subscriptions/{id}', [RoutesController::class,'updateSubscription' ]);

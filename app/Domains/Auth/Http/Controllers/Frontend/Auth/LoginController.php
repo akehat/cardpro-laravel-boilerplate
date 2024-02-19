@@ -34,7 +34,7 @@ class LoginController
      */
     public function redirectPath()
     {
-        return url('/portal');
+        return route(homeRoute());
     }
 
     /**

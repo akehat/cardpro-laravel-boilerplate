@@ -126,7 +126,7 @@
 <li><a href="{{ url('portal/live/disputes') }}"><i class="fas fa-exclamation-triangle"></i> Live Disputes</a></li>
 <li><a href="{{ url('portal/live/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Live Subscription Schedules</a></li>
 <li><a href="{{ url('portal/live/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Live Subscription Enrollment</a></li>
-<li><a href="{{ route('frontend.auth.logout')}}"><i class="fas fa-user-plus"></i> Logout</a></li>
+<li><a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-user-plus"></i> Logout</a></li>
 
             {{-- @endif --}}
 
@@ -134,6 +134,9 @@
         </ul>
     </div>
     <div id="content">
+    @if(isset($title))
+    <h2>{{$title}}</h2>
+    @endif
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

@@ -68,7 +68,7 @@ class MerchantSignUpController extends Controller
         $array['next_page_url']=null;
         $array['prev_page_url']=null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
     }
 
     public function getFeeForm(){
@@ -859,474 +859,541 @@ class MerchantSignUpController extends Controller
         Session::put('api_password_live',$apiUser->password_live);
     }
     public function identities(){
+        $title=ucwords('identities');
         $array['data']=identities::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function apiusers(){
+        $title=ucwords('apiusers');
         $array['data']=ApiUser::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function fee_profiles(){
+        $title=ucwords('fee profiles');
         $array['data']=finix_fee_profiles::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function fee_profile($id){
+        $title=ucwords('fee profile');
         $array['data']=finix_fee_profiles::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function settlements(){
+        $title=ucwords('settlements');
         $array['data']=settlements::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function settlement($id){
+        $title=ucwords('settlement');
         $array['data']=settlements::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function identity($id){
+        $title=ucwords('identity');
         $array['data']=identities::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payments(){
+        $title=ucwords('payments');
         // dd( request()->header('User-Agent'));
         $array['data']=finix_payments::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment($id){
+        $title=ucwords('payment');
         $array['data']=finix_payments::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_instraments(){
+        $title=ucwords('payment instraments');
         $array['data']=payment_ways::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_instrament($id){
+        $title=ucwords('payment instrament');
         $array['data']=payment_ways::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function merchants(){
+        $title=ucwords('merchants');
         $array['data']=Finix_Merchant::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function merchant($id){
+        $title=ucwords('merchant');
         $array['data']=Finix_Merchant::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function identities_live(){
+        $title=ucwords('identities live');
         $array['data']=identities_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function apiusers_live(){
+        $title=ucwords('apiusers live');
         $array['data']=Authorization::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function apiuser_live($id){
+        $title=ucwords('apiuser live');
         $array['data']=identities_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function identity_live($id){
+        $title=ucwords('identity live');
         $array['data']=identities_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payments_live(){
+        $title=ucwords('payments live');
         $array['data']=finix_payments_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_live($id){
+        $title=ucwords('payment live');
         $array['data']=finix_payments_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_instraments_live(){
+        $title=ucwords('payment instraments live');
         $array['data']=payment_ways_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_instrament_live($id){
+        $title=ucwords('payment instrament live');
         $array['data']=payment_ways_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function merchants_live(){
+        $title=ucwords('merchants live');
         $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function merchant_live($id){
+        $title=ucwords('merchant live');
         $array['data']=Finix_Merchant_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function settlements_live(){
+        $title=ucwords('settlements live');
         $array['data']=settlements_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function settlement_live($id){
+        $title=ucwords('settlement live');
         $array['data']=settlements_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function fee_profiles_live(){
+        $title=ucwords('fee profiles live');
         $array['data']=finix_fee_profiles_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function fee_profile_live($id){
+        $title=ucwords('fee profile live');
         $array['data']=finix_fee_profiles_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function disputes(){
+        $title=ucwords('disputes');
         $array['data']=Finix_Disputes::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function dispute($id){
+        $title=ucwords('dispute');
         $array['data']=Finix_Disputes::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function disputes_live(){
+        $title=ucwords('disputes live');
         $array['data']=Finix_Disputes_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function dispute_live($id){
+        $title=ucwords('dispute live');
         $array['data']=Finix_Disputes_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function compliances(){
+        $title=ucwords('compliances');
         $array['data']=pci_forms::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function compliance($id){
+        $title=ucwords('compliance');
         $array['data']=pci_forms::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function compliances_live(){
+        $title=ucwords('compliances live');
         $array['data']=pci_forms_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function compliance_live($id){
+        $title=ucwords('compliance live');
         $array['data']=pci_forms_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function holds(){
+        $title=ucwords('holds');
         $array['data']=Authorization::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function hold($id){
+        $title=ucwords('hold');
         $array['data']=Authorization::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function holds_live(){
+        $title=ucwords('holds live');
         $array['data']=Authorization_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function hold_live($id){
+        $title=ucwords('hold live');
         $array['data']=Authorization_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function checkouts(){
+        $title=ucwords('checkouts');
         $array['data']=finix_checkout_forms::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function checkout($id){
+        $title=ucwords('checkout');
         $array['data']=finix_checkout_forms::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function checkouts_live(){
+        $title=ucwords('checkouts live');
         $array['data']=finix_checkout_forms_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function checkout_live($id){
+        $title=ucwords('checkout live');
         $array['data']=finix_checkout_forms_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function paymentLinks(){
+        $title=ucwords('payment links');
         $array['data']=finix_payment_links::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function paymentLink($id){
+        $title=ucwords('payment link');
         $array['data']=finix_payment_links::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function paymentLinks_live(){
+        $title=ucwords('payment links live');
         $array['data']=finix_payment_links_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function paymentLink_live($id){
+        $title=ucwords('payment link live');
         $array['data']=finix_payment_links_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function balanceTransfers(){
+        $title=ucwords('balance transfers');
         $array['data']=BalanceTransfer::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function balanceTransfer($id){
+        $title=ucwords('balance transfer');
         $array['data']=balanceTransfer::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function balanceTransfers_live(){
+        $title=ucwords('balance transfers live');
         $array['data']=BalanceTransfer_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function balanceTransfer_live($id){
+        $title=ucwords('balance transfer live');
         $array['data']=balanceTransfer_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function verifications(){
+        $title=ucwords('verifications');
         $array['data']=verifications::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function verification($id){
+        $title=ucwords('verification');
         $array['data']=verifications::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function verifications_live(){
+        $title=ucwords('verifications live');
         $array['data']=verifications_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function verification_live($id){
+        $title=ucwords('verification live');
         $array['data']=verifications_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionSchedules(){
+        $title=ucwords('subscription schedules');
         $array['data']=subscription_schedules::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionSchedule($id){
+        $title=ucwords('subscription schedule');
         $array['data']=subscription_schedules::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionSchedules_live(){
+        $title=ucwords('subscription schedules live');
         $array['data']=subscription_schedules_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionSchedule_live($id){
+        $title=ucwords('subscription schedule live');
         $array['data']=subscription_schedules_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionAmounts(){
+        $title=ucwords('subscription amounts');
         $array['data']=subscription_amounts::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionAmount($id){
+        $title=ucwords('subscription amount');
         $array['data']=subscription_amounts::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionAmounts_live(){
+        $title=ucwords('subscription amounts live');
         $array['data']=subscription_amounts_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionAmount_live($id){
+        $title=ucwords('subscription amount live');
         $array['data']=subscription_amounts_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionEnrollments(){
+        $title=ucwords('subscription enrollments');
         $array['data']=subscription_enrollments::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionEnrollment($id){
+        $title=ucwords('subscription enrollment');
         $array['data']=subscription_enrollments::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionEnrollments_live(){
+        $title=ucwords('subscription enrollments live');
         $array['data']=subscription_enrollments_live::accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionEnrollment_live($id){
+        $title=ucwords('subscription enrollment live');
         $array['data']=subscription_enrollments_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace('\\','\\\\',json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
 
 

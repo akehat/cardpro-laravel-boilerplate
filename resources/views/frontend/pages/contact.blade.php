@@ -153,6 +153,7 @@
 
         <!-- Right Section with Contact Form -->
         <div class="right-section">
+
             <div class="contact-card">
             <img src="{{ asset('img/logo.png') }}" alt="Card Wiz Pro" height="100">
                 <h2>Contact Form</h2>

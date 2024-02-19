@@ -1,7 +1,10 @@
 @extends('frontend.pages.portal.welcome')
 
 @section('content')
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
+<script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
 <style>
     table, th, td {
       border-collapse: collapse;
@@ -30,6 +33,7 @@
   table {
       border-collapse: collapse;
       width: 100%;
+      max-width: 100%;
       border-radius: 25px;
   }
 
@@ -129,21 +133,28 @@
 
     // Create a table element
     const table = document.createElement('table');
-
+    const thead = document.createElement('thead');
     // Create the header row using all keys in the array
-    const headerRow = table.insertRow(0);
+    const headerRow = thead.insertRow(0);
+    var headCounter=0;
     allKeysArray.forEach(key => {
+        headCounter++;
         const th = document.createElement('th');
         th.textContent = key;
+        if(headCounter>=4)th.className="expandable";
         headerRow.appendChild(th);
     });
     const th = document.createElement('th');
         th.textContent = "Actions";
         headerRow.appendChild(th);
     // Create rows and cells
+    table.appendChild(thead)
+    const tbody = document.createElement('tbody');
     array.forEach(obj => {
-        const row = table.insertRow();
+        var bodyCounter=0;
+        const row = tbody.insertRow();
         allKeysArray.forEach(key => {
+            bodyCounter++;
             const cell = row.insertCell();
             if(key=="id"){
                 var link= document.createElement('a');
@@ -156,8 +167,11 @@
             }else{
                 cell.textContent = stringifyObject(obj[key]);
             }
+            if(bodyCounter>=4)cell.className="expandable";
+
         });
         const cell = row.insertCell();
+        if(bodyCounter>=2)cell.className="expandable";
         const button = document.createElement('button');
         button.textContent="return";
         button.onclick=function(){
@@ -188,9 +202,19 @@
         }
         cell.appendChild(button);
     });
-
+    table.appendChild(tbody)
+    table.id='myTable';
     var container = document.getElementById("container");
     container.appendChild(table);
+    $('#myTable').DataTable({
+    "columnDefs": [
+        {
+            "targets": ".expandable", // Target columns by class name
+            "className": "none"
+        }
+    ],
+    "scrollX": true // Enable horizontal scrolling if needed
+});
     createTotal(array.length);
 }
 
@@ -209,11 +233,11 @@
           limitContainer.appendChild(limit);
       }
       function createTotal(totalText) {
-          var totalContainer = document.getElementById("total");
-          const total = document.createElement('h5');
-          total.textContent = `Total:${totalText}`;
-          totalContainer.innerHTML = "";
-          totalContainer.appendChild(total);
+        //   var totalContainer = document.getElementById("total");
+        //   const total = document.createElement('h5');
+        //   total.textContent = `Total:${totalText}`;
+        //   totalContainer.innerHTML = "";
+        //   totalContainer.appendChild(total);
       }
       // Custom stringify for objects
       function stringifyObject(obj) {

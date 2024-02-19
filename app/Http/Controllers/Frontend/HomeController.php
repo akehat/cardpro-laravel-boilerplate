@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Domains\Auth\Models\User;
 use App\Models\ApiUser;
+use App\Models\Email;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -93,5 +95,19 @@ class HomeController
     public function contact()
     {
         return view('frontend.pages.contact');
+    }
+    public function contactSubmit(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string',
+        ]);
+
+        // Call the contactSubmit function from the Email model
+        $response = Email::contactSubmit($request);
+        // Return the response message
+        return redirect()->back()->with('status', $response);
     }
 }

@@ -129,9 +129,9 @@
 
     // Create a table element
     const table = document.createElement('table');
-
+    const thead = document.createElement('thead');
     // Create the header row using all keys in the array
-    const headerRow = table.insertRow(0);
+    const headerRow = thead.insertRow(0);
     allKeysArray.forEach(key => {
         const th = document.createElement('th');
         th.textContent = key;
@@ -140,9 +140,10 @@
     const th = document.createElement('th');
         th.textContent = "Actions";
         headerRow.appendChild(th);
-    // Create rows and cells
+        table.appendChild(thead)
+    const tbody = document.createElement('tbody');
     array.forEach(obj => {
-        const row = table.insertRow();
+        const row = tbody.insertRow();
         allKeysArray.forEach(key => {
             const cell = row.insertCell();
             if(key=="id"){
@@ -189,9 +190,19 @@
         cell.appendChild(button);
     });
 
+    table.appendChild(tbody)
+    table.id='myTable';
     var container = document.getElementById("container");
     container.appendChild(table);
-    createTotal(array.length);
+    $('#myTable').DataTable({
+    "columnDefs": [
+        {
+            "targets": ".expandable", // Target columns by class name
+            "className": "none"
+        }
+    ],
+    "scrollX": true // Enable horizontal scrolling if needed
+});
 }
 
       function createButton(buttonText) {

@@ -50,7 +50,7 @@ class AddProfilesToDbAndVerificationsSplitTransfersHoldsDisputes extends Migrati
              $table->integer('api_user')->nullable();
         });
         Schema::create('finix_disputes', function (Blueprint $table) {
-            $table->id()->nullable();
+            $table->id();
             $table->string('finix_id')->nullable();
             $table->timestamp('finix_created_at')->nullable();
             $table->timestamp('finix_updated_at')->nullable();

@@ -326,15 +326,17 @@ class tesingCommand extends Command
 //     echo 'Error:' . curl_error($ch);
 // }
 // curl_close($ch);
+
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/holds/6/release');
+curl_setopt($ch, CURLOPT_URL, 'https://finix.sandbox-payments-api.com/fee_profiles');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"apikey\":\"Api_key16Aqajyt5mcPqIqaAA5a4lCyPIM7n9BWz0\"}");
-
+curl_setopt($ch, CURLOPT_POSTFIELDS, "\n  {\n    \"ach_basis_points\": 300,\n    \"ach_fixed_fee\": 30,\n    \"application\": \"APmuwPBaW8pVcwb4vCTHQH32\",\n    \"basis_points\": 200,\n    \"card_cross_border_basis_points\": 300,\n    \"card_cross_border_fixed_fee\": 400,\n    \"charge_interchange\": false,\n    \"fixed_fee\": 100,\n    \"tags\": {\n      \"app pricing\": \"sample\"\n    }\n  }");
+curl_setopt($ch, CURLOPT_USERPWD, config("app.api_username") . ':' . config("app.api_password"));
 $headers = array();
 $headers[] = 'Content-Type: application/json';
+$headers[] = 'Finix-Version: 2022-02-01';
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $result = curl_exec($ch);

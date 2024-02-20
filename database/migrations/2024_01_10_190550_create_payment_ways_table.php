@@ -154,9 +154,9 @@ class CreatePaymentWaysTable extends Migration
             $table->integer('customer_id')->nullable();
 
             // Indexes
-            $table->index('application')->nullable();
-            $table->index('merchant_identity')->nullable();
-            $table->index('source')->nullable();
+            // $table->index('application')->nullable();
+            // $table->index('merchant_identity')->nullable();
+            // $table->index('source')->nullable();
         });
         Schema::create('finix_payment_links', function (Blueprint $table) {
             $table->id();
@@ -309,7 +309,7 @@ class CreatePaymentWaysTable extends Migration
             $table->string('api_key')->nullable();
             $table->boolean('is_live')->nullable();
             $table->integer('api_user')->nullable();
-            $table->index('finix_id')->nullable();
+            // $table->index('finix_id')->nullable();
         });
         Schema::create('subscription_amounts', function (Blueprint $table) {
             $table->id();
@@ -324,7 +324,7 @@ class CreatePaymentWaysTable extends Migration
             $table->string('api_key')->nullable();
             $table->boolean('is_live')->nullable();
             $table->integer('api_user')->nullable();
-            $table->index('finix_id')->nullable();
+            // $table->index('finix_id')->nullable();
         });
         Schema::create('subscription_enrollments', function (Blueprint $table) {
             $table->id();
@@ -340,7 +340,7 @@ class CreatePaymentWaysTable extends Migration
             $table->boolean('is_live')->nullable();
             $table->integer('api_user')->nullable();
 
-            $table->index('finix_id')->nullable();
+            // $table->index('finix_id')->nullable();
         });
         Schema::create('applications', function (Blueprint $table) {
             $table->id();

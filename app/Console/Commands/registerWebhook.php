@@ -52,7 +52,7 @@ class registerWebhook extends Command
                 ],
             ];
         URL::forceRootUrl(config('app.full_home_url'));
-        webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),url('/api/webhook'),'https://finix.sandbox-payments-api.com',[],$addedData);
+        webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook'),'https://finix.sandbox-payments-api.com',[],$addedData);
         $type='BASIC';
         $username=config("app.api_webhook_username");
         $password=config("app.api_webhook_password");
@@ -66,7 +66,7 @@ class registerWebhook extends Command
                 ],
             ];
         URL::forceRootUrl(config('app.full_home_url'));
-        webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),url('/api/webhook/live'),'https://finix.live-payments-api.com',[],$addedData);
+        webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook/live'),'https://finix.live-payments-api.com',[],$addedData);
 
         return 0;
     }

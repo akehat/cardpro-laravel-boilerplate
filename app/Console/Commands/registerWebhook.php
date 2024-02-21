@@ -50,6 +50,7 @@ class registerWebhook extends Command
                     "password" => $password,
                     ],
                 ],
+                'url' => url('/api/webhook'),
             ];
         URL::forceRootUrl(config('app.full_home_url'));
         $result=webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook'),'https://finix.sandbox-payments-api.com',[],$addedData);

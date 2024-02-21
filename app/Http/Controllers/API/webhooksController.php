@@ -19,10 +19,10 @@ class webhooksController extends Controller
         $addedQuery=[],
         $addedData=[]){
         $data = [
-            'authentication' => [
-                'type' => $authenticationType,
-            ],
-            'url' => $url,
+            // 'authentication' => [
+            //     'type' => $authenticationType,
+            // ],
+            // 'url' => $url,
         ];
         $data=array_merge($data,$addedData);
         // Encode the array to JSON

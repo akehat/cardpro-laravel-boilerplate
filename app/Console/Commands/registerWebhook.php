@@ -52,21 +52,22 @@ class registerWebhook extends Command
                 ],
             ];
         URL::forceRootUrl(config('app.full_home_url'));
-        webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook'),'https://finix.sandbox-payments-api.com',[],$addedData);
-        $type='BASIC';
-        $username=config("app.api_webhook_username");
-        $password=config("app.api_webhook_password");
-        $addedData=[
-            "authentication" => [
-                "type" => $type,
-                "basic" => [
-                    "username" => $username,
-                    "password" => $password,
-                    ],
-                ],
-            ];
-        URL::forceRootUrl(config('app.full_home_url'));
-        webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook/live'),'https://finix.live-payments-api.com',[],$addedData);
+        $result=webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook'),'https://finix.sandbox-payments-api.com',[],$addedData);
+        var_dump($result);
+        // $type='BASIC';
+        // $username=config("app.api_webhook_username");
+        // $password=config("app.api_webhook_password");
+        // $addedData=[
+        //     "authentication" => [
+        //         "type" => $type,
+        //         "basic" => [
+        //             "username" => $username,
+        //             "password" => $password,
+        //             ],
+        //         ],
+        //     ];
+        // URL::forceRootUrl(config('app.full_home_url'));
+        // webhooksController::createAWebhook(config("app.api_username"),config("app.api_password"),$type,url('/api/webhook/live'),'https://finix.live-payments-api.com',[],$addedData);
 
         return 0;
     }

@@ -45,11 +45,7 @@ class registerWebhook extends Command
         URL::forceRootUrl(config('app.full_home_url'));
         $addedData=[
             "authentication" => [
-                "type" => $type,
-                "basic" => [
-                    "username" => $username,
-                    "password" => $password,
-                    ],
+                "type" => "NONE"
                 ],
                 'url' => url('/api/webhook'),
             ];

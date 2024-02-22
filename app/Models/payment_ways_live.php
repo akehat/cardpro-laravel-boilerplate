@@ -33,8 +33,7 @@ public function scopeAccessible($query)
             $length = $request->input('length');
             $search = $request->input('search.value');
             if ($request->has('order') && count($request->input('order')) > 0) {
-                $orderColumnIndex = $request->input('order.0.column'); // Get the index of the ordered column
-                $orderColumnName = $columns[$orderColumnIndex]; // Get the name of the ordered column
+               $orderColumnName = $request->input('order.0.name'); // Get the index of the ordered column
                 $orderDir = $request->input('order.0.dir'); // Get the order direction
             }
 

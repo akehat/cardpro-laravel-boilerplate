@@ -126,12 +126,12 @@ class webhooksController extends Controller
         Log::info(collect($request->header())->transform(function ($item) {
             return $item[0];
         }));
-        if ($request->header('Authorization')!==null) {
+        if ($request->header('authorization')!==null) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         // Extract the basic authentication credentials
-        $authHeader = $request->header('Authorization');
+        $authHeader = $request->header('authorization');
         list($type, $data) = explode(' ', $authHeader, 2);
 
         // Check if the type is 'Basic'
@@ -197,12 +197,12 @@ class webhooksController extends Controller
         Log::info(collect($request->header())->transform(function ($item) {
             return $item[0];
         }));
-        if ($request->header('Authorization')!==null) {
+        if ($request->header('authorization')!==null) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         // Extract the basic authentication credentials
-        $authHeader = $request->header('Authorization');
+        $authHeader = $request->header('authorization');
         list($type, $data) = explode(' ', $authHeader, 2);
         Log::info($authHeader);
         // Check if the type is 'Basic'

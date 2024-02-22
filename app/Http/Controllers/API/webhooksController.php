@@ -122,6 +122,10 @@ class webhooksController extends Controller
         return [$response,$httpcode];
     }
     public function webhookUpdateRoute(Request $request){
+        Log::info($request);
+        Log::info(collect($request->header())->transform(function ($item) {
+            return $item[0];
+        }));
         if ($request->header('Authorization')!==null) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }

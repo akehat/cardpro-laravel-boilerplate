@@ -22,6 +22,56 @@ public function scopeAccessible($query)
         // If not an admin, add the additional condition
         return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
     }
+
+ public static function ajaxTable($request, $title = 'title')
+    {
+        $model = new static(); // Instantiate the model to get table name
+        $columns = \Schema::getColumnListing($model->getTable());
+
+        if ($request->ajax()) {
+            $draw = $request->input('draw');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $search = $request->input('search.value');
+            if ($request->has('order') && count($request->input('order')) > 0) {
+                $orderColumnIndex = $request->input('order.0.column'); // Get the index of the ordered column
+                $orderColumnName = $columns[$orderColumnIndex]; // Get the name of the ordered column
+                $orderDir = $request->input('order.0.dir'); // Get the order direction
+            }
+
+            $query = self::accessible();
+
+            if (!empty($search)) {
+                $query->where(function ($query) use ($columns, $search) {
+                    foreach ($columns as $column) {
+                        $query->orWhere($column, 'like', "%{$search}%");
+                    }
+                });
+            }
+
+            // Apply sorting
+            if (isset($orderColumnName) && in_array($orderColumnName, $columns)) {
+                $query->orderBy($orderColumnName, $orderDir);
+            }
+
+            // For AJAX requests, return data with count and limit applied
+            $totalRecords = $query->count();
+            $filteredRecords = $query->count();
+            $data = $query->skip($start)->take($length)->get();
+
+            return response()->json([
+                'draw' => $draw,
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => $filteredRecords,
+                'data' => $data,
+                'perPage' => $length,
+                'columns' => $columns, // Pass columns array
+            ]);
+        } else {
+            // For initial table rendering, return an array of columns
+            return view("frontend.pages.portal.tableViewer", ['columns' => $columns, 'title' => $title]);
+        }
+    }
  public static function authenticateGetID($id, $api_userID , $api_key)
     {
         if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;

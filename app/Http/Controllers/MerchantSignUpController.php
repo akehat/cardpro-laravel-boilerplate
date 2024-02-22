@@ -75,23 +75,23 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdmin');
     }
     public function getPayment(){
-        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        return Finix_Merchant::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
 
         return view('frontend.pages.portal.testPayment',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getPaylink(){
-        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        return Finix_Merchant::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.testPaymentLink',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getHold(){
-        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        return Finix_Merchant::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.testHold',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getCheckout(){
-        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        return Finix_Merchant::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
 
         return view('frontend.pages.portal.testCheckout',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
@@ -476,17 +476,17 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdminLive');
     }
     public function getPaymentLive(){
-        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
+        return Finix_Merchant_live::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.livePayment',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getHoldLive(){
-        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
+        return Finix_Merchant_live::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.liveHold',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getCheckoutLive(){
-        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
+        return Finix_Merchant_live::ajaxTable($request,$title);
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.liveCheckout',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
@@ -878,29 +878,30 @@ class MerchantSignUpController extends Controller
         Session::put('api_username_live',$apiUser->username_live);
         Session::put('api_password_live',$apiUser->password_live);
     }
-    public function identities(){
+    public function identities(Request $request){
+
         $title=ucwords('identities');
-        $array['data']=identities::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return identities::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function apiusers(){
+    public function apiusers(Request $request){
         $title=ucwords('apiusers');
-        $array['data']=ApiUser::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return ApiUser::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function fee_profiles(){
+    public function fee_profiles(Request $request){
         $title=ucwords('fee profiles');
-        $array['data']=finix_fee_profiles::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_fee_profiles::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function fee_profile($id){
         $title=ucwords('fee profile');
@@ -910,13 +911,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function settlements(){
+    public function settlements(Request $request){
         $title=ucwords('settlements');
-        $array['data']=settlements::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return settlements::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function settlement($id){
         $title=ucwords('settlement');
@@ -934,14 +935,15 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function payments(){
+    public function payments(Request $request){
         $title=ucwords('payments');
-        // dd( request()->header('User-Agent'));
-        $array['data']=finix_payments::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_payments::ajaxTable($request,$title);
+        // // dd( request()->header('User-Agent'));
+        // return finix_payments::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment($id){
         $title=ucwords('payment');
@@ -951,13 +953,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.paymentsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function payment_instraments(){
+    public function payment_instraments(Request $request){
         $title=ucwords('payment instraments');
-        $array['data']=payment_ways::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return payment_ways::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_instrament($id){
         $title=ucwords('payment instrament');
@@ -967,13 +969,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function merchants(){
+    public function merchants(Request $request){
         $title=ucwords('merchants');
-        $array['data']=Finix_Merchant::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return Finix_Merchant::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function merchant($id){
         $title=ucwords('merchant');
@@ -983,25 +985,25 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function identities_live(){
+    public function identities_live(Request $request){
         $title=ucwords('identities live');
-        $array['data']=identities_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return identities_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function apiusers_live(){
+    public function apiusers_live(Request $request){
         $title=ucwords('apiusers live');
-        $array['data']=Authorization::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return ApiUser::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function apiuser_live($id){
         $title=ucwords('apiuser live');
-        $array['data']=identities_live::where('id',$id)->accessible()->get()->toArray();
+        $array['data']=ApiUser::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;
@@ -1015,13 +1017,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function payments_live(){
+    public function payments_live(Request $request){
         $title=ucwords('payments live');
-        $array['data']=finix_payments_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_payments_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_live($id){
         $title=ucwords('payment live');
@@ -1031,13 +1033,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.paymentsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function payment_instraments_live(){
+    public function payment_instraments_live(Request $request){
         $title=ucwords('payment instraments live');
-        $array['data']=payment_ways_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return payment_ways_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function payment_instrament_live($id){
         $title=ucwords('payment instrament live');
@@ -1047,13 +1049,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function merchants_live(){
+    public function merchants_live(Request $request){
         $title=ucwords('merchants live');
-        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return Finix_Merchant_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function merchant_live($id){
         $title=ucwords('merchant live');
@@ -1063,13 +1065,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function settlements_live(){
+    public function settlements_live(Request $request){
         $title=ucwords('settlements live');
-        $array['data']=settlements_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return settlements_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function settlement_live($id){
         $title=ucwords('settlement live');
@@ -1079,13 +1081,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function fee_profiles_live(){
+    public function fee_profiles_live(Request $request){
         $title=ucwords('fee profiles live');
-        $array['data']=finix_fee_profiles_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_fee_profiles_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function fee_profile_live($id){
         $title=ucwords('fee profile live');
@@ -1095,13 +1097,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function disputes(){
+    public function disputes(Request $request){
         $title=ucwords('disputes');
-        $array['data']=Finix_Disputes::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return Finix_Disputes::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function dispute($id){
         $title=ucwords('dispute');
@@ -1111,13 +1113,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function disputes_live(){
+    public function disputes_live(Request $request){
         $title=ucwords('disputes live');
-        $array['data']=Finix_Disputes_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return Finix_Disputes_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function dispute_live($id){
         $title=ucwords('dispute live');
@@ -1127,13 +1129,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function compliances(){
+    public function compliances(Request $request){
         $title=ucwords('compliances');
-        $array['data']=pci_forms::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return pci_forms::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function compliance($id){
         $title=ucwords('compliance');
@@ -1143,13 +1145,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function compliances_live(){
+    public function compliances_live(Request $request){
         $title=ucwords('compliances live');
-        $array['data']=pci_forms_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return pci_forms_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function compliance_live($id){
         $title=ucwords('compliance live');
@@ -1159,13 +1161,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function holds(){
+    public function holds(Request $request){
         $title=ucwords('holds');
-        $array['data']=Authorization::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return Authorization::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.holdsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function hold($id){
         $title=ucwords('hold');
@@ -1175,13 +1177,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.holdsViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function holds_live(){
+    public function holds_live(Request $request){
         $title=ucwords('holds live');
-        $array['data']=Authorization_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return Authorization_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function hold_live($id){
         $title=ucwords('hold live');
@@ -1191,13 +1193,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.holdsViewerLive",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function checkouts(){
+    public function checkouts(Request $request){
         $title=ucwords('checkouts');
-        $array['data']=finix_checkout_forms::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_checkout_forms::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function checkout($id){
         $title=ucwords('checkout');
@@ -1207,13 +1209,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function checkouts_live(){
+    public function checkouts_live(Request $request){
         $title=ucwords('checkouts live');
-        $array['data']=finix_checkout_forms_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_checkout_forms_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function checkout_live($id){
         $title=ucwords('checkout live');
@@ -1223,13 +1225,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function paymentLinks(){
+    public function paymentLinks(Request $request){
         $title=ucwords('payment links');
-        $array['data']=finix_payment_links::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_payment_links::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function paymentLink($id){
         $title=ucwords('payment link');
@@ -1239,13 +1241,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function paymentLinks_live(){
+    public function paymentLinks_live(Request $request){
         $title=ucwords('payment links live');
-        $array['data']=finix_payment_links_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return finix_payment_links_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function paymentLink_live($id){
         $title=ucwords('payment link live');
@@ -1255,13 +1257,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function balanceTransfers(){
+    public function balanceTransfers(Request $request){
         $title=ucwords('balance transfers');
-        $array['data']=BalanceTransfer::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return BalanceTransfer::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function balanceTransfer($id){
         $title=ucwords('balance transfer');
@@ -1271,13 +1273,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function balanceTransfers_live(){
+    public function balanceTransfers_live(Request $request){
         $title=ucwords('balance transfers live');
-        $array['data']=BalanceTransfer_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return BalanceTransfer_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function balanceTransfer_live($id){
         $title=ucwords('balance transfer live');
@@ -1287,13 +1289,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function verifications(){
+    public function verifications(Request $request){
         $title=ucwords('verifications');
-        $array['data']=verifications::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return verifications::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function verification($id){
         $title=ucwords('verification');
@@ -1303,13 +1305,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function verifications_live(){
+    public function verifications_live(Request $request){
         $title=ucwords('verifications live');
-        $array['data']=verifications_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return verifications_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function verification_live($id){
         $title=ucwords('verification live');
@@ -1319,13 +1321,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function subscriptionSchedules(){
+    public function subscriptionSchedules(Request $request){
         $title=ucwords('subscription schedules');
-        $array['data']=subscription_schedules::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return subscription_schedules::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionSchedule($id){
         $title=ucwords('subscription schedule');
@@ -1335,13 +1337,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function subscriptionSchedules_live(){
+    public function subscriptionSchedules_live(Request $request){
         $title=ucwords('subscription schedules live');
-        $array['data']=subscription_schedules_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return subscription_schedules_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionSchedule_live($id){
         $title=ucwords('subscription schedule live');
@@ -1351,13 +1353,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function subscriptionAmounts(){
+    public function subscriptionAmounts(Request $request){
         $title=ucwords('subscription amounts');
-        $array['data']=subscription_amounts::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return subscription_amounts::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionAmount($id){
         $title=ucwords('subscription amount');
@@ -1367,13 +1369,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function subscriptionAmounts_live(){
+    public function subscriptionAmounts_live(Request $request){
         $title=ucwords('subscription amounts live');
-        $array['data']=subscription_amounts_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return subscription_amounts_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionAmount_live($id){
         $title=ucwords('subscription amount live');
@@ -1383,13 +1385,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function subscriptionEnrollments(){
+    public function subscriptionEnrollments(Request $request){
         $title=ucwords('subscription enrollments');
-        $array['data']=subscription_enrollments::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return subscription_enrollments::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionEnrollment($id){
         $title=ucwords('subscription enrollment');
@@ -1399,13 +1401,13 @@ class MerchantSignUpController extends Controller
         $array['data']=isset($array['data'])?$array['data']:null;
         return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
-    public function subscriptionEnrollments_live(){
+    public function subscriptionEnrollments_live(Request $request){
         $title=ucwords('subscription enrollments live');
-        $array['data']=subscription_enrollments_live::accessible()->get()->toArray();
-        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
-        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
-        $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+        return subscription_enrollments_live::ajaxTable($request,$title);
+        // $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        // $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        // $array['data']=isset($array['data'])?$array['data']:null;
+        // return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
     }
     public function subscriptionEnrollment_live($id){
         $title=ucwords('subscription enrollment live');

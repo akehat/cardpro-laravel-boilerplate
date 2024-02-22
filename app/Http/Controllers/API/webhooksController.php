@@ -126,25 +126,26 @@ class webhooksController extends Controller
         Log::info(collect($request->header())->transform(function ($item) {
             return $item[0];
         }));
-        if ($request->header('authorization')!==null) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        // if ($request->header('authorization')!==null) {
+        //     return response()->json(['message' => 'Unauthorized'], 401);
+        // }
 
-        // Extract the basic authentication credentials
-        $authHeader = $request->header('authorization');
-        list($type, $data) = explode(' ', $authHeader, 2);
+        // // Extract the basic authentication credentials
+        // $authHeader = $request->header('authorization');
+        // list($type, $data) = explode(' ', $authHeader, 2);
 
-        // Check if the type is 'Basic'
-        if (strcasecmp($type, 'Basic') !== 0) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        // // Check if the type is 'Basic'
+        // if (strcasecmp($type, 'Basic') !== 0) {
+        //     return response()->json(['message' => 'Unauthorized'], 401);
+        // }
 
-        // Decode the base64-encoded credentials
-        $credentials = base64_decode($data);
+        // // Decode the base64-encoded credentials
+        // $credentials = base64_decode($data);
 
-        // Extract the username and password
-        list($username, $password) = explode(':', $credentials, 2);
-
+        // // Extract the username and password
+        // list($username, $password) = explode(':', $credentials, 2);
+        $username=$request->header('php-auth-user');
+        $password=$request->header('php-auth-pw');
         // Check if username and password match the expected values
         $expectedUsername = config('app.api_webhook_username');
         $expectedPassword = config('app.api_webhook_password');

@@ -8,6 +8,8 @@ use Doctrine\DBAL\Query;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Log;
+use Throwable;
 
 class Authorization_live extends Model
 {
@@ -286,6 +288,11 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 ]);
                 $paymentMade->save();
                 $paymentMade->refresh();
+                try{
+                    self::updateFromId($id);
+                    }catch(Throwable $e){
+                        Log::error($e);
+                    }
                 $merchant=ApiKey::where('live',$islive)->where('merchant_id', $value->merchant)->increment('balance', $value->amount??0);
 
             return ['worked'=>true,"responce"=>$capture[0],'ref'=>$paymentMade];

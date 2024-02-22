@@ -75,13 +75,26 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdmin');
     }
     public function getPayment(){
-        return view('frontend.pages.portal.testPayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+
+        return view('frontend.pages.portal.testPayment',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
+    }
+    public function getPaylink(){
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view('frontend.pages.portal.testPaymentLink',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getHold(){
-        return view('frontend.pages.portal.testHold',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view('frontend.pages.portal.testHold',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getCheckout(){
-        return view('frontend.pages.portal.testCheckout',['buyers'=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password")),'merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',request()->query())[0]]);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+
+        return view('frontend.pages.portal.testCheckout',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function paymentTest(Request $request){
         $user_id=Auth::id();
@@ -463,13 +476,19 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdminLive');
     }
     public function getPaymentLive(){
-        return view('frontend.pages.portal.livePayment',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view('frontend.pages.portal.livePayment',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getHoldLive(){
-        return view('frontend.pages.portal.liveHold',['merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view('frontend.pages.portal.liveHold',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getCheckoutLive(){
-        return view('frontend.pages.portal.liveCheckout',['buyers'=>merchantsController::listIdentities(config("app.api_username"),config("app.api_password")),'merchantJson'=>merchantsController::listMerchants(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com',request()->query())[0]]);
+        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view('frontend.pages.portal.liveCheckout',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function paymentLive(Request $request){
         $user_id=Auth::id();
@@ -521,7 +540,8 @@ class MerchantSignUpController extends Controller
         $request->card_cross_border_fixed_fee,
         $request->charge_interchange??false,
         $request->fixed_fee,
-        ['test'=>"made"]
+        ['test'=>"made"],
+
     );
     session()->flash('success', json_encode($id[0]));
         return redirect()->back();
@@ -567,7 +587,7 @@ class MerchantSignUpController extends Controller
         return redirect()->back();
     }
     public function makeReturnLive(Request $request){
-        $payment=finix_payments::where('id',$request->id)->first();
+        $payment=finix_payments_live::where('id',$request->id)->first();
         $user_id=Auth::id();
         $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
         $apiKeyID=ApiKey::where('live',1)->where('merchant_id',$payment->merchant)->first();
@@ -575,13 +595,13 @@ class MerchantSignUpController extends Controller
         return json_encode(finix_payments_live::makeRefund($payment->finix_id,$request->amount,$apiUser_id,$apiKeyID));
     }
     public function captureHoldLive(Request $request){
-        $payment=Authorization::where('id',$request->id)->first();
+        $payment=Authorization_live::where('id',$request->id)->first();
         $user_id=Auth::id();
         $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
         return json_encode(Authorization_live::makeCapture($payment->finix_id,$request->amount,$apiUser_id));
     }
     public function returnHoldLive(Request $request){
-        $payment=Authorization::where('id',$request->id)->first();
+        $payment=Authorization_live::where('id',$request->id)->first();
         $user_id=Auth::id();
         $apiUser_id=ApiUser::where("user_id",$user_id)->select("id")->first()->id;
         return json_encode(Authorization_live::voidCapture($payment->finix_id,$apiUser_id));

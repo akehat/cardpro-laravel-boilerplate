@@ -329,10 +329,10 @@ class tesingCommand extends Command
 
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://finix.sandbox-payments-api.com/fee_profiles');
+curl_setopt($ch, CURLOPT_URL, 'https://finix.sandbox-payments-api.com/v2/fee_profiles');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "\n  {\n    \"ach_basis_points\": 300,\n    \"ach_fixed_fee\": 30,\n    \"application\": \"APmuwPBaW8pVcwb4vCTHQH32\",\n    \"basis_points\": 200,\n    \"card_cross_border_basis_points\": 300,\n    \"card_cross_border_fixed_fee\": 400,\n    \"charge_interchange\": false,\n    \"fixed_fee\": 100,\n    \"tags\": {\n      \"app pricing\": \"sample\"\n    }\n  }");
+curl_setopt($ch, CURLOPT_POSTFIELDS, "\n  {\n    \"ach_basis_points\": 300,\n    \"ach_fixed_fee\": 30,\n    \"application\": \"APZmjWMcUWgvxGcBV3V6FJ7\",\n    \"basis_points\": 200,\n    \"card_cross_border_basis_points\": 300,\n    \"card_cross_border_fixed_fee\": 400,\n    \"charge_interchange\": false,\n    \"fixed_fee\": 40,\n    \"tags\": {\n      \"app pricing\": \"sample\"\n    }\n  }");
 curl_setopt($ch, CURLOPT_USERPWD, config("app.api_username") . ':' . config("app.api_password"));
 $headers = array();
 $headers[] = 'Content-Type: application/json';

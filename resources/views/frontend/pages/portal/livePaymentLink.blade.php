@@ -87,7 +87,7 @@
             var container = document.getElementById("merchant");
             array.forEach(obj => {
                 var option = document.createElement('option');
-                option.value = obj["id"];
+                option.value = obj["finix_id"];
                 option.text = "merchant ID: " + obj["id"] + " merchant Identity:" + obj["identity"];
                 container.appendChild(option);
             });

@@ -86,12 +86,10 @@
         function arrayToSelect2(array) {
             var container = document.getElementById("merchant");
             array.forEach(obj => {
-                if(obj["tags"]!== undefined&&obj["tags"]['type']!== undefined){
-                    var option = document.createElement('option');
-                    option.value = obj["id"];
-                    option.text = "merchant ID: " + obj["id"] + " merchant Identity:" + obj["identity"];
-                    container.appendChild(option);
-                }
+                var option = document.createElement('option');
+                option.value = obj["finix_id"];
+                option.text = "merchant ID: " + obj["id"] + " merchant Identity:" + obj["identity"];
+                container.appendChild(option);
             });
         }
 

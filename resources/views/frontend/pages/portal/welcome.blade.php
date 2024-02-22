@@ -90,6 +90,10 @@
             <li><a href="{{ url('portal/testPayment') }}"><i class="fas fa-money-bill-wave"></i> Test Payment</a></li>
             <li><a href="{{ url('portal/testHold') }}"><i class="fas fa-hand-holding-usd"></i>Test Hold</a></li>
             <li><a href="{{ url('portal/testCheckout') }}"><i class="fas fa-shopping-cart"></i>Test Checkout</a></li>
+            <li><a href="{{ url('portal/testPaylink') }}"><i class="fas fa-shopping-cart"></i>Test Paylink</a></li>
+            @if (auth()->user()->isAdmin())
+                <li><a href="{{ url('portal/testFee') }}"><i class="fas fa-shopping-cart"></i>Test Fee Profile</a></li>
+            @endif
             <li><a href="{{ url('portal/keys') }}"><i class="fas fa-key"></i> Keys</a></li>
 <li><a href="{{ url('portal/merchants') }}"><i class="fas fa-store-alt"></i> Test Merchants</a></li>
 <li><a href="{{ url('portal/identities') }}"><i class="fas fa-id-card"></i> Test Identities</a></li>
@@ -104,8 +108,8 @@
 <li><a href="{{ url('portal/balanceTransfers') }}"><i class="fas fa-exchange-alt"></i> Test Balance Transfers</a></li>
 <li><a href="{{ url('portal/compliances') }}"><i class="fas fa-file-signature"></i> Test PCI Forms</a></li>
 <li><a href="{{ url('portal/disputes') }}"><i class="fas fa-exclamation-triangle"></i> Test Disputes</a></li>
-<li><a href="{{ url('portal/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Test Subscription Schedules</a></li>
-<li><a href="{{ url('portal/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Test Subscription Enrollment</a></li>
+{{-- <li><a href="{{ url('portal/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Test Subscription Schedules</a></li>
+<li><a href="{{ url('portal/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Test Subscription Enrollment</a></li>  --}}
 <li><a href="{{ url('portal/liveSignup') }}"><i class="fas fa-user-plus"></i> Live Signup</a></li>
 <li><a href="{{ url('portal/livePayment') }}"><i class="fas fa-money-bill-wave"></i> Live Payment</a></li>
 <li><a href="{{ url('portal/liveHold') }}"><i class="fas fa-hand-holding-usd"></i> Live Hold</a></li>
@@ -124,8 +128,8 @@
 <li><a href="{{ url('portal/live/balanceTransfers') }}"><i class="fas fa-exchange-alt"></i> Live Balance Transfers</a></li>
 <li><a href="{{ url('portal/live/compliances') }}"><i class="fas fa-file-signature"></i> Live PCI Forms</a></li>
 <li><a href="{{ url('portal/live/disputes') }}"><i class="fas fa-exclamation-triangle"></i> Live Disputes</a></li>
-<li><a href="{{ url('portal/live/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Live Subscription Schedules</a></li>
-<li><a href="{{ url('portal/live/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Live Subscription Enrollment</a></li>
+{{-- <li><a href="{{ url('portal/live/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Live Subscription Schedules</a></li>
+<li><a href="{{ url('portal/live/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Live Subscription Enrollment</a></li> --}}
 <li><a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-user-plus"></i> Logout</a></li>
 
             {{-- @endif --}}

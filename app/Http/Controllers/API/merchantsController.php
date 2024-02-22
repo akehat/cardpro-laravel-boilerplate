@@ -1850,7 +1850,7 @@ class merchantsController extends Controller
         $charge_interchange,
         $fixed_fee,
         $tags,
-        $endpoint='https://finix.sandbox-payments-api.com',
+        $endpoint='https://finix.sandbox-payments-api.com/v2',
         $addedQuery=[],
         $addedData=[]
     ){

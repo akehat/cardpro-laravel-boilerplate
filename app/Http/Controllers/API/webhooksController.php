@@ -19,10 +19,10 @@ class webhooksController extends Controller
         $addedQuery=[],
         $addedData=[]){
         $data = [
-            // 'authentication' => [
-            //     'type' => $authenticationType,
-            // ],
-            // 'url' => $url,
+            'authentication' => [
+                'type' => $authenticationType,
+            ],
+            'url' => $url,
         ];
         $data=array_merge($data,$addedData);
         // Encode the array to JSON
@@ -189,6 +189,10 @@ class webhooksController extends Controller
             return response()->json(['message' => 'Event processed successfully'], 200);
     }
     public function webhookUpdateRouteLive(Request $request){
+        Log::info($request);
+        Log::info(collect($request->header())->transform(function ($item) {
+            return $item[0];
+        }));
         if ($request->header('Authorization')!==null) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
@@ -196,7 +200,7 @@ class webhooksController extends Controller
         // Extract the basic authentication credentials
         $authHeader = $request->header('Authorization');
         list($type, $data) = explode(' ', $authHeader, 2);
-
+        Log::info($authHeader);
         // Check if the type is 'Basic'
         if (strcasecmp($type, 'Basic') !== 0) {
             return response()->json(['message' => 'Unauthorized'], 401);

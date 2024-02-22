@@ -61,8 +61,11 @@
 <table class="table" id="veiwer-table">
     <thead>
         <tr>
+            <th>id</th>
             @foreach($columns as $column)
-                <th>{{ $column }}</th>
+                @if($column != 'id')
+                    <th>{{ $column }}</th>
+                @endif
             @endforeach
             <th>Actions</th> <!-- Add column header for Actions -->
         </tr>
@@ -74,7 +77,9 @@ $(document).ready(function () {
     var Url = window.location.href;
     var columns = [];
     @foreach($columns as $column)
-        columns.push({data: '{{ $column }}', name: '{{ $column }}'});
+        @if($column != 'id')
+             columns.push({data: '{{ $column }}', name: '{{ $column }}'});
+         @endif
     @endforeach
     var getUrl = (window.location+'').split("?")[0];
     getUrl = getUrl.endsWith("ies") ? getUrl.substring(0, getUrl.length - 3) +'ys' : getUrl;

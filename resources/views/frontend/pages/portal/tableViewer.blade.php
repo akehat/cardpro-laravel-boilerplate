@@ -79,7 +79,7 @@ $(document).ready(function () {
     getUrl = getUrl.endsWith("ies")?getUrl.substring(0,getUrl.length - 3) +'ys':getUrl;
     getUrl = getUrl.substring(0,getUrl.length - 1) +"/";
     var dataTable = $('#veiwer-table').DataTable({
-        processing: true,
+        processing: false,
         serverSide: true,
         ajax: {
             url: Url,
@@ -91,12 +91,14 @@ $(document).ready(function () {
                     regex: false
                 };
                 d.length = d.length || dataTable.page.len(); // Number of items per page
+                d.columns=null;
             }
         },
         columns:  [
             {
                 data: 'id',
                 name: 'id',
+                searchable: true, orderable: true,
                 render: function(data, type, row, meta) {
                     // Assuming 'id' is the name of the first column
                     // Generate the link URL dynamically based on the value of the 'id' column
@@ -111,9 +113,9 @@ $(document).ready(function () {
     );
 
     // Add event listener for search input changes
-    $('input[type="search"]').on('keyup', function () {
-        dataTable.ajax.reload(); // Reload DataTable on search input changes
-    });
+    // $('input[type="search"]').on('keyup', function () {
+    //     dataTable.ajax.reload(); // Reload DataTable on search input changes
+    // });
 });
 </script>
 

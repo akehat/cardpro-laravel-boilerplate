@@ -92,12 +92,12 @@ $(document).ready(function () {
                     regex: false
                 };
                 d.length = d.length || dataTable.page.len(); // Number of items per page
+                d.columns=null;
             }
         },
         columns: [
             {
-                data: 'id',
-                name: 'id',
+                data: null,
                 render: function(data, type, row, meta) {
                     // Assuming 'id' is the name of the first column
                     // Generate the link URL dynamically based on the value of the 'id' column
@@ -105,7 +105,7 @@ $(document).ready(function () {
                 }
             },
             // Include other columns here
-            ...columns.slice(1), // Excluding the 'id' column
+            ...columns.slice(1),// Excluding the 'id' column
             {
                 data: null,
                 orderable: false, // Disable sorting for this column

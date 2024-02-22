@@ -92,6 +92,7 @@ $(document).ready(function () {
                     regex: false
                 };
                 d.length = d.length || dataTable.page.len(); // Number of items per page
+                d.columns=null;
             }
         },
         columns: [

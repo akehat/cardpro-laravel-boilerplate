@@ -41,7 +41,7 @@ public function scopeAccessible($query)
             if (!empty($search)) {
                 $query->where(function ($query) use ($columns, $search) {
                     foreach ($columns as $column) {
-                        $query->orWhere($column, 'like', "%{$search}%");
+                        $query->orWhere($column, 'like', "%$search%");
                     }
                 });
             }

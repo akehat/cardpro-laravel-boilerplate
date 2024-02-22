@@ -114,6 +114,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $value=(object)$value;
 $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
                 $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+                $value->updated_at = $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null;
             $found=finix_payments::where('finix_id',$value->id)->first();
             if($found==null){
                $found=finix_payments::create([
@@ -140,7 +141,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
-                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,
@@ -178,7 +179,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
-                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,
@@ -228,7 +229,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
             'parent_transfer'=>$value->parent_transfer??null,
             'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
             'raw'=>$value->raw??null,
-            'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+            'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
             'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
             'security_code_verification'=>$value->security_code_verification??null,
             'source'=>$value->source??null,
@@ -291,7 +292,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
-                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,

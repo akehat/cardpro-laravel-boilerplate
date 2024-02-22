@@ -1,7 +1,7 @@
 @extends('frontend.pages.portal.welcome')
 
-@section('content')<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+@section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
 <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
 <style>

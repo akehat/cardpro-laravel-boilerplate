@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\API\merchantsController;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -140,7 +141,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
-                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,
@@ -178,7 +179,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
-                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,
@@ -226,7 +227,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
             'parent_transfer'=>$value->parent_transfer??null,
             'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
             'raw'=>$value->raw??null,
-            'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+            'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
             'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
             'security_code_verification'=>$value->security_code_verification??null,
             'source'=>$value->source??null,
@@ -288,7 +289,7 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'parent_transfer'=>$value->parent_transfer??null,
                     'parent_transfer_trace_id'=>$value->parent_transfer_trace_id??null,
                     'raw'=>$value->raw??null,
-                    'ready_to_settle_at'=>$value->ready_to_settle_at??null,
+                    'ready_to_settle_at' => $value->ready_to_settle_at != null ? (new DateTime($value->ready_to_settle_at))->format('Y-m-d H:i:s') : null,
                     'receipt_last_printed_at'=>$value->receipt_last_printed_at??null,
                     'security_code_verification'=>$value->security_code_verification??null,
                     'source'=>$value->source??null,

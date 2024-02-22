@@ -156,7 +156,7 @@ class webhooksController extends Controller
 
         $jsonData = $request->getContent();
         $eventData = json_decode($jsonData??[]);
-        if(!empty($eventData)){
+        if(!empty($jsonData)){
             $modelsPath = app_path('Models');
 
             if (File::isDirectory($modelsPath)) {
@@ -164,7 +164,7 @@ class webhooksController extends Controller
 
                 foreach ($files as $file) {
                     $modelClass = $this->getModelNamespace($file);
-                    if(class_exists($modelClass) && isset($modelClass::$name) && array_keys((array)$eventData->_embedded)[0]==$modelClass::$name){
+                    if(class_exists($modelClass) && isset($modelClass::$name) && isset($eventData->_embedded) && array_keys((array)$eventData->_embedded)[0]==$modelClass::$name){
                         foreach($eventData->_embedded->{$modelClass::$name} as $item){
                             $item=(object)$item;
                         if (method_exists($modelClass, 'updateFromId')) {

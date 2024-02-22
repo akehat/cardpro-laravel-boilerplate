@@ -289,7 +289,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 $paymentMade->save();
                 $paymentMade->refresh();
                 try{
-                    self::updateFromId($id);
+                    self::updateFromId_live($id);
                     }catch(Throwable $e){
                         Log::error($e);
                     }

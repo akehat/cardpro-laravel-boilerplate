@@ -154,7 +154,8 @@ class webhooksController extends Controller
         }
 
         $jsonData = $request->getContent();
-        $eventData = json_decode($jsonData);
+        $eventData = json_decode($jsonData??[]);
+        if(!empty($eventData)){
             $modelsPath = app_path('Models');
 
             if (File::isDirectory($modelsPath)) {
@@ -189,7 +190,10 @@ class webhooksController extends Controller
             } else {
                 Log::error("Models directory not found.");
             }
+        }else{
+            return response()->json(['message' => 'Empty Event Processed Successfully'], 200);
 
+        }
             return response()->json(['message' => 'Event processed successfully'], 200);
     }
     public function webhookUpdateRouteLive(Request $request){

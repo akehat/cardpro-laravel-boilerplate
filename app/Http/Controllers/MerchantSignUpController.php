@@ -75,23 +75,23 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdmin');
     }
     public function getPayment(){
-        return Finix_Merchant::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
 
         return view('frontend.pages.portal.testPayment',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getPaylink(){
-        return Finix_Merchant::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.testPaymentLink',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getHold(){
-        return Finix_Merchant::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.testHold',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getCheckout(){
-        return Finix_Merchant::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
 
         return view('frontend.pages.portal.testCheckout',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
@@ -476,17 +476,17 @@ class MerchantSignUpController extends Controller
         return view('frontend.pages.portal.feeProfileAdminLive');
     }
     public function getPaymentLive(){
-        return Finix_Merchant_live::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.livePayment',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getHoldLive(){
-        return Finix_Merchant_live::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.liveHold',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }
     public function getCheckoutLive(){
-        return Finix_Merchant_live::ajaxTable($request,$title);
+        $array['data']=Finix_Merchant_live::accessible()->get()->toArray();
         $array['data']=isset($array['data'])?$array['data']:null;
         return view('frontend.pages.portal.liveCheckout',['merchantJson'=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT))]);
     }

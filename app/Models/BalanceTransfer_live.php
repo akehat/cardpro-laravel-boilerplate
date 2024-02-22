@@ -114,10 +114,13 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $data = (object)$data;
 
             $found = self::where('finix_id', $data->id)->first();
+            $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
+            $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;
 
             if ($found == null) {
                 $found = self::create([
                     'finix_id' => $data->id ?? null,
+
                     'finix_created_at' => $data->created_at ?? null,
                     'finix_updated_at' => $data->updated_at ?? null,
                     'amount' => $data->amount ?? null,

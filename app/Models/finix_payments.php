@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\API\merchantsController;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -111,6 +112,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
+$value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+                $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
             $found=finix_payments::where('finix_id',$value->id)->first();
             if($found==null){
                $found=finix_payments::create([
@@ -199,6 +202,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$merchant,$currency,$amount_in_cents,$card,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
         if($payment[1]>=200&&$payment[1]<300){
         $value=(object)json_decode($payment[0]);
+        $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+                $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
         $paymentMade=self::create([
             'finix_id'=>$value->id??null,
             'created_at_finix'=>$value->created_at??null,
@@ -260,6 +265,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $refund=merchantsController::createRefund(config("app.api_username"),config("app.api_password"),$id,['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID,'refund'=>'made']],$amount_in_cents,$endpoint);
             if($refund[1]>=200&&$refund[1]<300){
                 $value=json_decode($refund[0]);
+                $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+                $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
                 $found=finix_payments::create([
                     'finix_id'=>$value->id??null,
                     'created_at_finix'=>$value->created_at??null,

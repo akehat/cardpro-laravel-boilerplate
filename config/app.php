@@ -31,7 +31,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-
+    'contact_mail'=>env('CONTACT_MAIL', 'contact@shnorr.com'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

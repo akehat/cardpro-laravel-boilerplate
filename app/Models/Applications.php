@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\API\payfacController;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -111,7 +112,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
-            $found=self::where('finix_id',$value->id)->first();
+      $found=self::where('finix_id',$value->id)->first();
             if($found==null){
                 $found=self::create([
                     'finix_id'=>$value->id,

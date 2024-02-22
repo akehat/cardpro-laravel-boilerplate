@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\API\merchantsController;
 use Carbon\Carbon;
+use DateTime;
 use Doctrine\DBAL\Query;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -195,8 +196,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         $value=(object)json_decode($hold[0]);
         $holdMade=self::create([
             'finix_id' => $value->id ?? null,
-            'finix_created_at' => $value->created_at ?? null,
-            'finix_updated_at' => $value->updated_at ?? null,
+            'created_at_finix' => $value->created_at,
+            'updated_at_finix' => $value->updated_at,
             '3ds_redirect_url' => $value->{'3ds_redirect_url'} ?? null,
             'additional_buyer_charges' => $value->additional_buyer_charges ?? null,
             'additional_healthcare_value' => $value->additional_healthcare_value ?? null,
@@ -246,10 +247,12 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $capture= merchantsController::captureHold(config("app.api_username"),config("app.api_password"),$id,$amount_in_cents,0,$endpoint,[],['tags'=>["api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
             if($capture[1]>=200&&$capture[1]<300){
                 $value=json_decode($capture[0]);
+                $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+                $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
                 $paymentMade=finix_payments_live::create([
                     'finix_id'=>$value->id??null,
-                    'created_at_finix'=>$value->created_at??null,
-                    'updated_at_finix'=>$value->updated_at??null,
+                    'created_at_finix' => $value->created_at,
+                    'updated_at_finix' => $value->updated_at,
                     'additional_buyer_charges'=>$value->additional_buyer_charges??null,
                     'additional_healthcare_data'=>$value->additional_healthcare_data??null,
                     'additional_purchase_data'=>$value->additional_purchase_data??null,
@@ -317,8 +320,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 $data=json_decode($refund[0]);
                 $found = self::where('finix_id', $data->id)->first();
                 $found->update([
-                    'finix_created_at' => $data->created_at ?? null,
-                    'finix_updated_at' => $data->updated_at ?? null,
+                    'finix_created_at' => $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null,
+                    'finix_updated_at' => $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null,
                     '3ds_redirect_url' => $data->{'3ds_redirect_url'} ?? null,
                     'additional_buyer_charges' => $data->additional_buyer_charges ?? null,
                     'additional_healthcare_data' => $data->additional_healthcare_data ?? null,

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\API\merchantsController;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -113,6 +114,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     foreach ($array as $value) {
         $value = (object)$value;
         $found = self::where('finix_id', $value->id)->first();
+        $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+        $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
 
         if ($found == null) {
             $found = self::create([

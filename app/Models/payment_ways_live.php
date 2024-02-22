@@ -112,10 +112,14 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
+            $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+            $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
             $found=payment_ways::where('finix_id',$value->id)->first();
             if($found==null){
                $found=payment_ways::create([
                'finix_id'=>$value->id??null,
+               'created_at_finix' => $value->created_at,
+                    'updated_at_finix' => $value->created_at,
                 'created_at_finix'=>$value->created_at??null,
                 'updated_at_finix'=>$value->updated_at??null,
                 'application'=>$value->application??null,
@@ -195,6 +199,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         $exp_month,$exp_year,$identity,$name,$card_number,$cvv,"PAYMENT_CARD",$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
         if($card[1]>=200&&$card[1]<300){
         $value=(object)json_decode($card[0]);
+        $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+        $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+
         $cardMade=self::create([
             'finix_id'=>$value->id??null,
             'created_at_finix'=>$value->created_at??null,
@@ -256,6 +263,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         $bank_type,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
         if($bank[1]>=200&&$bank[1]<300){
         $value=(object)json_decode($bank[0]);
+        $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+        $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+
         $bankMade=self::create([
             'finix_id'=>$value->id??null,
             'created_at_finix'=>$value->created_at??null,

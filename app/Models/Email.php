@@ -17,7 +17,7 @@ class Email extends Model
             $email->type = 'Contact Form';
             $email->from_name = $request->input('name');
             $email->from_email = $request->input('email');
-            $email->to_email = 'your_email@example.com'; // Specify the recipient email address
+            $email->to_email = config('app.contact_mail'); // Specify the recipient email address
             $email->content = $request->input('message');
             $email->title = 'Contact Form Submission';
             $email->save();

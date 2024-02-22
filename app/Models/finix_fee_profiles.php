@@ -111,6 +111,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     public static function fromArray($array){
         foreach ($array as $value) {
             $value=(object)$value;
+$value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+                $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
             $found=finix_fee_profiles::where('finix_id',$value->id)->first();
             if($found==null){
                $found=finix_fee_profiles::create( [

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\ContactController;
 use app\Domains\Auth\Http\Controllers\Frontend\Auth\LoginController;
 use app\Domains\Auth\Http\Controllers\Frontend\Auth\RegisterController;
 /*
@@ -11,6 +12,9 @@ use app\Domains\Auth\Http\Controllers\Frontend\Auth\RegisterController;
 
 // Switch between the included languages
 Route::get('lang/{lang}', [LocaleController::class, 'change'])->name('locale.change');
+
+Route::get('/contact', 'ContactController@showForm');
+Route::post('/contact', 'ContactController@sendEmail')->name('contact.send');
 
 /*
  * Frontend Routes
@@ -32,6 +36,7 @@ Route::get("/faq", function(){
     return view("FAQ");
 });
 
+
 Route::get("/privacy", function(){
     return view("privacy");
 });
@@ -44,16 +49,10 @@ Route::get("/prices", function(){
     return view("prices");
 });
 
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [LoginController::class, 'login']);
-
-
-
-
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-
+Route::get("/aboutus", function(){
+    return view("aboutus");
 });
+
+
 
 

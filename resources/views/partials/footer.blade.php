@@ -24,7 +24,7 @@
                           <a href="#" class="hover:underline">Card Wiz Pro</a>
                       </li>
                       <li>
-                          <a href="#" class="hover:underline">About Us</a>
+                          <a href="aboutus" class="hover:underline">About Us</a>
                       </li>
                   </ul>
               </div>
@@ -32,10 +32,10 @@
                   <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact us</h2>
                   <ul class="text-gray-500 dark:text-gray-400 font-medium">
                       <li class="mb-4">
-                          <a href="#" class="hover:underline ">Email Us</a>
+                          <p >CardWizPro@gmail.com</p>
                       </li>
                       <li>
-                          <a href="#" class="hover:underline">Call Us</a>
+                          <p >123-456-789</p>
                       </li>
                   </ul>
               </div>
@@ -43,10 +43,10 @@
                   <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
                   <ul class="text-gray-500 dark:text-gray-400 font-medium">
                       <li class="mb-4">
-                          <a href="#" class="hover:underline">Privacy Policy</a>
+                          <a href="privacy" class="hover:underline">Privacy Policy</a>
                       </li>
                       <li>
-                          <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                          <a href="termsOfUsage" class="hover:underline">Terms &amp; Conditions</a>
                       </li>
                   </ul>
               </div>

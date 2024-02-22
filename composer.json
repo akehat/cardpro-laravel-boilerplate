@@ -11,8 +11,6 @@
     "require": {
         "php": "^7.4|^8.0",
         "arcanedev/log-viewer": "8.x",
-        "darkghosthunter/laraguard": "^3.0",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jamesmills/laravel-timezone": "^1.9",
         "lab404/laravel-impersonate": "^1.6",
@@ -100,7 +98,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "treeware/plant": true
+            "treeware/plant": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",

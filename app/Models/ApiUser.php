@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Schema;
+use Cache;
+
 use App\Domains\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Schema;
+use Cache;
+
 use App\Http\Controllers\API\finixUsersController;
 use App\Http\Controllers\API\merchantsController;
 use Error;
@@ -24,10 +27,39 @@ public function scopeAccessible($query)
         return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
     }
 
- public static function ajaxTable($request, $title = 'title')
+ static function getColumnNames($tableName) {
+        $cacheKey = 'column_names_' . $tableName;
+
+        // Check if column names for the table are already cached
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+
+        // Attempt to fetch a record from the table
+        $record = \DB::table($tableName)->first();
+        if ($record) {
+            // If a record is found, get column names from the record
+            $columns = array_keys((array) $record);
+
+            // Cache the column names retrieved from the record
+            Cache::forever($cacheKey, $columns);
+
+            return $columns;
+        } else {
+            // If no record is found, get column names from the schema
+            $columns = Schema::getColumnListing($tableName);
+
+            // Cache the column names retrieved from the schema
+            // Cache::forever($cacheKey, $columns);
+
+            return $columns;
+        }
+    }
+
+    public static function ajaxTable($request, $title = 'title')
     {
         $model = new static(); // Instantiate the model to get table name
-        $columns = \Schema::getColumnListing($model->getTable());
+        $columns = self::getColumnNames($model->getTable());
 
         if ($request->ajax()) {
             $draw = $request->input('draw');

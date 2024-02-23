@@ -76,7 +76,6 @@
 $(document).ready(function () {
     var Url = window.location.href;
     var columns = [];
-    columns.push({data: 'id', name: 'id'});
     @foreach($columns as $column)
         @if($column != 'id')
              columns.push({data: '{{ $column }}', name: '{{ $column }}'});

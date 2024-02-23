@@ -19,6 +19,7 @@ return [
     'full_home_url' => env('FULL_HOME_URL'),
     'name' => env('APP_NAME', 'Laravel Boilerplate'),
     'contact_us_email_limit' => env('NUMBER_OF_EMAILS'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -32,6 +33,7 @@ return [
 
     'env' => env('APP_ENV', 'production'),
     'contact_mail'=>env('CONTACT_MAIL', 'contact@shnorr.com'),
+    'json_table_limit'=>env('JSON_TABLE_LIMIT', 1000),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

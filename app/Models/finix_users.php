@@ -52,7 +52,7 @@ public function scopeAccessible($query)
         }
     }
 
-    public static function ajaxTable($request, $title = 'title')
+    public static function showTable($request, $title = 'title')
     {
         $model = new static(); // Instantiate the model to get table name
         $columns = self::getColumnNames($model->getTable());
@@ -96,8 +96,21 @@ public function scopeAccessible($query)
                 'columns' => $columns, // Pass columns array
             ]);
         } else {
-            // For initial table rendering, return an array of columns
-            return view("frontend.pages.portal.tableViewer", ['columns' => $columns, 'title' => $title]);
+            $queryCount = self::accessible()->count();
+            if ($queryCount < config('app.json_table_limit')) {
+                $array['data'] = self::accessible()->get()->toArray();
+                $array['next_page_url'] = isset($array['next_page_url']) ? $array['next_page_url'] : null;
+                $array['prev_page_url'] = isset($array['prev_page_url']) ? $array['prev_page_url'] : null;
+                $array['data'] = isset($array['data']) ? $array['data'] : null;
+                return view("frontend.pages.portal.jsonViewer", [
+                    "json" => str_replace(['\\', '`'], ['\\\\', '｀'], json_encode((object) [$array['data']], JSON_PRETTY_PRINT)),
+                    'next' => $array['next_page_url'],
+                    'prev' => $array['prev_page_url'],
+                    'title' => $title
+                ]);
+            } else {
+                return view("frontend.pages.portal.tableViewer", ['columns' => $columns, 'title' => $title]);
+            }
         }
     }
  public static function authenticateGetID($id, $api_userID , $api_key)

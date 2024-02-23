@@ -52,7 +52,7 @@ public function scopeAccessible($query)
         }
     }
 
-    public static function ajaxTable($request, $title = 'title')
+    public static function showTable($request, $title = 'title')
     {
         $model = new static(); // Instantiate the model to get table name
         $columns = self::getColumnNames($model->getTable());
@@ -96,8 +96,21 @@ public function scopeAccessible($query)
                 'columns' => $columns, // Pass columns array
             ]);
         } else {
-            // For initial table rendering, return an array of columns
-            return view("frontend.pages.portal.tableViewer", ['columns' => $columns, 'title' => $title]);
+            $queryCount = self::accessible()->count();
+            if ($queryCount < config('app.json_table_limit')) {
+                $array['data'] = self::accessible()->get()->toArray();
+                $array['next_page_url'] = isset($array['next_page_url']) ? $array['next_page_url'] : null;
+                $array['prev_page_url'] = isset($array['prev_page_url']) ? $array['prev_page_url'] : null;
+                $array['data'] = isset($array['data']) ? $array['data'] : null;
+                return view("frontend.pages.portal.jsonViewer", [
+                    "json" => str_replace(['\\', '`'], ['\\\\', '｀'], json_encode((object) [$array['data']], JSON_PRETTY_PRINT)),
+                    'next' => $array['next_page_url'],
+                    'prev' => $array['prev_page_url'],
+                    'title' => $title
+                ]);
+            } else {
+                return view("frontend.pages.portal.tableViewer", ['columns' => $columns, 'title' => $title]);
+            }
         }
     }
  public static function authenticateGetID($id, $api_userID , $api_key)
@@ -310,4 +323,97 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $found->refresh();
         }
     }
+
+public static function makeFeeProfile(
+    $ach_basis_points,
+$ach_fixed_fee,
+$application,
+$basis_points,
+$card_cross_border_basis_points,
+$card_cross_border_fixed_fee,
+$charge_interchange,
+$fixed_fee,$userID,$api_userID,$apikeyID=0){
+    if(Auth()->user()->isAdmin){
+    $islive=false;
+    $endpoint=$islive?'https://finix.live-payments-api.com/v2':'https://finix.sandbox-payments-api.com/v2';
+    $feeProfile=merchantsController::createFeeProfile(config("app.api_username"),config("app.api_password"),
+    $ach_basis_points,
+    $ach_fixed_fee,
+    $application,
+    $basis_points,
+    $card_cross_border_basis_points,
+    $card_cross_border_fixed_fee,
+    $charge_interchange??false,
+    $fixed_fee,
+    ["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID],
+$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+    if($feeProfile[1]>=200&&$feeProfile[1]<300){
+    $value=(object)json_decode($feeProfile[0]);
+    $feeProfileMade=self::create([
+        'finix_id' => $value->id ?? null,
+        'ach_basis_points' => $value->ach_basis_points ?? null,
+        'ach_credit_return_fixed_fee' => $value->ach_credit_return_fixed_fee ?? null,
+        'ach_debit_return_fixed_fee' => $value->ach_debit_return_fixed_fee ?? null,
+        'ach_fixed_fee' => $value->ach_fixed_fee ?? null,
+        'american_express_assessment_basis_points' => $value->american_express_assessment_basis_points ?? null,
+        'american_express_basis_points' => $value->american_express_basis_points ?? null,
+        'american_express_charge_interchange' => $value->american_express_charge_interchange ?? null,
+        'american_express_externally_funded_basis_points' => $value->american_express_externally_funded_basis_points ?? null,
+        'american_express_externally_funded_fixed_fee' => $value->american_express_externally_funded_fixed_fee ?? null,
+        'american_express_fixed_fee' => $value->american_express_fixed_fee ?? null,
+        'ancillary_fixed_fee_primary' => $value->ancillary_fixed_fee_primary ?? null,
+        'ancillary_fixed_fee_secondary' => $value->ancillary_fixed_fee_secondary ?? null,
+        'application' => $value->application ?? null,
+        'basis_points' => $value->basis_points ?? null,
+        'charge_interchange' => $value->charge_interchange ?? null,
+        'diners_club_basis_points' => $value->diners_club_basis_points ?? null,
+        'diners_club_charge_interchange' => $value->diners_club_charge_interchange ?? null,
+        'diners_club_fixed_fee' => $value->diners_club_fixed_fee ?? null,
+        'discover_assessments_basis_points' => $value->discover_assessments_basis_points ?? null,
+        'discover_basis_points' => $value->discover_basis_points ?? null,
+        'discover_charge_interchange' => $value->discover_charge_interchange ?? null,
+        'discover_value_usage_fixed_fee' => $value->discover_value_usage_fixed_fee ?? null,
+        'discover_externally_funded_basis_points' => $value->discover_externally_funded_basis_points ?? null,
+        'discover_externally_funded_fixed_fee' => $value->discover_externally_funded_fixed_fee ?? null,
+        'discover_fixed_fee' => $value->discover_fixed_fee ?? null,
+        'discover_network_authorization_fixed_fee' => $value->discover_network_authorization_fixed_fee ?? null,
+        'dispute_fixed_fee' => $value->dispute_fixed_fee ?? null,
+        'dispute_inquiry_fixed_fee' => $value->dispute_inquiry_fixed_fee ?? null,
+        'externally_funded_basis_points' => $value->externally_funded_basis_points ?? null,
+        'externally_funded_fixed_fee' => $value->externally_funded_fixed_fee ?? null,
+        'fixed_fee' => $value->fixed_fee ?? null,
+        'jcb_basis_points' => $value->jcb_basis_points ?? null,
+        'jcb_charge_interchange' => $value->jcb_charge_interchange ?? null,
+        'jcb_fixed_fee' => $value->jcb_fixed_fee ?? null,
+        'mastercard_acquirer_fees_basis_points' => $value->mastercard_acquirer_fees_basis_points ?? null,
+        'mastercard_assessments_over1k_basis_points' => $value->mastercard_assessments_over1k_basis_points ?? null,
+        'mastercard_assessments_under1k_basis_points' => $value->mastercard_assessments_under1k_basis_points ?? null,
+        'mastercard_basis_points' => $value->mastercard_basis_points ?? null,
+        'mastercard_charge_interchange' => $value->mastercard_charge_interchange ?? null,
+        'mastercard_fixed_fee' => $value->mastercard_fixed_fee ?? null,
+        'qualified_tiers' => $value->qualified_tiers ?? null,
+        'rounding_mode' => $value->rounding_mode ?? null,
+        'tags' => $value->tags ?? null,
+        'visa_acquirer_processing_fixed_fee' => $value->visa_acquirer_processing_fixed_fee ?? null,
+        'visa_assessments_basis_points' => $value->visa_assessments_basis_points ?? null,
+        'visa_base_II_credit_voucher_fixed_fee' => $value->visa_base_II_credit_voucher_fixed_fee ?? null,
+        'visa_base_II_system_file_transmission_fixed_fee' => $value->visa_base_II_system_file_transmission_fixed_fee ?? null,
+        'visa_basis_points' => $value->visa_basis_points ?? null,
+        'visa_charge_interchange' => $value->visa_charge_interchange ?? null,
+        'visa_credit_voucher_fixed_fee' => $value->visa_credit_voucher_fixed_fee ?? null,
+        'visa_fixed_fee' => $value->visa_fixed_fee ?? null,
+        'visa_kilobyte_access_fixed_fee' => $value->visa_kilobyte_access_fixed_fee ?? null,
+        'api_user'=>$api_userID??null,
+        'is_live'=>$islive??null,
+        'api_key'=>''.$apikeyID??null
+    ]);
+    $feeProfileMade->save();
+    $feeProfileMade->refresh();
+        return ['worked'=>true,"responce"=>$feeProfile[0],"ref"=>$feeProfileMade];
+    }else{
+        return ['worked'=>false,"responce"=>$feeProfile[0]];
+    }
+    }
+    return ['worked'=>false,"responce"=>"You are not an admin"];
+}
 }

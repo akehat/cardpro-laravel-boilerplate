@@ -208,6 +208,7 @@ public static function fromArray(array $array)
         $data = (object)$data;
 
         $found = self::where('finix_id', $data->id)->first();
+        $data->expires_at = $data->expires_at != null ? (new DateTime($data->expires_at))->format('Y-m-d H:i:s') : null;
 
         if ($found == null) {
             $found = self::create([

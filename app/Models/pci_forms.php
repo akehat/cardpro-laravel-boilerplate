@@ -211,6 +211,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $found = self::where('finix_id', $data->id)->first();
             $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
             $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;
+            $data->valid_from = $data->valid_from != null ? (new DateTime($data->valid_from))->format('Y-m-d H:i:s') : null;
+            $data->valid_until = $data->valid_until != null ? (new DateTime($data->valid_until))->format('Y-m-d H:i:s') : null;
+            $data->due_at = $data->due_at != null ? (new DateTime($data->due_at))->format('Y-m-d H:i:s') : null;
 
             if ($found == null) {
                 $found = self::create([
@@ -224,11 +227,11 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'version' => $data->version ?? null,
                     'valid_from' => $data->valid_from ?? null,
                     'valid_until' => $data->valid_until ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
-                    'pci_saq_a' => json_encode($data->pci_saq_a) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
+                    'pci_saq_a' => json_encode($data->pci_saq_a ?? []) ?? null,
                     'due_at' => $data->due_at ?? null,
                     'compliance_form_template' => $data->compliance_form_template ?? null,
-                    'files' => json_encode($data->files) ?? null,
+                    'files' => json_encode($data->files ?? []) ?? null,
                     'state' => $data->state ?? null,
                 ]);
             } else {
@@ -243,11 +246,11 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'version' => $data->version ?? null,
                     'valid_from' => $data->valid_from ?? null,
                     'valid_until' => $data->valid_until ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
-                    'pci_saq_a' => json_encode($data->pci_saq_a) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
+                    'pci_saq_a' => json_encode($data->pci_saq_a ?? []) ?? null,
                     'due_at' => $data->due_at ?? null,
                     'compliance_form_template' => $data->compliance_form_template ?? null,
-                    'files' => json_encode($data->files) ?? null,
+                    'files' => json_encode($data->files ?? []) ?? null,
                     'state' => $data->state ?? null,
                 ]);
             }

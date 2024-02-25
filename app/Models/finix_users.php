@@ -213,7 +213,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'identity'=>$value->identity??null,
                     'last_used_date'=>$value->last_used_date??null,
                     'password'=>$value->password??null,
-                    'tags'=>json_encode($value->tags)??null,
+                    'tags'=>json_encode($value->tags ?? [])??null,
                     'role'=>$value->role??null,
                 ]);
             }else{
@@ -223,7 +223,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'identity'=>$value->identity??null,
                     'last_used_date'=>$value->last_used_date??null,
                     'password'=>$value->password??null,
-                    'tags'=>json_encode($value->tags)??null,
+                    'tags'=>json_encode($value->tags ?? [])??null,
                     'role'=>$value->role??null,
                 ]);
             }

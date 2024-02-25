@@ -214,9 +214,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'amount' => $value->fee_amount_data->amount ?? null,
                 'currency' => $value->fee_amount_data->currency ?? null,
                 'created_by' => $value->created_by ?? null,
-                'fee_amount_data' => json_encode($value->fee_amount_data) ?? null,
+                'fee_amount_data' => json_encode($value->fee_amount_data ?? []) ?? null,
                 'subscription_schedule' => $value->subscription_schedule ?? null,
-                'tags' => json_encode($value->tags) ?? null,
+                'tags' => json_encode($value->tags ?? []) ?? null,
             ]);
             }else{
                 $found->update([
@@ -226,9 +226,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'amount' => $value->fee_amount_data->amount ?? null,
                     'currency' => $value->fee_amount_data->currency ?? null,
                     'created_by' => $value->created_by ?? null,
-                    'fee_amount_data' => json_encode($value->fee_amount_data) ?? null,
+                    'fee_amount_data' => json_encode($value->fee_amount_data ?? []) ?? null,
                     'subscription_schedule' => $value->subscription_schedule ?? null,
-                    'tags' => json_encode($value->tags) ?? null,
+                    'tags' => json_encode($value->tags ?? []) ?? null,
                 ]);
             }
             $found->save();

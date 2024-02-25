@@ -220,14 +220,14 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'action' => $data->action ?? null,
                     'amount' => $data->amount ?? null,
                     'application' => $data->application ?? null,
-                    'dispute_details' => json_encode($data->dispute_details) ?? null,
+                    'dispute_details' => json_encode($data->dispute_details ?? []) ?? null,
                     'identity' => $data->identity ?? null,
                     'merchant' => $data->merchant ?? null,
                     'occurred_at' => $data->occurred_at ?? null,
                     'reason' => $data->reason ?? null,
                     'respond_by' => $data->respond_by ?? null,
                     'state' => $data->state ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
                     'transfer' => $data->transfer ?? null,
                 ]);
             } else {
@@ -238,14 +238,14 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'action' => $data->action ?? null,
                     'amount' => $data->amount ?? null,
                     'application' => $data->application ?? null,
-                    'dispute_details' => json_encode($data->dispute_details) ?? null,
+                    'dispute_details' => json_encode($data->dispute_details ?? []) ?? null,
                     'identity' => $data->identity ?? null,
                     'merchant' => $data->merchant ?? null,
                     'occurred_at' => $data->occurred_at ?? null,
                     'reason' => $data->reason ?? null,
                     'respond_by' => $data->respond_by ?? null,
                     'state' => $data->state ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
                     'transfer' => $data->transfer ?? null,
                 ]);
             }

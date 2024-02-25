@@ -159,7 +159,7 @@ class MerchantSignUpController extends Controller
         $apiUser_id
     );
     if(!$fee_profile["worked"]){
-        session()->flash('success', 'unable to make payment '.$fee_profile["responce"]);
+        session()->flash('success', 'unable to make fee profile '.$fee_profile["responce"]);
         return redirect()->back();
     }
     session()->flash('success', json_encode($fee_profile["responce"]));
@@ -528,7 +528,7 @@ class MerchantSignUpController extends Controller
         $apiUser_id
     );
     if(!$fee_profile["worked"]){
-        session()->flash('success', 'unable to make payment '.$fee_profile["responce"]);
+        session()->flash('success', 'unable to make fee profile '.$fee_profile["responce"]);
         return redirect()->back();
     }
     session()->flash('success', json_encode($fee_profile["responce"]));

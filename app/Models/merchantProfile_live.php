@@ -221,7 +221,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'fee_profile' => $data->fee_profile ?? null,
                     'payout_profile' => $data->payout_profile ?? null,
                     'risk_profile' => $data->risk_profile ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
                 ]);
             } else {
                 $found->update([
@@ -232,7 +232,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'fee_profile' => $data->fee_profile ?? null,
                     'payout_profile' => $data->payout_profile ?? null,
                     'risk_profile' => $data->risk_profile ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
                 ]);
             }
 

@@ -215,7 +215,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'created_by' => $value->created_by ?? null,
                 'merchant' => $value->merchant ?? null,
                 'subscription_schedule' => $value->subscription_schedule ?? null,
-                'tags' => json_encode($value->tags) ?? null,
+                'tags' => json_encode($value->tags ?? []) ?? null,
             ]);
             }else{
                 $found->update([
@@ -226,7 +226,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'created_by' => $value->created_by ?? null,
                     'merchant' => $value->merchant ?? null,
                     'subscription_schedule' => $value->subscription_schedule ?? null,
-                    'tags' => json_encode($value->tags) ?? null,
+                    'tags' => json_encode($value->tags ?? []) ?? null,
                 ]);
             }
             $found->save();

@@ -215,26 +215,26 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'finix_id' => $data->id ?? null,
                     'payment_frequency' => $data->payment_frequency ?? null,
                     'is_multiple_use' => $data->is_multiple_use ?? null,
-                    'allowed_payment_methods' => json_encode($data->allowed_payment_methods) ?? null,
+                    'allowed_payment_methods' => json_encode($data->allowed_payment_methods??[]) ?? null,
                     'nickname' => $data->nickname ?? null,
-                    'items' => json_encode($data->items) ?? null,
-                    'buyer' => json_encode($data->buyer) ?? null,
-                    'amount_details' => json_encode($data->amount_details) ?? null,
-                    'branding' => json_encode($data->branding) ?? null,
-                    'additional_details' => json_encode($data->additional_details) ?? null,
+                    'items' => json_encode($data->items??[]) ?? null,
+                    'buyer' => json_encode($data->buyer??[]) ?? null,
+                    'amount_details' => json_encode($data->amount_details??[]) ?? null,
+                    'branding' => json_encode($data->branding??[]) ?? null,
+                    'additional_details' => json_encode($data->additional_details??[]) ?? null,
                 ]);
             } else {
                 $found->update([
                     'merchant_id' => $data->merchant_id ?? null,
                     'payment_frequency' => $data->payment_frequency ?? null,
                     'is_multiple_use' => $data->is_multiple_use ?? null,
-                    'allowed_payment_methods' => json_encode($data->allowed_payment_methods) ?? null,
+                    'allowed_payment_methods' => json_encode($data->allowed_payment_methods??[]) ?? null,
                     'nickname' => $data->nickname ?? null,
-                    'items' => json_encode($data->items) ?? null,
-                    'buyer' => json_encode($data->buyer) ?? null,
-                    'amount_details' => json_encode($data->amount_details) ?? null,
-                    'branding' => json_encode($data->branding) ?? null,
-                    'additional_details' => json_encode($data->additional_details) ?? null,
+                    'items' => json_encode($data->items??[]) ?? null,
+                    'buyer' => json_encode($data->buyer??[]) ?? null,
+                    'amount_details' => json_encode($data->amount_details??[]) ?? null,
+                    'branding' => json_encode($data->branding??[]) ?? null,
+                    'additional_details' => json_encode($data->additional_details??[]) ?? null,
                 ]);
             }
 

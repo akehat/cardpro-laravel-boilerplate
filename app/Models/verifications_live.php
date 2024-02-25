@@ -221,12 +221,12 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'identity' => $data->identity ?? null,
                 'merchant' => $data->merchant ?? null,
                 'merchant_identity' => $data->merchant_identity ?? null,
-                'messages' => json_encode($data->messages) ?? null,
+                'messages' => json_encode($data->messages ?? []) ?? null,
                 'payment_instrument' => $data->payment_instrument ?? null,
                 'processor' => $data->processor ?? null,
                 'raw' => $data->raw ?? null,
                 'state' => $data->state ?? null,
-                'tags' => json_encode($data->tags) ?? null,
+                'tags' => json_encode($data->tags ?? []) ?? null,
                 'trace_id' => $data->trace_id ?? null,
             ]);
             } else {
@@ -238,12 +238,12 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'identity' => $data->identity ?? null,
                 'merchant' => $data->merchant ?? null,
                 'merchant_identity' => $data->merchant_identity ?? null,
-                'messages' => json_encode($data->messages) ?? null,
+                'messages' => json_encode($data->messages ?? []) ?? null,
                 'payment_instrument' => $data->payment_instrument ?? null,
                 'processor' => $data->processor ?? null,
                 'raw' => $data->raw ?? null,
                 'state' => $data->state ?? null,
-                'tags' => json_encode($data->tags) ?? null,
+                'tags' => json_encode($data->tags ?? []) ?? null,
                 'trace_id' => $data->trace_id ?? null,
             ]);
             }

@@ -227,7 +227,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'reference_id' => $data->reference_id ?? null,
                     'source' => $data->source ?? null,
                     'state' => $data->state ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
                 ]);
             } else {
                 $found->update([
@@ -243,7 +243,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'reference_id' => $data->reference_id ?? null,
                     'source' => $data->source ?? null,
                     'state' => $data->state ?? null,
-                    'tags' => json_encode($data->tags) ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
                 ]);
             }
 

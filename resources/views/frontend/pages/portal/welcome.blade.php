@@ -114,6 +114,9 @@
 <li><a href="{{ url('portal/livePayment') }}"><i class="fas fa-money-bill-wave"></i> Live Payment</a></li>
 <li><a href="{{ url('portal/liveHold') }}"><i class="fas fa-hand-holding-usd"></i> Live Hold</a></li>
 <li><a href="{{ url('portal/liveCheckout') }}"><i class="fas fa-shopping-cart"></i> Live Checkout</a></li>
+@if (auth()->user()->isAdmin())
+<li><a href="{{ url('portal/liveFee') }}"><i class="fas fa-shopping-cart"></i> Live Fee Form</a></li>
+@endif
 <li><a href="{{ url('portal/live/merchants') }}"><i class="fas fa-store-alt"></i> Live Merchants</a></li>
 <li><a href="{{ url('portal/live/identities') }}"><i class="fas fa-id-card"></i> Live Identities</a></li>
 <li><a href="{{ url('portal/live/apiusers') }}"><i class="fas fa-user"></i> Live API Users</a></li>

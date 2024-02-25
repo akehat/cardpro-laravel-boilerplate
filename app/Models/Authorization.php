@@ -315,7 +315,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             'security_code_verification' => $value->security_code_verification ?? null,
             'source' => $value->source ?? null,
             'state' => $value->state ?? null,
-            'tags' => json_encode($value->tags) ?? null,
+            'tags' => json_encode($value->tags ?? []) ?? null,
             'trace_id' => $value->trace_id ?? null,
             'transfer' => $value->transfer ?? null,
             'void_state' => $value->void_state ?? null,

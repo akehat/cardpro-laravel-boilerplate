@@ -209,8 +209,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $found=self::where('finix_id',$value->id)->first();
             if($found==null){
                $found=self::create([
-                'subscription_schedules' => json_encode($value->subscription_schedules) ?? null,
-                'metadata' => json_encode($value->metadata) ?? null,
+                'subscription_schedules' => json_encode($value->subscription_schedules ?? []) ?? null,
+                'metadata' => json_encode($value->metadata ?? []) ?? null,
                 'finix_id' => $value->id ?? null,
                 'nickname' => $value->nickname ?? null,
                 'line_item_type' => $value->line_item_type ?? null,
@@ -218,8 +218,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             ]);
             }else{
                 $found->update([
-                    'subscription_schedules' => json_encode($value->subscription_schedules) ?? null,
-                    'metadata' => json_encode($value->metadata) ?? null,
+                    'subscription_schedules' => json_encode($value->subscription_schedules ?? []) ?? null,
+                    'metadata' => json_encode($value->metadata ?? []) ?? null,
                     'finix_id' => $value->id ?? null,
                     'nickname' => $value->nickname ?? null,
                     'line_item_type' => $value->line_item_type ?? null,

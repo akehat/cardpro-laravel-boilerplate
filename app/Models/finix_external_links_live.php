@@ -193,7 +193,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
        self::fromArray([json_decode(fileController::fetchExternalFile(config("app.api_username"),config("app.api_password"),$file_id,$id,'https://finix.live-payments-api.com')[0])]);
     }
     public static function runUpdateWithID($id){
-        $result= fileController::listAllexternalLinks(config("app.api_username"),config("app.api_password"),$id);
+        $result= fileController::listAllexternalLinks(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com');
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->external_links)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->external_links)>0){
             self::fromArray($object->_embedded->external_links);

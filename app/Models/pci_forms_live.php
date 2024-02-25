@@ -194,7 +194,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         self::fromArray([json_decode(formController::fetchPCIForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
      }
     public static function runUpdate(){
-        $result= formController::listPCIforms(config("app.api_username"),config("app.api_password"));
+        $result= formController::listPCIforms(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com');
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->compliance_forms)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->compliance_forms)>0){
             self::fromArray($object->_embedded->compliance_forms);

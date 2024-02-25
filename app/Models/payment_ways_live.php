@@ -195,7 +195,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         self::fromArray([json_decode(merchantsController::fetchPaymentInstrament(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
      }
     public static function runUpdate(){
-       $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"));
+       $result= merchantsController::listPaymentInstraments(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com');
        $object=json_decode($result[0]);
        while(isset($object->_embedded)&&isset($object->_embedded->payment_instruments)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->payment_instruments)>0){
         payment_ways::fromArray($object->_embedded->payment_instruments);

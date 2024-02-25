@@ -193,7 +193,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     protected $table="finix_users_live";
     protected $guarded=['id'];
     public static function runUpdate(){
-        $result= finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"));
+        $result= finixUsersController::listAllUsers(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com');
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->users)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->users)>0){
             finix_users::fromArray($object->_embedded->users);

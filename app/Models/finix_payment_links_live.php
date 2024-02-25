@@ -210,6 +210,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         $found = self::where('finix_id', $value->id)->first();
         $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
         $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+        $value->link_expires_at = $value->link_expires_at != null ? (new DateTime($value->link_expires_at))->format('Y-m-d H:i:s') : null;
 
         if ($found == null) {
             $found = self::create([
@@ -338,6 +339,10 @@ $buyer,$userID,$api_userID,$apikeyID=0){
 );
     if($paymentLink[1]>=200&&$paymentLink[1]<300){
     $value=(object)json_decode($paymentLink[0]);
+    $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+    $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+    $value->link_expires_at = $value->link_expires_at != null ? (new DateTime($value->link_expires_at))->format('Y-m-d H:i:s') : null;
+
     $paymentLinkMade=self::create([
         'finix_id' => $value->id ?? null,
                 'created_at_finix' => $value->created_at ?? null,

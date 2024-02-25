@@ -194,7 +194,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
        self::fromArray([json_decode(payfacController::fetchApplication(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
     public static function runUpdate(){
-        $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"));
+        $result= payfacController::listApplications(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com');
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->applications)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->applications)>0){
             self::fromArray($object->_embedded->applications);

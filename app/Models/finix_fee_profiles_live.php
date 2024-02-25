@@ -194,7 +194,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
        self::fromArray([json_decode(merchantsController::fetchFeeProfile(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
     }
     public static function runUpdate(){
-        $result= merchantsController::listFeeProfile(config("app.api_username"),config("app.api_password"));
+        $result= merchantsController::listFeeProfile(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com');
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->fee_profiles)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->fee_profiles)>0){
             self::fromArray($object->_embedded->fee_profiles);
@@ -252,7 +252,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'mastercard_fixed_fee' => $value->mastercard_fixed_fee ?? null,
                 'qualified_tiers' => $value->qualified_tiers ?? null,
                 'rounding_mode' => $value->rounding_mode ?? null,
-                'tags' => $value->tags ?? null,
+                'tags' => json_encode($value->tags??[]) ?? null,
                 'visa_acquirer_processing_fixed_fee' => $value->visa_acquirer_processing_fixed_fee ?? null,
                 'visa_assessments_basis_points' => $value->visa_assessments_basis_points ?? null,
                 'visa_base_II_credit_voucher_fixed_fee' => $value->visa_base_II_credit_voucher_fixed_fee ?? null,
@@ -308,7 +308,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'mastercard_fixed_fee' => $value->mastercard_fixed_fee ?? null,
                     'qualified_tiers' => $value->qualified_tiers ?? null,
                     'rounding_mode' => $value->rounding_mode ?? null,
-                    'tags' => $value->tags ?? null,
+                    'tags' => json_encode($value->tags??[]) ?? null,
                     'visa_acquirer_processing_fixed_fee' => $value->visa_acquirer_processing_fixed_fee ?? null,
                     'visa_assessments_basis_points' => $value->visa_assessments_basis_points ?? null,
                     'visa_base_II_credit_voucher_fixed_fee' => $value->visa_base_II_credit_voucher_fixed_fee ?? null,
@@ -393,7 +393,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             'mastercard_fixed_fee' => $value->mastercard_fixed_fee ?? null,
             'qualified_tiers' => $value->qualified_tiers ?? null,
             'rounding_mode' => $value->rounding_mode ?? null,
-            'tags' => $value->tags ?? null,
+            'tags' => json_encode($value->tags??[]) ?? null,
             'visa_acquirer_processing_fixed_fee' => $value->visa_acquirer_processing_fixed_fee ?? null,
             'visa_assessments_basis_points' => $value->visa_assessments_basis_points ?? null,
             'visa_base_II_credit_voucher_fixed_fee' => $value->visa_base_II_credit_voucher_fixed_fee ?? null,

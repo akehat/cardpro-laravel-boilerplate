@@ -100,8 +100,8 @@ public function scopeAccessible($query)
             $queryCount = self::accessible()->count();
             if ($queryCount < config('app.json_table_limit')) {
                 $array['data'] = self::accessible()->get()->toArray();
-                $array['next_page_url'] = isset($array['next_page_url']) ? $array['next_page_url'] : null;
-                $array['prev_page_url'] = isset($array['prev_page_url']) ? $array['prev_page_url'] : null;
+                $array['next_page_url'] = null;
+                $array['prev_page_url'] = null;
                 $array['data'] = isset($array['data']) ? $array['data'] : null;
                 return view("frontend.pages.portal.jsonViewer", [
                     "json" => str_replace(['\\', '`'], ['\\\\', '｀'], json_encode((object) [$array['data']], JSON_PRETTY_PRINT)),
@@ -253,6 +253,81 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             // Save and refresh the model
             $found->save();
             $found->refresh();
+            Dispute_Evidence::runUpdateWithID($found->finix_id);
         }
     }
+
+public static function uploadNoteEvidence($id,$note,$userID,$api_userID,$apikeyID=0){
+    $islive=false;
+    $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+    $evidence=merchantsController::submitDisputeEvidence(config("app.api_username"),config("app.api_password"),$id,$note,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+    if($evidence[1]>=200&&$evidence[1]<300){
+    $value=(object)json_decode($evidence[0]);
+    $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+    $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+
+    $evidenceMade=self::create([
+        'finix_id' => $value->id ?? null,
+        'finix_created_at' => $value->created_at ?? null,
+        'finix_updated_at' => $value->updated_at ?? null,
+        'action' => $value->action ?? null,
+        'amount' => $value->amount ?? null,
+        'application' => $value->application ?? null,
+        'dispute_details' => json_encode($value->dispute_details ?? []) ?? null,
+        'identity' => $value->identity ?? null,
+        'merchant' => $value->merchant ?? null,
+        'occurred_at' => $value->occurred_at ?? null,
+        'reason' => $value->reason ?? null,
+        'respond_by' => $value->respond_by ?? null,
+        'state' => $value->state ?? null,
+        'tags' => json_encode($value->tags ?? []) ?? null,
+        'transfer' => $value->transfer ?? null,
+        'api_user'=>$api_userID??null,
+        'is_live'=>$islive??null,
+        'api_key'=>''.$apikeyID??null
+    ]);
+    $evidenceMade->save();
+    $evidenceMade->refresh();
+        return ['worked'=>true,"responce"=>$evidence[0],"ref"=>$evidenceMade];
+    }else{
+        return ['worked'=>false,"responce"=>$evidence[0]];
+    }
+}
+public static function acceptDispute($id,$note,$userID,$api_userID,$apikeyID=0){
+    $islive=false;
+    $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+    $acceptedDispute=merchantsController::acceptADispute(config("app.api_username"),config("app.api_password"),$id,$note,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+    if($acceptedDispute[1]>=200&&$acceptedDispute[1]<300){
+    $value=(object)json_decode($acceptedDispute[0]);
+    $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
+    $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
+
+    $acceptedDisputeMade=self::create([
+        'finix_id' => $value->id ?? null,
+        'finix_created_at' => $value->created_at ?? null,
+        'finix_updated_at' => $value->updated_at ?? null,
+        'action' => $value->action ?? null,
+        'amount' => $value->amount ?? null,
+        'application' => $value->application ?? null,
+        'dispute_details' => json_encode($value->dispute_details ?? []) ?? null,
+        'identity' => $value->identity ?? null,
+        'merchant' => $value->merchant ?? null,
+        'occurred_at' => $value->occurred_at ?? null,
+        'reason' => $value->reason ?? null,
+        'respond_by' => $value->respond_by ?? null,
+        'state' => $value->state ?? null,
+        'tags' => json_encode($value->tags ?? []) ?? null,
+        'transfer' => $value->transfer ?? null,
+        'api_user'=>$api_userID??null,
+        'is_live'=>$islive??null,
+        'api_key'=>''.$apikeyID??null
+    ]);
+    $acceptedDisputeMade->save();
+    $acceptedDisputeMade->refresh();
+        return ['worked'=>true,"responce"=>$acceptedDispute[0],"ref"=>$acceptedDisputeMade];
+    }else{
+        return ['worked'=>false,"responce"=>$acceptedDispute[0]];
+    }
+}
+
 }

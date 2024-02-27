@@ -100,8 +100,8 @@ public function scopeAccessible($query)
             $queryCount = self::accessible()->count();
             if ($queryCount < config('app.json_table_limit')) {
                 $array['data'] = self::accessible()->get()->toArray();
-                $array['next_page_url'] = isset($array['next_page_url']) ? $array['next_page_url'] : null;
-                $array['prev_page_url'] = isset($array['prev_page_url']) ? $array['prev_page_url'] : null;
+                $array['next_page_url'] = null;
+                $array['prev_page_url'] = null;
                 $array['data'] = isset($array['data']) ? $array['data'] : null;
                 return view("frontend.pages.portal.jsonViewer", [
                     "json" => str_replace(['\\', '`'], ['\\\\', '｀'], json_encode((object) [$array['data']], JSON_PRETTY_PRINT)),
@@ -113,8 +113,8 @@ public function scopeAccessible($query)
                 $queryCount = self::accessible()->count();
                 if ($queryCount < config('app.json_table_limit')) {
                     $array['data'] = self::accessible()->get()->toArray();
-                    $array['next_page_url'] = isset($array['next_page_url']) ? $array['next_page_url'] : null;
-                    $array['prev_page_url'] = isset($array['prev_page_url']) ? $array['prev_page_url'] : null;
+                    $array['next_page_url'] = null;
+                    $array['prev_page_url'] = null;
                     $array['data'] = isset($array['data']) ? $array['data'] : null;
                     return view("frontend.pages.portal.jsonViewer", [
                         "json" => str_replace(['\\', '`'], ['\\\\', '｀'], json_encode((object) [$array['data']], JSON_PRETTY_PRINT)),

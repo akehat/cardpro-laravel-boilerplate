@@ -10,6 +10,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class verifications extends Model
 {
@@ -100,8 +101,8 @@ public function scopeAccessible($query)
             $queryCount = self::accessible()->count();
             if ($queryCount < config('app.json_table_limit')) {
                 $array['data'] = self::accessible()->get()->toArray();
-                $array['next_page_url'] = isset($array['next_page_url']) ? $array['next_page_url'] : null;
-                $array['prev_page_url'] = isset($array['prev_page_url']) ? $array['prev_page_url'] : null;
+                $array['next_page_url'] = null;
+                $array['prev_page_url'] = null;
                 $array['data'] = isset($array['data']) ? $array['data'] : null;
                 return view("frontend.pages.portal.jsonViewer", [
                     "json" => str_replace(['\\', '`'], ['\\\\', '｀'], json_encode((object) [$array['data']], JSON_PRETTY_PRINT)),
@@ -211,7 +212,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $found = self::where('finix_id', $data->id)->first();
             $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
             $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;
-
+            // dd($data);
             if ($found == null) {
                 $found = self::create([
                 'finix_id' => $data->id ?? null,
@@ -223,7 +224,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'merchant_identity' => $data->merchant_identity ?? null,
                 'messages' => json_encode($data->messages ?? []) ?? null,
                 'payment_instrument' => $data->payment_instrument ?? null,
-                'processor' => $data->processor ?? null,
+                'processor' => $data->processor  ?? null,
                 'raw' => $data->raw ?? null,
                 'state' => $data->state ?? null,
                 'tags' => json_encode($data->tags ?? []) ?? null,
@@ -240,7 +241,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 'merchant_identity' => $data->merchant_identity ?? null,
                 'messages' => json_encode($data->messages ?? []) ?? null,
                 'payment_instrument' => $data->payment_instrument ?? null,
-                'processor' => $data->processor ?? null,
+                'processor' => $data->processor  ?? null,
                 'raw' => $data->raw ?? null,
                 'state' => $data->state ?? null,
                 'tags' => json_encode($data->tags ?? []) ?? null,

@@ -471,4 +471,35 @@ public static function authenticateSearchCustomer($api_userID, $api_key, $search
             return ['worked'=>false,"responce"=>$buyer[0]];
         }
     }
+    public static function updateBuyerIdentity($id,$email,$userID,$api_userID,$apikeyID=0){
+        $islive=false;
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $buyer=merchantsController::updateWithIDIdentityMinReq(config("app.api_username"),config("app.api_password"),$id,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]],['email'=>$email]);
+        if($buyer[1]>=200&&$buyer[1]<300){
+        $value=(object)json_decode($buyer[0]);
+        $data=[
+            'application'=>$value->application??null,
+            'entity'=>json_encode($value->entity??[])??null,
+            'identity_roles'=>json_encode($value->identity_roles??[])??null,
+            'tags'=>json_encode($value->tags??[])??null,
+            'finix_id'=>$value->id??null,
+            'api_user'=>$api_userID??null,
+            'is_live'=>$islive??null,
+            "api_key"=>''.$apikeyID,
+            'isBuyer'=>true,
+            'isMerchant'=>false,
+        ];
+        $found = self::where('finix_id', $value->id)->first();
+        if($found!=null){
+            $buyerMade=$found->update($data);
+        }else{
+            $buyerMade=self::create($data);
+        }
+        $buyerMade->save();
+        $buyerMade->refresh();
+            return ['worked'=>true,"responce"=>$buyer[0],"ref"=>$buyerMade];
+        }else{
+            return ['worked'=>false,"responce"=>$buyer[0]];
+        }
+    }
 }

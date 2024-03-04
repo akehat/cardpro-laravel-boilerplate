@@ -245,4 +245,84 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             finix_external_links::runUpdateWithID($found->finix_id);
         }
     }
+    public static function createAFile($display_name,
+    $linked_to,
+
+    $type,$userID,$api_userID,$apikeyID=0){
+        $islive=true;
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $file=fileController::createFile(config("app.api_username"),config("app.api_password"),$display_name,
+        $linked_to,
+        ["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID],
+        $type,$endpoint,[]);
+        if($file[1]>=200&&$file[1]<300){
+        $data=(object)json_decode($file[0]);
+        $fileMade=self::create([
+            'finix_id' => $data->id ?? null,
+            'file_id' => $data->file_id ?? null,
+            'display_name' => $data->display_name ?? null,
+            'linked_to' => $data->linked_to ?? null,
+            'linked_type' => $data->linked_type ?? null,
+            'platform_id' => $data->platform_id ?? null,
+            'status' => $data->status ?? null,
+            'tags' => json_encode($data->tags??[]) ?? null,
+            'type' => $data->type ?? null,
+            'api_user'=>$api_userID??null,
+            'is_live'=>$islive??null,
+            "api_key"=>''.$apikeyID,
+        ]);
+        $fileMade->save();
+        $fileMade->refresh();
+            return ['worked'=>true,"responce"=>$file[0],"ref"=>$fileMade];
+        }else{
+            return ['worked'=>false,"responce"=>$file[0]];
+        }
+    }
+    public static function uploadAFile($filePath,
+    $id,$userID,$api_userID,$apikeyID=0){
+        $islive=true;
+        $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
+        $file=fileController::uploadDirectly(config("app.api_username"),config("app.api_password"),$filePath,
+        $id,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
+        if($file[1]>=200&&$file[1]<300){
+        $data=(object)json_decode($file[0]);
+        $fileMade=self::create([
+            'finix_id' => $data->id ?? null,
+            'file_id' => $data->file_id ?? null,
+            'display_name' => $data->display_name ?? null,
+            'linked_to' => $data->linked_to ?? null,
+            'linked_type' => $data->linked_type ?? null,
+            'platform_id' => $data->platform_id ?? null,
+            'status' => $data->status ?? null,
+            'tags' => json_encode($data->tags??[]) ?? null,
+            'type' => $data->type ?? null,
+            'api_user'=>$api_userID??null,
+            'is_live'=>$islive??null,
+            "api_key"=>''.$apikeyID,
+        ]);
+        $fileMade->save();
+        $fileMade->refresh();
+            return ['worked'=>true,"responce"=>$file[0],"ref"=>$fileMade];
+        }else{
+            return ['worked'=>false,"responce"=>$file[0]];
+        }
+    }
+    public static function downloadFile($id){
+        return response()->stream(function () use ($id) {
+            $islive = true;
+            $endpoint = $islive ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
+            list($response, $httpcode) = fileController::downloadFile(config("app.api_username"), config("app.api_password"), $id, $endpoint);
+
+            // Check if cURL request was successful
+            if ($httpcode === 200) {
+                echo $response;
+            } else {
+                // Handle error, for example:
+                echo "Error downloading file. HTTP code: $httpcode and response: $response";
+            }
+        }, 200, [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename="downloaded-file"'
+        ]);
+    }
 }

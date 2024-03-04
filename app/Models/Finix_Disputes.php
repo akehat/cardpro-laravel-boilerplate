@@ -266,7 +266,7 @@ public static function uploadNoteEvidence($id,$note,$userID,$api_userID,$apikeyI
     $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
     $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
 
-    $evidenceMade=self::create([
+    $data=[
         'finix_id' => $value->id ?? null,
         'finix_created_at' => $value->created_at ?? null,
         'finix_updated_at' => $value->updated_at ?? null,
@@ -285,7 +285,13 @@ public static function uploadNoteEvidence($id,$note,$userID,$api_userID,$apikeyI
         'api_user'=>$api_userID??null,
         'is_live'=>$islive??null,
         'api_key'=>''.$apikeyID??null
-    ]);
+    ];
+    $found = self::where('finix_id', $value->id)->first();
+            if($found!=null){
+                $evidenceMade=$found->update($data);
+            }else{
+                $evidenceMade=self::create($data);
+            }
     $evidenceMade->save();
     $evidenceMade->refresh();
         return ['worked'=>true,"responce"=>$evidence[0],"ref"=>$evidenceMade];
@@ -301,8 +307,7 @@ public static function acceptDispute($id,$note,$userID,$api_userID,$apikeyID=0){
     $value=(object)json_decode($acceptedDispute[0]);
     $value->created_at = $value->created_at != null ? (new DateTime($value->created_at))->format('Y-m-d H:i:s') : null;
     $value->updated_at = $value->updated_at != null ? (new DateTime($value->updated_at))->format('Y-m-d H:i:s') : null;
-
-    $acceptedDisputeMade=self::create([
+    $data=[
         'finix_id' => $value->id ?? null,
         'finix_created_at' => $value->created_at ?? null,
         'finix_updated_at' => $value->updated_at ?? null,
@@ -321,7 +326,13 @@ public static function acceptDispute($id,$note,$userID,$api_userID,$apikeyID=0){
         'api_user'=>$api_userID??null,
         'is_live'=>$islive??null,
         'api_key'=>''.$apikeyID??null
-    ]);
+    ];
+    $found = self::where('finix_id', $value->id)->first();
+            if($found!=null){
+                $acceptedDisputeMade=$found->update($data);
+            }else{
+                $acceptedDisputeMade=self::create($data);
+            }
     $acceptedDisputeMade->save();
     $acceptedDisputeMade->refresh();
         return ['worked'=>true,"responce"=>$acceptedDispute[0],"ref"=>$acceptedDisputeMade];

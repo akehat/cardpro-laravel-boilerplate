@@ -965,6 +965,35 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+    public static function disableMerchant(
+        $username,
+        $password,
+        $id,
+        $endpoint='https://finix.sandbox-payments-api.com',
+        $addedQuery=[],
+        $addedData=[]
+    ){
+        $data = [
+            "processing_enabled" => "false",
+        ];
+        $jsonData = json_encode(array_merge($data,$addedData));
+        $ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "$endpoint/merchants/$id".(!empty($addedQuery)?"?". http_build_query($addedQuery):""));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Accept: application/hal+json',
+    'Content-Type: application/json',
+    'Finix-Version: 2022-02-01',
+]);
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+$response = curl_exec($ch);
+$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+return [$response,$httpcode];
+    }
     public static function reverifyMerchant(
         $username,
         $password,
@@ -989,6 +1018,7 @@ class merchantsController extends Controller
         curl_close($ch);
         return [$response,$httpcode];
     }
+
     //payment instraments for paying with eg a card
     public static function createPaymentInstrament(
         $username,

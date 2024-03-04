@@ -240,7 +240,7 @@ public function createCustomer(){
         $custumer=identities::makeBuyerIdentity($request['email'],$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($custumer['worked']){
-        return response()->json($custumer['ref'], 200 , [] , JSON_PRETTY_PRINT);
+        return response()->json($custumer['ref'], 201 , [] , JSON_PRETTY_PRINT);
     }
     return response()->json([$custumer['responce']], 301);
 }
@@ -337,7 +337,7 @@ public function createCharges(){
         $payment=finix_payments::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($payment['worked']){
-        return response()->json($payment['ref'], 200, [] , JSON_PRETTY_PRINT);
+        return response()->json($payment['ref'], 201, [] , JSON_PRETTY_PRINT);
     }
     return response()->json($payment, 301 , [] , JSON_PRETTY_PRINT);
 }
@@ -626,7 +626,7 @@ public function createHold(){
         $payment=Authorization::makeHold($merchant->finix_id,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
     }
     if($payment['worked']){
-        return response()->json($payment['ref'], 200 , [] , JSON_PRETTY_PRINT );
+        return response()->json($payment['ref'], 201 , [] , JSON_PRETTY_PRINT );
     }
     return response()->json($payment['responce'], 301);
 }
@@ -655,7 +655,7 @@ public function captureHold($id){
         $capture=Authorization::makeCapture($hold->finix_id,$amount,$info['api_userID'],$info['apikey']);
     }
     if($capture['worked']){
-        return response()->json($capture['ref'], 200 , [] , JSON_PRETTY_PRINT );
+        return response()->json($capture['ref'], 201 , [] , JSON_PRETTY_PRINT );
     }
     return response()->json($capture['responce'], 301);
 }
@@ -677,7 +677,7 @@ public function releaseHold($id){
         $refund=Authorization::voidCapture($hold->finix_id,$info['api_userID'],$info['apikey']);
     }
     if($refund['worked']){
-        return response()->json($refund['ref'], 200 , [] , JSON_PRETTY_PRINT );
+        return response()->json($refund['ref'], 201 , [] , JSON_PRETTY_PRINT );
     }
     return response()->json($refund['responce'], 301);
 }

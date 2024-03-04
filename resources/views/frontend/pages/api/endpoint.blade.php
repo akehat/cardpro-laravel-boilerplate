@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+
     <style>
+        h2{
+            color:rgb(4, 4, 128);
+            font-size: 30px;
+        }
+.floatcontainer {
+    margin-bottom:10%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.floatcontainer > div {
+    width: max(48%,400px);
+}
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+
         }
 
         header {
@@ -34,6 +51,25 @@
             height: 100%;
         }
 
+        nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+nav ul li a {
+    color: blue;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #1319c0;
+}
         main {
             flex: 1;
             padding: 20px;
@@ -48,6 +84,7 @@
             border-radius: 3px;
             display: block;
             margin-bottom: 10px;
+            overflow-x: scroll
         }
 
         pre {
@@ -56,17 +93,10 @@
             border-radius: 5px;
             white-space: pre-wrap;
         }
-        #navList a{
-            color: blue!important;
-            text-decoration: none;
-        }
         #navList {
             position: absolute;
             top: 100px; /* Adjust as needed based on your layout */
             left: 0;
-        }
-        #navList a:visited{
-            color: blue!important;
         }
         @media only screen and (max-width: 480px) {
         nav{
@@ -1110,7 +1140,7 @@ var data = [
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'amount' for in the refund.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":1000.\"id\":29}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":1000,\"id\":29}'",
        "exampleResponse": `{
     "id": 33,
     "created_at": "2024-02-18T23:40:11.000000Z",
@@ -1505,28 +1535,38 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
             data.forEach(route => {
                 const section = document.createElement('section');
                 section.id = route.routeName.toLowerCase().replace(/\s+/g, '-');
-
+                route.exampleRequest = route.exampleRequest
+    .split('{').join('{\n')
+    .split(',').join(',\n')
+    .split('-d').join('\n-d')
+    .split('}').join('\n}');
                 section.innerHTML = `
-                    <h2>${route.routeName}</h2>
-                    <p>${route.info}</p>
+                <div class="floatcontainer">
+                    <div>
+                        <h2>${route.routeName}</h2>
+                        <p>${route.info}</p>
 
-                    <h3>Parameters</h3>
-                    <p>${route.parameters}</p>
+                        <h3>Parameters</h3>
+                        <p>${route.parameters}</p>
 
-                    <h3>Header</h3>
-                    <p>${route.header}</p>
+                        <h3>Header</h3>
+                        <p>${route.header}</p>
 
-                    <h3>Query</h3>
-                    <p>${route.query}</p>
+                        <h3>Query</h3>
+                        <p>${route.query}</p>
 
-                    <h3>Data</h3>
-                    <p>${route.data}</p>
+                        <h3>Data</h3>
+                        <p>${route.data}</p>
+                    </div>
 
-                    <h3>Example Request</h3>
-                    <code>${route.exampleRequest}</code>
+                    <div>
+                        <h3>Example Request</h3>
+                        <code class="language-curl">${route.exampleRequest}</code>
 
-                    <h3>Example Response</h3>
-                    <pre>${route.exampleResponse}</pre>
+                        <h3>Example Response Http Code: 201</h3>
+                        <pre class="language-json">${route.exampleResponse}</pre>
+                    </div>
+                </div>
                 `;
 
                 mainContent.appendChild(section);
@@ -1534,6 +1574,8 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
         }
 
         loadData(data);
+
     </script>
+
 </body>
 </html>

@@ -8,9 +8,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
 
     <style>
+
         h2{
             color:rgb(4, 4, 128);
             font-size: 30px;
+        }
+        h5{
+            font-size: 18px;
+            color: #1319c0;
         }
 .floatcontainer {
     margin-bottom:10%;
@@ -20,6 +25,26 @@
 
 .floatcontainer > div {
     width: max(48%,400px);
+}
+.jsonContainer, .curlContainer{
+    padding: 10px;
+    margin-bottom: 15px;
+    background: rgb(242, 240, 243);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px black;
+    border:1px solid lightblue;
+}
+.paramContainer{
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    background: rgb(242, 240, 243);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px black;
+    border:1px solid lightblue;
+}
+p{
+    white-space: pre-wrap;
 }
         body {
             font-family: 'Arial', sans-serif;
@@ -33,7 +58,7 @@
             color: white;
             padding: 1px;
             text-align: center;
-            height: 98px;
+            height: 62px;
         }
 
         .container {
@@ -43,7 +68,8 @@
         }
 
         nav {
-            background-color: #f0f0f0;
+            background-color: #white;
+            border-right: 1px solid black;
             padding: 20px;
             width: 200px;
             overflow-y: auto;
@@ -90,8 +116,11 @@ nav ul li a:hover {
         pre {
             background-color: #f4f4f4;
             padding: 10px;
+            margin: 3px;
             border-radius: 5px;
             white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: scroll;
         }
         #navList {
             position: absolute;
@@ -127,8 +156,7 @@ nav ul li a:hover {
 </head>
 <body>
     <header>
-        <a href="{{ url('') }}" style="margin-left: 10px;position: absolute; left: 10px; color:white; top:30px; font-size:30px; text-decoration:none!important;">🔙 </a>
-        <h1> API Documentation</h1>
+        <h3> API Documentation</h3>
     </header>
 
     <div class="container">
@@ -1140,7 +1168,7 @@ var data = [
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'amount' for in the refund.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":1000,\"id\":29}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":1000.\"id\":29}'",
        "exampleResponse": `{
     "id": 33,
     "created_at": "2024-02-18T23:40:11.000000Z",
@@ -1536,35 +1564,48 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 const section = document.createElement('section');
                 section.id = route.routeName.toLowerCase().replace(/\s+/g, '-');
                 route.exampleRequest = route.exampleRequest
-    .split('{').join('{\n')
-    .split(',').join(',\n')
+
+    .split('-H').join('-H\n')
+    .split(' "http').join('\n"http')
+    .split(' http').join('\nhttp')
     .split('-d').join('\n-d')
-    .split('}').join('\n}');
+    .split('}').join('\n}')
+    .replace(/  +/g, ' ')
+    .replaceAll("\n ","\n")
+    .split('{').join('{\n    ')
+    .split(',').join(',\n    ')
+    .replace('curl',"CURL");
+    route.parameters=route.parameters.split('.').join('.\n').replaceAll("\n ","\n")
+    route.data=route.data.split('.').join('.\n').replaceAll("\n ","\n")
+    route.query=route.query.split('.').join('.\n').replaceAll("\n ","\n")
                 section.innerHTML = `
                 <div class="floatcontainer">
                     <div>
                         <h2>${route.routeName}</h2>
                         <p>${route.info}</p>
+                        <div class="paramContainer">
+                            <h5>Parameters</h5>
+                            <p>${route.parameters}</p>
+                            <h5>Header</h3>
+                            <p>${route.header}</p>
 
-                        <h3>Parameters</h3>
-                        <p>${route.parameters}</p>
+                            <h5>Query</h3>
+                            <p>${route.query}</p>
 
-                        <h3>Header</h3>
-                        <p>${route.header}</p>
-
-                        <h3>Query</h3>
-                        <p>${route.query}</p>
-
-                        <h3>Data</h3>
-                        <p>${route.data}</p>
+                            <h5>Data</h3>
+                            <p>${route.data}</p>
+                        </div>
                     </div>
 
                     <div>
-                        <h3>Example Request</h3>
-                        <code class="language-curl">${route.exampleRequest}</code>
-
-                        <h3>Example Response Http Code: 201</h3>
-                        <pre class="language-json">${route.exampleResponse}</pre>
+                        <div class="curlContainer">
+                            <h4>Example Request</h4>
+                            <code class="language-curl">${route.exampleRequest}</code>
+                        </div>
+                        <div class="jsonContainer">
+                            <h4>Example Response Http Code: 201</h4>
+                            <pre class="language-json">${route.exampleResponse}</pre>
+                        </div>
                     </div>
                 </div>
                 `;

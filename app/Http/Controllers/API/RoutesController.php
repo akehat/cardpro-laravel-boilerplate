@@ -8,6 +8,10 @@ use App\Models\ApiKey;
 use App\Models\ApiUser;
 use App\Models\Authorization;
 use App\Models\Authorization_live;
+use App\Models\Dispute_Evidence;
+use App\Models\Dispute_Evidence_Live;
+use App\Models\Finix_Disputes;
+use App\Models\Finix_Disputes_live;
 use App\Models\Finix_Merchant;
 use App\Models\Finix_Merchant_live;
 use App\Models\finix_payments;
@@ -388,9 +392,6 @@ public function charges_search(){
 }
 
 
-public function updateDispute(){}
-public function getDispute(){}
-public function getDisputes(){}
 // public function postDisputeClose(){}
 
 
@@ -724,6 +725,123 @@ public function hold_search(){
          return response()->json(['error'=>"failed to get hold"], 301);
     }
     return response()->json($hold->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
+
+
+public function getDispute($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $dispute=Finix_Disputes_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $dispute=Finix_Disputes::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($dispute==null){
+        return response()->json(['error'=>"failed to get dispute"], 300);
+    }
+    return response()->json($dispute ,  201 , [] , JSON_PRETTY_PRINT);
+}
+public function getDisputes(){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $disputes=Finix_Disputes_live::authenticateGet($info['api_userID'],$info['apikey']);
+    }else{
+        $disputes=Finix_Disputes::authenticateGet($info['api_userID'],$info['apikey']);
+    }
+    if(empty($disputes)){
+         return response()->json(['error'=>"failed to get disputes"], 301);
+    }
+    return response()->json($disputes->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
+public function dispute_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $disputes=Finix_Disputes_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $disputes=Finix_Disputes::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($disputes)){
+         return response()->json(['error'=>"failed to get dispute"], 301);
+    }
+    return response()->json($disputes->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
+
+public function acceptDispute($id){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $dipute=Finix_Disputes_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $dipute=Finix_Disputes::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }
+    if(empty($dipute)){
+        return response()->json(['error'=>"failed to get Dispute"], 300);
+    }
+       $note=$request['note'];
+       if(empty($note)){return response()->json(['error'=>"invalid note"], 301);}
+
+    if($info['live']){
+        $refund=Finix_Disputes_live::acceptDispute($dipute->finix_id,$note,$info['api_userID'],$info['apikey']);
+    }else{
+        $refund=Finix_Disputes::acceptDispute($dipute->finix_id,$note,$info['api_userID'],$info['apikey']);
+    }
+    if($refund['worked']){
+        return response()->json($refund['ref'], 201 , [] , JSON_PRETTY_PRINT );
+    }
+    return response()->json($refund['responce'], 301);
+}
+public function updateDispute($id){
+    $request=request()->all();
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $dipute=Finix_Disputes_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $dipute=Finix_Disputes::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }
+    if(empty($dipute)){
+        return response()->json(['error'=>"failed to get Dispute"], 300);
+    }
+
+    $note=$request['note'];
+    if(empty($note)){
+        $file = request()->file('evidence');
+
+        if ($file) {
+            $filePath = $file->getPathname();
+            // Pass $filePath to your function
+            if($info['live']){
+                $evidence=Dispute_Evidence_Live::uploadFileAsEvidence($dipute->finix_id,$filePath,$info['api_userID'],$info['apikey']);
+            }else{
+                $evidence=Dispute_Evidence::uploadFileAsEvidence($dipute->finix_id,$filePath,$info['api_userID'],$info['apikey']);
+            }
+            if($evidence['worked']){
+                return response()->json($evidence['ref'], 201 , [] , JSON_PRETTY_PRINT );
+            }
+            return response()->json($evidence['responce'], 301);
+        } else {
+            return response()->json(['error' => "no file to say no evidence or note"], 301);
+        }
+
+    }
+
+    if($info['live']){
+        $evidence=Finix_Disputes_live::uploadNoteEvidence($dipute->finix_id,$note,$info['api_userID'],$info['apikey']);
+    }else{
+        $evidence=Finix_Disputes::uploadNoteEvidence($dipute->finix_id,$note,$info['api_userID'],$info['apikey']);
+    }
+    if($evidence['worked']){
+        return response()->json($evidence['ref'], 201 , [] , JSON_PRETTY_PRINT );
+    }
+    return response()->json($evidence['responce'], 301);
 }
 
 public function createSubscription(){}

@@ -203,7 +203,22 @@ public static function authenticateSearch($api_userID, $api_key, $search)
          $object=json_decode($result[0]);
         }
      }
-    public static function fromArray(array $array)
+      public static function readTags($found,$tags){
+        if (isset($tags->api_userID)) {
+            $api_userID_tag = str_replace("api_userID_", "", $tags->api_userID);
+            if (!empty($api_userID_tag)) {
+                $found->api_user = $api_userID_tag;
+            }
+        }
+
+        if (isset($tags->apikeyID)) {
+            $apikeyID_tag = str_replace("apikeyID_", "", $tags->apikeyID);
+            if (!empty($apikeyID_tag)) {
+                $found->api_key = $apikeyID_tag;
+            }
+        }
+    }
+public static function fromArray(array $array)
     {
         foreach ($array as $data) {
             $data = (object)$data;
@@ -255,7 +270,8 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                 ]);
             }
 
-            // Save and refresh the model
+            self::readTags($found,($data->tags??(object)[]));
+// Save and refresh the model new
             $found->save();
             $found->refresh();
         }

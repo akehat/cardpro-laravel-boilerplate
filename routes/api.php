@@ -42,11 +42,10 @@ Route::get('/cardwiz/charges/{id}', [RoutesController::class,'getCharge' ]);
 Route::get('/cardwiz/charges', [RoutesController::class,'getCharges' ]);
 // Route::post('/cardwiz/charges/{id}/capture', [RoutesController::class,'postChargeCapture' ]);
 
-
+Route::post('/cardwiz/disputes/{id}/accept', [RoutesController::class,'acceptDispute' ]);
 Route::post('/cardwiz/disputes/{id}', [RoutesController::class,'updateDispute' ]);
 Route::get('/cardwiz/disputes/{id}', [RoutesController::class,'getDispute' ]);
 Route::get('/cardwiz/disputes', [RoutesController::class,'getDisputes' ]);
-// Route::post('/cardwiz/disputes/{id}/close', [RoutesController::class,'postDisputeClose' ]);
 
 
 // Route::get('/cardwiz/events/{id}', [RoutesController::class,'event' ]);

@@ -215,6 +215,21 @@ public static function authenticateSearch($api_userID, $api_key, $search)
          $object=json_decode($result[0]);
         }
      }
+  public static function readTags($found,$tags){
+        if (isset($tags->api_userID)) {
+            $api_userID_tag = str_replace("api_userID_", "", $tags->api_userID);
+            if (!empty($api_userID_tag)) {
+                $found->api_user = $api_userID_tag;
+            }
+        }
+
+        if (isset($tags->apikeyID)) {
+            $apikeyID_tag = str_replace("apikeyID_", "", $tags->apikeyID);
+            if (!empty($apikeyID_tag)) {
+                $found->api_key = $apikeyID_tag;
+            }
+        }
+    }
 public static function fromArray(array $array)
 {
     foreach ($array as $data) {
@@ -360,6 +375,11 @@ public static function makeMerchant($merchantIdentity,$userID,$api_userID,$apike
 ]);
 $key->save();
 $key->refresh();
+if($merchantMade->api_key==null){
+    $merchantMade->api_key=$key->id;
+    $merchantMade->save();
+    $merchantMade->refresh();
+}
         return ['worked'=>true,"responce"=>$merchant[0],"ref"=>$merchantMade,'key'=>$key];
     }else{
         return ['worked'=>false,"responce"=>$merchant[0]];

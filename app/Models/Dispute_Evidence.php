@@ -205,6 +205,21 @@ public static function runUpdateWithID($id){
      $object=json_decode($result[0]);
     }
  }
+  public static function readTags($found,$tags){
+        if (isset($tags->api_userID)) {
+            $api_userID_tag = str_replace("api_userID_", "", $tags->api_userID);
+            if (!empty($api_userID_tag)) {
+                $found->api_user = $api_userID_tag;
+            }
+        }
+
+        if (isset($tags->apikeyID)) {
+            $apikeyID_tag = str_replace("apikeyID_", "", $tags->apikeyID);
+            if (!empty($apikeyID_tag)) {
+                $found->api_key = $apikeyID_tag;
+            }
+        }
+    }
 public static function fromArray(array $array)
 {
     foreach ($array as $data) {
@@ -237,10 +252,26 @@ public static function fromArray(array $array)
                 'tags' => json_encode($data->tags ?? []),
             ]);
         }
-
+        self::checkForOwner($data,$found);
         // Save and refresh the model
         $found->save();
         $found->refresh();
+    }
+}
+public static function checkForOwner($data,$model){
+    $found=Finix_Merchant::where('finix_id',$data->merchant)->first();
+    if($found!=null){
+        $model->api_userID=$found->api_userID;
+        $model->islive=$found->islive;
+        $model->apikeyID=$found->api_user;
+        return;
+    }
+    $found=identities::where('finix_id',$data->merchant)->first();
+    if($found!=null){
+        $model->api_userID=$found->api_userID;
+        $model->islive=$found->islive;
+        $model->apikeyID=$found->api_user;
+        return;
     }
 }
 

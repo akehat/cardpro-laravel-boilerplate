@@ -8,6 +8,7 @@ use App\Models\ApiKey;
 use App\Models\ApiUser;
 use App\Models\Authorization;
 use App\Models\Authorization_live;
+use App\Models\awaiting_PCI;
 use App\Models\Dispute_Evidence;
 use App\Models\Dispute_Evidence_Live;
 use App\Models\Finix_Disputes;
@@ -20,6 +21,7 @@ use App\Models\identities;
 use App\Models\identities_live;
 use App\Models\payment_ways;
 use App\Models\payment_ways_live;
+use Browser;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -864,6 +866,113 @@ public function updateDispute($id){
 }
 
 
+public function createMerchantBank(){
+    $request=request()->all();
+    $validator = Validator::make($request, [
+        'account_number' => 'required|string|between:5,17',
+        'account_type' => 'required|string|in:PERSONAL_CHECKING,PERSONAL_SAVINGS,BUSINESS_CHECKING,BUSINESS_SAVINGS',
+        'bank_code' => 'required|string|size:9',
+        'identity' => 'required',
+        'name' => 'string', // Note: name field is optional
+        'type' => 'required|string|in:BANK_ACCOUNT',
+    ]);
+
+    if ($validator->fails()) {
+        // If validation fails, return error response
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    $id=$request['id']??null;
+    if($id==null){return response()->json(['error' => 'Invalid merchant id'], 401);}
+    if($info['live']){
+        $merchant=identities_live::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $merchant=identities::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
+    }
+    $request=(object)$request;
+    if($info['live']){
+        $bank=payment_ways_live::makeBank($request->bank_account_number,
+        $request->bank_account_type,
+        $request->bank_bank_code,
+        $merchant->finix_id,
+        $request->bank_name,
+        $request->bank_type,$info['api_userID'],$info['apikey']);
+    }else{
+        $bank=payment_ways::makeBank($request->bank_account_number,
+        $request->bank_account_type,
+        $request->bank_bank_code,
+        $merchant->finix_id,
+        $request->bank_name,
+        $request->bank_type,$info['api_userID'],$info['apikey']);
+    }
+    if(!$bank["worked"]){
+        return response()->json(['error' => 'unable to make bank '.$bank["responce"]], 401);
+    }
+    if($bank['worked']){
+        return response()->json($bank['ref'], 201 , [] , JSON_PRETTY_PRINT );
+    }
+    return response()->json($bank['responce'], 301);
+}
+public function createMerchant(){
+    $request=request()->all();
+    $validator = Validator::make($request, [
+        'first_name' => 'required|string|max:255',
+        'Last_name' => 'required|string|max:255',
+        'PCI_title' => 'required|string|max:255',
+        'id' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        // If validation fails, return error response
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    $id=$request['id']??null;
+    if($id==null){return response()->json(['error' => 'Invalid merchant id'], 401);}
+    if($info['live']){
+        $merchant=identities_live::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $merchant=identities::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
+    }
+    $request=(object)$request;
+    if($info['live']){
+        $merchant=Finix_Merchant_live::makeMerchant($merchant->finix_id,$info['api_userID'],$info['apikey']);
+    }else{
+        $merchant=Finix_Merchant::makeMerchant($merchant->finix_id,$info['api_userID'],$info['apikey']);
+    }
+    if(!$merchant["worked"]){
+        return response()->json(['error' => 'unable to make merchant '.$merchant["responce"]], 401);
+    }
+    if($merchant['worked']){
+        $browser = new Browser();
+        if($info['live']){
+            $awaiting=awaiting_PCI::create([
+                'name'=>$request->first_name." ".$request->last_name,
+                'ip'=>$this->getIp(),
+                'user_id'=>$info['userID'],
+                'merchant_id'=>$merchant["ref"]->finix_id,
+                'pci_title'=>$request->PCI_title,
+                'browser'=>$browser->getUserAgent()
+            ]);
+        }else{
+            $awaiting=awaiting_PCI::create([
+                'name'=>$request->first_name." ".$request->last_name,
+                'ip'=>$this->getIp(),
+                'user_id'=>$info['userID'],
+                'merchant_id'=>$merchant["ref"]->finix_id,
+                'pci_title'=>$request->PCI_title,
+                'browser'=>$browser->getUserAgent()
+            ]);
+        }
+        $awaiting->save();
+        $awaiting->refresh();
+        return response()->json($merchant, 201 , [] , JSON_PRETTY_PRINT );
+    }
+    return response()->json($merchant['responce'], 301);
+}
+
 public function getMerchant($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
@@ -912,51 +1021,47 @@ public function merchants_search(){
 
 public function createMerchantIdentity(){
     $request=request()->all();
-
     // Validation rules
-    $validator = Validator::make($request->all(), [
-        'entity_annual_card_volume' => 'required|integer|min:0',
-        'entity_business_address_city' => 'required|string|max:255',
-        'entity_business_address_country' => 'required|string|max:255',
-        'entity_business_address_region' => 'required|string|max:255',
-        'entity_business_address_line2' => 'nullable|string|max:255',
-        'entity_business_address_line1' => 'required|string|max:255',
-        'entity_business_address_postal_code' => 'required|string|max:20',
-        'entity_business_name' => 'required|string|max:255',
-        'entity_business_phone' => 'required|string|max:255',
-        'entity_business_tax_id' => 'required|string|max:255',
-        'entity_business_type' => 'required|string|max:255',
-        'entity_default_statement_descriptor' => 'required|string|max:255',
-        'entity_dob_year' => 'required|integer|min:1900|max:' . date('Y'),
-        'entity_dob_day' => 'required|integer|min:1|max:31',
-        'entity_dob_month' => 'required|integer|min:1|max:12',
-        'entity_doing_business_as' => 'required|string|max:255',
-        'entity_email' => 'required|email|max:255',
-        'entity_first_name' => 'required|string|max:255',
-        'entity_has_accepted_credit_cards_previously' => 'nullable|boolean',
-        'entity_incorporation_date_year' => 'required|integer|min:1900|max:' . date('Y'),
-        'entity_incorporation_date_day' => 'required|integer|min:1|max:31',
-        'entity_incorporation_date_month' => 'required|integer|min:1|max:12',
-        'entity_last_name' => 'required|string|max:255',
-        'entity_max_transaction_amount' => 'required|numeric|min:0',
-        'entity_ach_max_transaction_amount' => 'required|numeric|min:0',
-        'entity_mcc' => 'required|string|max:255',
-        'entity_ownership_type' => 'required|string|max:255',
-        'entity_personal_address_city' => 'required|string|max:255',
-        'entity_personal_address_country' => 'required|string|max:255',
-        'entity_personal_address_region' => 'required|string|max:255',
-        'entity_personal_address_line2' => 'nullable|string|max:255',
-        'entity_personal_address_line1' => 'required|string|max:255',
-        'entity_personal_address_postal_code' => 'required|string|max:20',
-        'entity_phone' => 'required|string|max:255',
-        'entity_principal_percentage_ownership' => 'required|integer|min:0|max:100',
-        'entity_tax_id' => 'required|string|max:255',
-        'entity_title' => 'required|string|max:255',
-        'entity_url' => 'required|url|max:255',
+    $validator = Validator::make($request, [
+        'annual_card_volume' => 'required|integer|min:0',
+        'business_address_city' => 'required|string|max:255',
+        'business_address_country' => 'required|string|max:255',
+        'business_address_region' => 'required|string|max:255',
+        'business_address_line2' => 'nullable|string|max:255',
+        'business_address_line1' => 'required|string|max:255',
+        'business_address_postal_code' => 'required|string|max:20',
+        'business_name' => 'required|string|max:255',
+        'business_phone' => 'required|string|max:255',
+        'business_tax_id' => 'required|string|max:255',
+        'business_type' => 'required|string|max:255',
+        'default_statement_descriptor' => 'required|string|max:255',
+        'dob_year' => 'required|integer|min:1900|max:' . date('Y'),
+        'dob_day' => 'required|integer|min:1|max:31',
+        'dob_month' => 'required|integer|min:1|max:12',
+        'doing_business_as' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'first_name' => 'required|string|max:255',
+        'has_accepted_credit_cards_previously' => 'nullable|boolean',
+        'incorporation_date_year' => 'required|integer|min:1900|max:' . date('Y'),
+        'incorporation_date_day' => 'required|integer|min:1|max:31',
+        'incorporation_date_month' => 'required|integer|min:1|max:12',
+        'last_name' => 'required|string|max:255',
+        'max_transaction_amount' => 'required|numeric|min:0',
+        'ach_max_transaction_amount' => 'required|numeric|min:0',
+        'mcc' => 'required|string|max:255',
+        'ownership_type' => 'required|string|max:255',
+        'personal_address_city' => 'required|string|max:255',
+        'personal_address_country' => 'required|string|max:255',
+        'personal_address_region' => 'required|string|max:255',
+        'personal_address_line2' => 'nullable|string|max:255',
+        'personal_address_line1' => 'required|string|max:255',
+        'personal_address_postal_code' => 'required|string|max:20',
+        'phone' => 'required|string|max:255',
+        'principal_percentage_ownership' => 'required|integer|min:0|max:100',
+        'tax_id' => 'required|string|max:255',
+        'title' => 'required|string|max:255',
+        'url' => 'required|url|max:255',
     ]);
-
-    // Validate the input data
-    $validator = Validator::make($request, $rules);
 
     if ($validator->fails()) {
         // If validation fails, return error response
@@ -967,83 +1072,83 @@ public function createMerchantIdentity(){
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     $request=(object)$request;
     if($info['live']){
-        $merchantIdentity=identities::makeMerchantIdentity( $request->entity_annual_card_volume,
-        $request->entity_business_address_city,
-        $request->entity_business_address_country,
-        $request->entity_business_address_region,
-        $request->entity_business_address_line2,
-        $request->entity_business_address_line1,
-        $request->entity_business_address_postal_code,
-        $request->entity_business_name,
-        $request->entity_business_phone,
-        $request->entity_business_tax_id,
-        $request->entity_business_type,
-        $request->entity_default_statement_descriptor,
-        $request->entity_dob_year,
-        $request->entity_dob_day,
-        $request->entity_dob_month,
-        $request->entity_doing_business_as,
-        $request->entity_email,
-        $request->entity_first_name,
-        $request->entity_has_accepted_credit_cards_previously??'false',
-        $request->entity_incorporation_date_year,
-        $request->entity_incorporation_date_day,
-        $request->entity_incorporation_date_month,
-        $request->entity_last_name,
-        $request->entity_max_transaction_amount,
-        $request->entity_ach_max_transaction_amount,
-        $request->entity_mcc,
-        $request->entity_ownership_type,
-        $request->entity_personal_address_city,
-        $request->entity_personal_address_country,
-        $request->entity_personal_address_region,
-        $request->entity_personal_address_line2,
-        $request->entity_personal_address_line1,
-        $request->entity_personal_address_postal_code,
-        $request->entity_phone,
-        $request->entity_principal_percentage_ownership,
-        $request->entity_tax_id,
-        $request->entity_title,
-        $request->entity_url,$info['api_userID'],$info['apikey']);
+        $merchantIdentity=identities::makeMerchantIdentity( $request->annual_card_volume,
+        $request->business_address_city,
+        $request->business_address_country,
+        $request->business_address_region,
+        $request->business_address_line2,
+        $request->business_address_line1,
+        $request->business_address_postal_code,
+        $request->business_name,
+        $request->business_phone,
+        $request->business_tax_id,
+        $request->business_type,
+        $request->default_statement_descriptor,
+        $request->dob_year,
+        $request->dob_day,
+        $request->dob_month,
+        $request->doing_business_as,
+        $request->email,
+        $request->first_name,
+        $request->has_accepted_credit_cards_previously??'false',
+        $request->incorporation_date_year,
+        $request->incorporation_date_day,
+        $request->incorporation_date_month,
+        $request->last_name,
+        $request->max_transaction_amount,
+        $request->ach_max_transaction_amount,
+        $request->mcc,
+        $request->ownership_type,
+        $request->personal_address_city,
+        $request->personal_address_country,
+        $request->personal_address_region,
+        $request->personal_address_line2,
+        $request->personal_address_line1,
+        $request->personal_address_postal_code,
+        $request->phone,
+        $request->principal_percentage_ownership,
+        $request->tax_id,
+        $request->title,
+        $request->url,$info['api_userID'],$info['apikey']);
     }else{
-        $merchantIdentity=identities::makeMerchantIdentity( $request->entity_annual_card_volume,
-        $request->entity_business_address_city,
-        $request->entity_business_address_country,
-        $request->entity_business_address_region,
-        $request->entity_business_address_line2,
-        $request->entity_business_address_line1,
-        $request->entity_business_address_postal_code,
-        $request->entity_business_name,
-        $request->entity_business_phone,
-        $request->entity_business_tax_id,
-        $request->entity_business_type,
-        $request->entity_default_statement_descriptor,
-        $request->entity_dob_year,
-        $request->entity_dob_day,
-        $request->entity_dob_month,
-        $request->entity_doing_business_as,
-        $request->entity_email,
-        $request->entity_first_name,
-        $request->entity_has_accepted_credit_cards_previously??'false',
-        $request->entity_incorporation_date_year,
-        $request->entity_incorporation_date_day,
-        $request->entity_incorporation_date_month,
-        $request->entity_last_name,
-        $request->entity_max_transaction_amount,
-        $request->entity_ach_max_transaction_amount,
-        $request->entity_mcc,
-        $request->entity_ownership_type,
-        $request->entity_personal_address_city,
-        $request->entity_personal_address_country,
-        $request->entity_personal_address_region,
-        $request->entity_personal_address_line2,
-        $request->entity_personal_address_line1,
-        $request->entity_personal_address_postal_code,
-        $request->entity_phone,
-        $request->entity_principal_percentage_ownership,
-        $request->entity_tax_id,
-        $request->entity_title,
-        $request->entity_url,$info['api_userID'],$info['apikey']);
+        $merchantIdentity=identities::makeMerchantIdentity( $request->annual_card_volume,
+        $request->business_address_city,
+        $request->business_address_country,
+        $request->business_address_region,
+        $request->business_address_line2,
+        $request->business_address_line1,
+        $request->business_address_postal_code,
+        $request->business_name,
+        $request->business_phone,
+        $request->business_tax_id,
+        $request->business_type,
+        $request->default_statement_descriptor,
+        $request->dob_year,
+        $request->dob_day,
+        $request->dob_month,
+        $request->doing_business_as,
+        $request->email,
+        $request->first_name,
+        $request->has_accepted_credit_cards_previously??'false',
+        $request->incorporation_date_year,
+        $request->incorporation_date_day,
+        $request->incorporation_date_month,
+        $request->last_name,
+        $request->max_transaction_amount,
+        $request->ach_max_transaction_amount,
+        $request->mcc,
+        $request->ownership_type,
+        $request->personal_address_city,
+        $request->personal_address_country,
+        $request->personal_address_region,
+        $request->personal_address_line2,
+        $request->personal_address_line1,
+        $request->personal_address_postal_code,
+        $request->phone,
+        $request->principal_percentage_ownership,
+        $request->tax_id,
+        $request->title,
+        $request->url,$info['api_userID'],$info['apikey']);
     }
     if($merchantIdentity['worked']){
         return response()->json($merchantIdentity['ref'], 201 , [] , JSON_PRETTY_PRINT );

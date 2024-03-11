@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Exception;
+
 use Schema;
 use Cache;
 

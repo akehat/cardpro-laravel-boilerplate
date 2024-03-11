@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Exception;
+
 use Schema;
 use Cache;
 
@@ -231,8 +233,9 @@ public static function authenticateGetCustomer( $api_userID , $api_key)
 
 public static function authenticateSearchCustomer($api_userID, $api_key, $search)
 {
-    $columns = \Schema::getColumnListing((new self)->getTable());
+    $columns = \Schema::getColumnListing((new self())->getTable());
     $perPage = 20; // Default items per page
+
     if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) {
         return false;
     }
@@ -241,6 +244,7 @@ public static function authenticateSearchCustomer($api_userID, $api_key, $search
     if ($api_key > 1 || $api_key === null) {
         return self::where('api_key', $api_key)
             ->where('api_user', $api_userID)
+            ->where('isBuyer', 1)
             ->where(function ($query) use ($columns, $search) {
                 foreach ($columns as $column) {
                     $query->orWhere($column, 'like', "%{$search}%");
@@ -250,6 +254,39 @@ public static function authenticateSearchCustomer($api_userID, $api_key, $search
     } else {
         // If the API key is not a sub key, no need to query the database
         return self::where('api_user', $api_userID)
+        ->where('isBuyer', 1)
+            ->where(function ($query) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'like', "%{$search}%");
+                }
+            })
+            ->paginate($perPage);
+    }
+}
+public static function authenticateSearchMerchant($api_userID, $api_key, $search)
+{
+    $columns = \Schema::getColumnListing((new self())->getTable());
+    $perPage = 20; // Default items per page
+
+    if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) {
+        return false;
+    }
+
+    // Check if the API key is a sub key
+    if ($api_key > 1 || $api_key === null) {
+        return self::where('api_key', $api_key)
+            ->where('api_user', $api_userID)
+            ->where('isMerchant', 1)
+            ->where(function ($query) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'like', "%{$search}%");
+                }
+            })
+            ->paginate($perPage);
+    } else {
+        // If the API key is not a sub key, no need to query the database
+        return self::where('api_user', $api_userID)
+            ->where('isMerchant', 1)
             ->where(function ($query) use ($columns, $search) {
                 foreach ($columns as $column) {
                     $query->orWhere($column, 'like', "%{$search}%");
@@ -472,7 +509,7 @@ public static function authenticateGetMerchant( $api_userID , $api_key)
     public static function updateBuyerIdentity($id,$email,$userID,$api_userID,$apikeyID=0){
         $islive=false;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
-        $buyer=merchantsController::updateWithIDIdentityMinReq(config("app.api_username"),config("app.api_password"),$id,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]],['email'=>$email]);
+        $buyer=merchantsController::updateWithIDIdentityMinReq(config("app.api_username"),config("app.api_password"),$id,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]],["entity" => ['email'=>$email]]);
         if($buyer[1]>=200&&$buyer[1]<300){
         $value=(object)json_decode($buyer[0]);
         $data=[

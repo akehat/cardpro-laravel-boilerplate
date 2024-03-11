@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Exception;
+
 use Schema;
 use Cache;
 
@@ -209,21 +211,35 @@ public static function authenticateSearch($api_userID, $api_key, $search)
          $object=json_decode($result[0]);
         }
      }
-      public static function readTags($found,$tags){
-        if (isset($tags->api_userID)) {
+      public static function readTags($found, $tags){
+    $tags=(object)$tags;
+    if (isset($tags->api_userID)) {
+        try {
             $api_userID_tag = str_replace("api_userID_", "", $tags->api_userID);
+            $api_userID_tag = intval($api_userID_tag);
             if (!empty($api_userID_tag)) {
                 $found->api_user = $api_userID_tag;
             }
+        } catch (Exception $e) {
+            // Handle exception, if any
+            // For example, log the error or set a default value
         }
+    }
 
-        if (isset($tags->apikeyID)) {
+    if (isset($tags->apikeyID)) {
+        try {
             $apikeyID_tag = str_replace("apikeyID_", "", $tags->apikeyID);
+            $apikeyID_tag = intval($apikeyID_tag);
             if (!empty($apikeyID_tag)) {
                 $found->api_key = $apikeyID_tag;
             }
+        } catch (Exception $e) {
+            // Handle exception, if any
+            // For example, log the error or set a default value
         }
     }
+}
+
 public static function fromArray(array $array)
     {
         foreach ($array as $data) {

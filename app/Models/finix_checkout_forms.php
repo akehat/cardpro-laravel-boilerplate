@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Exception;
+
 use Schema;
 use Cache;
 
@@ -202,21 +204,35 @@ public static function authenticateSearch($api_userID, $api_key, $search)
          $object=json_decode($result[0]);
         }
      }
-      public static function readTags($found,$tags){
-        if (isset($tags->api_userID)) {
+      public static function readTags($found, $tags){
+    $tags=(object)$tags;
+    if (isset($tags->api_userID)) {
+        try {
             $api_userID_tag = str_replace("api_userID_", "", $tags->api_userID);
+            $api_userID_tag = intval($api_userID_tag);
             if (!empty($api_userID_tag)) {
                 $found->api_user = $api_userID_tag;
             }
+        } catch (Exception $e) {
+            // Handle exception, if any
+            // For example, log the error or set a default value
         }
+    }
 
-        if (isset($tags->apikeyID)) {
+    if (isset($tags->apikeyID)) {
+        try {
             $apikeyID_tag = str_replace("apikeyID_", "", $tags->apikeyID);
+            $apikeyID_tag = intval($apikeyID_tag);
             if (!empty($apikeyID_tag)) {
                 $found->api_key = $apikeyID_tag;
             }
+        } catch (Exception $e) {
+            // Handle exception, if any
+            // For example, log the error or set a default value
         }
     }
+}
+
 public static function fromArray(array $array)
     {
         foreach ($array as $data) {
@@ -334,42 +350,19 @@ $buyer,$userID,$api_userID,$apikeyID=0){
         $endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]
 );
     if($checkout[1]>=200&&$checkout[1]<300){
-    $value=(object)json_decode($checkout[0]);
+    $data=(object)json_decode($checkout[0]);
     $checkoutMade=self::create([
-        'finix_id' => $value->id ?? null,
-        'application' => $value->application ?? null,
-        'card_cvv_required' => $value->card_cvv_required ?? null,
-        'card_expiration_date_required' => $value->card_expiration_date_required ?? null,
-        'convenience_charges_enabled' => $value->convenience_charges_enabled ?? null,
-        'country' => $value->country ?? null,
-        'creating_transfer_from_report_enabled' => $value->creating_transfer_from_report_enabled ?? null,
-        'currencies' => json_encode($value->currencies??[]) ?? null,
-        'default_partial_authorization_enabled' => $value->default_partial_authorization_enabled ?? null,
-        'disbursements_ach_pull_enabled' => $value->disbursements_ach_pull_enabled ?? null,
-        'disbursements_ach_push_enabled' => $value->disbursements_ach_push_enabled ?? null,
-        'disbursements_card_pull_enabled' => $value->disbursements_card_pull_enabled ?? null,
-        'disbursements_card_push_enabled' => $value->disbursements_card_push_enabled ?? null,
-        'fee_ready_to_settle_upon' => $value->fee_ready_to_settle_upon ?? null,
-        'gateway' => $value->gateway ?? null,
-        'gross_settlement_enabled' => $value->gross_settlement_enabled ?? null,
-        'identity' => $value->identity ?? null,
-        'level_two_level_three_value_enabled' => $value->level_two_level_three_value_enabled ?? null,
-        'mcc' => $value->mcc ?? null,
-        'merchant_name' => $value->merchant_name ?? null,
-        'merchant_profile' => $value->merchant_profile ?? null,
-        'mid' => $value->mid ?? null,
-        'onboarding_state' => $value->onboarding_state ?? null,
-        'processing_enabled' => $value->processing_enabled ?? null,
-        'processor' => $value->processor ?? null,
-        'processor_details' => json_encode($value->processor_details??[]) ?? null,
-        'ready_to_settle_upon' => $value->ready_to_settle_upon ?? null,
-        'rent_surcharges_enabled' => $value->rent_surcharges_enabled ?? null,
-        'settlement_enabled' => $value->settlement_enabled ?? null,
-        'settlement_funding_identifier' => $value->settlement_funding_identifier ?? null,
-        'surcharges_enabled' => $value->surcharges_enabled ?? null,
-        'tags' => json_encode($value->tags??[]) ?? null,
-        'verification' => $value->verification ?? null,
-        '_links' => $value->_links ?? null,
+        'merchant_id' => $data->merchant_id ?? null,
+        'finix_id' => $data->id ?? null,
+        'payment_frequency' => $data->payment_frequency ?? null,
+        'is_multiple_use' => $data->is_multiple_use ?? null,
+        'allowed_payment_methods' => json_encode($data->allowed_payment_methods??[]) ?? null,
+        'nickname' => $data->nickname ?? null,
+        'items' => json_encode($data->items??[]) ?? null,
+        'buyer' => json_encode($data->buyer??[]) ?? null,
+        'amount_details' => json_encode($data->amount_details??[]) ?? null,
+        'branding' => json_encode($data->branding??[]) ?? null,
+        'additional_details' => json_encode($data->additional_details??[]) ?? null,
         'api_user'=>$api_userID??null,
         'is_live'=>$islive??null,
         'api_key'=>''.$apikeyID??null

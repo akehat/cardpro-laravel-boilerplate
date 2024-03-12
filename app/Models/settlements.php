@@ -245,9 +245,26 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
                     'tags'=>json_encode($value->tags??[])??null,
                     ]);
             }
-            $found->save();
-            $found->refresh();
+            self::checkForOwner($value,$found);
+            // Save and refresh the model new
+                $found->save();
+                $found->refresh();
+            }
         }
-    }
-
+        public static function checkForOwner($data,$model){
+            $found=Finix_Merchant::where('finix_id',$data->merchant)->first();
+            if($found!=null){
+                $model->api_userID=$found->api_userID;
+                $model->islive=$found->islive;
+                $model->apikeyID=$found->api_user;
+                return;
+            }
+            $found=identities::where('finix_id',$data->merchant)->first();
+            if($found!=null){
+                $model->api_userID=$found->api_userID;
+                $model->islive=$found->islive;
+                $model->apikeyID=$found->api_user;
+                return;
+            }
+        }
 }

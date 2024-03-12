@@ -9,9 +9,11 @@ use Cache;
 
 use App\Http\Controllers\API\formController;
 use DateTime;
+use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class pci_forms_live extends Model
 {
@@ -286,9 +288,26 @@ public static function fromArray(array $array)
             }
 
             self::readTags($found,($data->tags??(object)[]));
+          self::checkForOwner($found,$data);
 // Save and refresh the model new
             $found->save();
             $found->refresh();
         }
+    }
+    public static function checkForOwner($model,$data){
+        $found=Finix_Merchant_live::where('finix_id',$data->linked_to)->first();
+        if($found!=null){
+            $model->api_userID=$found->api_userID;
+            $model->islive=$found->islive;
+            $model->apikeyID=$found->api_user;
+            return;
+        }
+    }
+    public function fillOutForm($id,$ip,$ame,$pci_title,$browser){
+        $reponces=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$id,$ip,$ame,now()->toDateTimeString(),$pci_title,$browser);
+        if($reponces[1]>=200&&$reponces[1]<300){
+            return true;
+        }
+        return false;
     }
 }

@@ -245,9 +245,27 @@ public static function authenticateSearch($api_userID, $api_key, $search)
                     'tags'=>json_encode($value->tags??[])??null,
                     ]);
             }
-            $found->save();
-            $found->refresh();
+            self::checkForOwner($value,$found);
+            // Save and refresh the model new
+                $found->save();
+                $found->refresh();
+            }
         }
-    }
+        public static function checkForOwner($data,$model){
+            $found=Finix_Merchant_live::where('finix_id',$data->merchant)->first();
+            if($found!=null){
+                $model->api_userID=$found->api_userID;
+                $model->islive=$found->islive;
+                $model->apikeyID=$found->api_user;
+                return;
+            }
+            $found=identities_live::where('finix_id',$data->merchant)->first();
+            if($found!=null){
+                $model->api_userID=$found->api_userID;
+                $model->islive=$found->islive;
+                $model->apikeyID=$found->api_user;
+                return;
+            }
+        }
 
 }

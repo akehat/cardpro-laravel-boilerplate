@@ -21,6 +21,8 @@ use App\Models\identities;
 use App\Models\identities_live;
 use App\Models\payment_ways;
 use App\Models\payment_ways_live;
+use App\Models\pci_forms;
+use App\Models\pci_forms_live;
 use Browser;
 use Illuminate\Http\Request;
 use Validator;
@@ -1200,6 +1202,52 @@ public function MerchantIdentities_search(){
          return response()->json(['error'=>"failed to get merchants"], 301);
     }
     return response()->json($merchants->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
+
+
+public function getPCI($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $pci=pci_forms_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $pci=pci_forms::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($pci==null){
+        return response()->json(['error'=>"failed to get pci_form"], 300);
+    }
+    return response()->json($pci ,  201 , [] , JSON_PRETTY_PRINT);
+}
+public function getPcis(){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $pcis=pci_forms_live::authenticateGet($info['api_userID'],$info['apikey']);
+    }else{
+        $pcis=pci_forms::authenticateGet($info['api_userID'],$info['apikey']);
+    }
+    if(empty($pcis)){
+         return response()->json(['error'=>"failed to get pcis"], 301);
+    }
+    return response()->json($pcis->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
+public function pcis_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $pcis=pci_forms_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $pcis=pci_forms::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($pcis)){
+         return response()->json(['error'=>"failed to get pcis"], 301);
+    }
+    return response()->json($pcis->toArray(), 201 , [] , JSON_PRETTY_PRINT );
 }
 public function createSubscription(){}
 public function updateSubscription(){}

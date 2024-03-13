@@ -8,6 +8,7 @@ use Schema;
 use Cache;
 
 use App\Http\Controllers\API\formController;
+use Artisan;
 use DateTime;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -139,6 +140,22 @@ public function scopeAccessible($query)
                 ->first();
         }
     }
+
+ public static function authenticateGetMerchantID($id, $api_userID , $api_key)
+ {
+     if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
+     // Check if the API key is a sub key
+     if ($api_key > 1 || $api_key === null) {
+         return self::where('linked_to', $id)->where('api_key', $api_key)
+             ->where('api_user', $api_userID)
+             ->first();
+     } else {
+         // If the API key is not a sub key, no need to query the database
+         return self::where('api_user', $api_userID)
+             ->where('linked_to', $id)
+             ->first();
+     }
+ }
    public static function authenticateGet($api_userID, $api_key)
 {
     $perPage = 20; // Default items per page
@@ -196,7 +213,11 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     public static $name='compliance_forms';
     public static function updateFromId_live($id){
         self::fromArray([json_decode(formController::fetchPCIForm(config("app.api_username"),config("app.api_password"),$id,'https://finix.live-payments-api.com')[0])]);
-     }
+            try {
+                Artisan::call('check:awaiting');
+            } catch (\Exception $e) {
+            }
+        }
     public static function runUpdate(){
         $result= formController::listPCIforms(config("app.api_username"),config("app.api_password"),'https://finix.live-payments-api.com');
         $object=json_decode($result[0]);
@@ -303,11 +324,64 @@ public static function fromArray(array $array)
             return;
         }
     }
-    public function fillOutForm($id,$ip,$ame,$pci_title,$browser){
-        $reponces=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$id,$ip,$ame,now()->toDateTimeString(),$pci_title,$browser);
-        if($reponces[1]>=200&&$reponces[1]<300){
-            return true;
+    public function fillOutForm($id,$ip,$name,$pci_title,$browser){
+        $response=formController::completePCIForm(config("app.api_username"),config("app.api_password"),$id,$ip,$name,now()->toDateTimeString(),$pci_title,$browser);
+        if($response[1]>=200&&$response[1]<300){
+            $data=(object)json_decode($response[0]);
+            $found = self::where('finix_id', $data->id)->first();
+            $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
+            $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;
+            $data->valid_from = $data->valid_from != null ? (new DateTime($data->valid_from))->format('Y-m-d H:i:s') : null;
+            $data->valid_until = $data->valid_until != null ? (new DateTime($data->valid_until))->format('Y-m-d H:i:s') : null;
+            $data->due_at = $data->due_at != null ? (new DateTime($data->due_at))->format('Y-m-d H:i:s') : null;
+            if ($found == null) {
+                $found = self::create([
+                    'finix_id' => $data->id ?? null,
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
+                    'linked_to' => $data->linked_to ?? null,
+                    'linked_type' => $data->linked_type ?? null,
+                    'application' => $data->application ?? null,
+                    'type' => $data->type ?? null,
+                    'version' => $data->version ?? null,
+                    'valid_from' => $data->valid_from ?? null,
+                    'valid_until' => $data->valid_until ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
+                    'pci_saq_a' => json_encode($data->pci_saq_a ?? []) ?? null,
+                    'due_at' => $data->due_at ?? null,
+                    'compliance_form_template' => $data->compliance_form_template ?? null,
+                    'files' => json_encode($data->files ?? []) ?? null,
+                    'state' => $data->state ?? null,
+                ]);
+            } else {
+                $found->update([
+                    'finix_id' => $data->id ?? null,
+                    'finix_created_at' => $data->created_at ?? null,
+                    'finix_updated_at' => $data->updated_at ?? null,
+                    'linked_to' => $data->linked_to ?? null,
+                    'linked_type' => $data->linked_type ?? null,
+                    'application' => $data->application ?? null,
+                    'type' => $data->type ?? null,
+                    'version' => $data->version ?? null,
+                    'valid_from' => $data->valid_from ?? null,
+                    'valid_until' => $data->valid_until ?? null,
+                    'tags' => json_encode($data->tags ?? []) ?? null,
+                    'pci_saq_a' => json_encode($data->pci_saq_a ?? []) ?? null,
+                    'due_at' => $data->due_at ?? null,
+                    'compliance_form_template' => $data->compliance_form_template ?? null,
+                    'files' => json_encode($data->files ?? []) ?? null,
+                    'state' => $data->state ?? null,
+                ]);
+            }
+            self::readTags($found,($data->tags??(object)[]));
+            self::checkForOwner($found,$data);
+  // Save and refresh the model new
+              $found->save();
+              $found->refresh();
+
+            return ['worked'=>true,"responce"=>$response,"ref"=>$found];
+        }else{
+            return ['worked'=>false,"responce"=>$response];
         }
-        return false;
     }
 }

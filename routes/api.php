@@ -30,6 +30,26 @@ Route::post('/cardwiz/customers/{id}', [RoutesController::class,'updateCustomer'
 Route::get('/cardwiz/customers/search', [RoutesController::class,'customers_search' ]);
 Route::get('/cardwiz/customers/{id}', [RoutesController::class,'getCustomer' ]);
 Route::get('/cardwiz/customers', [RoutesController::class,'getCustomers' ]);
+
+Route::post('/cardwiz/merchants', [RoutesController::class,'createMerchant' ]);
+Route::get('/cardwiz/merchants/search', [RoutesController::class,'merchants_search' ]);
+Route::get('/cardwiz/merchants/{id}', [RoutesController::class,'getMerchant' ]);
+Route::get('/cardwiz/merchants', [RoutesController::class,'getMerchants' ]);
+
+Route::post('/cardwiz/merchants/identity', [RoutesController::class,'createMerchantIdentity' ]);
+Route::get('/cardwiz/merchants/identity/search', [RoutesController::class,'MerchantIdentities_search' ]);
+Route::get('/cardwiz/merchants/identity/{id}', [RoutesController::class,'getMerchantIdentity' ]);
+Route::get('/cardwiz/merchants/identity', [RoutesController::class,'getMerchantIdentities' ]);
+
+Route::get('/cardwiz/merchants/totals/search', [RoutesController::class,'totals_search' ]);
+Route::get('/cardwiz/merchants/totals/{id}', [RoutesController::class,'getTotal' ]);
+Route::get('/cardwiz/merchants/totals', [RoutesController::class,'getTotals' ]);
+
+Route::post('/cardwiz/merchants/pcis/fill', [RoutesController::class,'fillPci' ]);
+Route::get('/cardwiz/merchants/pcis/search', [RoutesController::class,'pcis_search' ]);
+Route::get('/cardwiz/merchants/pcis/{id}', [RoutesController::class,'getPCI' ]);
+Route::get('/cardwiz/merchants/pcis', [RoutesController::class,'getPcis' ]);
+
 Route::get('/cardwiz/merchant/{id}/customers', [RoutesController::class,'getCampaignCustomers' ]);
 Route::get('/cardwiz/campaign/{id}/customers', [RoutesController::class,'getCampaignCustomers' ]);
 Route::get('/cardwiz/merchant/{id}/balance', [RoutesController::class,'getCampaignBalance' ]);
@@ -43,7 +63,9 @@ Route::get('/cardwiz/charges', [RoutesController::class,'getCharges' ]);
 // Route::post('/cardwiz/charges/{id}/capture', [RoutesController::class,'postChargeCapture' ]);
 
 Route::post('/cardwiz/disputes/{id}/accept', [RoutesController::class,'acceptDispute' ]);
+Route::post('/cardwiz/disputes/{id}/update', [RoutesController::class,'updateDispute' ]);
 Route::post('/cardwiz/disputes/{id}', [RoutesController::class,'updateDispute' ]);
+Route::get('/cardwiz/disputes/search', [RoutesController::class,'dispute_search' ]);
 Route::get('/cardwiz/disputes/{id}', [RoutesController::class,'getDispute' ]);
 Route::get('/cardwiz/disputes', [RoutesController::class,'getDisputes' ]);
 
@@ -96,6 +118,10 @@ Route::post('/cardwiz/customers/{id}/cards/{cardId}', [RoutesController::class,'
 Route::post('/cardwiz/customers/{id}/bank_accounts/{bankID}', [RoutesController::class,'updateCustomerBankAcount' ]);
 Route::post('/cardwiz/customers/{id}/bank_accounts', [RoutesController::class,'createCustomerBankAcount' ]);
 Route::post('/cardwiz/merchant/{id}/bank_accounts/{bankID}', [RoutesController::class,'updateMerchantBankAcount' ]);
+
+
+Route::post('/cardwiz/merchant/bank_accounts', [RoutesController::class,'createMerchantBank' ]);
+
 Route::post('/cardwiz/merchant/{id}/bank_accounts', [RoutesController::class,'createMerchantBankAcount' ]);
 Route::get('/cardwiz/merchant/{id}/bank_accounts/{bankID}', [RoutesController::class,'getMerchantBankAcount' ]);
 Route::get('/cardwiz/merchant/{id}/bank_accounts', [RoutesController::class,'getMerchantBankAcounts' ]);

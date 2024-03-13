@@ -417,7 +417,7 @@ public static function reverifyMerchant($id,$userID,$api_userID,$apikeyID=0){
     $islive = true;
     $endpoint = $islive ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
     list($response, $httpcode) = merchantsController::reverifyMerchant(config("app.api_username"), config("app.api_password"), $id, $endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
-    if($httpcode[1]>=200&&$httpcode[1]<300){
+    if($httpcode>=200&&$httpcode<300){
         $value=(object)json_decode($response);
         $data=[
             'finix_id' => $value->id ?? null,
@@ -475,7 +475,7 @@ public static function disableMerchant($id,$userID,$api_userID,$apikeyID=0){
     $islive = false;
     $endpoint = $islive ? 'https://finix.live-payments-api.com' : 'https://finix.sandbox-payments-api.com';
     list($response, $httpcode) = merchantsController::disableMerchant(config("app.api_username"), config("app.api_password"), $id, $endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
-    if($httpcode[1]>=200&&$httpcode[1]<300){
+    if($httpcode>=200&&$httpcode<300){
         $value=(object)json_decode($response);
         $data=[
             'finix_id' => $value->id ?? null,

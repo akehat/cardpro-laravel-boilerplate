@@ -23,6 +23,8 @@ use App\Models\payment_ways;
 use App\Models\payment_ways_live;
 use App\Models\pci_forms;
 use App\Models\pci_forms_live;
+use App\Models\settlements;
+use App\Models\settlements_live;
 use Browser;
 use Illuminate\Http\Request;
 use Validator;
@@ -1205,6 +1207,62 @@ public function MerchantIdentities_search(){
 }
 
 
+public function fillPci(){
+    $request=request()->all();
+    $validator = Validator::make($request, [
+        'first_name' => 'required|string|max:255',
+        'Last_name' => 'required|string|max:255',
+        'PCI_title' => 'required|string|max:255',
+        'id' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        // If validation fails, return error response
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+    $info=$this->retrieveInfo($request['apikey']);
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    $id=$request['merchant_id']??null;
+    if($id==null){return response()->json(['error' => 'Invalid merchant id'], 401);}
+    $request=(object)$request;
+    if($info['live']){
+        $merchant=Finix_Merchant_live::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $merchant=Finix_Merchant::authenticateGetID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($merchant==null){
+        return response()->json(['error' => 'unable to get merchant '], 401);
+    }
+    if($info['live']){
+        $pci_form=pci_forms_live::authenticateGetMerchantID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $pci_form=pci_forms::authenticateGetMerchantID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($pci_form==null){
+        return response()->json(['error' => 'unable to get form '], 401);
+    }
+
+        $browser = new Browser();
+        if($info['live']){
+            $awaiting=pci_forms_live::fillOutForm(
+                $pci_form->finix_id,
+                $this->getIp(),
+                $request->first_name." ".$request->last_name,
+                $request->PCI_title,
+                $browser->getUserAgent()
+            );
+        }else{
+            $awaiting=awaiting_PCI::fillOutForm([
+                $pci_form->finix_id,
+                $this->getIp(),
+                $request->first_name." ".$request->last_name,
+                $request->PCI_title,
+                $browser->getUserAgent()
+            ]);
+        }
+        return response()->json($awaiting, 201 , [] , JSON_PRETTY_PRINT );
+    }
+
 public function getPCI($id){
     $info=$this->retrieveInfo(request()->header('apikey'));
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
@@ -1249,9 +1307,68 @@ public function pcis_search(){
     }
     return response()->json($pcis->toArray(), 201 , [] , JSON_PRETTY_PRINT );
 }
+
+public function getTotal($id){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $total=settlements_live::authenticateGetMerchantID($id,$info['api_userID'],$info['apikey']);
+    }else{
+        $total=settlements::authenticateGetMerchantID($id,$info['api_userID'],$info['apikey']);
+    }
+    if($total==null){
+        return response()->json(['error'=>"failed to get total"], 300);
+    }
+    return response()->json($total ,  201 , [] , JSON_PRETTY_PRINT);
+}
+public function getTotals(){
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if($info['live']){
+        $totals=settlements_live::authenticateGet($info['api_userID'],$info['apikey']);
+    }else{
+        $totals=settlements::authenticateGet($info['api_userID'],$info['apikey']);
+    }
+    if(empty($totals)){
+         return response()->json(['error'=>"failed to get total"], 301);
+    }
+    return response()->json($totals->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
+public function totals_search(){
+    $request=request()->all();
+    $info=$this->retrieveInfo(request()->header('apikey'));
+    if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
+    if(!isset($request['search'])||empty($request['search'])){
+        return response()->json(['error'=>"search not provided"], 301);
+   }
+   $search=$request['search'];
+    if($info['live']){
+        $totals=settlements_live::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }else{
+        $totals=settlements::authenticateSearch($info['api_userID'],$info['apikey'], $search);
+    }
+    if(empty($totals)){
+         return response()->json(['error'=>"failed to get totals"], 301);
+    }
+    return response()->json($totals->toArray(), 201 , [] , JSON_PRETTY_PRINT );
+}
 public function createSubscription(){}
 public function updateSubscription(){}
 public function getSubscription(){}
 public function getSubscriptions(){}
 public function subscriptions_search(){}
+public function getIp(){
+    foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+        if (array_key_exists($key, $_SERVER) === true){
+            foreach (explode(',', $_SERVER[$key]) as $ip){
+                $ip = trim($ip);
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                    return $ip;
+                }
+            }
+        }
+    }
+    return request()->ip();
 }
+}
+

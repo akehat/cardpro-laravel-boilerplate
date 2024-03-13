@@ -137,6 +137,27 @@ public function scopeAccessible($query)
                 ->first();
         }
     }
+    public static function authenticateGetMerchantID($id, $api_userID , $api_key)
+    {
+        if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
+        // Check if the API key is a sub key
+        if ($api_key > 1 || $api_key === null) {
+            return self::where(function ($query) use ($id) {
+            $query->where('reg_merchant_id', $id)
+                  ->orWhere('merchant_id', $id);
+        })->where('api_key', $api_key)
+                ->where('api_user', $api_userID)
+                ->first();
+        } else {
+            // If the API key is not a sub key, no need to query the database
+            return self::where('api_user', $api_userID)
+                ->where(function ($query) use ($id) {
+                    $query->where('reg_merchant_id', $id)
+                    ->orWhere('merchant_id', $id);
+        })
+                ->first();
+        }
+    }
    public static function authenticateGet($api_userID, $api_key)
 {
     $perPage = 20; // Default items per page
@@ -252,14 +273,15 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             }
         }
         public static function checkForOwner($data,$model){
-            $found=Finix_Merchant_live::where('finix_id',$data->merchant)->first();
+            $found=Finix_Merchant_live::where('finix_id',$data->merchant_id)->first();
             if($found!=null){
+                $model->reg_merchant_id=$found->id;
                 $model->api_userID=$found->api_userID;
                 $model->islive=$found->islive;
                 $model->apikeyID=$found->api_user;
                 return;
             }
-            $found=identities_live::where('finix_id',$data->merchant)->first();
+            $found=identities_live::where('finix_id',$data->identity)->first();
             if($found!=null){
                 $model->api_userID=$found->api_userID;
                 $model->islive=$found->islive;

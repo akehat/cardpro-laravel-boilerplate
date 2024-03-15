@@ -64,13 +64,14 @@ p{
         .container {
             display: flex;
             overflow: hidden;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 65px);
         }
 
         nav {
             background-color: #white;
             border-right: 1px solid black;
             padding: 20px;
+
             width: 200px;
             overflow-y: auto;
             max-height: 100%;
@@ -100,8 +101,8 @@ nav ul li a:hover {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            max-height: calc(100vh - 100px);
-            height: calc(100vh - 100px);
+            max-height: calc(100vh - 65px);
+            height: calc(100vh - 65px);
         }
 
         code {
@@ -123,9 +124,10 @@ nav ul li a:hover {
             overflow-y: scroll;
         }
         #navList {
-            position: absolute;
-            top: 100px; /* Adjust as needed based on your layout */
+            position: relative;
+            top: 10px; /* Adjust as needed based on your layout */
             left: 0;
+            padding-bottom: 300px;
         }
         @media only screen and (max-width: 480px) {
         nav{
@@ -135,7 +137,7 @@ nav ul li a:hover {
         #navList {
             display: none;
             width: 50%;
-            position: absolute;
+            position: relative;
             top: 100px; /* Adjust as needed based on your layout */
             left: 0;
             background-color: #f0f0f0;/* Your brand color */
@@ -1535,6 +1537,179 @@ var data = [
     "api_user": 1
 }`
     },
+     {
+        "routeName": "Create Merchant",
+        "info": "Create a Merchant. POST Route",
+        "parameters": "'apikey' either user or merchant.'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the pci holder. 'Last_name' of the pci holder. 'PCI_title' of the pci holder.",
+        "header": "Endpoint",
+        "query": "",
+        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the pci holder. 'Last_name' of the pci holder. 'PCI_title' of the pci holder.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"apikey\",\"first_name\":\"Jhon\",\"first_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2}'",
+        "exampleResponse": ``
+    },
+     {
+        "routeName": "Create Merchant Bank",
+        "info": "Create a Merchant. POST Route",
+        "parameters": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
+        "header": "Endpoint",
+        "query": "",
+        "data": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"apikey\",\"account_number\":\"123123123\",\"account_type\":\"SAVINGS\",\"bank_code\":\"123123123\",\"name\":\"John Smith\",\"identity\":2,\"type\":\"BANK_ACCOUNT\"}'",
+        "exampleResponse": ``}
+    ,
+    {
+        "routeName": "Get Merchants",
+        "info": "Get a merchants by 20.",
+        "parameters": "'apikey' either user or merchant. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants\"",
+        "exampleResponse":``
+    },
+    {
+        "routeName": "Get Merchant",
+        "info": "Get a merchant by id. GET Route",
+        "parameters": " 'id' for the merchant either the number or the long one.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "'id' for the merchant in the url",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants/3\"",
+        "exampleResponse": ``
+    },
+    {
+        "routeName": "Search Merchant",
+        "info": "Search a merchants by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+        "exampleResponse": ``
+    },
+     {
+        "routeName": "Create Merchant Identity",
+        "info": "Create a Merchant Identity to be used to make a new merchant. POST Route",
+        "parameters": "'apikey' either user or merchant.'annual_card_volume': The total annual volume of card transactions processed by the business.'business_address_city': The city where the business is located.'business_address_country': The country where the business is located.'business_address_region': The region (state, province, etc.) where the business is located.'business_address_line2': Additional address line (if applicable) for the business location.'business_address_line1': The primary address line for the business location.'business_address_postal_code': The postal code of the business location.'business_name': The legal name of the business.'business_phone': The phone number of the business.'business_tax_id': The tax identification number (TIN) or other business identifier.'business_type': The type or category of the business (e.g., retail, service, etc.).'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements.'dob_year': The birth year of the individual applicant or representative of the business.'dob_day': The birth day of the individual applicant or representative of the business.'dob_month': The birth month of the individual applicant or representative of the business.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name.'email': The email address of the individual applicant or representative of the business.'first_name': The first name of the individual applicant or representative of the business.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional).'incorporation_date_year': The year the business was incorporated or established.'incorporation_date_day': The day of the month the business was incorporated or established.'incorporation_date_month': The month the business was incorporated or established.'last_name': The last name of the individual applicant or representative of the business.'max_transaction_amount': The maximum transaction amount allowed for the business.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments.'mcc': The Merchant Category Code (MCC) that represents the type of business.'ownership_type': The type of ownership structure of the business (e.g., sole proprietorship, partnership, corporation).'personal_address_city': The city of the individual applicant's personal address.'personal_address_country': The country of the individual applicant's personal address.'personal_address_region': The region (state, province, etc.) of the individual applicant's personal address.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address. personal_address_line1': The primary address line for the individual applicant's personal address.'personal_address_postal_code': The postal code of the individual applicant's personal address.'phone': The phone number of the individual applicant or representative of the business.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant.'title': The title or role of the individual applicant or representative of the business.'url': The website URL of the business.",
+        "header": "Endpoint",
+        "query": "",
+        "data": "'apikey' either user or merchant.'annual_card_volume': The total annual volume of card transactions processed by the business.'business_address_city': The city where the business is located.'business_address_country': The country where the business is located.'business_address_region': The region (state, province, etc.) where the business is located.'business_address_line2': Additional address line (if applicable) for the business location.'business_address_line1': The primary address line for the business location.'business_address_postal_code': The postal code of the business location.'business_name': The legal name of the business.'business_phone': The phone number of the business.'business_tax_id': The tax identification number (TIN) or other business identifier.'business_type': The type or category of the business (e.g., retail, service, etc.).'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements.'dob_year': The birth year of the individual applicant or representative of the business.'dob_day': The birth day of the individual applicant or representative of the business.'dob_month': The birth month of the individual applicant or representative of the business.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name.'email': The email address of the individual applicant or representative of the business.'first_name': The first name of the individual applicant or representative of the business.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional).'incorporation_date_year': The year the business was incorporated or established.'incorporation_date_day': The day of the month the business was incorporated or established.'incorporation_date_month': The month the business was incorporated or established.'last_name': The last name of the individual applicant or representative of the business.'max_transaction_amount': The maximum transaction amount allowed for the business.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments.'mcc': The Merchant Category Code (MCC) that represents the type of business.'ownership_type': The type of ownership structure of the business (e.g., sole proprietorship, partnership, corporation).'personal_address_city': The city of the individual applicant's personal address.'personal_address_country': The country of the individual applicant's personal address.'personal_address_region': The region (state, province, etc.) of the individual applicant's personal address.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address. personal_address_line1': The primary address line for the individual applicant's personal address.'personal_address_postal_code': The postal code of the individual applicant's personal address.'phone': The phone number of the individual applicant or representative of the business.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant.'title': The title or role of the individual applicant or representative of the business.'url': The website URL of the business.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants/identity -d '{\"apikey\":\"apikey\",\"annual_card_volume\": 12000000,\"business_address_city\":\"San Mateo\",\"business_address_country\":\"USA\",\"business_address_region\":\"CA\",\"business_address_line2\":\"Apartment 8\",\"business_address_line1\":\"741 Douglass St\",\"business_address_postal_code\":\"94114\",\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id\":\"123456789\",\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"dob_year\": 1978,\"dob_day\": 27,\"dob_month\": 6,\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\": true,\"incorporation_date_year\": 1978,\"incorporation_date_day\": 27,\"incorporation_date_month\": 6,\"last_name\":\"Smith\",\"max_transaction_amount\": 1200000,\"ach_max_transaction_amount\": 1000000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address_city\":\"San Mateo\",\"personal_address_country\":\"USA\",\"personal_address_region\":\"CA\",\"personal_address_line2\":\"Apartment 7\",\"personal_address_line1\":\"741 Douglass St\",\"personal_address_postal_code\":\"94114\",\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"tax_id\":\"123456789\",\"title\":\"CEO\",\"url\":\"https://www.finix.com\"}'",
+        "exampleResponse": ``},
+    {
+        "routeName": "Get Merchants Identities",
+        "info": "Get a holds by 20.",
+        "parameters": "'apikey' either user or merchant. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/holds\"",
+        "exampleResponse":``
+    },
+    {
+        "routeName": "Get Merchant Identity",
+        "info": "Get a Merchant Identity by id. GET Route",
+        "parameters": " 'id' for the Merchant Identity either the number or the long one.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "'id' for the Merchant Identity in the url",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants/identity/3\"",
+        "exampleResponse": ``
+    },
+    {
+        "routeName": "Search Merchants Identities",
+        "info": "Search merchants identities by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+        "exampleResponse": ``
+    },
+    {
+        "routeName": "Get Merchants Totals",
+        "info": "Get a holds by 20.",
+        "parameters": "'apikey' either user or merchant. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/holds\"",
+        "exampleResponse":``
+    },
+    {
+        "routeName": "Get Merchant Total",
+        "info": "Get a Merchant Identity by id. GET Route",
+        "parameters": " 'id' for the Merchant either the number or the long one.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "'id' for the Merchant Identity in the url",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants/identity/3\"",
+        "exampleResponse": ``
+    },
+    {
+        "routeName": "Search Merchants Totals",
+        "info": "Search merchants identities by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+        "exampleResponse": ``
+    },
+    {
+        "routeName": "Get Disputes",
+        "info": "Get a holds by 20.",
+        "parameters": "'apikey' either user or merchant. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/disputes\"",
+        "exampleResponse":``
+    },
+    {
+        "routeName": "Get Dispute",
+        "info": "Get a Hold by id. GET Route",
+        "parameters": " 'id' for the Hold either the number or the long one.",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "'id' for the Hold in the url",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/disputes/3\"",
+        "exampleResponse": ``
+    },
+    {
+        "routeName": "Search Disputes",
+        "info": "Search a Holds by 20.",
+        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "header": "Endpoint. 'apikey' either user or merchant.",
+        "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        "data": "N/A",
+        "exampleRequest": "curl -X GET \
+  -H \"apikey: your_api_key_here\" \
+  \"{{url('')}}/api/cardwiz/disputes/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+        "exampleResponse": ``
+    },
 ];
 
 // Now you can access data like this:
@@ -1575,9 +1750,10 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
     .split('{').join('{\n    ')
     .split(',').join(',\n    ')
     .replace('curl',"CURL");
-    route.parameters=route.parameters.split('.').join('.\n').replaceAll("\n ","\n")
-    route.data=route.data.split('.').join('.\n').replaceAll("\n ","\n")
-    route.query=route.query.split('.').join('.\n').replaceAll("\n ","\n")
+    route.parameters=route.parameters.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.data=route.data.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.query=route.query.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.header=route.header.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
                 section.innerHTML = `
                 <div class="floatcontainer">
                     <div>

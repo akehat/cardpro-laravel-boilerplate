@@ -361,9 +361,9 @@ public function createCharges(){
     }
     $currency=strtoupper($request['currency']);
     if($info['live']){
-        $payment=finix_payments_live::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
+        $payment=finix_payments_live::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0,$request['descriptor']??null);
     }else{
-        $payment=finix_payments::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0);
+        $payment=finix_payments::makePayment($merchant,$currency,$amount,$card->finix_id,$info['userID'],$info['api_userID'],$info['apikey']??0,$request['descriptor']??null);
     }
     if($payment['worked']){
         return response()->json($payment['ref'], 201, [] , JSON_PRETTY_PRINT);

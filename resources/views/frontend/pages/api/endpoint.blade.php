@@ -17,6 +17,12 @@
             font-size: 18px;
             color: #1319c0;
         }
+.post{
+    color:blue;
+}
+.get{
+    color:darkblue;
+}
 .floatcontainer {
     margin-bottom:10%;
     display: flex;
@@ -112,6 +118,7 @@ nav ul li a {
     text-decoration: none;
     transition: color 0.3s ease;
     font-weight: normal; /* Normal font weight */
+    line-height: 22px;
 }
 
 nav ul li a:hover {
@@ -241,7 +248,7 @@ var data = [
     },
     {
         "routeName": "Get Customers",
-        "info": "Get a customers by 20.",
+        "info": "Get a customers by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -446,14 +453,14 @@ var data = [
 }`
     },
     {
-        "routeName": "Create Payment Way.",
+        "routeName": "Create Payment Way",
         "info": "Create a card. POST Route",
-        "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. POST Route",
+        "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. 'descriptor' for the charge if wanted, none will use default of merchant. POST Route",
         "header": "Endpoint.",
         "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card.",
         "header": "Endpoint",
         "query": "N/A",
-        "data": "'apikey' either user or merchant. 'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card.",
+        "data": "'apikey' either user or merchant. 'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. 'descriptor' for the charge if wanted, none will use default of merchant.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/payment_ways -d '{\"apikey\":\"apikey\",\"exp_month\":\"12\",\"exp_year\":\"2029\",\"name\":\"John Doe\",\"card_number\":\"5200828282828210\",\"cvv\":331,\"id\":74}'",
        "exampleResponse": `{
     "id": 56,
@@ -499,7 +506,7 @@ var data = [
     },
     {
         "routeName": "Get Payment Ways",
-        "info": "Get a charge by 20.",
+        "info": "Get a charge by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -675,8 +682,8 @@ var data = [
 }`
     },
     {
-        "routeName": "Search Payment Way",
-        "info": "Search a Payment Ways by 20.",
+        "routeName": "Search Payment Ways",
+        "info": "Search a Payment Ways by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -857,7 +864,7 @@ var data = [
 
     {
         "routeName": "Get Charges",
-        "info": "Get a charge by 20.",
+        "info": "Get a charge by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1096,7 +1103,7 @@ var data = [
     },
     {
         "routeName": "Search Charges",
-        "info": "Search a charge by 20.",
+        "info": "Search a charge by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1185,7 +1192,7 @@ var data = [
     },
     {
         "routeName": "Create Refund",
-        "info": "Refund a charge.   Post route",
+        "info": "Refund a charge. POST Route",
         "parameters": "'apikey' either user or merchant.'amount' for the refund. POST Route",
         "header": "Endpoint.",
         "parameters": "'apikey' either user or merchant.\n'amount' for in the refund. 'id' for the charge",
@@ -1288,7 +1295,7 @@ var data = [
     },
     {
         "routeName": "Get Holds",
-        "info": "Get a holds by 20.",
+        "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1414,7 +1421,7 @@ var data = [
     },
     {
         "routeName": "Search Hold",
-        "info": "Search a Holds by 20.",
+        "info": "Search a Holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1570,7 +1577,7 @@ var data = [
         "exampleResponse": ``},
     {
         "routeName": "Get Merchants Identities",
-        "info": "Get a holds by 20.",
+        "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1594,7 +1601,7 @@ var data = [
     },
     {
         "routeName": "Search Merchants Identities",
-        "info": "Search merchants identities by 20.",
+        "info": "Search merchants identities by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1626,7 +1633,7 @@ var data = [
     ,
     {
         "routeName": "Get Merchants",
-        "info": "Get a merchants by 20.",
+        "info": "Get a merchants by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1650,7 +1657,7 @@ var data = [
     },
     {
         "routeName": "Search Merchant",
-        "info": "Search a merchants by 20.",
+        "info": "Search a merchants by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1662,7 +1669,7 @@ var data = [
     },
     {
         "routeName": "Get Merchants Totals",
-        "info": "Get a holds by 20.",
+        "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1686,7 +1693,7 @@ var data = [
     },
     {
         "routeName": "Search Merchants Totals",
-        "info": "Search merchants identities by 20.",
+        "info": "Search merchants identities by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1701,13 +1708,13 @@ var data = [
         "parameters": "'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement.",
         "header": "Endpoint",
         "query": "",
-        "data": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"apikey\",\"account_number\":\"123123123\",\"account_type\":\"SAVINGS\",\"bank_code\":\"123123123\",\"name\":\"John Smith\",\"identity\":2,\"type\":\"BANK_ACCOUNT\"}'",
+        "data":"'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/ap/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"apikey\",\"first_name\":\"123123123\",\"account_type\":\"Jhon\",\"Last_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2}'",
         "exampleResponse": ``}
     ,
     {
-        "routeName": "Get Pcis",
-        "info": "Get a Pci forms by 20.",
+        "routeName": "Get PCIs",
+        "info": "Get a PCI forms by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1718,11 +1725,11 @@ var data = [
         "exampleResponse":``
     },
     {
-        "routeName": "Get Pci",
-        "info": "Get a pci by id. GET Route",
+        "routeName": "Get PCI",
+        "info": "Get a PCI by id. GET Route",
         "parameters": " 'id' for the merchant either the number or the long one.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        "query": "'id' for the pci in the url",
+        "query": "'id' for the PCI in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
@@ -1730,8 +1737,8 @@ var data = [
         "exampleResponse": ``
     },
     {
-        "routeName": "Search Pcis",
-        "info": "Search a merchants by 20.",
+        "routeName": "Search PCIs",
+        "info": "Search a merchants by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1764,7 +1771,7 @@ var data = [
     },
     {
         "routeName": "Get Disputes",
-        "info": "Get a holds by 20.",
+        "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
@@ -1788,7 +1795,7 @@ var data = [
     },
     {
         "routeName": "Search Disputes",
-        "info": "Search a Holds by 20.",
+        "info": "Search a Holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
@@ -1817,7 +1824,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 const listItem = document.createElement('li');
                 const link = document.createElement('a');
                 link.href = `#${route.routeName.toLowerCase().replace(/\s+/g, '-')}`;
-                link.textContent = route.routeName;
+                link.textContent = '🌐 '+route.routeName;
                 listItem.appendChild(link);
                 navList.appendChild(listItem);
             });
@@ -1842,6 +1849,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
     route.data=route.data.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.query=route.query.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.header=route.header.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.info=route.info.replace(/(POST Route)/g, "<b class='post'>$1</b>").replace(/(GET Route)/g, "<b class='get'>$1</b>");
                 section.innerHTML = `
                 <div class="floatcontainer">
                     <div>

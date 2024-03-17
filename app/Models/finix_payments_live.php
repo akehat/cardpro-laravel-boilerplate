@@ -293,11 +293,11 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
             $found->refresh();
         }
     }
-    public static function makePayment($merchant,$currency,$amount_in_cents,$card,$userID,$api_userID,$apikeyID=0){
+    public static function makePayment($merchant,$currency,$amount_in_cents,$card,$userID,$api_userID,$apikeyID=0,$descriptor=null){
         $islive=true;
         $endpoint=$islive?'https://finix.live-payments-api.com':'https://finix.sandbox-payments-api.com';
-        $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$merchant,$currency,$amount_in_cents,$card,$endpoint,[],['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]]);
-        if($payment[1]>=200&&$payment[1]<300){
+        $data=$descriptor!=null?['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID],'statement_descriptor'=>$descriptor]:['tags'=>["userID"=>"userID_".$userID,"api_userID"=>"api_userID_".$api_userID,"apikeyID"=>"apikeyID_".$apikeyID]];
+        $payment=merchantsController::makePaymentMinReq(config("app.api_username"),config("app.api_password"),$merchant,$currency,$amount_in_cents,$card,$endpoint,[],$data);if($payment[1]>=200&&$payment[1]<300){
         $value=(object)json_decode($payment[0]);
         $paymentMade=self::create([
             'finix_id'=>$value->id??null,

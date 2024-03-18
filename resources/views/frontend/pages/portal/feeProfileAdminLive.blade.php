@@ -3,49 +3,65 @@
 @section('content')
     <style>
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+         h1 {
+    text-align: center;
+    color: #062451;
+}
 
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    color: #062451;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-        }
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #062451;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-        input[type="checkbox"] {
-            width: auto;
-            margin-right: 5px;
-        }
+input[type="checkbox"] {
+    margin-bottom: 0;
+    width: auto;
+    margin-right: 5px;
+}
 
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
+input[type="submit"],
+input[type="button"] {
+    background-color: #062451;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 4px;
+}
 
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #45a049;
+}
+
+/* Styling for placeholder values fill button */
+input[type="button"] {
+    margin-top: 10px;
+}
     </style>
     <h1>Fee Profile Information Form</h1>
 
@@ -93,7 +109,7 @@
             label.for = key;
             input.placeholder = value;
             div.appendChild(label);
-            div.appendChild(document.createElement('br'));
+            //div.appendChild(document.createElement('br'));
             div.appendChild(input);
             form.appendChild(div);
         }
@@ -120,8 +136,8 @@
         form.appendChild(submitButton);
         // const fillButton = document.createElement('input');
         // fillButton.type = 'button';
-        // fillButton.innerText = 'fill with placeholder values';
-        // fillButton.value = 'fill with placeholder values';
+        // fillButton.innerText = 'Fill with placeholder values?';
+        // fillButton.value = 'Fill with placeholder values?';
         // fillButton.onclick=function(){
         //     var matches = document.querySelectorAll("input[type=text],input[type=number]");
         //     matches.forEach((match) => {

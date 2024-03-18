@@ -34,7 +34,7 @@
     padding: 0;
     /* padding-left: 15px; */
     margin: 0;
-    height: 90vh;
+    /* height: 90vh; */
     overflow-y: auto; /* Use auto instead of scroll to hide scrollbar when not needed */
     scrollbar-width: thin; /* For Firefox */
 }
@@ -78,37 +78,27 @@
             padding: 10px;
             overflow-y: auto;
         }
-        button {
-            background-color: #f2f2f2;
+                button.togglebtn {
+            background-color: #4e79a7; /* Darker blue */
             border: none;
-            color: black;
+            color: white; /* White text for better contrast */
             padding: 10px 20px;
             text-align: left;
             cursor: pointer;
             outline: none;
             width: 100%;
+            margin-bottom: 2px;
         }
 
-        button:hover {
-            background-color: #ddd;
+        button.togglebtn:hover {
+            background-color: #6389b8; /* Slightly lighter blue on hover */
         }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        ul li {
-            padding: 8px 16px;
-            cursor: pointer;
-        }
-
 
         ul li a.active {
-            /* background-color: #f2f2f2; */
-            color: rgb(82, 238, 80)!important;
+            color: #52ee50!important; /* A shade of green for active links */
         }
+
+
     </style>
 </head>
 <body>
@@ -116,9 +106,9 @@
         <h2>Sidebar</h2>
         <ul>
             <li><a href="{{ url('portal/keys') }}" class="{{ Route::is('frontend.portal.keys') ? 'active' : '' }}"><i class="fas fa-key"></i> Keys</a></li>
-            <button id="toggleTestRoutes" onclick="toggleRoutes('test')">TEST <span id="testIcon">&#9660;</span></button>
+            <button class="togglebtn" id="toggleTestRoutes" onclick="toggleRoutes('test')">TEST <span id="testIcon">&#9660;</span></button>
             <ul id="testRoutes" style="display:none;">
-                <button id="toggleTestformRoutes" onclick="toggleRoutes('testform')">FORMS <span id="testformIcon">&#9660;</span></button>
+                <button class="togglebtn" id="toggleTestformRoutes" onclick="toggleRoutes('testform')">FORMS <span id="testformIcon">&#9660;</span></button>
                 <ul id="testformRoutes" style="display:none;">
                     <li><a href="{{ url('portal/testSignup') }}" class="{{ Route::is('frontend.portal.testSignup') ? 'active' : '' }}"><i class="fas fa-user-plus"></i>Test Signup</a></li>
                     {{-- @if(Auth::user()->hasID) --}}
@@ -131,7 +121,7 @@
                         <li><a href="{{ url('portal/testFee') }}" class="{{ Route::is('frontend.portal.testFee') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i>Test Fee Profile</a></li>
                     @endif
                 </ul>
-                <button id="toggleTesttableRoutes" onclick="toggleRoutes('testtable')">TABLES <span id="testtableIcon">&#9660;</span></button>
+                <button class="togglebtn" id="toggleTesttableRoutes" onclick="toggleRoutes('testtable')">TABLES <span id="testtableIcon">&#9660;</span></button>
                 <ul id="testtableRoutes" style="display:none;">
                     <li><a href="{{ url('portal/merchants') }}" class="{{ Route::is('frontend.portal.merchants') ? 'active' : '' }}"><i class="fas fa-store-alt"></i> Test Merchants</a></li>
                     <li><a href="{{ url('portal/identities') }}" class="{{ Route::is('frontend.portal.identities') ? 'active' : '' }}"><i class="fas fa-id-card"></i> Test Identities</a></li>
@@ -146,13 +136,13 @@
                     <li><a href="{{ url('portal/balanceTransfers') }}" class="{{ Route::is('frontend.portal.balanceTransfers') ? 'active' : '' }}"><i class="fas fa-exchange-alt"></i> Test Balance Transfers</a></li>
                     <li><a href="{{ url('portal/compliances') }}" class="{{ Route::is('frontend.portal.compliances') ? 'active' : '' }}"><i class="fas fa-file-signature"></i> Test PCI Forms</a></li>
                     <li><a href="{{ url('portal/disputes') }}" class="{{ Route::is('frontend.portal.disputes') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Test Disputes</a></li>
-                    <li><a href="{{ url('portal/files') }}" class="{{ Route::is('frontend.portal.files') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Test Files</a></li>
-                    <li><a href="{{ url('portal/externalfiles') }}" class="{{ Route::is('frontend.portal.externalfiles') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Test External Files</a></li>
+                    <li><a href="{{ url('portal/files') }}" class="{{ Route::is('frontend.portal.files') ? 'active' : '' }}"><i class="fas fa-file"></i> Test Files</a></li>
+                    <li><a href="{{ url('portal/externalfiles') }}" class="{{ Route::is('frontend.portal.externalfiles') ? 'active' : '' }}"><i class="fas fa-external-link-alt"></i> Test External Files</a></li>
                 </ul>
             </ul>
-            <button id="toggleLiveRoutes" onclick="toggleRoutes('live')">LIVE <span id="liveIcon">&#9660;</span></button>
+            <button class="togglebtn" id="toggleLiveRoutes" onclick="toggleRoutes('live')">LIVE <span id="liveIcon">&#9660;</span></button>
             <ul id="liveRoutes" style="display:none;">
-                <button id="toggleLiveformRoutes" onclick="toggleRoutes('liveform')">FORMS <span id="liveformIcon">&#9660;</span></button>
+                <button class="togglebtn" id="toggleLiveformRoutes" onclick="toggleRoutes('liveform')">FORMS <span id="liveformIcon">&#9660;</span></button>
                 <ul id="liveformRoutes" style="display:none;">
                     {{-- <li><a href="{{ url('portal/subscriptionSchedules') }}" class="{{ Route::is('frontend.portal.subscriptionSchedules') ? 'active' : '' }}"><i class="fas fa-calendar-alt"></i> Test Subscription Schedules</a></li>
                     <li><a href="{{ url('portal/subscriptionEnrollments') }}" class="{{ Route::is('frontend.portal.subscriptionEnrollments') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Test Subscription Enrollment</a></li>  --}}
@@ -164,7 +154,7 @@
                     <li><a href="{{ url('portal/liveFee') }}" class="{{ Route::is('frontend.portal.liveFee') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Live Fee Form</a></li>
                     @endif
                 </ul>
-                <button id="toggleLivetableRoutes" onclick="toggleRoutes('livetable')">TABLES <span id="livetableIcon">&#9660;</span></button>
+                <button class="togglebtn" id="toggleLivetableRoutes" onclick="toggleRoutes('livetable')">TABLES <span id="livetableIcon">&#9660;</span></button>
                 <ul id="livetableRoutes" style="display:none;">
                     <li><a href="{{ url('portal/live/merchants') }}" class="{{ Route::is('frontend.portal.live.merchants') ? 'active' : '' }}"><i class="fas fa-store-alt"></i> Live Merchants</a></li>
                     <li><a href="{{ url('portal/live/identities') }}" class="{{ Route::is('frontend.portal.live.identities') ? 'active' : '' }}"><i class="fas fa-id-card"></i> Live Identities</a></li>
@@ -180,8 +170,8 @@
                     <li><a href="{{ url('portal/live/balanceTransfers') }}" class="{{ Route::is('frontend.portal.live.balanceTransfers') ? 'active' : '' }}"><i class="fas fa-exchange-alt"></i> Live Balance Transfers</a></li>
                     <li><a href="{{ url('portal/live/compliances') }}" class="{{ Route::is('frontend.portal.live.compliances') ? 'active' : '' }}"><i class="fas fa-file-signature"></i> Live PCI Forms</a></li>
                     <li><a href="{{ url('portal/live/disputes') }}" class="{{ Route::is('frontend.portal.live.disputes') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Live Disputes</a></li>
-                    <li><a href="{{ url('portal/live/files') }}" class="{{ Route::is('frontend.portal.live.files') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Live Files</a></li>
-                    <li><a href="{{ url('portal/live/externalfiles') }}" class="{{ Route::is('frontend.portal.live.externalfiles') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Live External Files</a></li>
+                    <li><a href="{{ url('portal/live/files') }}" class="{{ Route::is('frontend.portal.live.files') ? 'active' : '' }}"><i class="fas fa-file"></i> Live Files</a></li>
+                    <li><a href="{{ url('portal/live/externalfiles') }}" class="{{ Route::is('frontend.portal.live.externalfiles') ? 'active' : '' }}"><i class="fas fa-external-link-alt"></i> Live External Files</a></li>
                 </ul>
                 {{-- <li><a href="{{ url('portal/live/subscriptionSchedules') }}" class="{{ Route::is('frontend.portal.live.subscriptionSchedules') ? 'active' : '' }}"><i class="fas fa-calendar-alt"></i> Live Subscription Schedules</a></li>
                 <li><a href="{{ url('portal/live/subscriptionEnrollments') }}" class="{{ Route::is('frontend.portal.live.subscriptionEnrollments') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Live Subscription Enrollment</a></li> --}}
@@ -216,11 +206,11 @@ function toggleRoutes(type) {
     if (routes.style.display === "none") {
         routes.style.display = "block";
         icon.innerHTML = "&#9650;"; // Change to up arrow
-        localStorage.setItem(type + "RoutesState", "visible");
+        sessionStorage.setItem(type + "RoutesState", "visible");
     } else {
         routes.style.display = "none";
         icon.innerHTML = "&#9660;"; // Change to down arrow
-        localStorage.setItem(type + "RoutesState", "hidden");
+        sessionStorage.setItem(type + "RoutesState", "hidden");
     }
 }
 
@@ -228,7 +218,7 @@ function toggleRoutes(type) {
 function setInitialState() {
     var types = ["live", "test","testform","testtable","liveform","livetable"];
     types.forEach(function(type) {
-        var routesState = localStorage.getItem(type + "RoutesState");
+        var routesState = sessionStorage.getItem(type + "RoutesState");
         if (routesState === "visible") {
             toggleRoutes(type);
         }

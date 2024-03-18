@@ -25,8 +25,12 @@ use App\Models\finix_checkout_forms;
 use App\Models\finix_checkout_forms_live;
 use App\Models\Finix_Disputes;
 use App\Models\Finix_Disputes_live;
+use App\Models\finix_external_links;
+use App\Models\finix_external_links_live;
 use App\Models\finix_fee_profiles;
 use App\Models\finix_fee_profiles_live;
+use App\Models\finix_files;
+use App\Models\finix_files_live;
 use App\Models\Finix_Merchant;
 use App\Models\Finix_Merchant_live;
 use App\Models\finix_payment_links;
@@ -1010,6 +1014,54 @@ class MerchantSignUpController extends Controller
     public function dispute_live($id){
         $title=ucwords('dispute live');
         $array['data']=Finix_Disputes_live::where('id',$id)->accessible()->get()->toArray();
+        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+    }
+    public function files(Request $request){
+        $title=ucwords('files');
+        return finix_files::showTable($request,$title);
+    }
+    public function file($id){
+        $title=ucwords('file');
+        $array['data']=finix_files::where('id',$id)->accessible()->get()->toArray();
+        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+    }
+    public function files_live(Request $request){
+        $title=ucwords('files live');
+        return finix_files_live::showTable($request,$title);
+    }
+    public function file_live($id){
+        $title=ucwords('file live');
+        $array['data']=Finix_Disputes_live::where('id',$id)->accessible()->get()->toArray();
+        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+    }
+    public function externalfiles(Request $request){
+        $title=ucwords('external files');
+        return finix_external_links::showTable($request,$title);
+    }
+    public function externalfile($id){
+        $title=ucwords('external file');
+        $array['data']=finix_external_links::where('id',$id)->accessible()->get()->toArray();
+        $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
+        $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
+        $array['data']=isset($array['data'])?$array['data']:null;
+        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>$title]);
+    }
+    public function externalfiles_live(Request $request){
+        $title=ucwords('external files live');
+        return finix_external_links_live::showTable($request,$title);
+    }
+    public function externalfile_live($id){
+        $title=ucwords('external files live');
+        $array['data']=finix_external_links_live::where('id',$id)->accessible()->get()->toArray();
         $array['next_page_url']=isset($array['next_page_url'])?$array['next_page_url']:null;
         $array['prev_page_url']=isset($array['prev_page_url'])?$array['prev_page_url']:null;
         $array['data']=isset($array['data'])?$array['data']:null;

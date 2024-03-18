@@ -78,66 +78,120 @@
             padding: 10px;
             overflow-y: auto;
         }
+        button {
+            background-color: #f2f2f2;
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        ul li:hover {
+            background-color: #f2f2f2;
+        }
+        ul li a.active {
+            /* background-color: #f2f2f2; */
+            color: rgb(82, 238, 80)!important;
+        }
     </style>
 </head>
 <body>
     <div id="sidebar">
         <h2>Sidebar</h2>
         <ul>
-            <li><a href="{{ url('portal/testSignup') }}"><i class="fas fa-user-plus"></i>Test Signup</a></li>
-            {{-- @if(Auth::user()->hasID) --}}
-            {{-- <li><a href="{{ url('portal/testFee') }}">Test Fee Form</a></li> --}}
-            <li><a href="{{ url('portal/testPayment') }}"><i class="fas fa-money-bill-wave"></i> Test Payment</a></li>
-            <li><a href="{{ url('portal/testHold') }}"><i class="fas fa-hand-holding-usd"></i>Test Hold</a></li>
-            <li><a href="{{ url('portal/testCheckout') }}"><i class="fas fa-shopping-cart"></i>Test Checkout</a></li>
-            <li><a href="{{ url('portal/testPaylink') }}"><i class="fas fa-shopping-cart"></i>Test Paylink</a></li>
-            @if (auth()->user()->isAdmin())
-                <li><a href="{{ url('portal/testFee') }}"><i class="fas fa-shopping-cart"></i>Test Fee Profile</a></li>
-            @endif
-            <li><a href="{{ url('portal/keys') }}"><i class="fas fa-key"></i> Keys</a></li>
-<li><a href="{{ url('portal/merchants') }}"><i class="fas fa-store-alt"></i> Test Merchants</a></li>
-<li><a href="{{ url('portal/identities') }}"><i class="fas fa-id-card"></i> Test Identities</a></li>
-<li><a href="{{ url('portal/payments') }}"><i class="fas fa-money-check"></i> Test Payments</a></li>
-<li><a href="{{ url('portal/settlements') }}"><i class="fas fa-hand-holding-usd"></i> Test Settlements</a></li>
-<li><a href="{{ url('portal/fee_profiles') }}"><i class="fas fa-file-invoice-dollar"></i> Test Fee Profiles</a></li>
-<li><a href="{{ url('portal/payment_instraments') }}"><i class="fas fa-credit-card"></i> Test Payment Instruments</a></li>
-<li><a href="{{ url('portal/checkouts') }}"><i class="fas fa-shopping-cart"></i> Test Checkouts</a></li>
-<li><a href="{{ url('portal/paymentLinks') }}"><i class="fas fa-link"></i> Test Payment Link</a></li>
-<li><a href="{{ url('portal/holds') }}"><i class="fas fa-hand-holding"></i> Test Holds</a></li>
-<li><a href="{{ url('portal/verifications') }}"><i class="fas fa-check-circle"></i> Test Verifications</a></li>
-<li><a href="{{ url('portal/balanceTransfers') }}"><i class="fas fa-exchange-alt"></i> Test Balance Transfers</a></li>
-<li><a href="{{ url('portal/compliances') }}"><i class="fas fa-file-signature"></i> Test PCI Forms</a></li>
-<li><a href="{{ url('portal/disputes') }}"><i class="fas fa-exclamation-triangle"></i> Test Disputes</a></li>
-{{-- <li><a href="{{ url('portal/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Test Subscription Schedules</a></li>
-<li><a href="{{ url('portal/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Test Subscription Enrollment</a></li>  --}}
-<li><a href="{{ url('portal/liveSignup') }}"><i class="fas fa-user-plus"></i> Live Signup</a></li>
-<li><a href="{{ url('portal/livePayment') }}"><i class="fas fa-money-bill-wave"></i> Live Payment</a></li>
-<li><a href="{{ url('portal/liveHold') }}"><i class="fas fa-hand-holding-usd"></i> Live Hold</a></li>
-<li><a href="{{ url('portal/liveCheckout') }}"><i class="fas fa-shopping-cart"></i> Live Checkout</a></li>
-@if (auth()->user()->isAdmin())
-<li><a href="{{ url('portal/liveFee') }}"><i class="fas fa-shopping-cart"></i> Live Fee Form</a></li>
-@endif
-<li><a href="{{ url('portal/live/merchants') }}"><i class="fas fa-store-alt"></i> Live Merchants</a></li>
-<li><a href="{{ url('portal/live/identities') }}"><i class="fas fa-id-card"></i> Live Identities</a></li>
-<li><a href="{{ url('portal/live/apiusers') }}"><i class="fas fa-user"></i> Live API Users</a></li>
-<li><a href="{{ url('portal/live/payments') }}"><i class="fas fa-money-check"></i> Live Payments</a></li>
-<li><a href="{{ url('portal/live/settlements') }}"><i class="fas fa-hand-holding-usd"></i> Live Settlements</a></li>
-<li><a href="{{ url('portal/live/fee_profiles') }}"><i class="fas fa-file-invoice-dollar"></i> Live Fee Profiles</a></li>
-<li><a href="{{ url('portal/live/payment_instraments') }}"><i class="fas fa-credit-card"></i> Live Payment Instruments</a></li>
-<li><a href="{{ url('portal/live/checkouts') }}"><i class="fas fa-shopping-cart"></i> Live Checkouts</a></li>
-<li><a href="{{ url('portal/live/paymentLinks') }}"><i class="fas fa-link"></i> Live Payment Link</a></li>
-<li><a href="{{ url('portal/live/holds') }}"><i class="fas fa-hand-holding"></i> Live Holds</a></li>
-<li><a href="{{ url('portal/live/verifications') }}"><i class="fas fa-check-circle"></i> Live Verifications</a></li>
-<li><a href="{{ url('portal/live/balanceTransfers') }}"><i class="fas fa-exchange-alt"></i> Live Balance Transfers</a></li>
-<li><a href="{{ url('portal/live/compliances') }}"><i class="fas fa-file-signature"></i> Live PCI Forms</a></li>
-<li><a href="{{ url('portal/live/disputes') }}"><i class="fas fa-exclamation-triangle"></i> Live Disputes</a></li>
-{{-- <li><a href="{{ url('portal/live/subscriptionSchedules') }}"><i class="fas fa-calendar-alt"></i> Live Subscription Schedules</a></li>
-<li><a href="{{ url('portal/live/subscriptionEnrollments') }}"><i class="fas fa-user-plus"></i> Live Subscription Enrollment</a></li> --}}
-<li><a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-user-plus"></i> Logout</a></li>
-
+            <li><a href="{{ url('portal/keys') }}" class="{{ Route::is('frontend.portal.keys') ? 'active' : '' }}"><i class="fas fa-key"></i> Keys</a></li>
+            <button id="toggleTestRoutes" onclick="toggleRoutes('test')">TEST <span id="testIcon">&#9660;</span></button>
+            <ul id="testRoutes" style="display:none;">
+                <button id="toggleTestformRoutes" onclick="toggleRoutes('testform')">FORMS <span id="testformIcon">&#9660;</span></button>
+                <ul id="testformRoutes" style="display:none;">
+                    <li><a href="{{ url('portal/testSignup') }}" class="{{ Route::is('frontend.portal.testSignup') ? 'active' : '' }}"><i class="fas fa-user-plus"></i>Test Signup</a></li>
+                    {{-- @if(Auth::user()->hasID) --}}
+                    {{-- <li><a href="{{ url('portal/testFee') }}" class="{{ Route::is('frontend.portal.testFee') ? 'active' : '' }}">Test Fee Form</a></li> --}}
+                    <li><a href="{{ url('portal/testPayment') }}" class="{{ Route::is('frontend.portal.testPayment') ? 'active' : '' }}"><i class="fas fa-money-bill-wave"></i> Test Payment</a></li>
+                    <li><a href="{{ url('portal/testHold') }}" class="{{ Route::is('frontend.portal.testHold') ? 'active' : '' }}"><i class="fas fa-hand-holding-usd"></i>Test Hold</a></li>
+                    <li><a href="{{ url('portal/testCheckout') }}" class="{{ Route::is('frontend.portal.testCheckout') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i>Test Checkout</a></li>
+                    <li><a href="{{ url('portal/testPaylink') }}" class="{{ Route::is('frontend.portal.testPaylink') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i>Test Paylink</a></li>
+                    @if (auth()->user()->isAdmin())
+                        <li><a href="{{ url('portal/testFee') }}" class="{{ Route::is('frontend.portal.testFee') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i>Test Fee Profile</a></li>
+                    @endif
+                </ul>
+                <button id="toggleTesttableRoutes" onclick="toggleRoutes('testtable')">TABLES <span id="testtableIcon">&#9660;</span></button>
+                <ul id="testtableRoutes" style="display:none;">
+                    <li><a href="{{ url('portal/merchants') }}" class="{{ Route::is('frontend.portal.merchants') ? 'active' : '' }}"><i class="fas fa-store-alt"></i> Test Merchants</a></li>
+                    <li><a href="{{ url('portal/identities') }}" class="{{ Route::is('frontend.portal.identities') ? 'active' : '' }}"><i class="fas fa-id-card"></i> Test Identities</a></li>
+                    <li><a href="{{ url('portal/payments') }}" class="{{ Route::is('frontend.portal.payments') ? 'active' : '' }}"><i class="fas fa-money-check"></i> Test Payments</a></li>
+                    <li><a href="{{ url('portal/settlements') }}" class="{{ Route::is('frontend.portal.settlements') ? 'active' : '' }}"><i class="fas fa-hand-holding-usd"></i> Test Settlements</a></li>
+                    <li><a href="{{ url('portal/fee_profiles') }}" class="{{ Route::is('frontend.portal.fee_profiles') ? 'active' : '' }}"><i class="fas fa-file-invoice-dollar"></i> Test Fee Profiles</a></li>
+                    <li><a href="{{ url('portal/payment_instraments') }}" class="{{ Route::is('frontend.portal.payment_instraments') ? 'active' : '' }}"><i class="fas fa-credit-card"></i> Test Payment Instruments</a></li>
+                    <li><a href="{{ url('portal/checkouts') }}" class="{{ Route::is('frontend.portal.checkouts') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Test Checkouts</a></li>
+                    <li><a href="{{ url('portal/paymentLinks') }}" class="{{ Route::is('frontend.portal.paymentLinks') ? 'active' : '' }}"><i class="fas fa-link"></i> Test Payment Link</a></li>
+                    <li><a href="{{ url('portal/holds') }}" class="{{ Route::is('frontend.portal.holds') ? 'active' : '' }}"><i class="fas fa-hand-holding"></i> Test Holds</a></li>
+                    <li><a href="{{ url('portal/verifications') }}" class="{{ Route::is('frontend.portal.verifications') ? 'active' : '' }}"><i class="fas fa-check-circle"></i> Test Verifications</a></li>
+                    <li><a href="{{ url('portal/balanceTransfers') }}" class="{{ Route::is('frontend.portal.balanceTransfers') ? 'active' : '' }}"><i class="fas fa-exchange-alt"></i> Test Balance Transfers</a></li>
+                    <li><a href="{{ url('portal/compliances') }}" class="{{ Route::is('frontend.portal.compliances') ? 'active' : '' }}"><i class="fas fa-file-signature"></i> Test PCI Forms</a></li>
+                    <li><a href="{{ url('portal/disputes') }}" class="{{ Route::is('frontend.portal.disputes') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Test Disputes</a></li>
+                    <li><a href="{{ url('portal/files') }}" class="{{ Route::is('frontend.portal.files') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Test Files</a></li>
+                    <li><a href="{{ url('portal/externalfiles') }}" class="{{ Route::is('frontend.portal.externalfiles') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Test External Files</a></li>
+                </ul>
+            </ul>
+            <button id="toggleLiveRoutes" onclick="toggleRoutes('live')">LIVE <span id="liveIcon">&#9660;</span></button>
+            <ul id="liveRoutes" style="display:none;">
+                <button id="toggleLiveformRoutes" onclick="toggleRoutes('liveform')">FORMS <span id="liveformIcon">&#9660;</span></button>
+                <ul id="liveformRoutes" style="display:none;">
+                    {{-- <li><a href="{{ url('portal/subscriptionSchedules') }}" class="{{ Route::is('frontend.portal.subscriptionSchedules') ? 'active' : '' }}"><i class="fas fa-calendar-alt"></i> Test Subscription Schedules</a></li>
+                    <li><a href="{{ url('portal/subscriptionEnrollments') }}" class="{{ Route::is('frontend.portal.subscriptionEnrollments') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Test Subscription Enrollment</a></li>  --}}
+                    <li><a href="{{ url('portal/liveSignup') }}" class="{{ Route::is('frontend.portal.liveSignup') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Live Signup</a></li>
+                    <li><a href="{{ url('portal/livePayment') }}" class="{{ Route::is('frontend.portal.livePayment') ? 'active' : '' }}"><i class="fas fa-money-bill-wave"></i> Live Payment</a></li>
+                    <li><a href="{{ url('portal/liveHold') }}" class="{{ Route::is('frontend.portal.liveHold') ? 'active' : '' }}"><i class="fas fa-hand-holding-usd"></i> Live Hold</a></li>
+                    <li><a href="{{ url('portal/liveCheckout') }}" class="{{ Route::is('frontend.portal.liveCheckout') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Live Checkout</a></li>
+                    @if (auth()->user()->isAdmin())
+                    <li><a href="{{ url('portal/liveFee') }}" class="{{ Route::is('frontend.portal.liveFee') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Live Fee Form</a></li>
+                    @endif
+                </ul>
+                <button id="toggleLivetableRoutes" onclick="toggleRoutes('livetable')">TABLES <span id="livetableIcon">&#9660;</span></button>
+                <ul id="livetableRoutes" style="display:none;">
+                    <li><a href="{{ url('portal/live/merchants') }}" class="{{ Route::is('frontend.portal.live.merchants') ? 'active' : '' }}"><i class="fas fa-store-alt"></i> Live Merchants</a></li>
+                    <li><a href="{{ url('portal/live/identities') }}" class="{{ Route::is('frontend.portal.live.identities') ? 'active' : '' }}"><i class="fas fa-id-card"></i> Live Identities</a></li>
+                    <li><a href="{{ url('portal/live/apiusers') }}" class="{{ Route::is('frontend.portal.live.apiusers') ? 'active' : '' }}"><i class="fas fa-user"></i> Live API Users</a></li>
+                    <li><a href="{{ url('portal/live/payments') }}" class="{{ Route::is('frontend.portal.live.payments') ? 'active' : '' }}"><i class="fas fa-money-check"></i> Live Payments</a></li>
+                    <li><a href="{{ url('portal/live/settlements') }}" class="{{ Route::is('frontend.portal.live.settlements') ? 'active' : '' }}"><i class="fas fa-hand-holding-usd"></i> Live Settlements</a></li>
+                    <li><a href="{{ url('portal/live/fee_profiles') }}" class="{{ Route::is('frontend.portal.live.fee_profiles') ? 'active' : '' }}"><i class="fas fa-file-invoice-dollar"></i> Live Fee Profiles</a></li>
+                    <li><a href="{{ url('portal/live/payment_instraments') }}" class="{{ Route::is('frontend.portal.live.payment_instraments') ? 'active' : '' }}"><i class="fas fa-credit-card"></i> Live Payment Instruments</a></li>
+                    <li><a href="{{ url('portal/live/checkouts') }}" class="{{ Route::is('frontend.portal.live.checkouts') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Live Checkouts</a></li>
+                    <li><a href="{{ url('portal/live/paymentLinks') }}" class="{{ Route::is('frontend.portal.live.paymentLinks') ? 'active' : '' }}"><i class="fas fa-link"></i> Live Payment Link</a></li>
+                    <li><a href="{{ url('portal/live/holds') }}" class="{{ Route::is('frontend.portal.live.holds') ? 'active' : '' }}"><i class="fas fa-hand-holding"></i> Live Holds</a></li>
+                    <li><a href="{{ url('portal/live/verifications') }}" class="{{ Route::is('frontend.portal.live.verifications') ? 'active' : '' }}"><i class="fas fa-check-circle"></i> Live Verifications</a></li>
+                    <li><a href="{{ url('portal/live/balanceTransfers') }}" class="{{ Route::is('frontend.portal.live.balanceTransfers') ? 'active' : '' }}"><i class="fas fa-exchange-alt"></i> Live Balance Transfers</a></li>
+                    <li><a href="{{ url('portal/live/compliances') }}" class="{{ Route::is('frontend.portal.live.compliances') ? 'active' : '' }}"><i class="fas fa-file-signature"></i> Live PCI Forms</a></li>
+                    <li><a href="{{ url('portal/live/disputes') }}" class="{{ Route::is('frontend.portal.live.disputes') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Live Disputes</a></li>
+                    <li><a href="{{ url('portal/live/files') }}" class="{{ Route::is('frontend.portal.live.files') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Live Files</a></li>
+                    <li><a href="{{ url('portal/live/externalfiles') }}" class="{{ Route::is('frontend.portal.live.externalfiles') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> Live External Files</a></li>
+                </ul>
+                {{-- <li><a href="{{ url('portal/live/subscriptionSchedules') }}" class="{{ Route::is('frontend.portal.live.subscriptionSchedules') ? 'active' : '' }}"><i class="fas fa-calendar-alt"></i> Live Subscription Schedules</a></li>
+                <li><a href="{{ url('portal/live/subscriptionEnrollments') }}" class="{{ Route::is('frontend.portal.live.subscriptionEnrollments') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Live Subscription Enrollment</a></li> --}}
+            </ul>
             {{-- @endif --}}
 
-            <!-- Add more routes as needed -->
+            <li><a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-user-plus"></i> Logout</a></li>
+                <!-- Add more routes as needed -->
         </ul>
     </div>
     <div id="content">
@@ -156,5 +210,38 @@
     @endif
     @yield("content")
     </div>
+    <script>
+   // Function to toggle routes and remember the state
+function toggleRoutes(type) {
+    var routes = document.getElementById(type + "Routes");
+    var icon = document.getElementById(type + "Icon");
+    if (routes.style.display === "none") {
+        routes.style.display = "block";
+        icon.innerHTML = "&#9650;"; // Change to up arrow
+        localStorage.setItem(type + "RoutesState", "visible");
+    } else {
+        routes.style.display = "none";
+        icon.innerHTML = "&#9660;"; // Change to down arrow
+        localStorage.setItem(type + "RoutesState", "hidden");
+    }
+}
+
+// Function to set the initial state of routes based on stored state
+function setInitialState() {
+    var types = ["live", "test","testform","testtable","liveform","livetable"];
+    types.forEach(function(type) {
+        var routesState = localStorage.getItem(type + "RoutesState");
+        if (routesState === "visible") {
+            toggleRoutes(type);
+        }
+    });
+}
+
+// Call setInitialState when the page loads
+window.onload = function() {
+    setInitialState();
+};
+
+        </script>
 </body>
 </html>

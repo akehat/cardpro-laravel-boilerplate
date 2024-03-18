@@ -924,6 +924,7 @@ public function createMerchant(){
         'first_name' => 'required|string|max:255',
         'Last_name' => 'required|string|max:255',
         'PCI_title' => 'required|string|max:255',
+        'browser' => 'required|string|max:255',
         'id' => 'required',
     ]);
 
@@ -950,7 +951,7 @@ public function createMerchant(){
         return response()->json(['error' => 'unable to make merchant '.$merchant["responce"]], 401);
     }
     if($merchant['worked']){
-        $browser = new Browser();
+        // $browser = new Browser();
         if($info['live']){
             $awaiting=awaiting_PCI::create([
                 'name'=>$request->first_name." ".$request->last_name,
@@ -958,7 +959,7 @@ public function createMerchant(){
                 'user_id'=>$info['userID'],
                 'merchant_id'=>$merchant["ref"]->finix_id,
                 'pci_title'=>$request->PCI_title,
-                'browser'=>$browser->getUserAgent()
+                'browser'=>$request->browser
             ]);
         }else{
             $awaiting=awaiting_PCI::create([
@@ -967,7 +968,7 @@ public function createMerchant(){
                 'user_id'=>$info['userID'],
                 'merchant_id'=>$merchant["ref"]->finix_id,
                 'pci_title'=>$request->PCI_title,
-                'browser'=>$browser->getUserAgent()
+                'browser'=>$request->browser
             ]);
         }
         $awaiting->save();
@@ -1213,6 +1214,7 @@ public function fillPci(){
         'first_name' => 'required|string|max:255',
         'Last_name' => 'required|string|max:255',
         'PCI_title' => 'required|string|max:255',
+        'browser' => 'required|string|max:255',
         'id' => 'required',
     ]);
 
@@ -1242,14 +1244,14 @@ public function fillPci(){
         return response()->json(['error' => 'unable to get form '], 401);
     }
 
-        $browser = new Browser();
+        // $browser = new Browser();
         if($info['live']){
             $awaiting=pci_forms_live::fillOutForm(
                 $pci_form->finix_id,
                 $this->getIp(),
                 $request->first_name." ".$request->last_name,
                 $request->PCI_title,
-                $browser->getUserAgent()
+                $request->browser
             );
         }else{
             $awaiting=awaiting_PCI::fillOutForm([
@@ -1257,7 +1259,7 @@ public function fillPci(){
                 $this->getIp(),
                 $request->first_name." ".$request->last_name,
                 $request->PCI_title,
-                $browser->getUserAgent()
+                $request->browser
             ]);
         }
         return response()->json($awaiting, 201 , [] , JSON_PRETTY_PRINT );

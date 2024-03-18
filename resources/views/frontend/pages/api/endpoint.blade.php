@@ -1614,11 +1614,11 @@ var data = [
      {
         "routeName": "Create Merchant",
         "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the pci holder. 'Last_name' of the pci holder. 'PCI_title' of the pci holder.",
+        "parameters": "'apikey' either user or merchant.'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'Last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
         "header": "Endpoint",
         "query": "",
-        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the pci holder. 'Last_name' of the pci holder. 'PCI_title' of the pci holder.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"apikey\",\"first_name\":\"Jhon\",\"first_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2}'",
+        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'Last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"apikey\",\"first_name\":\"Jhon\",\"first_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2,\"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"}'",
         "exampleResponse": ``
     },
      {
@@ -1705,11 +1705,11 @@ var data = [
     }, {
         "routeName": "Fill PCI Form",
         "info": "Fill  a PCI form. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement.",
+        "parameters": "'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement. 'browser' of the PCI holder.",
         "header": "Endpoint",
         "query": "",
-        "data":"'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/ap/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"apikey\",\"first_name\":\"123123123\",\"account_type\":\"Jhon\",\"Last_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2}'",
+        "data":"'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement. 'browser' of the PCI holder.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/ap/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"apikey\",\"first_name\":\"123123123\",\"account_type\":\"Jhon\",\"Last_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2,\"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"}'",
         "exampleResponse": ``}
     ,
     {

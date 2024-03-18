@@ -104,9 +104,7 @@
             cursor: pointer;
         }
 
-        ul li:hover {
-            background-color: #f2f2f2;
-        }
+
         ul li a.active {
             /* background-color: #f2f2f2; */
             color: rgb(82, 238, 80)!important;

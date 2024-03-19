@@ -110,4 +110,14 @@ class HomeController
         // Return the response message
         return redirect()->back()->with('status', $response);
     }
+    public function demoRequest(Request $request){
+        $request->validate([
+            'email' => 'required|email|max:255',
+        ]);
+
+        // Call the contactSubmit function from the Email model
+        $response = Email::demoRequestSubmit($request);
+        // Return the response message
+        return redirect()->back()->with('status', $response);
+    }
 }

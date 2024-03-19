@@ -26,12 +26,34 @@ class Email extends Model
             $email->content = $request->input('message');
             $email->title = 'Contact Form Submission';
             $email->save();
+            $email->refresh();
 
             // Return success message
             return "Your message has been successfully submitted. We will get back to you shortly.";
         } catch (\Exception $e) {
             // Return error message if an exception occurs
             return "An error occurred while submitting your message. Please try again later.";
+        }
+    }
+    public static function demoRequestSubmit($request)
+    {
+        try {
+            // Create a new email entry
+            $email = new Email();
+            $email->type = 'Demo Request';
+            $email->from_name = "Demo requester";
+            $email->from_email = $request->input('email');
+            $email->to_email = config('app.contact_mail'); // Specify the recipient email address
+            $email->content = $request->input('email') . " has requested a demo";
+            $email->title = 'Demo Request Submission';
+            $email->save();
+            $email->refresh();
+
+            // Return success message
+            return "Your request has been successfully submitted. We will get back to you shortly.";
+        } catch (\Exception $e) {
+            // Return error message if an exception occurs
+            return "An error occurred while submitting your request. Please try again later.";
         }
     }
 }

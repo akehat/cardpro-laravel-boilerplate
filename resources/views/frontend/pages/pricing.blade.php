@@ -25,6 +25,7 @@
             display: flex;
             justify-content: space-around;
             padding: 40px;
+            height: calc(100vh - 200px);
         }
 
         .pricing-feature {

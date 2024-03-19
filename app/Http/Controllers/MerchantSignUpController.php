@@ -68,13 +68,20 @@ class MerchantSignUpController extends Controller
             return view('frontend.pages.portal.organizationSignUp');
 
     }
+    public function setUserLiveStatus(Request $request){
+        $userid=Auth::id();
+        $user=User::where("id",$userid)->firstOrFail();
+        $user->live=$request->live;
+        $user->save();
+        $user->refresh();
+    }
     public function getKeys(){
         $array['data']=User::getApiDataByUserId(Auth::id());
 
         $array['next_page_url']=null;
         $array['prev_page_url']=null;
         $array['data']=isset($array['data'])?$array['data']:null;
-        return view("frontend.pages.portal.jsonViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url']]);
+        return view("frontend.pages.portal.KeysViewer",["json"=>str_replace(['\\','`'],['\\\\','｀'],json_encode((object)[$array['data']], JSON_PRETTY_PRINT)),'next'=>$array['next_page_url'],'prev'=>$array['prev_page_url'],'title'=>"API KEYS"]);
     }
 
     public function getFeeForm(){

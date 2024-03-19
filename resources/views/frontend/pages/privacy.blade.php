@@ -23,6 +23,7 @@
 
         .index-container {
             display: flex;
+            height: calc(100vh - 200px);
         }
 
         .left-section,

@@ -4,11 +4,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
    <style>
+
       table, th, td {
         border-collapse: collapse;
     }
@@ -60,6 +61,22 @@
         /* text-overflow: inherit!important; */
 
     }
+    #container > label{
+        background: darkblue;
+        color:white;
+        padding-left:10px;
+
+    }
+    .toggle-group{
+        padding-left:10px;
+        background: white;
+
+        border:1px solid black;
+        cursor: pointer!important;
+    }
+    .toggle-group * {
+    cursor: pointer;
+}
    </style>
 
    <div id="container"></div>
@@ -95,6 +112,7 @@
           }
       }
 counter=0;
+var userTable;
     function arrayToTable2(array) {
     // Create a Set of all unique keys in the array
     const allKeysSet = new Set();
@@ -153,7 +171,7 @@ counter=0;
             var h5=document.createElement('h5');
             h5.textContent = "User API key";
             var label=document.createElement('label');
-            label.textContent = "LIVE";
+            label.textContent = "LIVE ";
             var checkbox=document.createElement('input');
             checkbox.type = "checkbox";
             checkbox.value = "1";
@@ -187,12 +205,13 @@ counter=0;
                 xhr.onload = function() {
                     if (xhr.status === 200) {
                         console.log('Request successful');
-                        // Handle successful response here
+                        location.reload();
                     } else {
                         console.error('Request failed');
                         // Handle failed response here\
                         checkbox.checked = !isChecked;
                     }
+
                 };
             };
 
@@ -202,7 +221,8 @@ counter=0;
         container.appendChild(h5);
     }
     container.appendChild(table);
-    $('#myTable'+(counter-1)).DataTable({
+    if(counter==1)
+    var jtable=$('#myTable'+(counter-1)).DataTable({
     "columnDefs": [
         {
             "targets": ".expandable", // Target columns by class name
@@ -211,6 +231,9 @@ counter=0;
     ],
     "scrollX": true // Enable horizontal scrolling if needed
 });
+if(counter==1){
+    userTable=jtable;
+}
     // createTotal(array.length);
 }
 

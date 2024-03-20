@@ -327,9 +327,18 @@ class tesingCommand extends Command
 //     echo 'Error:' . curl_error($ch);
 // }
 // curl_close($ch);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/merchants/identity');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'apikey: USER_KEY_1Yn4rG3o0NQuhy56j1ZcNhdhngdesMffE',
+]);
 
-$result = formController::listPCIforms(config("app.api_username"),config("app.api_password"));
-var_dump($result);
+$response = curl_exec($ch);
+
+curl_close($ch);
+var_dump($response);
         return 0;
     }
 }

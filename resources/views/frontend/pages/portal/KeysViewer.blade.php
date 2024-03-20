@@ -5,9 +5,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
+
    <style>
 
       table, th, td {
@@ -75,8 +76,8 @@
         cursor: pointer!important;
     }
     .toggle-group * {
-    cursor: pointer;
-}
+         cursor: pointer;
+    }
    </style>
 
    <div id="container"></div>
@@ -138,7 +139,7 @@ var userTable;
     allKeysArray.forEach(key => {
         headCounter++;
         const th = document.createElement('th');
-        if(headCounter>=4)th.className="expandable";
+        // if(headCounter>=4)th.className="expandable";
         th.textContent = key;
         headerRow.appendChild(th);
     });
@@ -159,7 +160,11 @@ var userTable;
                 link.textContent=obj[key];
                 cell.appendChild(link);
             }else{
+
                 cell.textContent = stringifyObject(obj[key]);
+                if(key=="live"){
+                    cell.className="live";
+                }
             }
         });
     });
@@ -205,7 +210,7 @@ var userTable;
                 xhr.onload = function() {
                     if (xhr.status === 200) {
                         console.log('Request successful');
-                        location.reload();
+                        $('.live:first').text(data.live);
                     } else {
                         console.error('Request failed');
                         // Handle failed response here\
@@ -217,7 +222,7 @@ var userTable;
 
         }else{
         var h5=document.createElement('h5');
-        h5.textContent = "Merchant(s) API key(s)"
+        h5.textContent = "Merchant(s) API key(s). (Test and Live keys)"
         container.appendChild(h5);
     }
     container.appendChild(table);
@@ -225,8 +230,8 @@ var userTable;
     var jtable=$('#myTable'+(counter-1)).DataTable({
     "columnDefs": [
         {
-            "targets": ".expandable", // Target columns by class name
-            "className": "none"
+            "targets": ".live", // Target columns by class name
+            "className": "live"
         }
     ],
     "scrollX": true // Enable horizontal scrolling if needed

@@ -31,15 +31,13 @@ Route::get('/cardwiz/customers/search', [RoutesController::class,'customers_sear
 Route::get('/cardwiz/customers/{id}', [RoutesController::class,'getCustomer' ]);
 Route::get('/cardwiz/customers', [RoutesController::class,'getCustomers' ]);
 
-Route::post('/cardwiz/merchants', [RoutesController::class,'createMerchant' ]);
-Route::get('/cardwiz/merchants/search', [RoutesController::class,'merchants_search' ]);
-Route::get('/cardwiz/merchants/{id}', [RoutesController::class,'getMerchant' ]);
-Route::get('/cardwiz/merchants', [RoutesController::class,'getMerchants' ]);
 
 Route::post('/cardwiz/merchants/identity', [RoutesController::class,'createMerchantIdentity' ]);
+Route::get('/cardwiz/merchants/identity', [RoutesController::class,'getMerchantIdentities' ]);
 Route::get('/cardwiz/merchants/identity/search', [RoutesController::class,'MerchantIdentities_search' ]);
 Route::get('/cardwiz/merchants/identity/{id}', [RoutesController::class,'getMerchantIdentity' ]);
-Route::get('/cardwiz/merchants/identity', [RoutesController::class,'getMerchantIdentities' ]);
+
+
 
 Route::get('/cardwiz/merchants/totals/search', [RoutesController::class,'totals_search' ]);
 Route::get('/cardwiz/merchants/totals/{id}', [RoutesController::class,'getTotal' ]);
@@ -54,6 +52,12 @@ Route::get('/cardwiz/merchant/{id}/customers', [RoutesController::class,'getCamp
 Route::get('/cardwiz/campaign/{id}/customers', [RoutesController::class,'getCampaignCustomers' ]);
 Route::get('/cardwiz/merchant/{id}/balance', [RoutesController::class,'getCampaignBalance' ]);
 Route::get('/cardwiz/campaign/{id}/balance', [RoutesController::class,'getCampaignBalance' ]);
+
+
+Route::post('/cardwiz/merchants', [RoutesController::class,'createMerchant' ]);
+Route::get('/cardwiz/merchants/search', [RoutesController::class,'merchants_search' ]);
+Route::get('/cardwiz/merchants/{id}', [RoutesController::class,'getMerchant' ]);
+Route::get('/cardwiz/merchants', [RoutesController::class,'getMerchants' ]);
 
 Route::post('/cardwiz/charges', [RoutesController::class,'createCharges' ]);
 Route::post('/cardwiz/charges/{id}', [RoutesController::class,'updateCharge' ]);

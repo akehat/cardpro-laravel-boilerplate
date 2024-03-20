@@ -1584,7 +1584,7 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/holds\"",
+  \"{{url('')}}/api/cardwiz/merchants/identity\"",
         "exampleResponse":``
     },
     {
@@ -1835,16 +1835,16 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 section.id = route.routeName.toLowerCase().replace(/\s+/g, '-');
                 route.exampleRequest = route.exampleRequest
 
-    .split('-H').join('-H\n')
-    .split(' "http').join('\n"http')
-    .split(' http').join('\nhttp')
-    .split('-d').join('\n-d')
-    .split('}').join('\n}')
+    .split('-H').join('-H \n')
+    .split(' "http').join('\\\n"http')
+    .split(' http').join('\\\nhttp')
+    .split('-d').join('\\\n-d')
+    .split('}').join('\\\n}')
     .replace(/  +/g, ' ')
-    .replaceAll("\n ","\n")
-    .split('{').join('{\n    ')
-    .split(',').join(',\n    ')
-    .replace('curl',"CURL");
+    .replaceAll("\n ","\\\n")
+    .split('{').join('{\\\n    ')
+    .split(',').join(',\\\n    ')
+    // .replace('curl',"CURL");
     route.parameters=route.parameters.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.data=route.data.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.query=route.query.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");

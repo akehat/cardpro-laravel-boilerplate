@@ -41,9 +41,11 @@
         }
 
         footer a:hover {
-            color: #ffd700;
+            color: #ffd700!important;
         }
-
+        footer li a.active{
+            color: #ffd700!important;
+        }
         /* Add more styles for additional content or social media links */
     </style>
 <footer class="bg-dark text-white text-center py-4">
@@ -56,9 +58,9 @@
                 <div class="col-md-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ route('frontend.privacy') }}" class="text-white">Privacy Policy</a></li>
-                        <li><a href="{{ route('frontend.pages.terms') }}" class="text-white">Terms of Service</a></li>
-                        <li><a href="{{ route('frontend.contact') }}" class="text-white">Contact</a></li>
+                        <li><a href="{{ route('frontend.privacy') }}" class="{{ Route::is('frontend.privacy') ? 'active' : '' }} text-white">Privacy Policy</a></li>
+                        <li><a href="{{ route('frontend.pages.terms') }}" class="{{ Route::is('frontend.pages.terms') ? 'active' : '' }} text-white">Terms of Service</a></li>
+                        <li><a href="{{ route('frontend.contact') }}" class="{{ Route::is('frontend.contact') ? 'active' : '' }} text-white">Contact</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">

@@ -122,7 +122,7 @@ public static function authenticateGetID($id, $api_userID , $api_key)
 {
     if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
     // Check if the API key is a sub key
-    if ($api_key > 1 || $api_key === null) {
+    if ($api_key > 1 && $api_key !== null) {
         return self::where(function ($query) use ($id) {
         $query->where('id', $id)
               ->orWhere('finix_id', $id);
@@ -148,7 +148,7 @@ if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === n
 }
 
 // Check if the API key is a sub key
-if ($api_key > 1 || $api_key === null) {
+if ($api_key > 1 && $api_key !== null) {
     return self::where('api_key', $api_key)
         ->where('api_user', $api_userID)
         ->paginate($perPage);
@@ -168,7 +168,7 @@ if (($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === n
 }
 
 // Check if the API key is a sub key
-if ($api_key > 1 || $api_key === null) {
+if ($api_key > 1 && $api_key !== null) {
     return self::where('api_key', $api_key)
         ->where('api_user', $api_userID)
         ->where(function ($query) use ($columns, $search) {

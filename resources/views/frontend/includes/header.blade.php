@@ -21,7 +21,7 @@
             justify-content: flex-end;
         }
 
-        #navLink {
+        .navLink {
             text-decoration: none;
             color: #333; /* Your preferred text color */
             font-weight: bold;
@@ -29,7 +29,10 @@
             font-size: 16px;
         }
 
-        #navLink:hover {
+        .navLink:hover {
+            color: #3498db; /* Change the color on hover to match brand color */
+        }
+        .navLink.active {
             color: #3498db; /* Change the color on hover to match brand color */
         }
     </style>
@@ -43,16 +46,16 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto" id="navList">
-                    <li><a href="{{ route('frontend.index') }}" id="navLink">Home</a></li>
-                    <li><a href="{{ route('frontend.api.endpoint') }}" id="navLink">API</a></li>
-                    <li><a href="{{ route('frontend.dashboard') }}" id="navLink">Dashboard</a></li>
-                    <li><a href="{{ route('frontend.pricing') }}" id="navLink">Request A Demo</a></li>
-                    <li><a href="{{ route('frontend.contact') }}" id="navLink">Contact</a></li>
+                    <li><a href="{{ route('frontend.index') }}" class="{{ Route::is('frontend.index') ? 'active' : '' }} navLink">Home</a></li>
+                    <li><a href="{{ route('frontend.api.endpoint') }}" class="{{ Route::is('frontend.api.endpoint') ? 'active' : '' }} navLink">API</a></li>
+                    <li><a href="{{ route('frontend.dashboard') }}" class="{{ Route::is('frontend.dashboard') ? 'active' : '' }} navLink">Dashboard</a></li>
+                    <li><a href="{{ route('frontend.pricing') }}" class="{{ Route::is('frontend.pricing') ? 'active' : '' }} navLink">Request A Demo</a></li>
+                    <li><a href="{{ route('frontend.contact') }}" class="{{ Route::is('frontend.contact') ? 'active' : '' }} navLink">Contact</a></li>
                     @if(Auth::user()==null)
-                    <li><a href="{{ route('frontend.signup') }}" id="navLink">Sign Up</a></li>
-                    <li><a href="{{ route('frontend.signin') }}" id="navLink">Sign In</a></li>
+                    <li><a href="{{ route('frontend.signup') }}" class="{{ Route::is('frontend.signup') ? 'active' : '' }} navLink">Sign Up</a></li>
+                    <li><a href="{{ route('frontend.signin') }}" class="{{ Route::is('frontend.signin') ? 'active' : '' }} navLink">Sign In</a></li>
                     @else
-                    <li><a href="{{ route('frontend.auth.logout')}}" id="navLink">Log out</a></li>
+                    <li><a href="{{ route('frontend.auth.logout')}}" class="navLink">Log out</a></li>
                     @endif
                 </ul>
             </div><!--navbar-collapse-->

@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ appName() }}</title>
+    <title>{{ appName() }} | Privacy</title>
+    <link rel="icon"  href="{{ asset('img/logo.png') }}">
     <meta name="description" content="@yield('meta_description', appName())">
     <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
     @yield('meta')
@@ -33,25 +34,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
+
         }
 
         .left-section {
             background-color: #3498db; /* Your brand color */
             color: #fff;
-            text-align: cent
+            text-align: center;
+        }
 
         @media only screen and (max-width: 768px) {
-            .left-section {
+            body > div > div.left-section.d-flex.flex-column {
                 flex: 0.5;
             }
         }
 
         /* Phone styles */
         @media only screen and (max-width: 480px) {
-            .left-section {
-                display: none;
+            body > div > div.left-section.d-flex.flex-column {
+                display: none!important;
             }
-        }er;
         }
 
         .left-section h1 {
@@ -64,6 +67,7 @@
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             text-align: center;
+
         }
 
         .right-section h2 {
@@ -82,8 +86,12 @@
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             text-align: left;
-        }
 
+        }
+        .privacy-card {
+            height: 90%;
+            overflow: auto;
+        }
         .right-section .privacy-card h3 {
             font-size: 24px;
             margin-bottom: 20px;

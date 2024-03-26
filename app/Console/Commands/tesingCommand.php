@@ -328,7 +328,7 @@ class tesingCommand extends Command
 // }
 // curl_close($ch);
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/merchants/identity');
+curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/merchants');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 curl_setopt($ch, CURLOPT_HTTPHEADER, [

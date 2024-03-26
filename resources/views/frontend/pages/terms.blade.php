@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ appName() }}</title>
+    <title>{{ appName() }} | Terms</title>
+    <link rel="icon"  href="{{ asset('img/logo.png') }}">
     <meta name="description" content="@yield('meta_description', appName())">
     <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
     @yield('meta')
@@ -42,15 +43,15 @@
         }
 
         @media only screen and (max-width: 768px) {
-            .left-section {
-                flex: 0.5;
+            body > div > div.left-section.d-flex.flex-column {
+                flex: 0.5!important;
             }
         }
 
         /* Phone styles */
         @media only screen and (max-width: 480px) {
-            .left-section {
-                display: none;
+            body > div > div.left-section.d-flex.flex-column {
+                display: none!important;
             }
         }
 
@@ -83,7 +84,10 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             text-align: left;
         }
-
+        .terms-card {
+            height: 90%;
+            overflow: auto;
+        }
         .right-section .terms-card h3 {
             font-size: 24px;
             margin-bottom: 20px;

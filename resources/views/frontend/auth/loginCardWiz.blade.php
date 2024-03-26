@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ appName() }}</title>
+        <title>{{ appName() }} | Login</title>
+        <link rel="icon"  href="{{ asset('img/logo.png') }}">
         <meta name="description" content="@yield('meta_description', appName())">
         <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
         @yield('meta')
@@ -23,7 +24,7 @@
 
             .index-container {
                 display: flex;
-                height: calc(100vh- 260px);
+                height: calc(100vh - 200px);
             }
 
             .left-section {

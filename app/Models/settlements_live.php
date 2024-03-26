@@ -120,7 +120,7 @@ public function scopeAccessible($query)
     {
         if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
         // Check if the API key is a sub key
-        if ($api_key > 1 || $api_key === null) {
+        if ($api_key > 1 && $api_key !== null) {
             return self::where(function ($query) use ($id) {
             $query->where('id', $id)
                   ->orWhere('finix_id', $id);
@@ -141,7 +141,7 @@ public function scopeAccessible($query)
     {
         if(($api_userID > 1 || $api_userID === null) && ($api_key > 1 || $api_key === null)) return false;
         // Check if the API key is a sub key
-        if ($api_key > 1 || $api_key === null) {
+        if ($api_key > 1 && $api_key !== null) {
             return self::where(function ($query) use ($id) {
             $query->where('reg_merchant_id', $id)
                   ->orWhere('merchant_id', $id);
@@ -167,7 +167,7 @@ public function scopeAccessible($query)
     }
 
     // Check if the API key is a sub key
-    if ($api_key > 1 || $api_key === null) {
+    if ($api_key > 1 && $api_key !== null) {
         return self::where('api_key', $api_key)
             ->where('api_user', $api_userID)
             ->paginate($perPage);
@@ -187,7 +187,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
     }
 
     // Check if the API key is a sub key
-    if ($api_key > 1 || $api_key === null) {
+    if ($api_key > 1 && $api_key !== null) {
         return self::where('api_key', $api_key)
             ->where('api_user', $api_userID)
             ->where(function ($query) use ($columns, $search) {

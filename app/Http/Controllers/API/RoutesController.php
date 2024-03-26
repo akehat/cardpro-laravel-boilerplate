@@ -216,13 +216,19 @@ class RoutesController extends Controller
     //     }
     //     return response()->json(['error' => 'Invalid API key'], 401);
     // }
-public function retrieveInfo($apiKey){
-    $apiKey=ApiKey::where('api_key', $apiKey)->first();
+public function retrieveInfo($apiKeyUsed){
+    $apiKey=ApiKey::where('api_key', $apiKeyUsed)->first();
     $merchant=false;
     if($apiKey==null){
-        $user=User::where('api_key', $apiKey)->first();
+        $user=User::where('api_key', $apiKeyUsed)->first();
         if($user!==null){
             $api_userID=$user->api_users_id;
+            if($api_userID==null){
+                $user->api_users_id=ApiUser::where('user_id',$user->id)->first()->id;
+                $user->save();
+                $user->refresh();
+                $api_userID=$user->api_users_id;
+            }
             $live=$user->live;
             $userID=$user->id;
         }else{

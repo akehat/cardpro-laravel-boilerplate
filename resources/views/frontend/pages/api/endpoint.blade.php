@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation</title>
+    <title>{{appName()}} | API Documentation </title>
+    <link rel="icon"  href="{{ asset('img/logo.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
 
@@ -165,34 +166,68 @@ nav ul li a:hover {
         }
         #navList {
             display: none;
-            width: 50%;
+            /* width: 50%; */
             position: relative;
-            top: 100px; /* Adjust as needed based on your layout */
+            top: 0px; /* Adjust as needed based on your layout */
             left: 0;
-            background-color: #f0f0f0;/* Your brand color */
+            /* background-color: #f0f0f0;Your brand color */
         }
 
         #navList li {
             display: block;
             margin: 10px 0;
         }
-        #sidenavButton{
+        #sidenavButton:not(.hidden){
             display: block!important;
+            color:white;
         }
         #navList:hover {
             display: block;
         }
+
+
+}
+#navList a.active {
+    color: #ffd700; /* Yellow color */
+}
+.logo-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    margin: auto;
+    margin-top: 7px
+}
+.no-link{
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+}
+.logo-link img {
+    margin-right: 10px; /* Adjust as needed */
+}
+.logo-link span {
+    margin-right: 10px; /* Adjust as needed */
 }
     </style>
 </head>
 <body>
     <header>
-        <h3> API Documentation</h3>
+        <h3 class="logo-link">
+            <a href="{{url('')}}" id="logoLink" class="no-link">
+                <img src="{{ asset('img/logo-white.png') }}" alt="Card Wiz Pro" height="40">
+                <span>{{appName()}}</span>
+            </a>
+            <span> </span>API Documentation
+        </h3>
+
     </header>
 
     <div class="container">
         <nav id="sidenav">
-            <button id="sidenavButton" style="display: none">></button>
+            <span id="sidenavButton" style="display: none">></span>
             <ul id="navList"></ul>
         </nav>
 
@@ -207,6 +242,7 @@ nav ul li a:hover {
         document.querySelector('#navList').style.display = 'block';
         document.querySelector('#sidenav').style.width = '50%';
         document.querySelector('#sidenav').style.minWidth = '50%';
+        document.querySelector('#sidenavButton').classList.add("hidden");;
     }
 });
 
@@ -215,6 +251,7 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
         document.querySelector('#navList').style.display = 'none';
         document.querySelector('#sidenav').style.width = 'min-content';
         document.querySelector('#sidenav').style.minWidth = 'min-content';
+        document.querySelector('#sidenavButton').classList.remove("hidden");;
     }
 });
 
@@ -2080,6 +2117,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 const listItem = document.createElement('li');
                 const link = document.createElement('a');
                 link.href = `#${route.routeName.toLowerCase().replace(/\s+/g, '-')}`;
+                link.id = `link-to-${route.routeName.toLowerCase().replace(/\s+/g, '-')}`;
                 link.textContent = '🌐 '+route.routeName;
                 listItem.appendChild(link);
                 navList.appendChild(listItem);
@@ -2140,9 +2178,40 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
                 mainContent.appendChild(section);
             });
+
         }
 
         loadData(data);
+       // Add scroll event listener to update URL based on scrolled section and highlight active link
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('section');
+            const mainContent = document.querySelector('#mainContent');
+            const navLinks = document.querySelectorAll('#navList a');
+
+            function setActiveLink() {
+                let fromTop = mainContent.scrollTop + 85;
+
+                sections.forEach(section => {
+                    if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+                        let id = section.id;
+                        // Reset style for all nav links
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        // Set style for active nav link
+                        const activeLink = document.querySelector(`#link-to-${id}`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                        window.history.replaceState({}, '', '#' + id);
+                    }
+                });
+            }
+
+            setActiveLink();
+
+            mainContent.addEventListener('scroll', setActiveLink);
+        });
 
     </script>
 

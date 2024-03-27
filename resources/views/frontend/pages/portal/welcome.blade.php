@@ -145,13 +145,61 @@
 
 }
 
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        border-bottom: 1px solid #ddd; /* Add a subtle border */
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        z-index: 1;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        color:black;
+    }
+    .dropdown-content a{
+        color:#6b1d1d!important;
+    }
+    /* User Title Styles */
+    #userTitle {
+        font-size: 1rem; /* Adjust font size as needed */
+        margin: 0;
+        padding-bottom: 10px;
+    }
+
+    /* Avatar Styles */
+    .avatar {
+        background: white;
+        border-radius: 50%;
+        padding: 1px;
+        cursor: pointer;
+    }
     </style>
 </head>
 <body>
     <div id="sidebar">
-        <h5 id="sidenavButton" style="display: none; padding:5px; margin-left:-15px;">></h5>
+        <h5 id="sidenavButton" style="display: none; padding:5px; margin-left:-15px;">▶</h5>
         <div id="navList">
-            <h2>Sidebar</h2>
+            <div id="userDropdown" class="dropdown">
+                <h5 id="userTitle">Dashboard - User: {{ Auth::user()->email }} <span class="avatar" onclick="toggleDropdown()">👤</span></h5>
+
+
+                <!-- Dropdown Content -->
+                <div id="dropdownContent" class="dropdown-content">
+                    <p>{{ Auth::user()->name }}</p>
+                    <a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-user-plus"></i> Logout</a>
+                </div>
+            </div>
             <ul>
                 <li><a href="{{ url('portal/keys') }}" class="{{ Route::is('frontend.portal.keys') ? 'active' : '' }}"><i class="fas fa-key"></i> Keys</a></li>
                 <button class="togglebtn" id="toggleTestRoutes" onclick="toggleRoutes('test')">TEST <span id="testIcon">&#9660;</span></button>

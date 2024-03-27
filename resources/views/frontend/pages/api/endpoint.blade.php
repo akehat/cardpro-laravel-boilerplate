@@ -78,7 +78,7 @@ p{
         .Holder {
             display: flex;
             overflow: hidden;
-            height: calc(100vh - 65px);
+            height: calc(100vh - 62px);
         }
         nav {
     background-color: #1e325b; /* Dark blue background color */
@@ -237,7 +237,7 @@ section:last-of-type{
 
     <div class="Holder">
         <nav id="sidenav">
-            <span id="sidenavButton" style="display: none">></span>
+            <span id="sidenavButton" style="display: none">▶</span>
             <ul id="navList"></ul>
         </nav>
 

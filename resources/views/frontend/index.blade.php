@@ -63,14 +63,7 @@
         }
 
         .login-card {
-            max-width: 400px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .login-card {
-            max-width: 400px;
+            max-width: calc(400px - 80px);
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -254,9 +247,10 @@
             </form>
             <a href="{{route('frontend.auth.password.request')}}">Forgot Your Password?</a>
             @else
-            <ul style="padding: 100px">
-            <li><a href="{{ route('frontend.dashboard') }}" id="navLink">Dashboard</a></li>
-            <li><a href="{{ route('frontend.auth.logout')}}" id="navLink">Log out</a></li>
+            <h2 style="color:black;">User: {{ Auth::user()->email }}</h2>
+            <ul style="padding: 0px 70px 100px 70px;list-style-type: none;">
+            <li><a href="{{ route('frontend.dashboard') }}" id="navLink"><h2 style="color:blue;">Dashboard</h2></a></li>
+            <li><a href="{{ route('frontend.auth.logout')}}" id="navLink"><h2 style="color:blue;">Log out</h2></a></li>
             </ul>
             @endif
         </div>

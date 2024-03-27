@@ -46,6 +46,7 @@ https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
     border-radius: 10px;
     box-shadow: 5px 5px 10px black;
     border:1px solid lightblue;
+    max-width: 81vw;
 }
 .paramHolder{
     padding: 10px;
@@ -224,13 +225,13 @@ section:last-of-type{
 </head>
 <body>
     <header>
-        <h3 class="logo-link">
+        <h4 class="logo-link">
             <a href="{{url('')}}" id="logoLink" class="no-link">
                 <img src="{{ asset('img/logo-white.png') }}" alt="Card Wiz Pro" height="40">
                 <span>{{appName()}}</span>
             </a>
             <span> </span>API Documentation
-        </h3>
+        </h4>
 
     </header>
 
@@ -251,6 +252,7 @@ section:last-of-type{
         document.querySelector('#navList').style.display = 'block';
         document.querySelector('#sidenav').style.width = '50%';
         document.querySelector('#sidenav').style.minWidth = '50%';
+        document.querySelector('#sidenav').style.position = 'absolute';
         document.querySelector('#sidenavButton').classList.add("hidden");;
     }
 });
@@ -260,6 +262,7 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
         document.querySelector('#navList').style.display = 'none';
         document.querySelector('#sidenav').style.width = 'min-content';
         document.querySelector('#sidenav').style.minWidth = 'min-content';
+        document.querySelector('#sidenav').style.position = 'relative';
         document.querySelector('#sidenavButton').classList.remove("hidden");;
     }
 });

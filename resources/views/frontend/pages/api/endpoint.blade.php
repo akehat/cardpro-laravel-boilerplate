@@ -85,7 +85,7 @@ p{
     border-right: 1px solid #000; /* Black border */
     padding: 20px;
 
-    width: 200px;
+    width: 300px;
     overflow-y: auto;
     max-height: 100%;
     height: 100%;
@@ -250,8 +250,8 @@ section:last-of-type{
         document.querySelector('#sidenav').addEventListener('mouseenter', function () {
     if (window.innerWidth <= 480) { // Check if screen size is phone
         document.querySelector('#navList').style.display = 'block';
-        document.querySelector('#sidenav').style.width = '50%';
-        document.querySelector('#sidenav').style.minWidth = '50%';
+        document.querySelector('#sidenav').style.width = '70%';
+        document.querySelector('#sidenav').style.minWidth = '70%';
         document.querySelector('#sidenav').style.position = 'absolute';
         document.querySelector('#sidenavButton').classList.add("hidden");;
     }

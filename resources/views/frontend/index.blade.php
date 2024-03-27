@@ -249,7 +249,7 @@
             @else
             <h2 style="color:black;">User: {{ Auth::user()->email }}</h2>
             <ul style="padding: 0px 70px 100px 70px;list-style-type: none;">
-            <li><a href="{{ route('frontend.dashboard') }}" id="navLink"><h2 style="color:blue;">Dashboard</h2></a></li>
+            <li><a href="{{ route('frontend.dashboard') }}" id="navLink"><h2 style="color:blue;">Portal</h2></a></li>
             <li><a href="{{ route('frontend.auth.logout')}}" id="navLink"><h2 style="color:blue;">Log out</h2></a></li>
             </ul>
             @endif

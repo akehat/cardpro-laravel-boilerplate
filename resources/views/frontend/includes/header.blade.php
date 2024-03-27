@@ -49,7 +49,7 @@
                 <ul class="navbar-nav ml-auto" id="navList">
                     <li><a href="{{ route('frontend.index') }}" class="{{ Route::is('frontend.index') ? 'active' : '' }} navLink">Home</a></li>
                     <li><a href="{{ route('frontend.api.endpoint') }}" class="{{ Route::is('frontend.api.endpoint') ? 'active' : '' }} navLink">API</a></li>
-                    <li><a href="{{ route('frontend.dashboard') }}" class="{{ Route::is('frontend.dashboard') ? 'active' : '' }} navLink">Dashboard</a></li>
+                    <li><a href="{{ route('frontend.dashboard') }}" class="{{ Route::is('frontend.dashboard') ? 'active' : '' }} navLink">Portal</a></li>
                     <li><a href="{{ route('frontend.pricing') }}" class="{{ Route::is('frontend.pricing') ? 'active' : '' }} navLink">Request A Demo</a></li>
                     <li><a href="{{ route('frontend.contact') }}" class="{{ Route::is('frontend.contact') ? 'active' : '' }} navLink">Contact</a></li>
                     @if(Auth::user()==null)

@@ -191,14 +191,17 @@
         <h5 id="sidenavButton" style="display: none; padding:5px; margin-left:-15px;">▶</h5>
         <div id="navList">
             <div id="userDropdown" class="dropdown">
-                <h5 id="userTitle">Dashboard - User: {{ Auth::user()->email }} <span class="avatar" onclick="toggleDropdown()">👤</span></h5>
-
+                <h5 id="userTitle">Portal - User: {{ Auth::user()->email }} <span class="avatar" onclick="toggleDropdown()">👤</span></h5>
 
                 <!-- Dropdown Content -->
                 <div id="dropdownContent" class="dropdown-content">
                     <p>{{ Auth::user()->name }}</p>
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{  url('admin/dashboard') }}" style="padding-bottom:10px; color:rgb(67, 67, 211)!important;"><i class="fas fa-user-plus"></i> Admin Dashboard</a>
+                    @endif
                     <a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-user-plus"></i> Logout</a>
                 </div>
+
             </div>
             <ul>
                 <li><a href="{{ url('portal/keys') }}" class="{{ Route::is('frontend.portal.keys') ? 'active' : '' }}"><i class="fas fa-key"></i> Keys</a></li>

@@ -327,13 +327,29 @@ class tesingCommand extends Command
 //     echo 'Error:' . curl_error($ch);
 // }
 // curl_close($ch);
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/merchant/bank_accounts');
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'Content-Type: application/json',
+// ]);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n    \"apikey\":\"USER_KEY_1Yn4rG3o0NQuhy56j1ZcNhdhngdesMffE\",\n    \"account_number\":\"123123123\",\n    \"account_type\":\"SAVINGS\",\n    \"bank_code\":\"123123123\",\n    \"name\":\"John Smith\",\n    \"identity\":85,\n    \"type\":\"BANK_ACCOUNT\"\n}");
+
+// $response = curl_exec($ch);
+// var_dump($response);
+//         return 0;
+$ch = curl_init();
+
+curl_close($ch);
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:8000/api/cardwiz/merchants');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'apikey: USER_KEY_1Yn4rG3o0NQuhy56j1ZcNhdhngdesMffE',
+    'Content-Type: application/json',
 ]);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n    \"apikey\":\"USER_KEY_1Yn4rG3o0NQuhy56j1ZcNhdhngdesMffE\",\n    \"first_name\":\"Jhon\",\n    \"last_name\":\"Doe\",\n    \"PCI_title\":\"CTO\",\n    \"id\":85,\n    \"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"\n}");
 
 $response = curl_exec($ch);
 

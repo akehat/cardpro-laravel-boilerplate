@@ -149,7 +149,7 @@
 </head>
 <body>
     <div id="sidebar">
-        <h5 id="sidenavButton" style="display: none; padding:5px;">></h5>
+        <h5 id="sidenavButton" style="display: none; padding:5px; margin-left:-15px;">></h5>
         <div id="navList">
             <h2>Sidebar</h2>
             <ul>
@@ -249,13 +249,7 @@
     </div>
     <script>
            document.querySelector('#sidebar').addEventListener('mouseenter', function () {
-    if (window.innerWidth <= 480) { // Check if screen size is phone
-        document.querySelector('#navList').style.display = 'block';
-        document.querySelector('#sidebar').style.width = '50%';
-        document.querySelector('#sidebar').style.position = 'absolute';
-        document.querySelector('#sidebar').style.minWidth = '50%';
-        document.querySelector('#sidenavButton').classList.add("hidden");;
-    }
+    grow();
 });
 
 document.querySelector('#sidebar').addEventListener('mouseleave', function () {
@@ -270,7 +264,20 @@ function shrink(){
         document.querySelector('#sidenavButton').classList.remove("hidden");;
     }
 }
-shrink();
+function grow(){
+    if (window.innerWidth <= 480) { // Check if screen size is phone
+        document.querySelector('#navList').style.display = 'block';
+        document.querySelector('#sidebar').style.width = '50%';
+        document.querySelector('#sidebar').style.position = 'absolute';
+        document.querySelector('#sidebar').style.minWidth = '50%';
+        document.querySelector('#sidenavButton').classList.add("hidden");;
+    }
+}
+if({{ Route::is('frontend.dashboard') ? 'false' : 'true' }}){
+    shrink();
+}else{
+    grow();
+}
    // Function to toggle routes and remember the state
 function toggleRoutes(type) {
     var routes = document.getElementById(type + "Routes");

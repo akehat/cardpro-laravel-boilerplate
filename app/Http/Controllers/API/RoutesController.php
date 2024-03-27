@@ -877,10 +877,10 @@ public function updateDispute($id){
 
 
 public function createMerchantBank(){
-    $request=request()->all();
+    $request=json_decode(request()->getContent(),true);
     $validator = Validator::make($request, [
         'account_number' => 'required|string|between:5,17',
-        'account_type' => 'required|string|in:PERSONAL_CHECKING,PERSONAL_SAVINGS,BUSINESS_CHECKING,BUSINESS_SAVINGS',
+        'account_type' => 'required|string|in:PERSONAL_CHECKING,PERSONAL_SAVINGS,BUSINESS_CHECKING,BUSINESS_SAVINGS,SAVINGS,CHECKING',
         'bank_code' => 'required|string|size:9',
         'identity' => 'required',
         'name' => 'string', // Note: name field is optional
@@ -893,28 +893,29 @@ public function createMerchantBank(){
     }
     $info=$this->retrieveInfo($request['apikey']);
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
-    $id=$request['id']??null;
+    $id=$request['identity']??null;
     if($id==null){return response()->json(['error' => 'Invalid merchant id'], 401);}
     if($info['live']){
         $merchant=identities_live::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
     }else{
         $merchant=identities::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
     }
+    if($merchant==null){return response()->json(['error' => 'Invalid merchant id'], 401);}
     $request=(object)$request;
     if($info['live']){
-        $bank=payment_ways_live::makeBank($request->bank_account_number,
-        $request->bank_account_type,
-        $request->bank_bank_code,
+        $bank=payment_ways_live::makeBank($request->account_number,
+        $request->account_type,
+        $request->bank_code,
         $merchant->finix_id,
-        $request->bank_name,
-        $request->bank_type,$info['api_userID'],$info['apikey']);
+        $request->name,
+        $request->type,$info['api_userID'],$info['apikey']);
     }else{
-        $bank=payment_ways::makeBank($request->bank_account_number,
-        $request->bank_account_type,
-        $request->bank_bank_code,
+        $bank=payment_ways::makeBank($request->account_number,
+        $request->account_type,
+        $request->bank_code,
         $merchant->finix_id,
-        $request->bank_name,
-        $request->bank_type,$info['api_userID'],$info['apikey']);
+        $request->name,
+        $request->type,$info['api_userID'],$info['apikey']);
     }
     if(!$bank["worked"]){
         return response()->json(['error' => 'unable to make bank '.$bank["responce"]], 401);
@@ -925,10 +926,10 @@ public function createMerchantBank(){
     return response()->json($bank['responce'], 301);
 }
 public function createMerchant(){
-    $request=request()->all();
+    $request=json_decode(request()->getContent(),true);
     $validator = Validator::make($request, [
         'first_name' => 'required|string|max:255',
-        'Last_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
         'PCI_title' => 'required|string|max:255',
         'browser' => 'required|string|max:255',
         'id' => 'required',
@@ -947,11 +948,12 @@ public function createMerchant(){
     }else{
         $merchant=identities::authenticateGetMerchantByID($id,$info['api_userID'],$info['apikey']);
     }
+    if($merchant==null){return response()->json(['error' => 'Invalid merchant id'], 401);}
     $request=(object)$request;
     if($info['live']){
-        $merchant=Finix_Merchant_live::makeMerchant($merchant->finix_id,$info['api_userID'],$info['apikey']);
+        $merchant=Finix_Merchant_live::makeMerchant($merchant->finix_id,$info['userID'],$info['api_userID'],$info['apikey']);
     }else{
-        $merchant=Finix_Merchant::makeMerchant($merchant->finix_id,$info['api_userID'],$info['apikey']);
+        $merchant=Finix_Merchant::makeMerchant($merchant->finix_id,$info['userID'],$info['api_userID'],$info['apikey']);
     }
     if(!$merchant["worked"]){
         return response()->json(['error' => 'unable to make merchant '.$merchant["responce"]], 401);
@@ -1031,7 +1033,9 @@ public function merchants_search(){
 
 
 public function createMerchantIdentity(){
-    $request=request()->all();
+    // dd(request()->getContent());
+    $request=json_decode(request()->getContent(),true);
+    // dd($request);
     // Validation rules
     $validator = Validator::make($request, [
         'annual_card_volume' => 'required|integer|min:0',
@@ -1083,7 +1087,7 @@ public function createMerchantIdentity(){
     if(!$info['worked']){return response()->json(['error' => 'Invalid API key'], 401);}
     $request=(object)$request;
     if($info['live']){
-        $merchantIdentity=identities::makeMerchantIdentity( $request->annual_card_volume,
+        $merchantIdentity=identities_live::makeMerchantIdentity( $request->annual_card_volume,
         $request->business_address_city,
         $request->business_address_country,
         $request->business_address_region,
@@ -1120,7 +1124,7 @@ public function createMerchantIdentity(){
         $request->principal_percentage_ownership,
         $request->tax_id,
         $request->title,
-        $request->url,$info['api_userID'],$info['apikey']);
+        $request->url,$info['userID'],$info['api_userID']);
     }else{
         $merchantIdentity=identities::makeMerchantIdentity( $request->annual_card_volume,
         $request->business_address_city,
@@ -1159,7 +1163,7 @@ public function createMerchantIdentity(){
         $request->principal_percentage_ownership,
         $request->tax_id,
         $request->title,
-        $request->url,$info['api_userID'],$info['apikey']);
+        $request->url,$info['userID'],$info['api_userID']);
     }
     if($merchantIdentity['worked']){
         return response()->json($merchantIdentity['ref'], 201 , [] , JSON_PRETTY_PRINT );
@@ -1215,7 +1219,7 @@ public function MerchantIdentities_search(){
 
 
 public function fillPci(){
-    $request=request()->all();
+    $request=json_decode(request()->getContent(),true);
     $validator = Validator::make($request, [
         'first_name' => 'required|string|max:255',
         'Last_name' => 'required|string|max:255',

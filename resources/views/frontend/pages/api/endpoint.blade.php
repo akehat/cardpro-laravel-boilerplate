@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{appName()}} | API Documentation </title>
     <link rel="icon"  href="{{ asset('img/logo.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
+" rel="stylesheet">
 
     <style>
 
@@ -24,16 +30,16 @@
 .get{
     color:darkblue;
 }
-.floatcontainer {
+.floatHolder {
     margin-bottom:10%;
     display: flex;
     flex-wrap: wrap;
 }
 
-.floatcontainer > div {
+.floatHolder > div {
     width: max(48%,400px);
 }
-.jsonContainer, .curlContainer{
+.jsonHolder, .curlHolder{
     padding: 10px;
     margin-bottom: 15px;
     background: rgb(242, 240, 243);
@@ -41,7 +47,7 @@
     box-shadow: 5px 5px 10px black;
     border:1px solid lightblue;
 }
-.paramContainer{
+.paramHolder{
     padding: 10px;
     margin-bottom: 15px;
     margin-right: 15px;
@@ -68,7 +74,7 @@ p{
             height: 62px;
         }
 
-        .container {
+        .Holder {
             display: flex;
             overflow: hidden;
             height: calc(100vh - 65px);
@@ -211,6 +217,9 @@ nav ul li a:hover {
 .logo-link span {
     margin-right: 10px; /* Adjust as needed */
 }
+section:last-of-type{
+    padding-bottom: 250px;
+}
     </style>
 </head>
 <body>
@@ -225,7 +234,7 @@ nav ul li a:hover {
 
     </header>
 
-    <div class="container">
+    <div class="Holder">
         <nav id="sidenav">
             <span id="sidenavButton" style="display: none">></span>
             <ul id="navList"></ul>
@@ -1611,7 +1620,24 @@ var data = [
         "query": "",
         "data": "'apikey' either user or merchant.'annual_card_volume': The total annual volume of card transactions processed by the business.'business_address_city': The city where the business is located.'business_address_country': The country where the business is located.'business_address_region': The region (state, province, etc) where the business is located.'business_address_line2': Additional address line (if applicable) for the business location.'business_address_line1': The primary address line for the business location.'business_address_postal_code': The postal code of the business location.'business_name': The legal name of the business.'business_phone': The phone number of the business.'business_tax_id': The tax identification number (TIN) or other business identifier.'business_type': The type or category of the business (eg, retail, service, etc).'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements.'dob_year': The birth year of the individual applicant or representative of the business.'dob_day': The birth day of the individual applicant or representative of the business.'dob_month': The birth month of the individual applicant or representative of the business.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name.'email': The email address of the individual applicant or representative of the business.'first_name': The first name of the individual applicant or representative of the business.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional).'incorporation_date_year': The year the business was incorporated or established.'incorporation_date_day': The day of the month the business was incorporated or established.'incorporation_date_month': The month the business was incorporated or established.'last_name': The last name of the individual applicant or representative of the business.'max_transaction_amount': The maximum transaction amount allowed for the business.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments.'mcc': The Merchant Category Code (MCC) that represents the type of business.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation).'personal_address_city': The city of the individual applicant's personal address.'personal_address_country': The country of the individual applicant's personal address.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address. personal_address_line1': The primary address line for the individual applicant's personal address.'personal_address_postal_code': The postal code of the individual applicant's personal address.'phone': The phone number of the individual applicant or representative of the business.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant.'title': The title or role of the individual applicant or representative of the business.'url': The website URL of the business.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants/identity -d '{\"apikey\":\"apikey\",\"annual_card_volume\": 12000000,\"business_address_city\":\"San Mateo\",\"business_address_country\":\"USA\",\"business_address_region\":\"CA\",\"business_address_line2\":\"Apartment 8\",\"business_address_line1\":\"741 Douglass St\",\"business_address_postal_code\":\"94114\",\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id\":\"123456789\",\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"dob_year\": 1978,\"dob_day\": 27,\"dob_month\": 6,\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\": true,\"incorporation_date_year\": 1978,\"incorporation_date_day\": 27,\"incorporation_date_month\": 6,\"last_name\":\"Smith\",\"max_transaction_amount\": 1200000,\"ach_max_transaction_amount\": 1000000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address_city\":\"San Mateo\",\"personal_address_country\":\"USA\",\"personal_address_region\":\"CA\",\"personal_address_line2\":\"Apartment 7\",\"personal_address_line1\":\"741 Douglass St\",\"personal_address_postal_code\":\"94114\",\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"tax_id\":\"123456789\",\"title\":\"CEO\",\"url\":\"https://www.finix.com\"}'",
-        "exampleResponse": ``},
+        "exampleResponse": `{
+    "id": 84,
+    "created_at": "2024-03-26T22:52:12.000000Z",
+    "updated_at": "2024-03-26T22:52:12.000000Z",
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+    "identity_roles": "[\"SELLER\"]",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+    "_links": null,
+    "api_key": null,
+    "is_live": 0,
+    "api_user": 1,
+    "finix_id": "ID5kQmeLzHM7XZg9gxp7TLsq",
+    "finix_merchant_id": null,
+    "customer_id": null,
+    "isBuyer": 0,
+    "isMerchant": 1
+}`},
     {
         "routeName": "Get Merchants Identities",
         "info": "Get a holds by 20. GET Route",
@@ -1622,7 +1648,110 @@ var data = [
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
   \"{{url('')}}/api/cardwiz/merchants/identity\"",
-        "exampleResponse":``
+        "exampleResponse":`{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 73,
+            "created_at": "2024-02-12T00:46:02.000000Z",
+            "updated_at": "2024-02-12T00:46:02.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+            "identity_roles": "[\"SELLER\"]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": null,
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "IDewwm9KSQ7Ngttkg5myWYK6",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 0,
+            "isMerchant": 1
+        },
+        {
+            "id": 81,
+            "created_at": "2024-02-25T03:50:24.000000Z",
+            "updated_at": "2024-02-25T03:50:24.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+            "identity_roles": "[\"SELLER\"]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": null,
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "IDgKs2u1rhAi18yX8pHV84sV",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 0,
+            "isMerchant": 1
+        },
+        {
+            "id": 82,
+            "created_at": "2024-02-25T05:15:13.000000Z",
+            "updated_at": "2024-02-25T05:15:13.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+            "identity_roles": "[\"SELLER\"]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": null,
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "IDugk6mVWXm9XTgrQB2JPcTF",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 0,
+            "isMerchant": 1
+        },
+        {
+            "id": 84,
+            "created_at": "2024-03-26T22:52:12.000000Z",
+            "updated_at": "2024-03-26T22:52:12.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+            "identity_roles": "[\"SELLER\"]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": null,
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "ID5kQmeLzHM7XZg9gxp7TLsq",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 0,
+            "isMerchant": 1
+        }
+    ],
+    "first_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 4,
+    "total": 4
+}`
     },
     {
         "routeName": "Get Merchant Identity",
@@ -1633,8 +1762,25 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/identity/3\"",
-        "exampleResponse": ``
+  \"{{url('')}}/api/cardwiz/merchants/identity/84\"",
+        "exampleResponse": `{
+    "id": 84,
+    "created_at": "2024-03-26T22:52:12.000000Z",
+    "updated_at": "2024-03-26T22:52:12.000000Z",
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+    "identity_roles": "[\"SELLER\"]",
+    "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+    "_links": null,
+    "api_key": null,
+    "is_live": 0,
+    "api_user": 1,
+    "finix_id": "ID5kQmeLzHM7XZg9gxp7TLsq",
+    "finix_merchant_id": null,
+    "customer_id": null,
+    "isBuyer": 0,
+    "isMerchant": 1
+}`
     },
     {
         "routeName": "Search Merchants Identities",
@@ -1645,29 +1791,180 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
-        "exampleResponse": ``
-    },
-     {
-        "routeName": "Create Merchant",
-        "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'Last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
-        "header": "Endpoint",
-        "query": "",
-        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'Last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"apikey\",\"first_name\":\"Jhon\",\"first_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2,\"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"}'",
-        "exampleResponse": ``
+  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=ID5kQmeLzHM7XZg9gxp7TLsq\"",
+        "exampleResponse": `{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 84,
+            "created_at": "2024-03-26T22:52:12.000000Z",
+            "updated_at": "2024-03-26T22:52:12.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "entity": "{\"ach_max_transaction_amount\":1000000,\"amex_mid\":null,\"annual_card_volume\":12000000,\"business_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 7\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id_provided\":true,\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"discover_mid\":null,\"dob\":{\"day\":27,\"month\":6,\"year\":1978},\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\":true,\"incorporation_date\":{\"day\":27,\"month\":6,\"year\":1978},\"last_name\":\"Smith\",\"max_transaction_amount\":1200000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address\":{\"line1\":\"741 Douglass St\",\"line2\":\"Apartment 8\",\"city\":\"San Mateo\",\"region\":\"CA\",\"postal_code\":\"94114\",\"country\":\"USA\"},\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"short_business_name\":null,\"tax_authority\":null,\"tax_id_provided\":true,\"title\":\"CEO\",\"url\":\"https:\\\/\\\/www.finix.com\"}",
+            "identity_roles": "[\"SELLER\"]",
+            "tags": "{\"api_userID\":\"api_userID_1\",\"userID\":\"userID_1\"}",
+            "_links": null,
+            "api_key": null,
+            "is_live": 0,
+            "api_user": 1,
+            "finix_id": "ID5kQmeLzHM7XZg9gxp7TLsq",
+            "finix_merchant_id": null,
+            "customer_id": null,
+            "isBuyer": 0,
+            "isMerchant": 1
+        }
+    ],
+    "first_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity\/search?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity\/search?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity\/search?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/identity\/search",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+}`
     },
      {
         "routeName": "Create Merchant Bank",
         "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
+        "parameters": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS, SAVINGS, CHECKING: The account type must be provided.'bank_code' The bank code.'identity' A merchant id must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
         "header": "Endpoint",
         "query": "",
         "data": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"apikey\",\"account_number\":\"123123123\",\"account_type\":\"SAVINGS\",\"bank_code\":\"123123123\",\"name\":\"John Smith\",\"identity\":2,\"type\":\"BANK_ACCOUNT\"}'",
-        "exampleResponse": ``}
+        "exampleResponse": `{
+    "id": 62,
+    "created_at": "2024-03-26T23:32:07.000000Z",
+    "updated_at": "2024-03-26T23:32:07.000000Z",
+    "finix_id": "PI7cbt26Y2yWEfAAK7Hq8ZHb",
+    "created_at_finix": "2024-03-26 23:32:07",
+    "updated_at_finix": "2024-03-26 23:32:07",
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "created_via": "API",
+    "currency": "USD",
+    "disabled_code": null,
+    "disabled_message": null,
+    "enabled": 1,
+    "fingerprint": "FPRd5moHxL3Ltuvk4cczxetCg",
+    "identity": "ID5kQmeLzHM7XZg9gxp7TLsq",
+    "instrument_type": "BANK_ACCOUNT",
+    "address": null,
+    "address_verification": null,
+    "bin": null,
+    "brand": null,
+    "card_type": null,
+    "expiration_month": null,
+    "expiration_year": null,
+    "issuer_country": null,
+    "last_four": null,
+    "name": "John Smith",
+    "security_code_verification": null,
+    "tags": "{\"api_userID\":\"api_userID_\",\"apikeyID\":\"apikeyID_0\",\"userID\":\"userID_1\"}",
+    "type": "BANK_ACCOUNT",
+    "_links": null,
+    "account_type": "SAVINGS",
+    "bank_account_validation_check": "NOT_ATTEMPTED",
+    "bank_code": "123123123",
+    "country": "USA",
+    "institution_number": null,
+    "masked_account_number": "XXXXX3123",
+    "transit_number": null,
+    "api_key": "0",
+    "is_live": 0,
+    "api_user": null
+}`}
     ,
+     {
+        "routeName": "Create Merchant",
+        "info": "Create a Merchant. POST Route",
+        "parameters": "'apikey' either user or merchant.'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
+        "header": "Endpoint",
+        "query": "",
+        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"apikey\",\"first_name\":\"Jhon\",\"last_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2,\"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"}'",
+        "exampleResponse": `{
+    "worked": true,
+    "responce": "{\n  \"id\" : \"MUckwFvQF5EoMmw1esvxfXmt\",\n  \"created_at\" : \"2024-03-27T00:27:47.03Z\",\n  \"updated_at\" : \"2024-03-27T00:27:47.03Z\",\n  \"application\" : \"APZmjWMcUWgvxGcBV3V6FJ7\",\n  \"card_cvv_required\" : false,\n  \"card_expiration_date_required\" : true,\n  \"convenience_charges_enabled\" : false,\n  \"country\" : \"USA\",\n  \"creating_transfer_from_report_enabled\" : false,\n  \"currencies\" : [ \"USD\" ],\n  \"default_partial_authorization_enabled\" : false,\n  \"disbursements_ach_pull_enabled\" : false,\n  \"disbursements_ach_push_enabled\" : false,\n  \"disbursements_card_pull_enabled\" : false,\n  \"disbursements_card_push_enabled\" : false,\n  \"fee_ready_to_settle_upon\" : \"PROCESSOR_WINDOW\",\n  \"gateway\" : null,\n  \"gross_settlement_enabled\" : false,\n  \"identity\" : \"IDdwT39A4jE6hMsJvg6MgRS1\",\n  \"level_two_level_three_data_enabled\" : false,\n  \"mcc\" : \"4900\",\n  \"merchant_name\" : \"Finix Flowers\",\n  \"merchant_profile\" : \"MPbnEdag4VJYvNVV8ub6GSRk\",\n  \"mid\" : null,\n  \"onboarding_state\" : \"PROVISIONING\",\n  \"processing_enabled\" : false,\n  \"processor\" : \"DUMMY_V1\",\n  \"processor_details\" : { },\n  \"ready_to_settle_upon\" : \"PROCESSOR_WINDOW\",\n  \"rent_surcharges_enabled\" : false,\n  \"settlement_enabled\" : false,\n  \"settlement_funding_identifier\" : \"UNSET\",\n  \"surcharges_enabled\" : false,\n  \"tags\" : {\n    \"api_userID\" : \"api_userID_1\",\n    \"apikeyID\" : \"apikeyID_\",\n    \"userID\" : \"userID_1\"\n  },\n  \"verification\" : \"VIuuDu8ayCEaTXEdQbjMNNAF\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchants\/MUckwFvQF5EoMmw1esvxfXmt\"\n    },\n    \"identity\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/identities\/IDdwT39A4jE6hMsJvg6MgRS1\"\n    },\n    \"verifications\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchants\/MUckwFvQF5EoMmw1esvxfXmt\/verifications\"\n    },\n    \"merchant_profile\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchant_profiles\/MPbnEdag4VJYvNVV8ub6GSRk\"\n    },\n    \"application\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/applications\/APZmjWMcUWgvxGcBV3V6FJ7\"\n    },\n    \"verification\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/verifications\/VIuuDu8ayCEaTXEdQbjMNNAF\"\n    }\n  }\n}",
+    "ref": {
+        "id": 20,
+        "created_at": "2024-03-27T00:27:47.000000Z",
+        "updated_at": "2024-03-27T00:27:47.000000Z",
+        "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+        "card_cvv_required": 0,
+        "card_expiration_date_required": 1,
+        "convenience_charges_enabled": 0,
+        "country": "USA",
+        "creating_transfer_from_report_enabled": 0,
+        "currencies": "[\"USD\"]",
+        "default_partial_authorization_enabled": 0,
+        "disbursements_ach_pull_enabled": 0,
+        "disbursements_ach_push_enabled": 0,
+        "disbursements_card_pull_enabled": 0,
+        "disbursements_card_push_enabled": 0,
+        "fee_ready_to_settle_upon": "PROCESSOR_WINDOW",
+        "gateway": null,
+        "gross_settlement_enabled": 0,
+        "identity": "IDdwT39A4jE6hMsJvg6MgRS1",
+        "level_two_level_three_data_enabled": null,
+        "mcc": 4900,
+        "merchant_name": "Finix Flowers",
+        "merchant_profile": "MPbnEdag4VJYvNVV8ub6GSRk",
+        "mid": null,
+        "onboarding_state": "PROVISIONING",
+        "processing_enabled": 0,
+        "processor": "DUMMY_V1",
+        "processor_details": "{}",
+        "ready_to_settle_upon": "PROCESSOR_WINDOW",
+        "rent_surcharges_enabled": 0,
+        "settlement_enabled": 0,
+        "settlement_funding_identifier": "UNSET",
+        "surcharges_enabled": 0,
+        "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_\",\"userID\":\"userID_1\"}",
+        "verification": "VIuuDu8ayCEaTXEdQbjMNNAF",
+        "_links": null,
+        "api_key": "7",
+        "total": null,
+        "currency": null,
+        "is_live": 0,
+        "api_user": 1,
+        "payments_count": null,
+        "finix_id": "MUckwFvQF5EoMmw1esvxfXmt"
+    },
+    "key": {
+        "id": 7,
+        "live": 0,
+        "api_key": "Api_key20Ow2mdsJo32c1LLPpMt0tm9nLcs50iune",
+        "created_at": "2024-03-27T00:27:47.000000Z",
+        "updated_at": "2024-03-27T00:27:47.000000Z",
+        "api_user": 1,
+        "merchant_id": 20,
+        "bank_id": null,
+        "balance": 0,
+        "currency": null,
+        "identity": "MUckwFvQF5EoMmw1esvxfXmt",
+        "userID": 1
+    }
+}`
+    },
     {
         "routeName": "Get Merchants",
         "info": "Get a merchants by 20. GET Route",
@@ -1946,7 +2243,51 @@ var data = [
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
   \"{{url('')}}/api/cardwiz/merchants/18\"",
-        "exampleResponse": ``
+        "exampleResponse": `{
+    "id": 18,
+    "created_at": "2024-02-25T05:15:14.000000Z",
+    "updated_at": "2024-02-26T03:12:39.000000Z",
+    "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+    "card_cvv_required": 0,
+    "card_expiration_date_required": 1,
+    "convenience_charges_enabled": 0,
+    "country": "USA",
+    "creating_transfer_from_report_enabled": 0,
+    "currencies": "[\"USD\"]",
+    "default_partial_authorization_enabled": 0,
+    "disbursements_ach_pull_enabled": 0,
+    "disbursements_ach_push_enabled": 0,
+    "disbursements_card_pull_enabled": 0,
+    "disbursements_card_push_enabled": 0,
+    "fee_ready_to_settle_upon": "PROCESSOR_WINDOW",
+    "gateway": null,
+    "gross_settlement_enabled": 0,
+    "identity": "IDugk6mVWXm9XTgrQB2JPcTF",
+    "level_two_level_three_data_enabled": 0,
+    "mcc": 4900,
+    "merchant_name": "Finix Flowers",
+    "merchant_profile": "MP2mqmYGkftegRbqzqroabn8",
+    "mid": "FNXmaYdGBhNJKwAiNUk64G32T",
+    "onboarding_state": "APPROVED",
+    "processing_enabled": 1,
+    "processor": "DUMMY_V1",
+    "processor_details": "{\"mid\":\"FNXmaYdGBhNJKwAiNUk64G32T\",\"api_key\":\"secretValue\"}",
+    "ready_to_settle_upon": "PROCESSOR_WINDOW",
+    "rent_surcharges_enabled": 0,
+    "settlement_enabled": 1,
+    "settlement_funding_identifier": "UNSET",
+    "surcharges_enabled": 0,
+    "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_0\",\"userID\":\"userID_1\"}",
+    "verification": "VI5mib5wWKhh889A2wGTUB4s",
+    "_links": null,
+    "api_key": "0",
+    "total": null,
+    "currency": null,
+    "is_live": 0,
+    "api_user": 1,
+    "payments_count": null,
+    "finix_id": "MUh6o9SVp55pk9LfPRbGTMz4"
+}`
     },
     {
         "routeName": "Search Merchant",
@@ -1957,8 +2298,84 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
-        "exampleResponse": ``
+  \"{{url('')}}/api/cardwiz/merchants/search?search=MUh6o9SVp55pk9LfPRbGTMz4\"",
+        "exampleResponse": `{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 18,
+            "created_at": "2024-02-25T05:15:14.000000Z",
+            "updated_at": "2024-02-26T03:12:39.000000Z",
+            "application": "APZmjWMcUWgvxGcBV3V6FJ7",
+            "card_cvv_required": 0,
+            "card_expiration_date_required": 1,
+            "convenience_charges_enabled": 0,
+            "country": "USA",
+            "creating_transfer_from_report_enabled": 0,
+            "currencies": "[\"USD\"]",
+            "default_partial_authorization_enabled": 0,
+            "disbursements_ach_pull_enabled": 0,
+            "disbursements_ach_push_enabled": 0,
+            "disbursements_card_pull_enabled": 0,
+            "disbursements_card_push_enabled": 0,
+            "fee_ready_to_settle_upon": "PROCESSOR_WINDOW",
+            "gateway": null,
+            "gross_settlement_enabled": 0,
+            "identity": "IDugk6mVWXm9XTgrQB2JPcTF",
+            "level_two_level_three_data_enabled": 0,
+            "mcc": 4900,
+            "merchant_name": "Finix Flowers",
+            "merchant_profile": "MP2mqmYGkftegRbqzqroabn8",
+            "mid": "FNXmaYdGBhNJKwAiNUk64G32T",
+            "onboarding_state": "APPROVED",
+            "processing_enabled": 1,
+            "processor": "DUMMY_V1",
+            "processor_details": "{\"mid\":\"FNXmaYdGBhNJKwAiNUk64G32T\",\"api_key\":\"secretValue\"}",
+            "ready_to_settle_upon": "PROCESSOR_WINDOW",
+            "rent_surcharges_enabled": 0,
+            "settlement_enabled": 1,
+            "settlement_funding_identifier": "UNSET",
+            "surcharges_enabled": 0,
+            "tags": "{\"api_userID\":\"api_userID_1\",\"apikeyID\":\"apikeyID_0\",\"userID\":\"userID_1\"}",
+            "verification": "VI5mib5wWKhh889A2wGTUB4s",
+            "_links": null,
+            "api_key": "0",
+            "total": null,
+            "currency": null,
+            "is_live": 0,
+            "api_user": 1,
+            "payments_count": null,
+            "finix_id": "MUh6o9SVp55pk9LfPRbGTMz4"
+        }
+    ],
+    "first_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/search?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/search?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/search?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http:\/\/127.0.0.1:8000\/api\/cardwiz\/merchants\/search",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+}`
     },
     {
         "routeName": "Get Merchants Totals",
@@ -1969,7 +2386,7 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/holds\"",
+  \"{{url('')}}/api/cardwiz/merchants/totals\"",
         "exampleResponse":``
     },
     {
@@ -1981,7 +2398,7 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/identity/3\"",
+  \"{{url('')}}/api/cardwiz/merchants/totals/3\"",
         "exampleResponse": ``
     },
     {
@@ -1993,7 +2410,7 @@ var data = [
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+  \"{{url('')}}/api/cardwiz/merchants/totals/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
         "exampleResponse": ``
     }, {
         "routeName": "Fill PCI Form",
@@ -2135,21 +2552,26 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
     .split('-d').join('\\\n-d')
     .split('}').join('\\\n}')
     .replace(/  +/g, ' ')
-    .replaceAll("\n ","\\\n")
+    .replace(/\n\s/g, "\\\n")
     .split('{').join('{\\\n    ')
     .split(',').join(',\\\n    ')
+    .replace(/,\\{1,1}\n/g, ",\n")
+    .replace(/{\\{1,1}\n/g, "{\n")
+    .replace(/"\\{1,1}/g, '"')
+    .replace(/([1-9])\\/g, '$1')
     // .replace('curl',"CURL");
-    route.parameters=route.parameters.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
-    route.data=route.data.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
-    route.query=route.query.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
-    route.header=route.header.split('.').join('.\n').replaceAll("\n ","\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.parameters=route.parameters.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.data=route.data.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.query=route.query.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
+    route.header=route.header.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.info=route.info.replace(/(POST Route)/g, "<b class='post'>$1</b>").replace(/(GET Route)/g, "<b class='get'>$1</b>");
+
                 section.innerHTML = `
-                <div class="floatcontainer">
+                <div class="floatHolder">
                     <div>
                         <h2>${route.routeName}</h2>
                         <p>${route.info}</p>
-                        <div class="paramContainer">
+                        <div class="paramHolder">
                             <h5>Parameters</h5>
                             <p>${route.parameters}</p>
                             <h5>Header</h3>
@@ -2164,21 +2586,47 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                     </div>
 
                     <div>
-                        <div class="curlContainer">
-                            <h4>Example Request</h4>
+                        <div class="curlHolder">
+                            <h4>Example Request
+                            <button class="copyBtn" data-toggle="tooltip" title="Copied!">
+                                <i class="fa fa-copy"></i>
+                            </button></h4>
                             <code class="language-curl">${route.exampleRequest}</code>
+
                         </div>
-                        <div class="jsonContainer">
+                        <div class="jsonHolder">
                             <h4>Example Response Http Code: 201</h4>
                             <pre class="language-json">${route.exampleResponse}</pre>
                         </div>
                     </div>
                 </div>
                 `;
+                function copyToClipboard(text) {
+                    // alert(text);
+                    const tempTextArea = document.createElement('textarea');
+                        tempTextArea.value = text;
+                        document.body.appendChild(tempTextArea);
+                        tempTextArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempTextArea);
+                }
 
                 mainContent.appendChild(section);
-            });
+                const copyBtn = section.querySelector('.copyBtn');
+                // const exampleRequestCode = section.querySelector('.exampleRequest code');
 
+                copyBtn.addEventListener('click', function(){
+                    copyToClipboard(route.exampleRequest);
+                    $(this).tooltip('show');
+                    // Reset tooltip after 2 seconds
+                    setTimeout(() => {
+                        $(this).tooltip('hide');
+                    }, 2000);
+                });
+            });
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({trigger:'manual'})
+            })
         }
 
         loadData(data);

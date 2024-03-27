@@ -219,7 +219,7 @@ nav ul li a:hover {
     margin-right: 10px; /* Adjust as needed */
 }
 section:last-of-type{
-    padding-bottom: 250px;
+    padding-bottom: 550px;
 }
     </style>
 </head>
@@ -2590,7 +2590,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
                     <div>
                         <div class="curlHolder">
-                            <h4>Example Request
+                            <h4 class="h5"><b>Example Request</b>
                             <button class="copyBtn" data-toggle="tooltip" title="Copied!">
                                 <i class="fa fa-copy"></i>
                             </button></h4>
@@ -2598,7 +2598,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
                         </div>
                         <div class="jsonHolder">
-                            <h4>Example Response Http Code: 201</h4>
+                            <h4  class="h5"><b>Example Response Http Code: 201</b></h4>
                             <pre class="language-json">${route.exampleResponse}</pre>
                         </div>
                     </div>

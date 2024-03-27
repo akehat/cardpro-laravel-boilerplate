@@ -276,16 +276,16 @@ public static function authenticateSearch($api_userID, $api_key, $search)
             $found=Finix_Merchant_live::where('finix_id',$data->merchant_id)->first();
             if($found!=null){
                 $model->reg_merchant_id=$found->id;
-                $model->api_userID=$found->api_userID;
-                $model->islive=$found->islive;
-                $model->apikeyID=$found->api_user;
+                $model->api_user=$found->api_user;
+                $model->is_live=$found->is_live;
+                $model->api_key=$found->api_key;
                 return;
             }
             $found=identities_live::where('finix_id',$data->identity)->first();
             if($found!=null){
-                $model->api_userID=$found->api_userID;
-                $model->islive=$found->islive;
-                $model->apikeyID=$found->api_user;
+                $model->api_user=$found->api_user;
+                $model->is_live=$found->is_live;
+                $model->api_key=$found->api_key;
                 return;
             }
         }

@@ -49,6 +49,7 @@ class UpdateJob implements ShouldQueue
                     $modelClass::runUpdate();
                     }catch(Exception | Error $e){
                         Log::info($e->getMessage());
+                        Log::info($e->getTrace());
                     }
                 }
             }

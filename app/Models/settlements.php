@@ -277,14 +277,14 @@ $value->created_at = $value->created_at != null ? (new DateTime($value->created_
             if($found!=null){
                 $model->reg_merchant_id=$found->id;
                 $model->api_user=$found->api_user;
-                $model->is_live=$found->islive;
+                $model->is_live=$found->is_live;
                 $model->api_key=$found->api_key;
                 return;
             }
             $found=identities::where('finix_id',$data->identity)->first();
             if($found!=null){
                 $model->api_user=$found->api_user;
-                $model->is_live=$found->islive;
+                $model->is_live=$found->is_live;
                 $model->api_key=$found->api_key;
                 return;
             }

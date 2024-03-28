@@ -37,8 +37,6 @@ Route::get('/cardwiz/merchants/identity', [RoutesController::class,'getMerchantI
 Route::get('/cardwiz/merchants/identity/search', [RoutesController::class,'MerchantIdentities_search' ]);
 Route::get('/cardwiz/merchants/identity/{id}', [RoutesController::class,'getMerchantIdentity' ]);
 
-
-
 Route::get('/cardwiz/merchants/totals/search', [RoutesController::class,'totals_search' ]);
 Route::get('/cardwiz/merchants/totals/{id}', [RoutesController::class,'getTotal' ]);
 Route::get('/cardwiz/merchants/totals', [RoutesController::class,'getTotals' ]);

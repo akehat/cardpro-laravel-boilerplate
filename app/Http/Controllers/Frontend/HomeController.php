@@ -46,6 +46,7 @@ class HomeController
             ]);
             $user->save();
             $user->refresh();
+
         }
         return view('frontend.pages.portal.welcome');
     }

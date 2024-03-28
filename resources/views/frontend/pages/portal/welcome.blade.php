@@ -25,7 +25,7 @@
             padding-top: 15px;
             width: 200px;
             font-size: 0.9rem;
-            height: calc(100vh - 15px);
+            height: 100vh;
             overflow-y: auto;
         }
 
@@ -93,7 +93,7 @@
 
         #content {
             flex: 1;
-            height: calc(100vh - 20px);
+            height: 100vh;
             padding: 10px;
             overflow-y: auto;
         }

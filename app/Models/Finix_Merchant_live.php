@@ -218,7 +218,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         }
      }
   public static function readTags($found, $tags){
-    $tags=(object)$tags;
+    $tags=(object)($tags??[]);
     if (isset($tags->api_userID)) {
         try {
             $api_userID_tag = str_replace("api_userID_", "", $tags->api_userID);

@@ -48,6 +48,9 @@ https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
     border:1px solid lightblue;
     max-width: 81vw;
 }
+.language-json{
+    width:100%;
+}
 .paramHolder{
     padding: 10px;
     margin-bottom: 15px;
@@ -2527,7 +2530,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
 
         // data = JSON.parse(data);
-
+        var idCounter=0;
         function loadData(data) {
             const navList = document.getElementById('navList');
             const mainContent = document.getElementById('mainContent');
@@ -2568,7 +2571,8 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
     route.query=route.query.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.header=route.header.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.info=route.info.replace(/(POST Route)/g, "<b class='post'>$1</b>").replace(/(GET Route)/g, "<b class='get'>$1</b>");
-
+    route.exampleResponseUncolapsed=route.exampleResponse;
+    route.exampleResponse=route.exampleResponse.replace(/([^^])(\{.*\})+/g,'$1{...}');
                 section.innerHTML = `
                 <div class="floatHolder">
                     <div>
@@ -2598,8 +2602,16 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
                         </div>
                         <div class="jsonHolder">
-                            <h4  class="h5"><b>Example Response Http Code: 201</b></h4>
-                            <pre class="language-json">${route.exampleResponse}</pre>
+                            <h4  class="h5"><b>Example Response Http Code: 201</b>
+                                <button class="copyBtn2" data-toggle="tooltip" title="Copied!"> <i class="fa fa-copy"></i></button>
+                                <button class="collapseBtn"  data-toggle="tooltip" title="Collapsed!">
+                                    <i class="fa fa-minus-circle"></i>
+                                </button>
+                                <button class="uncollapseBtn" data-toggle="tooltip" title="Uncollapsed!">
+                                    <i class="fa fa-plus-circle"></i>
+                                </button>
+                            </h4>
+                            <pre class="language-json" id="json${++idCounter}">${route.exampleResponse}</pre>
                         </div>
                     </div>
                 </div>
@@ -2615,17 +2627,40 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 }
 
                 mainContent.appendChild(section);
-                const copyBtn = section.querySelector('.copyBtn');
                 // const exampleRequestCode = section.querySelector('.exampleRequest code');
 
-                copyBtn.addEventListener('click', function(){
-                    copyToClipboard(route.exampleRequest);
-                    $(this).tooltip('show');
-                    // Reset tooltip after 2 seconds
-                    setTimeout(() => {
-                        $(this).tooltip('hide');
-                    }, 2000);
-                });
+                 // Add event listeners for copyBtn and copyBtn2
+        const copyBtn = section.querySelector('.copyBtn');
+        const copyBtn2 = section.querySelector('.copyBtn2');
+        const collapseBtn = section.querySelector('.collapseBtn');
+        const uncollapseBtn = section.querySelector('.uncollapseBtn');
+        function toggleTooltip(el){
+            $(el).tooltip('show');
+            setTimeout(() => {
+                $(el).tooltip('hide');
+            }, 2000);
+        }
+        copyBtn.addEventListener('click', function() {
+            copyToClipboard(route.exampleRequest);
+            toggleTooltip(this);
+        });
+
+        copyBtn2.addEventListener('click', function() {
+            copyToClipboard(route.exampleResponseUncolapsed);
+            toggleTooltip(this);
+        });
+        var localCounter=idCounter;
+        collapseBtn.addEventListener('click', function() {
+            const jsonElement = section.querySelector('#json'+localCounter);
+            jsonElement.innerHTML = route.exampleResponse;
+            toggleTooltip(this);
+        });
+
+        uncollapseBtn.addEventListener('click', function() {
+            const jsonElement = section.querySelector('#json'+localCounter);
+            jsonElement.innerHTML = route.exampleResponseUncolapsed;
+            toggleTooltip(this);
+        });
             });
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip({trigger:'manual'})

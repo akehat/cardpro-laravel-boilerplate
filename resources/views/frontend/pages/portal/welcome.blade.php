@@ -296,7 +296,44 @@
             {{ session('error') }}
         </div>
     @endif
-    @yield("content")
+    @if(View::hasSection('content'))
+        @yield('content')
+    @else
+        <style>
+            .triangle-container {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Adjust as necessary */
+        }
+
+        .triangle {
+        position: absolute;
+        width: max(15%,100px); /* Adjust the size as needed */
+        left: 30%; /* Adjust the positioning as needed */
+        z-index: -1;
+        }
+
+        .triangle:nth-child(1) {
+        top: 0;
+        }
+
+        .triangle:nth-child(2) {
+        bottom: 0;
+        }
+
+        .triangle:nth-child(3) {
+        top: calc(50% - 0px);
+        transform: translateY(-50%);
+        animation: spin 55s linear infinite; Adjust the angle as necessary
+        }
+
+        </style>
+      <div class="triangle-container">
+        <img src="{{asset("/img/empty2.png")}}" class="triangle" />
+        <img src="{{asset("/img/empty2.png")}}" class="triangle" />
+        <img src="{{asset("/img/empty2.png")}}" class="triangle" />
+      </div>
+    @endif
     </div>
     <script>
            document.querySelector('#sidebar').addEventListener('mouseenter', function () {

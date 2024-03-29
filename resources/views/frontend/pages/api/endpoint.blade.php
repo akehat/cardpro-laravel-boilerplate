@@ -274,11 +274,13 @@ var data = [
     {
         "routeName": "Create Customer",
         "info": "Create a customer to attach a card for payments. POST Route",
-        "parameters": "'apikey' either user or merchant. 'email' for the customer.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'email' for the customer <input type=\"text\" name=\"email\">.",
         "header": "Endpoint",
         "query": "N/A",
-        "data": "'apikey' either user or merchant. 'email' for the customer.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/customers -d '{\"apikey\":\"apikey\",\"email\":\"email@example.com\"}'",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:[],data:['apikey','email']},
+        "errors": [{code:301}],
+        "data": "'apikey' either user or merchant . 'email' for the customer STRING max 100 chars.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/customers -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"email\":\"<email>email@example.com</email>\"}'",
         "exampleResponse": `{
     "id": 77,
     "created_at": "2024-02-16T03:40:57.000000Z",
@@ -302,11 +304,13 @@ var data = [
         "routeName": "Get Customers",
         "info": "Get a customers by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
-        "header": "Endpoint. 'apikey' either user or merchant.",
+        "header": "Endpoint. 'apikey' either user or merchant  <input type=\"text\" name=\"apikey\">.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/customers\"",
         "exampleResponse": `{
     "current_page": 1,
@@ -416,13 +420,15 @@ var data = [
     {
         "routeName": "Get Customer",
         "info": "Get a customer by id. GET Route",
-        "parameters": " 'id' for the customer either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the customer either the number or the long one <input type=\"text\" name=\"id\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the customer in the url",
         "data": "N/A",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers/<id>74</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/customers/74\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/customers/<id>74</id>\"",
         "exampleResponse": `{
     "id": 74,
     "created_at": "2024-02-15T19:18:04.000000Z",
@@ -446,13 +452,15 @@ var data = [
     {
         "routeName": "Search Customers",
         "info": "Search for a customers by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.",
+        "parameters": "'apikey' either user or merchant  <input type=\"text\" name=\"apikey\">. 'search' for in the customer <input type=\"text\" name=\"search\">.",
         "header": "Endpoint",
         "query": "page the page of the query like page=2 by 20,'search' for in the customer.",
         "data": "'apikey' either user or merchant. ",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers/search?search=<search>ID9BBQfNDBnt5hUxvp3W1w6S</search>',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-   {{url('')}}/api/cardwiz/customers/search?search=ID9BBQfNDBnt5hUxvp3W1w6S",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+   {{url('')}}/api/cardwiz/customers/search?search=<search>ID9BBQfNDBnt5hUxvp3W1w6S</search>",
         "exampleResponse": `{
     "current_page": 1,
     "data": [
@@ -507,13 +515,14 @@ var data = [
     {
         "routeName": "Create Payment Way",
         "info": "Create a card. POST Route",
-        "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. 'descriptor' for the charge if wanted, none will use default of merchant. POST Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'exp_month' for the card <input type=\"text\" name=\"exp_month\">. 'exp_year' for the card <input type=\"text\" name=\"exp_year\">.'name' for the card <input type=\"text\" name=\"name\">. 'card_number' for the card  <input type=\"text\" name=\"name\">. 'cvv' for the card <input type=\"text\" name=\"cvv\">. 'id' for the customer to add the card <input type=\"text\" name=\"id\">. 'descriptor' for the charge if wanted, none will use default of merchant <input type=\"text\" name=\"descriptor\">.",
         "header": "Endpoint.",
-        "parameters": "'apikey' either user or merchant.'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card.",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:[],data:['apikey','exp_month','exp_year','name','id','cvv','card_number','descriptor']},
+        "errors": [{code:301}],
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. 'descriptor' for the charge if wanted, none will use default of merchant.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/payment_ways -d '{\"apikey\":\"apikey\",\"exp_month\":\"12\",\"exp_year\":\"2029\",\"name\":\"John Doe\",\"card_number\":\"5200828282828210\",\"cvv\":331,\"id\":74}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/payment_ways -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"exp_month\":\"</apikey>12</apikey>\",\"exp_year\":\"<exp_year>2029</exp_year>\",\"name\":\"<name>John Doe</name>\",\"card_number\":\"<card_number>5200828282828210</card_number>\",\"cvv\":<cvv>331</cvv>,\"id\":<id>74</id><descriptor meta=\"needsKey\"></descriptor>}'",
        "exampleResponse": `{
     "id": 56,
     "created_at": "2024-02-18T03:12:58.000000Z",
@@ -561,6 +570,8 @@ var data = [
         "info": "Get a charge by 20. GET Route",
         "parameters": "'apikey' either user or merchant. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -684,13 +695,15 @@ var data = [
     {
         "routeName": "Get Payment Way",
         "info": "Get a Payment Way by id. GET Route",
-        "parameters": " 'id' for the Payment Way either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Payment Way either the number or the long one <input type=\"text\" name=\"id\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways/<id>56</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the Payment Way in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/payment_ways/56\"",
+  -H \"apikey: <apikey>apikey</apikey>\" \
+  \"{{url('')}}/api/cardwiz/payment_ways/<id>56</id>\"",
         "exampleResponse": `{
     "id": 56,
     "created_at": "2024-02-18T03:12:58.000000Z",
@@ -736,13 +749,15 @@ var data = [
     {
         "routeName": "Search Payment Ways",
         "info": "Search a Payment Ways by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\".'search' what to search for <input type=\"text\" name=\"search\".",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:  "{{url('')}}/api/cardwiz/payment_ways/search?search=<search>APZmjWMcUWgvxGcBV3V6FJ7</search>",urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/payment_ways/search?search=APZmjWMcUWgvxGcBV3V6FJ7\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/payment_ways/search?search=<search>APZmjWMcUWgvxGcBV3V6FJ7</search>\"",
         "exampleResponse": `{
     "current_page": 1,
     "data": [
@@ -861,11 +876,13 @@ var data = [
     {
         "routeName": "Create Charge",
         "info": "create a charge for a customer. POST Route",
-        "parameters": "'apikey' either user or merchant.\n'cardID' of the card. \n'amount' the amount of the charge. \n'currency' of the charge. \nIf a user key is used the 'MerchantID' must be provided.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'cardID' of the card. \n'amount' the amount of the charge <input type=\"number\" name=\"amount\">. \n'currency' of the charge <input type=\"text\" name=\"currency\">. \nIf a user key is used the 'MerchantID' must be provided <input type=\"text\" name=\"MerchantID\">.",
         "header": "Endpoint",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
+        "errors": [{code:301}],
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the charge.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/charges -d '{\"apikey\":\"apikey\",\"cardID\":2,\"amount\":200,\"currency\":\"USD\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/charges -d '{\"apikey\":\<apikey>apikey</apikey>\",\"cardID\":<cardID>2</cardID>,\"amount\":<amount>200</amount>,\"currency\":\"<currency>USD</currency>\"<MerchantID meta=\"needsKey\"></MerchantID>}'",
         "exampleResponse": `{
     "id": 30,
     "created_at": "2024-02-18T04:09:29.000000Z",
@@ -917,12 +934,14 @@ var data = [
     {
         "routeName": "Get Charges",
         "info": "Get a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charge',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/charges\"",
         "exampleResponse": `{
     "current_page": 1,
@@ -1098,13 +1117,15 @@ var data = [
     {
         "routeName": "Get Charge",
         "info": "Get a charge by id. GET Route",
-        "parameters": " 'id' for the charge either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the charge either the number or the long on <input type=\"text\" name=\"id\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/<id>30</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "'id' for the charge in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/charges/30\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/charges/<id>30</id>\"",
         "exampleResponse": `{
     "id": 30,
     "created_at": "2024-02-18T04:09:29.000000Z",
@@ -1156,13 +1177,15 @@ var data = [
     {
         "routeName": "Search Charges",
         "info": "Search a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/search?search=<search>TRxADa5jzJ2GRRM5yejSvpPU</search>',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/charges/search?search=TRxADa5jzJ2GRRM5yejSvpPU\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/charges/search?search=<search>TRxADa5jzJ2GRRM5yejSvpPU</search>\"",
         "exampleResponse": `{
     "current_page": 1,
     "data": [
@@ -1348,12 +1371,14 @@ var data = [
     {
         "routeName": "Get Holds",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/holds\"",
         "exampleResponse": `{
     "current_page": 1,

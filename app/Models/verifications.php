@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class verifications extends Model
 {
@@ -197,6 +198,7 @@ public static function authenticateSearch($api_userID, $api_key, $search)
         self::fromArray([json_decode(payfacController::fetchVerifications(config("app.api_username"),config("app.api_password"),$id)[0])]);
      }
     public static function runUpdate(){
+        // try{
         $result= payfacController::listVerifications(config("app.api_username"),config("app.api_password"));
         $object=json_decode($result[0]);
         while(isset($object->_embedded)&&isset($object->_embedded->verifications)&&isset($object->page)&&isset($object->page->next_cursor)&&count($object->_embedded->verifications)>0){
@@ -205,6 +207,9 @@ public static function authenticateSearch($api_userID, $api_key, $search)
          $result= payfacController::listVerifications(config("app.api_username"),config("app.api_password"),'https://finix.sandbox-payments-api.com',$nextArray);
          $object=json_decode($result[0]);
         }
+        // }catch(Throwable $e){
+        //     dd($e);
+        // }
      }
       public static function readTags($found, $tags){
     $tags=(object)($tags??[]);
@@ -239,7 +244,6 @@ public static function fromArray(array $array)
     {
         foreach ($array as $data) {
             $data = (object)$data;
-            log::info($data);
             $found = self::where('finix_id', $data->id)->first();
             $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
             $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;
@@ -290,14 +294,14 @@ public static function fromArray(array $array)
         $found=Finix_Merchant::where('finix_id',$data->merchant)->first();
         if($found!=null){
             $model->api_user=$found->api_user;
-            $model->is_live=$found->is_live;
+            // $model->is_live=$found->is_live;
             $model->api_key=$found->api_key;
             return;
         }
         $found=identities::where('finix_id',$data->merchant_identity)->first();
         if($found!=null){
             $model->api_user=$found->api_user;
-            $model->is_live=$found->is_live;
+            // $model->is_live=$found->is_live;
             $model->api_key=$found->api_key;
             return;
         }

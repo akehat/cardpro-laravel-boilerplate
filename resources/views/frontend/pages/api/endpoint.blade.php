@@ -1274,7 +1274,7 @@ var data = [
         'test':{method:'POST',url:' {{url('')}}/api/cardwiz/refunds ',urlparams:[],headers:[],data:['apikey','amount','id']},
         "errors": [{code:301}],
         "header": "Endpoint.",
-        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'amount' for in the refund <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'amount' for in the refund <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"amount\"></span>. 'id' for the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>",
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'amount' for in the refund.",

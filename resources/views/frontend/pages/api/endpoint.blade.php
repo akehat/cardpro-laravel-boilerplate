@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
     <link href="
@@ -2724,17 +2726,98 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
             const copyBtn2 = section.querySelector('.copyBtn2');
             const collapseBtn = section.querySelector('.collapseBtn');
             const uncollapseBtn = section.querySelector('.uncollapseBtn');
-            const inputs = section.querySelectorAll('input');
-        inputs.forEach(changer=>{changer.addEventListener('input', function(event) {
+            const testBtn = section.querySelector('.testBtn');
+                    if(testBtn){
+    testBtn.addEventListener('click', function() {
+        // Flatten headers, data, and urlParams arrays
+        const flatHeaders = route.test.headers.reduce((acc, header) => {
+            const input = section.querySelector(`input[name="${header}"]`);
+            acc[header] = input.value;
+            return acc;
+        }, {});
 
-                    const inputName = event.target.name;
-                    const inputValue = event.target.value;
-                    re = new RegExp(`<${inputName}>.*</${inputName}>`,"g");
-                    route.exampleRequest=route.exampleRequest.replace(re,`<${inputName}>${inputValue}</${inputName}>`)
-                    // Find the corresponding <dataname> tag with the same name
-                        const curlElement = section.querySelector('.language-curl');
-                        curlElement.textContent = route.exampleRequest.replace(/<[^>]*?>/g,'');
-                });});
+        const flatData = route.test.data.reduce((acc, dataItem) => {
+            const input = section.querySelector(`input[name="${dataItem}"]`);
+            acc[dataItem] = input.value;
+            return acc;
+        }, {});
+
+        const flatUrlParams = route.test.urlparams.reduce((acc, param) => {
+            const input = section.querySelector(`input[name="${param}"]`);
+            acc[param] = input.value;
+            return acc;
+        }, {});
+
+        // Replace placeholders in URL
+        let url = route.test.url;
+        Object.entries(flatUrlParams).forEach(([paramName, paramValue]) => {
+            const regExp = new RegExp(`<${paramName}>[^<]*<\/${paramName}>`, "g");
+            url = url.replace(regExp, paramValue);
+        });
+
+        // Construct AJAX request
+        $.ajax({
+            url: url,
+            type: route.test.method,
+            headers: flatHeaders,
+            data: flatData,
+            success: function(response) {
+                $.confirm({
+                    columnClass: 'col-md-12',
+                    title: 'Success!',
+                    content: JSON.stringify(response),
+                    buttons: {
+                        confirm: function () {
+                            // $.alert('Confirmed!');
+                        },
+                    }
+                });
+                // Handle success
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                $.confirm({
+                    columnClass: 'col-md-12',
+                    title: 'Failed!',
+                    content: JSON.stringify(xhr.responseText),
+                    buttons: {
+                        confirm: function () {
+                            // $.alert('Confirmed!');
+                        },
+                    }
+                });
+                // Handle error
+                console.error(xhr.responseText);
+            }
+        });
+    });
+}
+
+
+            const inputs = section.querySelectorAll('input');
+            inputs.forEach(changer=>{
+                var name =changer.getAttribute('name');
+                var reg = new RegExp(`<${name}>(.*?)<\/${name}>`, "g");
+                var matches = route.exampleRequest.match(reg);
+                if (matches) {
+                    matches = matches.map(match => match.replace(new RegExp(`<\/?${name}>`, "g"), ""));
+                    changer.value=matches;
+                }
+            changer.addEventListener('input', function(event) {
+                        const inputName = event.target.name;
+                        const inputValue = event.target.value;
+                        re = new RegExp(`<${inputName}>.*</${inputName}>`,"g");
+                        route.exampleRequest=route.exampleRequest.replace(re,`<${inputName}>${inputValue}</${inputName}>`)
+                        if(inputValue&&inputValue!=''){
+                            re2 = new RegExp(`<${inputName} meta[^>]*>.*</${inputName}>`,"g");
+                            route.exampleRequest=route.exampleRequest.replace(re2,`<${inputName} meta="needsKey" value="${inputValue}">,${inputValue}:"${inputValue}"</${inputName}>`)
+                        }
+                        // Find the corresponding <dataname> tag with the same name
+                            const curlElement = section.querySelector('.language-curl');
+                            curlElement.textContent = route.exampleRequest.replace(/<[^>]*?>/g,'');
+                    });
+
+        });
         function toggleTooltip(el){
             $(el).tooltip('show');
             setTimeout(() => {

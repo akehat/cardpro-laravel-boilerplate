@@ -14,6 +14,7 @@
 https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
 " rel="stylesheet">
 
+
     <style>
 
         h2{
@@ -303,8 +304,8 @@ var data = [
     {
         "routeName": "Get Customers",
         "info": "Get a customers by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
-        "header": "Endpoint. 'apikey' either user or merchant  <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "header": "Endpoint. 'apikey' either user or merchant  .",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:['apikey'],data:[]},
@@ -568,14 +569,14 @@ var data = [
     {
         "routeName": "Get Payment Ways",
         "info": "Get a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey> \" \
   \"{{url('')}}/api/cardwiz/payment_ways\"",
         "exampleResponse": `{
     "current_page": 1,
@@ -749,7 +750,7 @@ var data = [
     {
         "routeName": "Search Payment Ways",
         "info": "Search a Payment Ways by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\".'search' what to search for <input type=\"text\" name=\"search\".",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\".",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:  "{{url('')}}/api/cardwiz/payment_ways/search?search=<search>APZmjWMcUWgvxGcBV3V6FJ7</search>",urlparams:['search'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -876,7 +877,7 @@ var data = [
     {
         "routeName": "Create Charge",
         "info": "create a charge for a customer. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'cardID' of the card. \n'amount' the amount of the charge <input type=\"number\" name=\"amount\">. \n'currency' of the charge <input type=\"text\" name=\"currency\">. \nIf a user key is used the 'MerchantID' must be provided <input type=\"text\" name=\"MerchantID\">.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'cardID' of the card <input type=\"text\" name=\"cardID\">. \n'amount' the amount of the charge <input type=\"number\" name=\"amount\">. \n'currency' of the charge <input type=\"text\" name=\"currency\">. \nIf a user key is used the 'MerchantID' must be provided <input type=\"text\" name=\"MerchantID\">.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
         "errors": [{code:301}],
@@ -938,7 +939,7 @@ var data = [
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
-        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charge',urlparams:[],headers:['apikey'],data:[]},
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
@@ -1268,13 +1269,14 @@ var data = [
     {
         "routeName": "Create Refund",
         "info": "Refund a charge. POST Route",
-        "parameters": "'apikey' either user or merchant.'amount' for the refund. POST Route",
+        'test':{method:'POST',url:' {{url('')}}/api/cardwiz/refunds ',urlparams:[],headers:[],data:['apikey','amount','id']},
+        "errors": [{code:301}],
         "header": "Endpoint.",
-        "parameters": "'apikey' either user or merchant.\n'amount' for in the refund. 'id' for the charge",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'amount' for in the refund <input type=\"text\" name=\"apikey\">. 'id' for the charge <input type=\"text\" name=\"apikey\">",
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'amount' for in the refund.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"apikey\",\"amount\":1000.\"id\":29}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/refunds -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"amount\":<amount>1000</amount>.\"id\":<id>29</id>}'",
        "exampleResponse": `{
     "id": 33,
     "created_at": "2024-02-18T23:40:11.000000Z",
@@ -1326,11 +1328,13 @@ var data = [
     {
         "routeName": "Create Hold",
         "info": "create a hold for a customer. POST Route",
-        "parameters": "'apikey' either user or merchant.\n'cardID' of the card. \n'amount' the amount of the hold. \n'currency' of the hold. \nIf a user key is used the 'merchant' must be provided.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'cardID' of the card <input type=\"text\" name=\"cardID\">. \n'amount' the amount of the hold <input type=\"number\" name=\"amount\">. \n'currency' of the hold <input type=\"text\" name=\"currency\">. \nIf a user key is used the 'merchant' must be provided <input type=\"text\" name=\"merchant\">.",
         "header": "Endpoint",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
+        "errors": [{code:301}],
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the hold.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds -d '{\"apikey\":\"apikey\",\"cardID\":55,\"amount\":2000,\"currency\":\"USD\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"cardID\":<cardID>55</cardID>,\"amount\":<amount>2000</amount>,\"currency\":\"<currency>USD</currency>\"<merchant meta=\"needsKey\"></merchant>}'",
         "exampleResponse": `{
     "id": 3,
     "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
@@ -1452,13 +1456,15 @@ var data = [
     {
         "routeName": "Get Hold",
         "info": "Get a Hold by id. GET Route",
-        "parameters": " 'id' for the Hold either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Hold either the number or the long one <input type=\"text\" name=\"id\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "'id' for the Hold in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/holds/3\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/holds/<id>3</id>\"",
         "exampleResponse": `{
     "id": 3,
     "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
@@ -1499,13 +1505,15 @@ var data = [
     {
         "routeName": "Search Hold",
         "info": "Search a Holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/holds/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+  -H \"apikey: <id>your_api_key_here</id>\" \
+  \"{{url('')}}/api/cardwiz/holds/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": `{
     "id": 3,
     "finix_id": "AU89QZLoYQBzeJAt2iysRr2H",
@@ -1546,11 +1554,13 @@ var data = [
     {
         "routeName": "Capture Hold",
         "info": "Capture a hold. POST Route",
-        "parameters": "'apikey' either user or merchant.\n'id' for the hold. \n'amount' the amount of the hold.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'id' for the hold <input type=\"text\" name=\"id\">. \n'amount' the amount of the hold <input type=\"number\" name=\"amount\">.",
         "header": "Endpoint",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>/capture',urlparams:['id'],headers:[],data:['apikey','amount','id']},
+        "errors": [{code:301}],
         "query": "'id' for the hold in the url",
         "data": "'apikey' either user or merchant. for the hold. 'amount' of the hold.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/3/capture -d '{\"apikey\":\"apikey\",\"amount\":200}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/<id>3</id>/capture -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"amount\":<amount>200</amount>}'",
         "exampleResponse": `{
     "id": 35,
     "created_at": "2024-02-19T00:34:06.000000Z",
@@ -1601,11 +1611,13 @@ var data = [
     {
         "routeName": "Release Hold",
         "info": "Release a hold. POST Route",
-        "parameters": "'apikey' either user or merchant.\n'id' for the hold.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'id' for the hold <input type=\"text\" name=\"id\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>6</id>/release',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint",
         "query": "'id' for the hold in the url",
         "data": "'apikey' either user or merchant.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/6/release -d '{\"apikey\":\"apikey\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/<id>6</id>/release -d '{\"apikey\":\"<apikey>apikey</apikey>\"}'",
         "exampleResponse": `{
     "id": 6,
     "finix_id": "AUfrMt9RPBk9zXLyp9ALjsTe",
@@ -1646,11 +1658,13 @@ var data = [
      {
         "routeName": "Create Merchant Identity",
         "info": "Create a Merchant Identity to be used to make a new merchant. POST Route",
-        "parameters": "'apikey' either user or merchant.'annual_card_volume': The total annual volume of card transactions processed by the business.'business_address_city': The city where the business is located.'business_address_country': The country where the business is located.'business_address_region': The region (state, province, etc) where the business is located.'business_address_line2': Additional address line (if applicable) for the business location.'business_address_line1': The primary address line for the business location.'business_address_postal_code': The postal code of the business location.'business_name': The legal name of the business.'business_phone': The phone number of the business.'business_tax_id': The tax identification number (TIN) or other business identifier.'business_type': The type or category of the business (eg, retail, service, etc).'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements.'dob_year': The birth year of the individual applicant or representative of the business.'dob_day': The birth day of the individual applicant or representative of the business.'dob_month': The birth month of the individual applicant or representative of the business.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name.'email': The email address of the individual applicant or representative of the business.'first_name': The first name of the individual applicant or representative of the business.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional).'incorporation_date_year': The year the business was incorporated or established.'incorporation_date_day': The day of the month the business was incorporated or established.'incorporation_date_month': The month the business was incorporated or established.'last_name': The last name of the individual applicant or representative of the business.'max_transaction_amount': The maximum transaction amount allowed for the business.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments.'mcc': The Merchant Category Code (MCC) that represents the type of business.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation).'personal_address_city': The city of the individual applicant's personal address.'personal_address_country': The country of the individual applicant's personal address.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address. personal_address_line1': The primary address line for the individual applicant's personal address.'personal_address_postal_code': The postal code of the individual applicant's personal address.'phone': The phone number of the individual applicant or representative of the business.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant.'title': The title or role of the individual applicant or representative of the business.'url': The website URL of the business.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'annual_card_volume': The total annual volume of card transactions processed by the business <input type=\"text\" name=\"annual_card_volume\">.'business_address_city': The city where the business is located <input type=\"text\" name=\"business_address_city\">.'business_address_country': The country where the business is located <input type=\"text\" name=\"business_address_country\".'business_address_region': The region (state, province, etc) where the business is located <input type=\"text\" name=\"business_address_region\">.'business_address_line2': Additional address line (if applicable) for the business location <input type=\"text\" name=\"business_address_line2\">.'business_address_line1': The primary address line for the business location <input type=\"text\" name=\"apikey\">.'business_address_postal_code': The postal code of the business location <input type=\"text\" name=\"business_address_postal_code\">.'business_name': The legal name of the business <input type=\"text\" name=\"business_name\">.'business_phone': The phone number of the business <input type=\"text\" name=\"business_phone\">.'business_tax_id': The tax identification number (TIN) or other business identifier <input type=\"text\" name=\"business_tax_id\">.'business_type': The type or category of the business (eg, retail, service, etc) <input type=\"text\" name=\"business_type\">.'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements <input type=\"text\" name=\"default_statement_descriptor\">.'dob_year': The birth year of the individual applicant or representative of the business<input type=\"number\" name=\"dob_year\">.'dob_day': The birth day of the individual applicant or representative of the business<input type=\"number\" name=\"dob_day\">.'dob_month': The birth month of the individual applicant or representative of the business<input type=\"text\" name=\"dob_month\">.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name<input type=\"text\" name=\"doing_business_as\">.'email': The email address of the individual applicant or representative of the business<input type=\"text\" name=\"email\">.'first_name': The first name of the individual applicant or representative of the business<input type=\"text\" name=\"first_name\">.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional)<input type=\"text\" name=\"has_accepted_credit_cards_previously\">.'incorporation_date_year': The year the business was incorporated or established<input type=\"text\" name=\"incorporation_date_year\">.'incorporation_date_day': The day of the month the business was incorporated or established<input type=\"text\" name=\"incorporation_date_day\">.'incorporation_date_month': The month the business was incorporated or established<input type=\"text\" name=\"incorporation_date_month\">.'last_name': The last name of the individual applicant or representative of the business<input type=\"text\" name=\"last_name\">.'max_transaction_amount': The maximum transaction amount allowed for the business<input type=\"text\" name=\"max_transaction_amount\">.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments<input type=\"text\" name=\"ach_max_transaction_amount\">.'mcc': The Merchant Category Code (MCC) that represents the type of business<input type=\"text\" name=\"mcc\">.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation)<input type=\"text\" name=\"ownership_type\">.'personal_address_city': The city of the individual applicant's personal address<input type=\"text\" name=\"personal_address_city\">.'personal_address_country': The country of the individual applicant's personal address<input type=\"text\" name=\"personal_address_country\">.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address<input type=\"text\" name=\"personal_address_region\">.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address<input type=\"text\" name=\"personal_address_line2\">. personal_address_line1': The primary address line for the individual applicant's personal address<input type=\"text\" name=\"personal_address_line1\">.'personal_address_postal_code': The postal code of the individual applicant's personal address<input type=\"text\" name=\"personal_address_postal_code\">.'phone': The phone number of the individual applicant or representative of the business<input type=\"text\" name=\"phone\">.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity<input type=\"text\" name=\"principal_percentage_ownership\">.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant<input type=\"text\" name=\"tax_id\">.'title': The title or role of the individual applicant or representative of the business<input type=\"text\" name=\"title\">.'url': The website URL of the business<input type=\"text\" name=\"url\">.",
         "header": "Endpoint",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:['id'],headers:[],data:['apikey','annual_card_volume','business_address_city','business_address_country','business_address_region','business_address_line2','business_address_line1',"business_address_postal_code","business_name","business_phone","business_tax_id","business_type","default_statement_descriptor","dob_year","dob_day","dob_month","doing_business_as","email","first_name","has_accepted_credit_cards_previously","incorporation_date_year","incorporation_date_day","incorporation_date_month","last_name","max_transaction_amount","ach_max_transaction_amount","mcc","ownership_type","personal_address_city","personal_address_country","personal_address_region","personal_address_line2","personal_address_line1","personal_address_postal_code","phone","principal_percentage_ownership","tax_id","title","url"]},
+        "errors": [{code:301}],
         "query": "",
         "data": "'apikey' either user or merchant.'annual_card_volume': The total annual volume of card transactions processed by the business.'business_address_city': The city where the business is located.'business_address_country': The country where the business is located.'business_address_region': The region (state, province, etc) where the business is located.'business_address_line2': Additional address line (if applicable) for the business location.'business_address_line1': The primary address line for the business location.'business_address_postal_code': The postal code of the business location.'business_name': The legal name of the business.'business_phone': The phone number of the business.'business_tax_id': The tax identification number (TIN) or other business identifier.'business_type': The type or category of the business (eg, retail, service, etc).'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements.'dob_year': The birth year of the individual applicant or representative of the business.'dob_day': The birth day of the individual applicant or representative of the business.'dob_month': The birth month of the individual applicant or representative of the business.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name.'email': The email address of the individual applicant or representative of the business.'first_name': The first name of the individual applicant or representative of the business.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional).'incorporation_date_year': The year the business was incorporated or established.'incorporation_date_day': The day of the month the business was incorporated or established.'incorporation_date_month': The month the business was incorporated or established.'last_name': The last name of the individual applicant or representative of the business.'max_transaction_amount': The maximum transaction amount allowed for the business.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments.'mcc': The Merchant Category Code (MCC) that represents the type of business.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation).'personal_address_city': The city of the individual applicant's personal address.'personal_address_country': The country of the individual applicant's personal address.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address. personal_address_line1': The primary address line for the individual applicant's personal address.'personal_address_postal_code': The postal code of the individual applicant's personal address.'phone': The phone number of the individual applicant or representative of the business.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant.'title': The title or role of the individual applicant or representative of the business.'url': The website URL of the business.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants/identity -d '{\"apikey\":\"apikey\",\"annual_card_volume\": 12000000,\"business_address_city\":\"San Mateo\",\"business_address_country\":\"USA\",\"business_address_region\":\"CA\",\"business_address_line2\":\"Apartment 8\",\"business_address_line1\":\"741 Douglass St\",\"business_address_postal_code\":\"94114\",\"business_name\":\"Finix Flowers\",\"business_phone\":\"+1 (408) 756-4497\",\"business_tax_id\":\"123456789\",\"business_type\":\"INDIVIDUAL_SOLE_PROPRIETORSHIP\",\"default_statement_descriptor\":\"Finix Flowers\",\"dob_year\": 1978,\"dob_day\": 27,\"dob_month\": 6,\"doing_business_as\":\"Finix Flowers\",\"email\":\"user@example.org\",\"first_name\":\"John\",\"has_accepted_credit_cards_previously\": true,\"incorporation_date_year\": 1978,\"incorporation_date_day\": 27,\"incorporation_date_month\": 6,\"last_name\":\"Smith\",\"max_transaction_amount\": 1200000,\"ach_max_transaction_amount\": 1000000,\"mcc\":\"4900\",\"ownership_type\":\"PRIVATE\",\"personal_address_city\":\"San Mateo\",\"personal_address_country\":\"USA\",\"personal_address_region\":\"CA\",\"personal_address_line2\":\"Apartment 7\",\"personal_address_line1\":\"741 Douglass St\",\"personal_address_postal_code\":\"94114\",\"phone\":\"14158885080\",\"principal_percentage_ownership\":50,\"tax_id\":\"123456789\",\"title\":\"CEO\",\"url\":\"https://www.finix.com\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants/identity -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"annual_card_volume\":<annual_card_volume>12000000<annual_card_volume>,\"business_address_city\":\"<business_address_city>San Mateo<business_address_city>\",\"business_address_country\":\"<business_address_country>USA<business_address_country>\",\"business_address_region\":\"<business_address_region>CA<business_address_region>\",\"business_address_line2\":\"<business_address_line2>Apartment 8<business_address_line2>\",\"business_address_line1\":\"<business_address_line1>741 Douglass St<business_address_line1>\",\"business_address_postal_code\":\"<business_address_postal_code>94114<business_address_postal_code>\",\"business_name\":\"<business_name>Finix Flowers<business_name>\",\"business_phone\":\"<business_phone>+1 (408) 756-4497<business_phone>\",\"business_tax_id\":\"<business_tax_id>123456789<business_tax_id>\",\"business_type\":\"<business_type>INDIVIDUAL_SOLE_PROPRIETORSHIP<business_type>\",\"default_statement_descriptor\":\"<default_statement_descriptor>Finix Flowers<default_statement_descriptor>\",\"dob_year\":<dob_year>1978<dob_year>,\"dob_day\":<dob_day>27<dob_day>,\"dob_month\":<dob_month>6<dob_month>,\"doing_business_as\":\"<doing_business_as>Finix Flowers<doing_business_as>\",\"email\":\"<email>user@example.org<email>\",\"first_name\":\"<first_name>John<first_name>\",\"has_accepted_credit_cards_previously\":<has_accepted_credit_cards_previously>true<has_accepted_credit_cards_previously>,\"incorporation_date_year\":<incorporation_date_year>1978<incorporation_date_year>,\"incorporation_date_day\":<incorporation_date_day>27<incorporation_date_day>,\"incorporation_date_month\":<incorporation_date_month>6<incorporation_date_month>,\"last_name\":\"<last_name>Smith<last_name>\",\"max_transaction_amount\":<max_transaction_amount>1200000<max_transaction_amount>,\"ach_max_transaction_amount\":<ach_max_transaction_amount>1000000<ach_max_transaction_amount>,\"mcc\":\"<mcc>4900<mcc>\",\"ownership_type\":\"<ownership_type>PRIVATE<ownership_type>\",\"personal_address_city\":\"<personal_address_city>San Mateo<personal_address_city>\",\"personal_address_country\":\"<personal_address_country>USA<personal_address_country>\",\"personal_address_region\":\"<personal_address_region>CA<personal_address_region>\",\"personal_address_line2\":\"<personal_address_line2>Apartment 7<personal_address_line2>\",\"personal_address_line1\":\"<personal_address_line1>741 Douglass St<personal_address_line1>\",\"personal_address_postal_code\":\"<personal_address_postal_code>94114<personal_address_postal_code>\",\"phone\":\"<phone>14158885080<phone>\",\"principal_percentage_ownership\":<principal_percentage_ownership>50<principal_percentage_ownership>,\"tax_id\":\"<tax_id>123456789<tax_id>\",\"title\":\"<title>CEO<title>\",\"url\":\"<url>https://www.finix.com<url>\"}'",
         "exampleResponse": `{
     "id": 84,
     "created_at": "2024-03-26T22:52:12.000000Z",
@@ -1672,12 +1686,14 @@ var data = [
     {
         "routeName": "Get Merchants Identities",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/merchants/identity\"",
         "exampleResponse":`{
     "current_page": 1,
@@ -1787,13 +1803,15 @@ var data = [
     {
         "routeName": "Get Merchant Identity",
         "info": "Get a Merchant Identity by id. GET Route",
-        "parameters": " 'id' for the Merchant Identity either the number or the long one.",
+        "parameters": "apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Merchant Identity either the number or the long one <input type=\"text\" name=\"id\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/<id>84</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "'id' for the Merchant Identity in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/identity/84\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/merchants/identity/<id>84</id>\"",
         "exampleResponse": `{
     "id": 84,
     "created_at": "2024-03-26T22:52:12.000000Z",
@@ -1816,13 +1834,15 @@ var data = [
     {
         "routeName": "Search Merchants Identities",
         "info": "Search merchants identities by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/search?search=<search>ID5kQmeLzHM7XZg9gxp7TLsq</search>',urlparams:['id','search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=ID5kQmeLzHM7XZg9gxp7TLsq\"",
+  -H \"apikey: <id>your_api_key_here</id>\" \
+  \"{{url('')}}/api/cardwiz/merchants/identity/search?search=<search>ID5kQmeLzHM7XZg9gxp7TLsq</search>\"",
         "exampleResponse": `{
     "current_page": 1,
     "data": [
@@ -1877,11 +1897,13 @@ var data = [
      {
         "routeName": "Create Merchant Bank",
         "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS, SAVINGS, CHECKING: The account type must be provided.'bank_code' The bank code.'identity' A merchant id must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'account_number' The account number <input type=\"text\" name=\"account_number\">. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS, SAVINGS, CHECKING: The account type must be provided <input type=\"text\" name=\"account_type\">.'bank_code' The bank code <input type=\"text\" name=\"bank_code\">.'identity' A merchant id must be provided, indicating the account holder's identity <input type=\"text\" name=\"identity\">.'name' The name field, if provided <input type=\"text\" name=\"name\">. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT <input type=\"text\" name=\"type\">.",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchant/bank_accounts',urlparams:[],headers:[],data:["apikey","account_number","account_type","bank_code","name","identity","type"]},
+        "errors": [{code:301}],
         "header": "Endpoint",
         "query": "",
         "data": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"apikey\",\"account_number\":\"123123123\",\"account_type\":\"SAVINGS\",\"bank_code\":\"123123123\",\"name\":\"John Smith\",\"identity\":2,\"type\":\"BANK_ACCOUNT\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"account_number\":\"<account_number>123123123<account_number>\",\"account_type\":\"<account_type>SAVINGS<account_type>\",\"bank_code\":\"<bank_code>123123123<bank_code>\",\"name\":\"<name>John Smith<name>\",\"identity\":2,\"type\":\"<type>BANK_ACCOUNT<type>\"}'",
         "exampleResponse": `{
     "id": 62,
     "created_at": "2024-03-26T23:32:07.000000Z",
@@ -1927,11 +1949,13 @@ var data = [
      {
         "routeName": "Create Merchant",
         "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'id' for the merchant identity turning into a merchant <input type=\"text\" name=\"id\">. 'first_name' of the PCI holder <input type=\"text\" name=\"first_name\">. 'last_name' of the PCI holder <input type=\"text\" name=\"last_name\">. 'PCI_title' of the PCI holder <input type=\"text\" name=\"PCI_title\">. 'browser' of the PCI holder <input type=\"text\" name=\"browser\">.",
         "header": "Endpoint",
         "query": "",
-        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'amount' the amount of the hold.'first_name' of the PCI holder. 'last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"apikey\",\"first_name\":\"Jhon\",\"last_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2,\"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"}'",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants ',urlparams:[],headers:[],data:['apikey','first_name','last_name','PCI_title','id','browser']},
+        "errors": [{code:301}],
+        "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'first_name' of the PCI holder. 'last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"first_name\":\"<first_name>Jhon<first_name>\",\"last_name\":\"<last_name>Doe<last_name>\",\"PCI_title\":\"<PCI_title>CTO<PCI_title>\",\"id\":<id>2</id>,\"browser\":\"<browser>Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)<browser>\"}'",
         "exampleResponse": `{
     "worked": true,
     "responce": "{\n  \"id\" : \"MUckwFvQF5EoMmw1esvxfXmt\",\n  \"created_at\" : \"2024-03-27T00:27:47.03Z\",\n  \"updated_at\" : \"2024-03-27T00:27:47.03Z\",\n  \"application\" : \"APZmjWMcUWgvxGcBV3V6FJ7\",\n  \"card_cvv_required\" : false,\n  \"card_expiration_date_required\" : true,\n  \"convenience_charges_enabled\" : false,\n  \"country\" : \"USA\",\n  \"creating_transfer_from_report_enabled\" : false,\n  \"currencies\" : [ \"USD\" ],\n  \"default_partial_authorization_enabled\" : false,\n  \"disbursements_ach_pull_enabled\" : false,\n  \"disbursements_ach_push_enabled\" : false,\n  \"disbursements_card_pull_enabled\" : false,\n  \"disbursements_card_push_enabled\" : false,\n  \"fee_ready_to_settle_upon\" : \"PROCESSOR_WINDOW\",\n  \"gateway\" : null,\n  \"gross_settlement_enabled\" : false,\n  \"identity\" : \"IDdwT39A4jE6hMsJvg6MgRS1\",\n  \"level_two_level_three_data_enabled\" : false,\n  \"mcc\" : \"4900\",\n  \"merchant_name\" : \"Finix Flowers\",\n  \"merchant_profile\" : \"MPbnEdag4VJYvNVV8ub6GSRk\",\n  \"mid\" : null,\n  \"onboarding_state\" : \"PROVISIONING\",\n  \"processing_enabled\" : false,\n  \"processor\" : \"DUMMY_V1\",\n  \"processor_details\" : { },\n  \"ready_to_settle_upon\" : \"PROCESSOR_WINDOW\",\n  \"rent_surcharges_enabled\" : false,\n  \"settlement_enabled\" : false,\n  \"settlement_funding_identifier\" : \"UNSET\",\n  \"surcharges_enabled\" : false,\n  \"tags\" : {\n    \"api_userID\" : \"api_userID_1\",\n    \"apikeyID\" : \"apikeyID_\",\n    \"userID\" : \"userID_1\"\n  },\n  \"verification\" : \"VIuuDu8ayCEaTXEdQbjMNNAF\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchants\/MUckwFvQF5EoMmw1esvxfXmt\"\n    },\n    \"identity\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/identities\/IDdwT39A4jE6hMsJvg6MgRS1\"\n    },\n    \"verifications\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchants\/MUckwFvQF5EoMmw1esvxfXmt\/verifications\"\n    },\n    \"merchant_profile\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchant_profiles\/MPbnEdag4VJYvNVV8ub6GSRk\"\n    },\n    \"application\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/applications\/APZmjWMcUWgvxGcBV3V6FJ7\"\n    },\n    \"verification\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/verifications\/VIuuDu8ayCEaTXEdQbjMNNAF\"\n    }\n  }\n}",
@@ -1999,12 +2023,14 @@ var data = [
     {
         "routeName": "Get Merchants",
         "info": "Get a merchants by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/merchants\"",
         "exampleResponse":`{
     "current_page": 1,
@@ -2267,13 +2293,15 @@ var data = [
     {
         "routeName": "Get Merchant",
         "info": "Get a merchant by id. GET Route",
-        "parameters": " 'id' for the merchant either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the merchant either the number or the long one <input type=\"text\" name=\"id\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants<id>18</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "'id' for the merchant in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/18\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/merchants/<id>18</id>\"",
         "exampleResponse": `{
     "id": 18,
     "created_at": "2024-02-25T05:15:14.000000Z",
@@ -2323,13 +2351,15 @@ var data = [
     {
         "routeName": "Search Merchant",
         "info": "Search a merchants by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant.'search' what to search for.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/search?search=<search>MUh6o9SVp55pk9LfPRbGTMz4</search>',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/search?search=MUh6o9SVp55pk9LfPRbGTMz4\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/merchants/search?search=<search>MUh6o9SVp55pk9LfPRbGTMz4</search>\"",
         "exampleResponse": `{
     "current_page": 1,
     "data": [
@@ -2411,70 +2441,82 @@ var data = [
     {
         "routeName": "Get Merchants Totals",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/merchants/totals\"",
         "exampleResponse":``
     },
     {
         "routeName": "Get Merchant Total",
         "info": "Get a Merchant Identity by id. GET Route",
-        "parameters": " 'id' for the Merchant either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Merchant either the number or the long one <input type=\"text\" name=\"apikey\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "'id' for the Merchant Identity in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/totals/3\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/merchants/totals/id>3</id>\"",
         "exampleResponse": ``
     },
     {
         "routeName": "Search Merchants Totals",
         "info": "Search merchants identities by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/merchants/totals/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+  -H \"apikey:  <id>your_api_key_here</id>\" \
+  \"{{url('')}}/api/cardwiz/merchants/totals/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": ``
     }, {
         "routeName": "Fill PCI Form",
         "info": "Fill  a PCI form. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement. 'browser' of the PCI holder.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'id' The id for the pci Agreement <input type=\"text\" name=\"id\">. 'first_name' The first name for the pci Agreement <input type=\"text\" name=\"first_name\">. 'Last_name' The last name for the pci Agreement <input type=\"text\" name=\"Last_name\">.'PCI_title' The title for the pci Agreement <input type=\"text\" name=\"PCI_title\">. 'browser' of the PCI holder <input type=\"text\" name=\"browser\">.",
         "header": "Endpoint",
+        'test':{method:'POST',url:'{{url('')}}/ap/cardwiz/merchants/pcis/fill',urlparams:[],headers:[],data:['apikey','first_name','Last_name','PCI_title','id','browser']},
+        "errors": [{code:301}],
         "query": "",
         "data":"'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement. 'browser' of the PCI holder.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/ap/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"apikey\",\"first_name\":\"123123123\",\"account_type\":\"Jhon\",\"Last_name\":\"Doe\",\"PCI_title\":\"CTO\",\"id\":2,\"browser\":\"Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/ap/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"first_name\":\"<first_name>Jhon<first_name>\",\"Last_name\":\"<Last_name>Doe<Last_name>\",\"PCI_title\":\"<PCI_title>CTO<PCI_title>\",\"id\":<id>2</id>,\"browser\":\"<browser>Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)<browser>\"}'",
         "exampleResponse": ``}
     ,
     {
         "routeName": "Get PCIs",
         "info": "Get a PCI forms by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/pcis\"",
         "exampleResponse":``
     },
     {
         "routeName": "Get PCI",
         "info": "Get a PCI by id. GET Route",
-        "parameters": " 'id' for the merchant either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the merchant either the number or the long one <input type=\"text\" name=\"id\">.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the PCI in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/pcis/3\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/pcis/<id>3</id>\"",
         "exampleResponse": ``
     },
     {
@@ -2665,27 +2707,35 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 $(el).tooltip('hide');
             }, 2000);
         }
-        copyBtn.addEventListener('click', function() {
-            copyToClipboard(route.exampleRequest);
-            toggleTooltip(this);
-        });
-
-        copyBtn2.addEventListener('click', function() {
-            copyToClipboard(route.exampleResponseUncolapsed);
-            toggleTooltip(this);
-        });
+        if(copyBtn){
+            copyBtn.addEventListener('click', function() {
+                copyToClipboard(route.exampleRequest);
+                toggleTooltip(this);
+            });
+        }
+        if(copyBtn2){
+            copyBtn2.addEventListener('click', function() {
+                copyToClipboard(route.exampleResponseUncolapsed);
+                toggleTooltip(this);
+            });
+        }
         var localCounter=idCounter;
-        collapseBtn.addEventListener('click', function() {
-            const jsonElement = section.querySelector('#json'+localCounter);
-            jsonElement.innerHTML = route.exampleResponse;
-            toggleTooltip(this);
-        });
+        if(collapseBtn){
+
+            collapseBtn.addEventListener('click', function() {
+                const jsonElement = section.querySelector('#json'+localCounter);
+                jsonElement.innerHTML = route.exampleResponse;
+                toggleTooltip(this);
+            });
+        }
+        if(uncollapseBtn){
 
         uncollapseBtn.addEventListener('click', function() {
             const jsonElement = section.querySelector('#json'+localCounter);
             jsonElement.innerHTML = route.exampleResponseUncolapsed;
             toggleTooltip(this);
         });
+        }
             });
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip({trigger:'manual'})

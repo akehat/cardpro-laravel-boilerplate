@@ -239,11 +239,10 @@ public static function fromArray(array $array)
     {
         foreach ($array as $data) {
             $data = (object)$data;
-
+            log::info($data);
             $found = self::where('finix_id', $data->id)->first();
             $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
             $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;
-            log::info($data);
             if ($found == null) {
                 $found = self::create([
                 'finix_id' => $data->id ?? null,
@@ -282,8 +281,25 @@ public static function fromArray(array $array)
 
             self::readTags($found,($data->tags??(object)[]));
 // Save and refresh the model new
+            self::checkForOwner($data,$found);
             $found->save();
             $found->refresh();
+        }
+    }
+    public static function checkForOwner($data,$model){
+        $found=Finix_Merchant::where('finix_id',$data->merchant)->first();
+        if($found!=null){
+            $model->api_user=$found->api_user;
+            $model->is_live=$found->is_live;
+            $model->api_key=$found->api_key;
+            return;
+        }
+        $found=identities::where('finix_id',$data->merchant_identity)->first();
+        if($found!=null){
+            $model->api_user=$found->api_user;
+            $model->is_live=$found->is_live;
+            $model->api_key=$found->api_key;
+            return;
         }
     }
 }

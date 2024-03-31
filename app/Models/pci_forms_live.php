@@ -318,9 +318,9 @@ public static function fromArray(array $array)
     public static function checkForOwner($model,$data){
         $found=Finix_Merchant_live::where('finix_id',$data->linked_to)->first();
         if($found!=null){
-            $model->api_userID=$found->api_userID;
-            $model->islive=$found->islive;
-            $model->apikeyID=$found->api_user;
+            $model->api_user=$found->api_user;
+            $model->is_live=$found->is_live;
+            $model->api_key=$found->api_key;
             return;
         }
     }

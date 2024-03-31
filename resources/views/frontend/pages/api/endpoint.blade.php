@@ -275,7 +275,7 @@ var data = [
     {
         "routeName": "Create Customer",
         "info": "Create a customer to attach a card for payments. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'email' for the customer <input type=\"text\" name=\"email\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'email' for the customer <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"email\"></span>.",
         "header": "Endpoint",
         "query": "N/A",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:[],data:['apikey','email']},
@@ -304,7 +304,7 @@ var data = [
     {
         "routeName": "Get Customers",
         "info": "Get a customers by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant  .",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -421,7 +421,7 @@ var data = [
     {
         "routeName": "Get Customer",
         "info": "Get a customer by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the customer either the number or the long one <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the customer either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the customer in the url",
         "data": "N/A",
@@ -453,7 +453,7 @@ var data = [
     {
         "routeName": "Search Customers",
         "info": "Search for a customers by 20. GET Route",
-        "parameters": "'apikey' either user or merchant  <input type=\"text\" name=\"apikey\">. 'search' for in the customer <input type=\"text\" name=\"search\">.",
+        "parameters": "'apikey' either user or merchant  <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'search' for in the customer <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint",
         "query": "page the page of the query like page=2 by 20,'search' for in the customer.",
         "data": "'apikey' either user or merchant. ",
@@ -516,7 +516,7 @@ var data = [
     {
         "routeName": "Create Payment Way",
         "info": "Create a card. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'exp_month' for the card <input type=\"text\" name=\"exp_month\">. 'exp_year' for the card <input type=\"text\" name=\"exp_year\">.'name' for the card <input type=\"text\" name=\"name\">. 'card_number' for the card  <input type=\"text\" name=\"name\">. 'cvv' for the card <input type=\"text\" name=\"cvv\">. 'id' for the customer to add the card <input type=\"text\" name=\"id\">. 'descriptor' for the charge if wanted, none will use default of merchant <input type=\"text\" name=\"descriptor\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'exp_month' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"exp_month\"></span>. 'exp_year' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"exp_year\"></span>.'name' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"name\"></span>. 'card_number' for the card  <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"name\"></span>. 'cvv' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"cvv\"></span>. 'id' for the customer to add the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'descriptor' for the charge if wanted, none will use default of merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"descriptor\"></span>.",
         "header": "Endpoint.",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:[],data:['apikey','exp_month','exp_year','name','id','cvv','card_number','descriptor']},
         "errors": [{code:301}],
@@ -569,7 +569,7 @@ var data = [
     {
         "routeName": "Get Payment Ways",
         "info": "Get a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -696,7 +696,7 @@ var data = [
     {
         "routeName": "Get Payment Way",
         "info": "Get a Payment Way by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Payment Way either the number or the long one <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Payment Way either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways/<id>56</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
@@ -750,7 +750,7 @@ var data = [
     {
         "routeName": "Search Payment Ways",
         "info": "Search a Payment Ways by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\".",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <br><input type=\"text\" name=\"search\".",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:  "{{url('')}}/api/cardwiz/payment_ways/search?search=<search>APZmjWMcUWgvxGcBV3V6FJ7</search>",urlparams:['search'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -877,7 +877,7 @@ var data = [
     {
         "routeName": "Create Charge",
         "info": "create a charge for a customer. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'cardID' of the card <input type=\"text\" name=\"cardID\">. \n'amount' the amount of the charge <input type=\"number\" name=\"amount\">. \n'currency' of the charge <input type=\"text\" name=\"currency\">. \nIf a user key is used the 'MerchantID' must be provided <input type=\"text\" name=\"MerchantID\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'cardID' of the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"cardID\"></span>. \n'amount' the amount of the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"amount\"></span>. \n'currency' of the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"currency\"></span>. \nIf a user key is used the 'MerchantID' must be provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"MerchantID\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
         "errors": [{code:301}],
@@ -935,7 +935,7 @@ var data = [
     {
         "routeName": "Get Charges",
         "info": "Get a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. GET Route",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. GET Route",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -1118,7 +1118,7 @@ var data = [
     {
         "routeName": "Get Charge",
         "info": "Get a charge by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the charge either the number or the long on <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the charge either the number or the long on <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/<id>30</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -1178,7 +1178,7 @@ var data = [
     {
         "routeName": "Search Charges",
         "info": "Search a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/search?search=<search>TRxADa5jzJ2GRRM5yejSvpPU</search>',urlparams:['search'],headers:['apikey'],data:[]},
@@ -1272,7 +1272,7 @@ var data = [
         'test':{method:'POST',url:' {{url('')}}/api/cardwiz/refunds ',urlparams:[],headers:[],data:['apikey','amount','id']},
         "errors": [{code:301}],
         "header": "Endpoint.",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'amount' for in the refund <input type=\"text\" name=\"apikey\">. 'id' for the charge <input type=\"text\" name=\"apikey\">",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'amount' for in the refund <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>",
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'amount' for in the refund.",
@@ -1328,7 +1328,7 @@ var data = [
     {
         "routeName": "Create Hold",
         "info": "create a hold for a customer. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'cardID' of the card <input type=\"text\" name=\"cardID\">. \n'amount' the amount of the hold <input type=\"number\" name=\"amount\">. \n'currency' of the hold <input type=\"text\" name=\"currency\">. \nIf a user key is used the 'merchant' must be provided <input type=\"text\" name=\"merchant\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'cardID' of the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"cardID\"></span>. \n'amount' the amount of the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"amount\"></span>. \n'currency' of the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"currency\"></span>. \nIf a user key is used the 'merchant' must be provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"merchant\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
         "errors": [{code:301}],
@@ -1375,7 +1375,7 @@ var data = [
     {
         "routeName": "Get Holds",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:['apikey'],data:[]},
@@ -1456,7 +1456,7 @@ var data = [
     {
         "routeName": "Get Hold",
         "info": "Get a Hold by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Hold either the number or the long one <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Hold either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -1505,7 +1505,7 @@ var data = [
     {
         "routeName": "Search Hold",
         "info": "Search a Holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -1554,7 +1554,7 @@ var data = [
     {
         "routeName": "Capture Hold",
         "info": "Capture a hold. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'id' for the hold <input type=\"text\" name=\"id\">. \n'amount' the amount of the hold <input type=\"number\" name=\"amount\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'id' for the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. \n'amount' the amount of the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"amount\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>/capture',urlparams:['id'],headers:[],data:['apikey','amount','id']},
         "errors": [{code:301}],
@@ -1611,7 +1611,7 @@ var data = [
     {
         "routeName": "Release Hold",
         "info": "Release a hold. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.\n'id' for the hold <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'id' for the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>6</id>/release',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint",
@@ -1658,7 +1658,7 @@ var data = [
      {
         "routeName": "Create Merchant Identity",
         "info": "Create a Merchant Identity to be used to make a new merchant. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'annual_card_volume': The total annual volume of card transactions processed by the business <input type=\"text\" name=\"annual_card_volume\">.'business_address_city': The city where the business is located <input type=\"text\" name=\"business_address_city\">.'business_address_country': The country where the business is located <input type=\"text\" name=\"business_address_country\".'business_address_region': The region (state, province, etc) where the business is located <input type=\"text\" name=\"business_address_region\">.'business_address_line2': Additional address line (if applicable) for the business location <input type=\"text\" name=\"business_address_line2\">.'business_address_line1': The primary address line for the business location <input type=\"text\" name=\"apikey\">.'business_address_postal_code': The postal code of the business location <input type=\"text\" name=\"business_address_postal_code\">.'business_name': The legal name of the business <input type=\"text\" name=\"business_name\">.'business_phone': The phone number of the business <input type=\"text\" name=\"business_phone\">.'business_tax_id': The tax identification number (TIN) or other business identifier <input type=\"text\" name=\"business_tax_id\">.'business_type': The type or category of the business (eg, retail, service, etc) <input type=\"text\" name=\"business_type\">.'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements <input type=\"text\" name=\"default_statement_descriptor\">.'dob_year': The birth year of the individual applicant or representative of the business<input type=\"number\" name=\"dob_year\">.'dob_day': The birth day of the individual applicant or representative of the business<input type=\"number\" name=\"dob_day\">.'dob_month': The birth month of the individual applicant or representative of the business<input type=\"text\" name=\"dob_month\">.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name<input type=\"text\" name=\"doing_business_as\">.'email': The email address of the individual applicant or representative of the business<input type=\"text\" name=\"email\">.'first_name': The first name of the individual applicant or representative of the business<input type=\"text\" name=\"first_name\">.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional)<input type=\"text\" name=\"has_accepted_credit_cards_previously\">.'incorporation_date_year': The year the business was incorporated or established<input type=\"text\" name=\"incorporation_date_year\">.'incorporation_date_day': The day of the month the business was incorporated or established<input type=\"text\" name=\"incorporation_date_day\">.'incorporation_date_month': The month the business was incorporated or established<input type=\"text\" name=\"incorporation_date_month\">.'last_name': The last name of the individual applicant or representative of the business<input type=\"text\" name=\"last_name\">.'max_transaction_amount': The maximum transaction amount allowed for the business<input type=\"text\" name=\"max_transaction_amount\">.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments<input type=\"text\" name=\"ach_max_transaction_amount\">.'mcc': The Merchant Category Code (MCC) that represents the type of business<input type=\"text\" name=\"mcc\">.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation)<input type=\"text\" name=\"ownership_type\">.'personal_address_city': The city of the individual applicant's personal address<input type=\"text\" name=\"personal_address_city\">.'personal_address_country': The country of the individual applicant's personal address<input type=\"text\" name=\"personal_address_country\">.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address<input type=\"text\" name=\"personal_address_region\">.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address<input type=\"text\" name=\"personal_address_line2\">. personal_address_line1': The primary address line for the individual applicant's personal address<input type=\"text\" name=\"personal_address_line1\">.'personal_address_postal_code': The postal code of the individual applicant's personal address<input type=\"text\" name=\"personal_address_postal_code\">.'phone': The phone number of the individual applicant or representative of the business<input type=\"text\" name=\"phone\">.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity<input type=\"text\" name=\"principal_percentage_ownership\">.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant<input type=\"text\" name=\"tax_id\">.'title': The title or role of the individual applicant or representative of the business<input type=\"text\" name=\"title\">.'url': The website URL of the business<input type=\"text\" name=\"url\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'annual_card_volume': The total annual volume of card transactions processed by the business <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"annual_card_volume\"></span>.'business_address_city': The city where the business is located <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_city\"></span>.'business_address_country': The country where the business is located <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_country\".'business_address_region': The region (state, province, etc) where the business is located <br></span><input type=\"text\" name=\"business_address_region\">.'business_address_line2': Additional address line (if applicable) for the business location <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_line2\"></span>.'business_address_line1': The primary address line for the business location <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'business_address_postal_code': The postal code of the business location <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_postal_code\"></span>.'business_name': The legal name of the business <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_name\"></span>.'business_phone': The phone number of the business <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_phone\"></span>.'business_tax_id': The tax identification number (TIN) or other business identifier <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_tax_id\"></span>.'business_type': The type or category of the business (eg, retail, service, etc) <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_type\"></span>.'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"default_statement_descriptor\"></span>.'dob_year': The birth year of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"dob_year\"></span>.'dob_day': The birth day of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"dob_day\"></span>.'dob_month': The birth month of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"dob_month\"></span>.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"doing_business_as\"></span>.'email': The email address of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"email\"></span>.'first_name': The first name of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"first_name\"></span>.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional)<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"has_accepted_credit_cards_previously\"></span>.'incorporation_date_year': The year the business was incorporated or established<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"incorporation_date_year\"></span>.'incorporation_date_day': The day of the month the business was incorporated or established<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"incorporation_date_day\"></span>.'incorporation_date_month': The month the business was incorporated or established<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"incorporation_date_month\"></span>.'last_name': The last name of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"last_name\"></span>.'max_transaction_amount': The maximum transaction amount allowed for the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"max_transaction_amount\"></span>.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"ach_max_transaction_amount\"></span>.'mcc': The Merchant Category Code (MCC) that represents the type of business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"mcc\"></span>.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation)<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"ownership_type\"></span>.'personal_address_city': The city of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_city\"></span>.'personal_address_country': The country of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_country\"></span>.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_region\"></span>.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_line2\"></span>. personal_address_line1': The primary address line for the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_line1\"></span>.'personal_address_postal_code': The postal code of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_postal_code\"></span>.'phone': The phone number of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"phone\"></span>.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"principal_percentage_ownership\"></span>.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"tax_id\"></span>.'title': The title or role of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"title\"></span>.'url': The website URL of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"url\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:['id'],headers:[],data:['apikey','annual_card_volume','business_address_city','business_address_country','business_address_region','business_address_line2','business_address_line1',"business_address_postal_code","business_name","business_phone","business_tax_id","business_type","default_statement_descriptor","dob_year","dob_day","dob_month","doing_business_as","email","first_name","has_accepted_credit_cards_previously","incorporation_date_year","incorporation_date_day","incorporation_date_month","last_name","max_transaction_amount","ach_max_transaction_amount","mcc","ownership_type","personal_address_city","personal_address_country","personal_address_region","personal_address_line2","personal_address_line1","personal_address_postal_code","phone","principal_percentage_ownership","tax_id","title","url"]},
         "errors": [{code:301}],
@@ -1686,7 +1686,7 @@ var data = [
     {
         "routeName": "Get Merchants Identities",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
@@ -1803,7 +1803,7 @@ var data = [
     {
         "routeName": "Get Merchant Identity",
         "info": "Get a Merchant Identity by id. GET Route",
-        "parameters": "apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Merchant Identity either the number or the long one <input type=\"text\" name=\"id\">.",
+        "parameters": "apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant Identity either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/<id>84</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -1834,7 +1834,7 @@ var data = [
     {
         "routeName": "Search Merchants Identities",
         "info": "Search merchants identities by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/search?search=<search>ID5kQmeLzHM7XZg9gxp7TLsq</search>',urlparams:['id','search'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -1897,7 +1897,7 @@ var data = [
      {
         "routeName": "Create Merchant Bank",
         "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'account_number' The account number <input type=\"text\" name=\"account_number\">. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS, SAVINGS, CHECKING: The account type must be provided <input type=\"text\" name=\"account_type\">.'bank_code' The bank code <input type=\"text\" name=\"bank_code\">.'identity' A merchant id must be provided, indicating the account holder's identity <input type=\"text\" name=\"identity\">.'name' The name field, if provided <input type=\"text\" name=\"name\">. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT <input type=\"text\" name=\"type\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'account_number' The account number <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"account_number\"></span>. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS, SAVINGS, CHECKING: The account type must be provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"account_type\"></span>.'bank_code' The bank code <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"bank_code\"></span>.'identity' A merchant id must be provided, indicating the account holder's identity <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"identity\"></span>.'name' The name field, if provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"name\"></span>. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"type\"></span>.",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchant/bank_accounts',urlparams:[],headers:[],data:["apikey","account_number","account_type","bank_code","name","identity","type"]},
         "errors": [{code:301}],
         "header": "Endpoint",
@@ -1949,7 +1949,7 @@ var data = [
      {
         "routeName": "Create Merchant",
         "info": "Create a Merchant. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'id' for the merchant identity turning into a merchant <input type=\"text\" name=\"id\">. 'first_name' of the PCI holder <input type=\"text\" name=\"first_name\">. 'last_name' of the PCI holder <input type=\"text\" name=\"last_name\">. 'PCI_title' of the PCI holder <input type=\"text\" name=\"PCI_title\">. 'browser' of the PCI holder <input type=\"text\" name=\"browser\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' for the merchant identity turning into a merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'first_name' of the PCI holder <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"first_name\"></span>. 'last_name' of the PCI holder <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"last_name\"></span>. 'PCI_title' of the PCI holder <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"PCI_title\"></span>. 'browser' of the PCI holder <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"browser\"></span>.",
         "header": "Endpoint",
         "query": "",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants ',urlparams:[],headers:[],data:['apikey','first_name','last_name','PCI_title','id','browser']},
@@ -2023,7 +2023,7 @@ var data = [
     {
         "routeName": "Get Merchants",
         "info": "Get a merchants by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
@@ -2293,7 +2293,7 @@ var data = [
     {
         "routeName": "Get Merchant",
         "info": "Get a merchant by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the merchant either the number or the long one <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants<id>18</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -2351,7 +2351,7 @@ var data = [
     {
         "routeName": "Search Merchant",
         "info": "Search a merchants by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/search?search=<search>MUh6o9SVp55pk9LfPRbGTMz4</search>',urlparams:['search'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -2441,7 +2441,7 @@ var data = [
     {
         "routeName": "Get Merchants Totals",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
@@ -2455,7 +2455,7 @@ var data = [
     {
         "routeName": "Get Merchant Total",
         "info": "Get a Merchant Identity by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the Merchant either the number or the long one <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -2469,7 +2469,7 @@ var data = [
     {
         "routeName": "Search Merchants Totals",
         "info": "Search merchants identities by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'search' what to search for <input type=\"text\" name=\"search\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
@@ -2482,7 +2482,7 @@ var data = [
     }, {
         "routeName": "Fill PCI Form",
         "info": "Fill  a PCI form. POST Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.'id' The id for the pci Agreement <input type=\"text\" name=\"id\">. 'first_name' The first name for the pci Agreement <input type=\"text\" name=\"first_name\">. 'Last_name' The last name for the pci Agreement <input type=\"text\" name=\"Last_name\">.'PCI_title' The title for the pci Agreement <input type=\"text\" name=\"PCI_title\">. 'browser' of the PCI holder <input type=\"text\" name=\"browser\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' The id for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'first_name' The first name for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"first_name\"></span>. 'Last_name' The last name for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"Last_name\"></span>.'PCI_title' The title for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"PCI_title\"></span>. 'browser' of the PCI holder <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"browser\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/ap/cardwiz/merchants/pcis/fill',urlparams:[],headers:[],data:['apikey','first_name','Last_name','PCI_title','id','browser']},
         "errors": [{code:301}],
@@ -2494,7 +2494,7 @@ var data = [
     {
         "routeName": "Get PCIs",
         "info": "Get a PCI forms by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis',urlparams:[],headers:['apikey'],data:[]},
         "errors": [{code:301}],
@@ -2508,7 +2508,7 @@ var data = [
     {
         "routeName": "Get PCI",
         "info": "Get a PCI by id. GET Route",
-        "parameters": "'apikey' either user or merchant <input type=\"text\" name=\"apikey\">. 'id' for the merchant either the number or the long one <input type=\"text\" name=\"id\">.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
         "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
@@ -2522,70 +2522,82 @@ var data = [
     {
         "routeName": "Search PCIs",
         "info": "Search a merchants by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/pcis/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": ``
     },
 
     {
         "routeName": "Update Dispute",
         "info": "Update a Dispute. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' for the dispute. 'file' the file to update the dispute with or 'note' to update the dispute with.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' for the dispute <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'file' the file to update the dispute with or 'note' to update the dispute with <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"note\"></span>.",
         "header": "Endpoint. 'id' for the dispute.",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/disputes/<id>2</id>',urlparams:['id'],headers:[],data:['apikey',"note"]},
+        "errors": [{code:301}],
         "query": "",
         "data": "'apikey' either user or merchant. 'file' the file to update the dispute with or 'note' to update the dispute with.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/2 -d '{\"apikey\":\"apikey\"}' -F 'file=@filename' \nor\n curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/2 -d '{\"apikey\":\"apikey\",\"note\":\"this is a note\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/2 -d '{\"apikey\":\"apikey\"}' -F 'file=@filename' \nor\n curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/<id>2</id> -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"note\":\"<note>this is a note</note>\"}'",
         "exampleResponse": ``
     },
      {
         "routeName": "Accept Dispute",
         "info": "Accept a Dispute. POST Route",
-        "parameters": "'apikey' either user or merchant.'id' for the dispute. 'note' to update the dispute with.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' for the dispute <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'note' to update the dispute with <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"note\"></span>.",
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/disputes/<id>2</id>',urlparams:['id'],headers:[],data:['apikey',"note"]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'id' for the dispute.",
         "query": "",
         "data": "'apikey' either user or merchant. 'note' to update the dispute with.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/2/accept -d '{\"apikey\":\"apikey\",\"note\":\"this is a note\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/<id>2</id>/accept -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"note\":\"<note>this is a note</note>\"}'",
         "exampleResponse": ``
     },
     {
         "routeName": "Get Disputes",
         "info": "Get a holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant. GET Route",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/disputes',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/disputes\"",
         "exampleResponse":``
     },
     {
         "routeName": "Get Dispute",
         "info": "Get a Hold by id. GET Route",
-        "parameters": " 'id' for the Hold either the number or the long one.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Hold either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the Hold in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/disputes/3\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/disputes/<id>3</id>\"",
         "exampleResponse": ``
     },
     {
         "routeName": "Search Disputes",
         "info": "Search a Holds by 20. GET Route",
-        "parameters": "'apikey' either user or merchant.'search' what to search for. GET Route",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:301}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: your_api_key_here\" \
-  \"{{url('')}}/api/cardwiz/disputes/search?search=AU89QZLoYQBzeJAt2iysRr2H0\"",
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
+  \"{{url('')}}/api/cardwiz/disputes/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": ``
     },
 ];
@@ -2640,49 +2652,60 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
     route.info=route.info.replace(/(POST Route)/g, "<b class='post'>$1</b>").replace(/(GET Route)/g, "<b class='get'>$1</b>");
     route.exampleResponseUncolapsed=route.exampleResponse;
     route.exampleResponse=route.exampleResponse.replace(/([^^])(\{.*\})+/g,'$1{...}');
-                section.innerHTML = `
-                <div class="floatHolder">
-                    <div>
-                        <h2>${route.routeName}</h2>
-                        <p>${route.info}</p>
-                        <div class="paramHolder">
-                            <h5>Parameters</h5>
-                            <p>${route.parameters}</p>
-                            <h5>Header</h3>
-                            <p>${route.header}</p>
+    section.innerHTML = `
+    <div class="floatHolder">
+        <div>
+            <h2>${route.routeName}</h2>
+            <p>${route.info}</p>
+            <div class="paramHolder">
 
-                            <h5>Query</h3>
-                            <p>${route.query}</p>
+                <h5>Parameters
+                        <button class="editButton" onclick="editRoute(this)">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                </h5>
+                <p>${route.parameters}</p>
+                <h5>Header</h5>
+                <p>${route.header}</p>
+                <h5>Query</h5>
+                <p>${route.query}</p>
+                <h5>Data</h5>
+                <p>${route.data}</p>
+            </div>
+        </div>
 
-                            <h5>Data</h3>
-                            <p>${route.data}</p>
-                        </div>
-                    </div>
+        <div>
+            <div class="curlHolder">
+                <h4 class="h5"><b>Example Request</b>
+                <button class="copyBtn" data-toggle="tooltip" title="Copied!">
+                    <i class="fa fa-copy"></i>
+                </button>
+                <button class="testBtn" data-toggle="tooltip" title="Test Button">
+                        <i class="fa fa-check"></i>
+                </button>
+                </h4>
+                <code class="language-curl">${route.exampleRequest}</code>
+            </div>
+            <div class="jsonHolder">
+                <h4  class="h5"><b>Example Response Http Code: 201</b>
+                    <button class="copyBtn2" data-toggle="tooltip" title="Copied!"> <i class="fa fa-copy"></i></button>
+                    <button class="collapseBtn"  data-toggle="tooltip" title="Collapsed!">
+                        <i class="fa fa-minus-circle"></i>
+                    </button>
+                    <button class="uncollapseBtn" data-toggle="tooltip" title="Uncollapsed!">
+                        <i class="fa fa-plus-circle"></i>
+                    </button>
+                </h4>
+                <pre class="language-json" id="json${++idCounter}">${route.exampleResponse}</pre>
+            </div>
+        </div>
+    </div>
+`;
 
-                    <div>
-                        <div class="curlHolder">
-                            <h4 class="h5"><b>Example Request</b>
-                            <button class="copyBtn" data-toggle="tooltip" title="Copied!">
-                                <i class="fa fa-copy"></i>
-                            </button></h4>
-                            <code class="language-curl">${route.exampleRequest}</code>
+                // Function to handle editing route
 
-                        </div>
-                        <div class="jsonHolder">
-                            <h4  class="h5"><b>Example Response Http Code: 201</b>
-                                <button class="copyBtn2" data-toggle="tooltip" title="Copied!"> <i class="fa fa-copy"></i></button>
-                                <button class="collapseBtn"  data-toggle="tooltip" title="Collapsed!">
-                                    <i class="fa fa-minus-circle"></i>
-                                </button>
-                                <button class="uncollapseBtn" data-toggle="tooltip" title="Uncollapsed!">
-                                    <i class="fa fa-plus-circle"></i>
-                                </button>
-                            </h4>
-                            <pre class="language-json" id="json${++idCounter}">${route.exampleResponse}</pre>
-                        </div>
-                    </div>
-                </div>
-                `;
+
+
                 function copyToClipboard(text) {
                     // alert(text);
                     const tempTextArea = document.createElement('textarea');
@@ -2697,10 +2720,21 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 // const exampleRequestCode = section.querySelector('.exampleRequest code');
 
                  // Add event listeners for copyBtn and copyBtn2
-        const copyBtn = section.querySelector('.copyBtn');
-        const copyBtn2 = section.querySelector('.copyBtn2');
-        const collapseBtn = section.querySelector('.collapseBtn');
-        const uncollapseBtn = section.querySelector('.uncollapseBtn');
+            const copyBtn = section.querySelector('.copyBtn');
+            const copyBtn2 = section.querySelector('.copyBtn2');
+            const collapseBtn = section.querySelector('.collapseBtn');
+            const uncollapseBtn = section.querySelector('.uncollapseBtn');
+            const inputs = section.querySelectorAll('input');
+        inputs.forEach(changer=>{changer.addEventListener('input', function(event) {
+
+                    const inputName = event.target.name;
+                    const inputValue = event.target.value;
+                    re = new RegExp(`<${inputName}>.*</${inputName}>`,"g");
+                    route.exampleRequest=route.exampleRequest.replace(re,`<${inputName}>${inputValue}</${inputName}>`)
+                    // Find the corresponding <dataname> tag with the same name
+                        const curlElement = section.querySelector('.language-curl');
+                        curlElement.textContent = route.exampleRequest.replace(/<[^>]*?>/g,'');
+                });});
         function toggleTooltip(el){
             $(el).tooltip('show');
             setTimeout(() => {
@@ -2709,7 +2743,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
         }
         if(copyBtn){
             copyBtn.addEventListener('click', function() {
-                copyToClipboard(route.exampleRequest);
+                copyToClipboard(route.exampleRequest.replace(/<[^>]*?>/g,''));
                 toggleTooltip(this);
             });
         }
@@ -2737,6 +2771,9 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
         });
         }
             });
+                            // Assuming you have an event listener for input changes
+
+
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip({trigger:'manual'})
             })
@@ -2773,7 +2810,21 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
             mainContent.addEventListener('scroll', setActiveLink);
         });
+        function editRoute(element) {
+                    // Traverse up the DOM tree until a parent with class "floatcontainer" is found
+                    let parent = element.parentNode;
+                    while (parent && !parent.classList.contains("floatHolder")) {
+                        parent = parent.parentNode;
+                    }
 
+                    // If parent with class "floatHolder" is found, toggle attributes of its children with class "edit"
+                    if (parent) {
+                        const editElements = parent.querySelectorAll(".edit");
+                        editElements.forEach((el) => {
+                            el.toggleAttribute("hidden");
+                        });
+                    }
+                }
     </script>
 
 </body>

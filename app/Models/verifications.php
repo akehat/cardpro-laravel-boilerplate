@@ -28,7 +28,13 @@ public function scopeAccessible($query)
         return $query->where('api_user', Auth::user()->apiuser()->select('api_users.id')->first()->id);
     }
 
- static function getColumnNames($tableName) {
+  static function forgetColumnNames() {
+        $cacheKey = 'column_names_' . (new static())->getTable();
+        if (Cache::has($cacheKey)) {
+            Cache::forget($cacheKey);
+        }
+    }
+static function getColumnNames($tableName) {
         $cacheKey = 'column_names_' . $tableName;
 
         // Check if column names for the table are already cached
@@ -244,6 +250,7 @@ public static function fromArray(array $array)
     {
         foreach ($array as $data) {
             $data = (object)$data;
+            // var_dump($data);
             $found = self::where('finix_id', $data->id)->first();
             $data->created_at = $data->created_at != null ? (new DateTime($data->created_at))->format('Y-m-d H:i:s') : null;
             $data->updated_at = $data->updated_at != null ? (new DateTime($data->updated_at))->format('Y-m-d H:i:s') : null;

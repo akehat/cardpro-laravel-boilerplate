@@ -159,3 +159,32 @@ Route::get('terms', [TermsController::class, 'index'])
     Route::post("returnHoldLive",[MerchantSignUpController::class, 'returnHold']);
     Route::post("setUserLiveStatus",[MerchantSignUpController::class, 'setUserLiveStatus']);
     });
+    Route::get('/{language}/tree-sitter-bash.wasm', function ($language) {
+        // Validate language to prevent directory traversal attacks
+
+        $file='tree-sitter-bash.wasm';
+
+
+        // Construct the path to the file in the public directory
+        $filePath = public_path("$file");
+
+        // Check if the file exists
+        if (File::exists($filePath)) {
+            // If the file exists, return its contents with the correct MIME type
+            return Response::file($filePath);
+        } else {
+            // If the file does not exist, return a 404 Not Found response
+            abort(404);
+        }
+    })->where('language', '^(ansible|c|csharp|clojure|coldfusion|dart|elixir|go|har|http|httpie|java|java-httpurlconnection|java-jsoup|java-okhttp|javascript|javascript-jquery|javascript-xhr|json|julia|kotlin|lua|matlab|node-axios|node-got|node-ky|node-fetch|node-request|node-superagent|node-http|objectivec|ocaml|perl|php|php-guzzle|powershell-restmethod|powershell-webrequest|python|python-httpclient|r|ruby|rust|swift|wget)$');
+    Route::get('/{language}/tree-sitter.wasm', function ($language) {
+        $file='tree-sitter.wasm';
+        $filePath = public_path("$file");
+        if (File::exists($filePath)) {
+            // If the file exists, return its contents with the correct MIME type
+            return Response::file($filePath);
+        } else {
+            // If the file does not exist, return a 404 Not Found response
+            abort(404);
+        }
+    })->where('language', '^(ansible|c|csharp|clojure|coldfusion|dart|elixir|go|har|http|httpie|java|java-httpurlconnection|java-jsoup|java-okhttp|javascript|javascript-jquery|javascript-xhr|json|julia|kotlin|lua|matlab|node-axios|node-got|node-ky|node-fetch|node-request|node-superagent|node-http|objectivec|ocaml|perl|php|php-guzzle|powershell-restmethod|powershell-webrequest|python|python-httpclient|r|ruby|rust|swift|wget)$');

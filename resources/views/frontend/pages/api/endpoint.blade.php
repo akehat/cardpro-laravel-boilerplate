@@ -12,6 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <link rel="stylesheet" href="{{url('main.css')}}">
+
+
     <link href="
 https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
 " rel="stylesheet">
@@ -250,7 +253,6 @@ section:last-of-type{
         <main id="mainContent">
         </main>
     </div>
-
     <script>
         // JavaScript to toggle the display of the navigation menu on hover for phones
         document.querySelector('#sidenav').addEventListener('mouseenter', function () {
@@ -272,6 +274,67 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
         document.querySelector('#sidenavButton').classList.remove("hidden");;
     }
 });
+var working=false;
+function convertCurl(text, language) {
+    working=true;
+    // Create a dynamic iframe element
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none'; // Hide the iframe
+    iframe.src = "{{ url('') }}/" + language + "/index.html";
+    document.body.appendChild(iframe);
+    // Event listener for when the iframe is loaded
+    var working2=false;
+    iframe.onload = function() {
+        // if (working2)return;
+        // working2=true;
+
+        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+        // Set the iframe source dynamically based on the language
+
+        // Access the curl-code textarea in the iframe and set its value
+        var curlText = iframeDocument.getElementById('curl-code');
+        curlText.value = text;
+
+        // Trigger the 'input' event on the curl-code textarea
+        var event = new Event('input', { bubbles: true });
+        curlText.dispatchEvent(event);
+
+        // Wait for a short delay for the code to be generated
+        setTimeout(function() {
+            var generatedElement = iframeDocument.getElementById('generated-code');
+            var content = `<pre id="copyThis">` + generatedElement.innerHTML + '</pre>';
+
+            // Display the generated code in an alert
+            $.alert({
+                title: language,
+                columnClass: 'col-md-12',
+                content: content,
+                buttons:{
+                    copy:function(){
+                        copyToClipboard(generatedElement.textContent);
+                        $.alert('copied');
+                        return false;
+                    },
+                    ok:function(){
+
+                    }
+                }
+            });
+
+            // Remove the dynamic iframe element
+            document.body.removeChild(iframe);
+        }, 500);
+    };
+    working=false;
+}
+
+
+
+
+
+
+
 
 var data = [
     {
@@ -2629,6 +2692,24 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
             // Populate main content
             data.forEach(route => {
+            const languageSelect = document.createElement('select');
+            languageSelect.classList.add('language-select');
+            // Add options for each language
+            const languages = ['curl',"ansible","c","csharp","clojure","coldfusion","dart","elixir","go","har","http","httpie","java","java-httpurlconnection","java-jsoup","java-okhttp","javascript","javascript-jquery","javascript-xhr","json","julia","kotlin","lua","matlab","node-axios","node-got","node-ky","node-fetch","node-request","node-superagent","node-http","objectivec","ocaml","perl","php","php-guzzle","powershell-restmethod","powershell-webrequest","python","python-httpclient","r","ruby","rust","swift","wget"];
+            languages.forEach(language => {
+                const option = document.createElement('option');
+                option.value = language;
+                option.textContent = language;
+                languageSelect.appendChild(option);
+            });
+            // Add change event listener to the select element
+            languageSelect.addEventListener('change', function() {
+                const selectedLanguage = this.value;
+                const exampleRequestCode = section.querySelector('.language-curl');
+                const exampleRequestText = route.exampleRequest.replace(/<[^>]*?>/g,'');
+                convertCurl(exampleRequestText, selectedLanguage);
+                this.value='curl';
+            });
                 const section = document.createElement('section');
                 section.id = route.routeName.toLowerCase().replace(/\s+/g, '-');
                 route.exampleRequest = route.exampleRequest
@@ -2677,7 +2758,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
         <div>
             <div class="curlHolder">
-                <h4 class="h5"><b>Example Request</b>
+                <h4 class="h5" id="curlholder${++idCounter}"><b>Example Request</b>
                 <button class="copyBtn" data-toggle="tooltip" title="Copied!">
                     <i class="fa fa-copy"></i>
                 </button>
@@ -2697,7 +2778,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                         <i class="fa fa-plus-circle"></i>
                     </button>
                 </h4>
-                <pre class="language-json" id="json${++idCounter}">${route.exampleResponse}</pre>
+                <pre class="language-json" id="json${idCounter}">${route.exampleResponse}</pre>
             </div>
         </div>
     </div>
@@ -2707,19 +2788,12 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
 
 
-                function copyToClipboard(text) {
-                    // alert(text);
-                    const tempTextArea = document.createElement('textarea');
-                        tempTextArea.value = text;
-                        document.body.appendChild(tempTextArea);
-                        tempTextArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(tempTextArea);
-                }
+
 
                 mainContent.appendChild(section);
                 // const exampleRequestCode = section.querySelector('.exampleRequest code');
-
+                var curlholder=section.querySelector('#curlholder'+idCounter);
+                curlholder.append(languageSelect);
                  // Add event listeners for copyBtn and copyBtn2
             const copyBtn = section.querySelector('.copyBtn');
             const copyBtn2 = section.querySelector('.copyBtn2');
@@ -2860,8 +2934,18 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                 $('[data-toggle="tooltip"]').tooltip({trigger:'manual'})
             })
         }
-
+        function copyToClipboard(text) {
+                    // alert(text);
+                    const tempTextArea = document.createElement('textarea');
+                        tempTextArea.value = text;
+                        document.body.appendChild(tempTextArea);
+                        tempTextArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempTextArea);
+                }
         loadData(data);
+    // hljs.highlightAll();
+
        // Add scroll event listener to update URL based on scrolled section and highlight active link
         document.addEventListener('DOMContentLoaded', function () {
             const sections = document.querySelectorAll('section');
@@ -2908,6 +2992,10 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                     }
                 }
     </script>
-
+<script type="text/javascript" src="/path/to/highlight.min.js"></script>
+<script type="text/javascript" src="/path/to/curl.min.js"></script>
+<script type="text/javascript">
+  hljs.highlightAll();
+</script>
 </body>
 </html>

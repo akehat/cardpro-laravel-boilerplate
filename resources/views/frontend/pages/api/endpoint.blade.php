@@ -2733,6 +2733,7 @@ function highlightJSON(text) {
     var lines=text.split("\n");
     var returned='';
     for(var j=0;j<lines.length;j++){
+
         var subline=lines[j].split(':');
         if(subline.length<2){
             returned+='<span class="white">'+subline[0]+'</span>';
@@ -2757,7 +2758,6 @@ function highlightJSON(text) {
                 returned+=val.replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
             }
         }else{
-            console.log("here")
             val= val.replace(/({|,)|(})/g,"$1\n        $2");
             var subsublines=val.split("\n");
             var indent=false;
@@ -2765,16 +2765,19 @@ function highlightJSON(text) {
                 var subline2=subsublines[k].split(':');
                 if(subline2[0]=="        },"){
                     indent=false;
+                    returned+=attr.match(/^\s+/)[0]
                     returned+='<span class="white">'+subline2[0]+'</span>';
                     returned+=subsublines.length>(k+1)?'\n':'';
                     continue;
                 }
                 if(subline2.length<2){
+                    returned+=subline2[0].includes('}')?attr.match(/^\s+/)[0]:'';
                     returned+='<span class="white">'+subline2[0]+'</span>';
                     returned+=subsublines.length>(k+1)?'\n':'';
                     continue;
                 }
                 if(indent){returned+="    "};
+                returned+=attr.match(/^\s+/)[0]
                 var attr2=subline2[0];
                 returned+=attr2
                 .replace(/('|")?([^'"]*)('|")?/g,'$1<span class="blue">$2</span>$3');
@@ -2788,7 +2791,6 @@ function highlightJSON(text) {
                     continue;
                 }
 
-
                 val2=val2
                 .replace(/('|")([^'"]*)('|")/g,'$1<span class="green">$2</span>$3');
                 if(val2.length!=valLength2){
@@ -2801,7 +2803,7 @@ function highlightJSON(text) {
         }
         returned+=lines.length>(j+1)?'\n':'';
     }
-    return returned;
+    return returned.replace(/\n(<span[^>]*> *<\/span>| *)*\n/g,'\n');
 
 }
 

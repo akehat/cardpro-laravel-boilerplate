@@ -28,7 +28,7 @@ https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
             color:lightblue!important;
         }
         .blue{
-            color:rgb(146, 146, 223)!important;
+            color:rgb(200 200 255)!important;
         }
         .green{
             color:rgb(178, 245, 178)!important;

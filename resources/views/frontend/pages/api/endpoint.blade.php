@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script> --}}
     <link rel="stylesheet" href="{{url('main.css')}}">
 
 
@@ -21,7 +21,18 @@ https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
 
 
     <style>
-
+        .white{
+            color:white!important;
+        }
+        .lightblue{
+            color:lightblue!important;
+        }
+        .blue{
+            color:rgb(146, 146, 223)!important;
+        }
+        .green{
+            color:rgb(178, 245, 178)!important;
+        }
         h2{
             color:rgb(4, 4, 128);
             font-size: 30px;
@@ -2667,10 +2678,85 @@ var data = [
     },
 ];
 
-// Now you can access data like this:
-console.log(data[0].routeName); // Output: Create Customer
-console.log(data[0].info); // Output: Create a customer to attach a card for payments.
-console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: application/json"  {{url('')}}/createCustomer -d '{"apikey":"apikey","email":"email@example.com"}'
+function highlightCurl(text) {
+    var lines=text.split("\\");
+    var returned='';
+    for(var i=0;i<lines.length;i++){
+        var line=lines[i];
+        if(i==0){
+            returned+=line
+            .replace(/((POST)|(post)|(get)|(GET))/g,'<span class="lightblue">$1</span>')
+            .replace(/((-[hHxX])|(curl))/g,'<span class="white">$1</span>')
+            returned+='\\'
+        }else if(i==1){
+            returned+=line
+            .replace(/('|")([^:]*):([^:]*)('|")/g,'$1<span class="blue">$2</span>:<span class="green">$3</span>$4');
+            returned+='\\';
+        }else if(i==2){
+            returned+=line
+            .replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
+            returned+=lines.length>3?'\\':'';
+        }else if(i==3){
+            var dataStart=line.indexOf("{")
+            var dataEnd=line.lastIndexOf("}");
+            var sublines=line.substring(dataStart+1,dataEnd).split(',');
+            returned+='<span class="white">'+line.substring(0,dataStart+1)+'</span>';
+            for(var j=0;j<sublines.length;j++){
+                var subline=sublines[j].split(':');
+                if(subline.length<2){
+                    returned+=subline[0]
+                    continue;
+                }
+                var attr=subline[0];
+                returned+=attr
+                .replace(/('|")?([^'"]*)('|")?/g,'$1<span class="blue">$2</span>$3');
+                returned+='<span class="white">:</span>';
+                var val=subline.slice(1).join(':');
+                var valLength=val.length;
+                val=val
+                .replace(/('|")([^'"]*)('|")/g,'$1<span class="green">$2</span>$3');
+                if(val.length!=valLength){
+                    returned+=val;
+                }else{
+                    returned+=val.replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
+                }
+                returned+=sublines.length>(j+1)?',':'';
+            }
+            returned+='<span class="white">'+line.substring(dataEnd)+'</span>';
+        }
+
+    }
+    return returned;
+}
+
+function highlightJSON(text) {
+    var lines=text.split("\n");
+    var returned='';
+    for(var j=0;j<lines.length;j++){
+        var subline=lines[j].split(':');
+        if(subline.length<2){
+            returned+='<span class="white">'+subline[0]+'</span>';
+            returned+=lines.length>(j+1)?'\n':'';
+            continue;
+        }
+        var attr=subline[0];
+        returned+=attr
+        .replace(/('|")?([^'"]*)('|")?/g,'$1<span class="blue">$2</span>$3');
+        returned+='<span class="white">:</span>';
+        var val=subline.slice(1).join(':');;
+        var valLength=val.length;
+        val=val
+        .replace(/('|")([^'"]*)('|")/g,'$1<span class="green">$2</span>$3');
+        if(val.length!=valLength){
+            returned+=val;
+        }else{
+            returned+=val.replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
+        }
+        returned+=lines.length>(j+1)?'\n':'';
+    }
+    return returned;
+
+}
 
 
         // data = JSON.parse(data);
@@ -2766,7 +2852,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                         <i class="fa fa-check"></i>
                 </button>
                 </h4>
-                <code class="language-curl">${route.exampleRequest}</code>
+                <code class="language-curl">${highlightCurl(route.exampleRequest.replace(/<[^>]*?>/g,''))}</code>
             </div>
             <div class="jsonHolder">
                 <h4  class="h5"><b>Example Response Http Code: 201</b>
@@ -2778,7 +2864,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                         <i class="fa fa-plus-circle"></i>
                     </button>
                 </h4>
-                <pre class="language-json" id="json${idCounter}">${route.exampleResponse}</pre>
+                <pre class="language-json" id="json${idCounter}">${highlightJSON(route.exampleResponse)}</pre>
             </div>
         </div>
     </div>
@@ -2887,7 +2973,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                         }
                         // Find the corresponding <dataname> tag with the same name
                             const curlElement = section.querySelector('.language-curl');
-                            curlElement.textContent = route.exampleRequest.replace(/<[^>]*?>/g,'');
+                            curlElement.innerHTML = highlightCurl(route.exampleRequest.replace(/<[^>]*?>/g,''));
                     });
 
         });
@@ -2914,7 +3000,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
             collapseBtn.addEventListener('click', function() {
                 const jsonElement = section.querySelector('#json'+localCounter);
-                jsonElement.innerHTML = route.exampleResponse;
+                jsonElement.innerHTML =  highlightJSON(route.exampleResponse);
                 toggleTooltip(this);
             });
         }
@@ -2922,7 +3008,7 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
 
         uncollapseBtn.addEventListener('click', function() {
             const jsonElement = section.querySelector('#json'+localCounter);
-            jsonElement.innerHTML = route.exampleResponseUncolapsed;
+            jsonElement.innerHTML = highlightJSON(route.exampleResponseUncolapsed);
             toggleTooltip(this);
         });
         }
@@ -2992,10 +3078,5 @@ console.log(data[0].exampleRequest); // Output: curl -X GET -H "Content-Type: ap
                     }
                 }
     </script>
-<script type="text/javascript" src="/path/to/highlight.min.js"></script>
-<script type="text/javascript" src="/path/to/curl.min.js"></script>
-<script type="text/javascript">
-  hljs.highlightAll();
-</script>
 </body>
 </html>

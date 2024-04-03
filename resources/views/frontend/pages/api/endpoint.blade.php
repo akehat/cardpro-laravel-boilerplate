@@ -2743,14 +2743,61 @@ function highlightJSON(text) {
         returned+=attr
         .replace(/('|")?([^'"]*)('|")?/g,'$1<span class="blue">$2</span>$3');
         returned+='<span class="white">:</span>';
-        var val=subline.slice(1).join(':');;
+        var val=subline.slice(1).join(':');
         var valLength=val.length;
-        val=val
-        .replace(/('|")([^'"]*)('|")/g,'$1<span class="green">$2</span>$3');
-        if(val.length!=valLength){
-            returned+=val;
+        var isjson=val
+        .match(/^[ ]*('|"){([^~]|~)*}('|")[ ,]*$/g)&&!val.includes("{...}");
+        if(!isjson){
+            var valLength=val.length;
+            val=val
+            .replace(/('|")([^'"]*)('|")/g,'$1<span class="green">$2</span>$3');
+             if(val.length!=valLength){
+                returned+=val;
+            }else{
+                returned+=val.replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
+            }
         }else{
-            returned+=val.replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
+            console.log("here")
+            val= val.replace(/({|,)|(})/g,"$1\n        $2");
+            var subsublines=val.split("\n");
+            var indent=false;
+            for(var k=0;k<subsublines.length;k++){
+                var subline2=subsublines[k].split(':');
+                if(subline2[0]=="        },"){
+                    indent=false;
+                    returned+='<span class="white">'+subline2[0]+'</span>';
+                    returned+=subsublines.length>(k+1)?'\n':'';
+                    continue;
+                }
+                if(subline2.length<2){
+                    returned+='<span class="white">'+subline2[0]+'</span>';
+                    returned+=subsublines.length>(k+1)?'\n':'';
+                    continue;
+                }
+                if(indent){returned+="    "};
+                var attr2=subline2[0];
+                returned+=attr2
+                .replace(/('|")?([^'"]*)('|")?/g,'$1<span class="blue">$2</span>$3');
+                returned+='<span class="white">:</span>';
+                var val2=subline2.slice(1).join(':');
+                var valLength2=val2.length;
+                if(val2=="{"){
+                    indent=true;
+                    returned+='<span class="white">'+val2+'</span>';
+                    returned+=subsublines.length>(k+1)?'\n':'';
+                    continue;
+                }
+
+
+                val2=val2
+                .replace(/('|")([^'"]*)('|")/g,'$1<span class="green">$2</span>$3');
+                if(val2.length!=valLength2){
+                    returned+=val2;
+                }else{
+                    returned+=val2.replace(/('|")?([^'"]*)('|")?/g,'$1<span class="lightblue">$2</span>$3');
+                }
+                returned+=subsublines.length>(k+1)?'\n':'';
+            }
         }
         returned+=lines.length>(j+1)?'\n':'';
     }

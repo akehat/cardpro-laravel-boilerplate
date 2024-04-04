@@ -355,7 +355,7 @@ var data = [
         "header": "Endpoint",
         "query": "N/A",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:[],data:['apikey','email']},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "data": "'apikey' either user or merchant . 'email' for the customer STRING max 100 chars.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/customers -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"email\":\"<email>email@example.com</email>\"}'",
         "exampleResponse": `{
@@ -385,7 +385,7 @@ var data = [
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/customers\"",
@@ -502,7 +502,7 @@ var data = [
         "query": "'id' for the customer in the url",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers/<id>74</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/customers/<id>74</id>\"",
@@ -534,7 +534,7 @@ var data = [
         "query": "page the page of the query like page=2 by 20,'search' for in the customer.",
         "data": "'apikey' either user or merchant. ",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers/search?search=<search>ID9BBQfNDBnt5hUxvp3W1w6S</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
    {{url('')}}/api/cardwiz/customers/search?search=<search>ID9BBQfNDBnt5hUxvp3W1w6S</search>",
@@ -595,11 +595,11 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'exp_month' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"exp_month\"></span>. 'exp_year' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"exp_year\"></span>.'name' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"name\"></span>. 'card_number' for the card  <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"name\"></span>. 'cvv' for the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"cvv\"></span>. 'id' for the customer to add the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'descriptor' for the charge if wanted, none will use default of merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"descriptor\"></span>.",
         "header": "Endpoint.",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:[],data:['apikey','exp_month','exp_year','name','id','cvv','card_number','descriptor']},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint",
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'exp_month' for the card. 'exp_year' for the card.'name' for the card. 'card_number' for the card. 'cvv' for the card. 'id' for the customer to add the card. 'descriptor' for the charge if wanted, none will use default of merchant.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/payment_ways -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"exp_month\":\"</apikey>12</apikey>\",\"exp_year\":\"<exp_year>2029</exp_year>\",\"name\":\"<name>John Doe</name>\",\"card_number\":\"<card_number>5200828282828210</card_number>\",\"cvv\":<cvv>331</cvv>,\"id\":<id>74</id><descriptor meta=\"needsKey\"></descriptor>}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/payment_ways -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"exp_month\":\"<exp_month>12</exp_month>\",\"exp_year\":\"<exp_year>2029</exp_year>\",\"name\":\"<name>John Doe</name>\",\"card_number\":\"<card_number>5200828282828210</card_number>\",\"cvv\":<cvv>331</cvv>,\"id\":<id>74</id><descriptor meta=\"needsKey\"></descriptor>}'",
        "exampleResponse": `{
     "id": 56,
     "created_at": "2024-02-18T03:12:58.000000Z",
@@ -648,7 +648,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -774,7 +774,7 @@ var data = [
         "info": "Get a Payment Way by id. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Payment Way either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways/<id>56</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the Payment Way in the url",
         "data": "N/A",
@@ -829,7 +829,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:  "{{url('')}}/api/cardwiz/payment_ways/search?search=<search>APZmjWMcUWgvxGcBV3V6FJ7</search>",urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -956,7 +956,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'cardID' of the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"cardID\"></span>. \n'amount' the amount of the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"amount\"></span>. \n'currency' of the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"currency\"></span>. \nIf a user key is used the 'MerchantID' must be provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"MerchantID\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the charge.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/charges -d '{\"apikey\":\<apikey>apikey</apikey>\",\"cardID\":<cardID>2</cardID>,\"amount\":<amount>200</amount>,\"currency\":\"<currency>USD</currency>\" <MerchantID meta=\"needsKey\"></MerchantID>}'",
@@ -1011,12 +1011,12 @@ var data = [
     {
         "routeName": "Get Charges",
         "info": "Get a charge by 20. GET Route",
-        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. GET Route",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/charges\"",
@@ -1197,7 +1197,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the charge either the number or the long on <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/<id>30</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "'id' for the charge in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1258,7 +1258,7 @@ var data = [
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/search?search=<search>TRxADa5jzJ2GRRM5yejSvpPU</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
@@ -1346,7 +1346,7 @@ var data = [
         "routeName": "Create Refund",
         "info": "Refund a charge. POST Route",
         'test':{method:'POST',url:' {{url('')}}/api/cardwiz/refunds ',urlparams:[],headers:[],data:['apikey','amount','id']},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint.",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'amount' for in the refund <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"amount\"></span>. 'id' for the charge <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>",
         "header": "Endpoint",
@@ -1407,7 +1407,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'cardID' of the card <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"cardID\"></span>. \n'amount' the amount of the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"amount\"></span>. \n'currency' of the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"currency\"></span>. \nIf a user key is used the 'merchant' must be provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"merchant\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:[],data:["apikey","cardID","amount","currency"]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the hold.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"cardID\":<cardID>55</cardID>,\"amount\":<amount>2000</amount>,\"currency\":\"<currency>USD</currency>\"<merchant meta=\"needsKey\"></merchant>}'",
@@ -1455,7 +1455,7 @@ var data = [
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
@@ -1535,7 +1535,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Hold either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "'id' for the Hold in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1584,11 +1584,11 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: <id>your_api_key_here</id>\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/holds/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": `{
     "id": 3,
@@ -1633,7 +1633,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'id' for the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. \n'amount' the amount of the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"amount\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>/capture',urlparams:['id'],headers:[],data:['apikey','amount','id']},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "'id' for the hold in the url",
         "data": "'apikey' either user or merchant. for the hold. 'amount' of the hold.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/holds/<id>3</id>/capture -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"amount\":<amount>200</amount>}'",
@@ -1689,7 +1689,7 @@ var data = [
         "info": "Release a hold. POST Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.\n'id' for the hold <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>6</id>/release',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint",
         "query": "'id' for the hold in the url",
         "data": "'apikey' either user or merchant.",
@@ -1737,7 +1737,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'annual_card_volume': The total annual volume of card transactions processed by the business <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"annual_card_volume\"></span>.'business_address_city': The city where the business is located <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_city\"></span>.'business_address_country': The country where the business is located <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_country\"></span>.'business_address_region': The region (state, province, etc) where the business is located <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_region\"></span>.'business_address_line2': Additional address line (if applicable) for the business location <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_line2\"></span>.'business_address_line1': The primary address line for the business location <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'business_address_postal_code': The postal code of the business location <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_address_postal_code\"></span>.'business_name': The legal name of the business <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_name\"></span>.'business_phone': The phone number of the business <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_phone\"></span>.'business_tax_id': The tax identification number (TIN) or other business identifier <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_tax_id\"></span>.'business_type': The type or category of the business (eg, retail, service, etc) <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"business_type\"></span>.'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"default_statement_descriptor\"></span>.'dob_year': The birth year of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"dob_year\"></span>.'dob_day': The birth day of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"number\" name=\"dob_day\"></span>.'dob_month': The birth month of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"dob_month\"></span>.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"doing_business_as\"></span>.'email': The email address of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"email\"></span>.'first_name': The first name of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"first_name\"></span>.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional)<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"has_accepted_credit_cards_previously\"></span>.'incorporation_date_year': The year the business was incorporated or established<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"incorporation_date_year\"></span>.'incorporation_date_day': The day of the month the business was incorporated or established<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"incorporation_date_day\"></span>.'incorporation_date_month': The month the business was incorporated or established<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"incorporation_date_month\"></span>.'last_name': The last name of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"last_name\"></span>.'max_transaction_amount': The maximum transaction amount allowed for the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"max_transaction_amount\"></span>.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"ach_max_transaction_amount\"></span>.'mcc': The Merchant Category Code (MCC) that represents the type of business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"mcc\"></span>.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation)<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"ownership_type\"></span>.'personal_address_city': The city of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_city\"></span>.'personal_address_country': The country of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_country\"></span>.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_region\"></span>.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_line2\"></span>. personal_address_line1': The primary address line for the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_line1\"></span>.'personal_address_postal_code': The postal code of the individual applicant's personal address<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"personal_address_postal_code\"></span>.'phone': The phone number of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"phone\"></span>.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"principal_percentage_ownership\"></span>.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"tax_id\"></span>.'title': The title or role of the individual applicant or representative of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"title\"></span>.'url': The website URL of the business<span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"url\"></span>.",
         "header": "Endpoint",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:['id'],headers:[],data:['apikey','annual_card_volume','business_address_city','business_address_country','business_address_region','business_address_line2','business_address_line1',"business_address_postal_code","business_name","business_phone","business_tax_id","business_type","default_statement_descriptor","dob_year","dob_day","dob_month","doing_business_as","email","first_name","has_accepted_credit_cards_previously","incorporation_date_year","incorporation_date_day","incorporation_date_month","last_name","max_transaction_amount","ach_max_transaction_amount","mcc","ownership_type","personal_address_city","personal_address_country","personal_address_region","personal_address_line2","personal_address_line1","personal_address_postal_code","phone","principal_percentage_ownership","tax_id","title","url"]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "",
         "data": "'apikey' either user or merchant.'annual_card_volume': The total annual volume of card transactions processed by the business.'business_address_city': The city where the business is located.'business_address_country': The country where the business is located.'business_address_region': The region (state, province, etc) where the business is located.'business_address_line2': Additional address line (if applicable) for the business location.'business_address_line1': The primary address line for the business location.'business_address_postal_code': The postal code of the business location.'business_name': The legal name of the business.'business_phone': The phone number of the business.'business_tax_id': The tax identification number (TIN) or other business identifier.'business_type': The type or category of the business (eg, retail, service, etc).'default_statement_descriptor': The default statement descriptor to appear on customers' credit card statements.'dob_year': The birth year of the individual applicant or representative of the business.'dob_day': The birth day of the individual applicant or representative of the business.'dob_month': The birth month of the individual applicant or representative of the business.'doing_business_as': The trade name or \"doing business as\" (DBA) name of the business, if different from the legal name.'email': The email address of the individual applicant or representative of the business.'first_name': The first name of the individual applicant or representative of the business.'has_accepted_credit_cards_previously': Indicates whether the business has previously accepted credit cards (optional).'incorporation_date_year': The year the business was incorporated or established.'incorporation_date_day': The day of the month the business was incorporated or established.'incorporation_date_month': The month the business was incorporated or established.'last_name': The last name of the individual applicant or representative of the business.'max_transaction_amount': The maximum transaction amount allowed for the business.'ach_max_transaction_amount': The maximum transaction amount allowed for Automated Clearing House (ACH) payments.'mcc': The Merchant Category Code (MCC) that represents the type of business.'ownership_type': The type of ownership structure of the business (eg, sole proprietorship, partnership, corporation).'personal_address_city': The city of the individual applicant's personal address.'personal_address_country': The country of the individual applicant's personal address.'personal_address_region': The region (state, province, etc) of the individual applicant's personal address.'personal_address_line2': Additional address line (if applicable) for the individual applicant's personal address. personal_address_line1': The primary address line for the individual applicant's personal address.'personal_address_postal_code': The postal code of the individual applicant's personal address.'phone': The phone number of the individual applicant or representative of the business.'principal_percentage_ownership': The percentage of ownership held by the principal individual or entity.'tax_id': The personal tax identification number (TIN) or social security number (SSN) of the individual applicant.'title': The title or role of the individual applicant or representative of the business.'url': The website URL of the business.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants/identity -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"annual_card_volume\":<annual_card_volume>12000000</annual_card_volume>,\"business_address_city\":\"<business_address_city>San Mateo</business_address_city>\",\"business_address_country\":\"<business_address_country>USA</business_address_country>\",\"business_address_region\":\"<business_address_region>CA</business_address_region>\",\"business_address_line2\":\"<business_address_line2>Apartment 8</business_address_line2>\",\"business_address_line1\":\"<business_address_line1>741 Douglass St</business_address_line1>\",\"business_address_postal_code\":\"<business_address_postal_code>94114</business_address_postal_code>\",\"business_name\":\"<business_name>Finix Flowers</business_name>\",\"business_phone\":\"<business_phone>+1 (408) 756-4497</business_phone>\",\"business_tax_id\":\"<business_tax_id>123456789</business_tax_id>\",\"business_type\":\"<business_type>INDIVIDUAL_SOLE_PROPRIETORSHIP</business_type>\",\"default_statement_descriptor\":\"<default_statement_descriptor>Finix Flowers</default_statement_descriptor>\",\"dob_year\":<dob_year>1978</dob_year>,\"dob_day\":<dob_day>27</dob_day>,\"dob_month\":<dob_month>6</dob_month>,\"doing_business_as\":\"<doing_business_as>Finix Flowers</doing_business_as>\",\"email\":\"<email>user@example.org</email>\",\"first_name\":\"<first_name>John</first_name>\",\"has_accepted_credit_cards_previously\":<has_accepted_credit_cards_previously>true</has_accepted_credit_cards_previously>,\"incorporation_date_year\":<incorporation_date_year>1978</incorporation_date_year>,\"incorporation_date_day\":<incorporation_date_day>27</incorporation_date_day>,\"incorporation_date_month\":<incorporation_date_month>6</incorporation_date_month>,\"last_name\":\"<last_name>Smith</last_name>\",\"max_transaction_amount\":<max_transaction_amount>1200000</max_transaction_amount>,\"ach_max_transaction_amount\":<ach_max_transaction_amount>1000000</ach_max_transaction_amount>,\"mcc\":\"<mcc>4900</mcc>\",\"ownership_type\":\"<ownership_type>PRIVATE</ownership_type>\",\"personal_address_city\":\"<personal_address_city>San Mateo</personal_address_city>\",\"personal_address_country\":\"<personal_address_country>USA</personal_address_country>\",\"personal_address_region\":\"<personal_address_region>CA</personal_address_region>\",\"personal_address_line2\":\"<personal_address_line2>Apartment 7</personal_address_line2>\",\"personal_address_line1\":\"<personal_address_line1>741 Douglass St</personal_address_line1>\",\"personal_address_postal_code\":\"<personal_address_postal_code>94114</personal_address_postal_code>\",\"phone\":\"<phone>14158885080</phone>\",\"principal_percentage_ownership\":<principal_percentage_ownership>50</principal_percentage_ownership>,\"tax_id\":\"<tax_id>123456789</tax_id>\",\"title\":\"<title>CEO</title>\",\"url\":\"<url>https://www.finix.com</url>\"}'",
@@ -1764,7 +1764,7 @@ var data = [
         "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -1882,7 +1882,7 @@ var data = [
         "parameters": "apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant Identity either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/<id>84</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "'id' for the Merchant Identity in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1913,11 +1913,11 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/search?search=<search>ID5kQmeLzHM7XZg9gxp7TLsq</search>',urlparams:['id','search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey: <id>your_api_key_here</id>\" \
+  -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/merchants/identity/search?search=<search>ID5kQmeLzHM7XZg9gxp7TLsq</search>\"",
         "exampleResponse": `{
     "current_page": 1,
@@ -1975,11 +1975,11 @@ var data = [
         "info": "Create a Merchant. POST Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'account_number' The account number <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"account_number\"></span>. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS, SAVINGS, CHECKING: The account type must be provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"account_type\"></span>.'bank_code' The bank code <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"bank_code\"></span>.'identity' A merchant id must be provided, indicating the account holder's identity <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"identity\"></span>.'name' The name field, if provided <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"name\"></span>. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"type\"></span>.",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchant/bank_accounts',urlparams:[],headers:[],data:["apikey","account_number","account_type","bank_code","name","identity","type"]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint",
         "query": "",
         "data": "'apikey' either user or merchant.'account_number' The account number. 'account_type' => PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS: The account type must be provided.'bank_code' The bank code.'identity' An identity must be provided, indicating the account holder's identity.'name' The name field, if provided. 'type' => BANK_ACCOUNT: The type must be provided, and must be equal to BANK_ACCOUNT.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"account_number\":\"<account_number>123123123<account_number>\",\"account_type\":\"<account_type>SAVINGS<account_type>\",\"bank_code\":\"<bank_code>123123123<bank_code>\",\"name\":\"<name>John Smith<name>\",\"identity\":2,\"type\":\"<type>BANK_ACCOUNT<type>\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchant/bank_accounts -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"account_number\":\"<account_number>123123123</account_number>\",\"account_type\":\"<account_type>SAVINGS</account_type>\",\"bank_code\":\"<bank_code>123123123</bank_code>\",\"name\":\"<name>John Smith</name>\",\"identity\":<identity>2</identity>,\"type\":\"<type>BANK_ACCOUNT</type>\"}'",
         "exampleResponse": `{
     "id": 62,
     "created_at": "2024-03-26T23:32:07.000000Z",
@@ -2029,9 +2029,9 @@ var data = [
         "header": "Endpoint",
         "query": "",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants ',urlparams:[],headers:[],data:['apikey','first_name','last_name','PCI_title','id','browser']},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "data": "'apikey' either user or merchant. 'id' for the merchant identity turning into a merchant. 'first_name' of the PCI holder. 'last_name' of the PCI holder. 'PCI_title' of the PCI holder. 'browser' of the PCI holder.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"first_name\":\"<first_name>Jhon<first_name>\",\"last_name\":\"<last_name>Doe<last_name>\",\"PCI_title\":\"<PCI_title>CTO<PCI_title>\",\"id\":<id>2</id>,\"browser\":\"<browser>Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)<browser>\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"first_name\":\"<first_name>Jhon</first_name>\",\"last_name\":\"<last_name>Doe</last_name>\",\"PCI_title\":\"<PCI_title>CTO</PCI_title>\",\"id\":<id>2</id>,\"browser\":\"<browser>Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)</browser>\"}'",
         "exampleResponse": `{
     "worked": true,
     "responce": "{\n  \"id\" : \"MUckwFvQF5EoMmw1esvxfXmt\",\n  \"created_at\" : \"2024-03-27T00:27:47.03Z\",\n  \"updated_at\" : \"2024-03-27T00:27:47.03Z\",\n  \"application\" : \"APZmjWMcUWgvxGcBV3V6FJ7\",\n  \"card_cvv_required\" : false,\n  \"card_expiration_date_required\" : true,\n  \"convenience_charges_enabled\" : false,\n  \"country\" : \"USA\",\n  \"creating_transfer_from_report_enabled\" : false,\n  \"currencies\" : [ \"USD\" ],\n  \"default_partial_authorization_enabled\" : false,\n  \"disbursements_ach_pull_enabled\" : false,\n  \"disbursements_ach_push_enabled\" : false,\n  \"disbursements_card_pull_enabled\" : false,\n  \"disbursements_card_push_enabled\" : false,\n  \"fee_ready_to_settle_upon\" : \"PROCESSOR_WINDOW\",\n  \"gateway\" : null,\n  \"gross_settlement_enabled\" : false,\n  \"identity\" : \"IDdwT39A4jE6hMsJvg6MgRS1\",\n  \"level_two_level_three_data_enabled\" : false,\n  \"mcc\" : \"4900\",\n  \"merchant_name\" : \"Finix Flowers\",\n  \"merchant_profile\" : \"MPbnEdag4VJYvNVV8ub6GSRk\",\n  \"mid\" : null,\n  \"onboarding_state\" : \"PROVISIONING\",\n  \"processing_enabled\" : false,\n  \"processor\" : \"DUMMY_V1\",\n  \"processor_details\" : { },\n  \"ready_to_settle_upon\" : \"PROCESSOR_WINDOW\",\n  \"rent_surcharges_enabled\" : false,\n  \"settlement_enabled\" : false,\n  \"settlement_funding_identifier\" : \"UNSET\",\n  \"surcharges_enabled\" : false,\n  \"tags\" : {\n    \"api_userID\" : \"api_userID_1\",\n    \"apikeyID\" : \"apikeyID_\",\n    \"userID\" : \"userID_1\"\n  },\n  \"verification\" : \"VIuuDu8ayCEaTXEdQbjMNNAF\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchants\/MUckwFvQF5EoMmw1esvxfXmt\"\n    },\n    \"identity\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/identities\/IDdwT39A4jE6hMsJvg6MgRS1\"\n    },\n    \"verifications\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchants\/MUckwFvQF5EoMmw1esvxfXmt\/verifications\"\n    },\n    \"merchant_profile\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/merchant_profiles\/MPbnEdag4VJYvNVV8ub6GSRk\"\n    },\n    \"application\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/applications\/APZmjWMcUWgvxGcBV3V6FJ7\"\n    },\n    \"verification\" : {\n      \"href\" : \"https:\/\/finix.sandbox-payments-api.com\/verifications\/VIuuDu8ayCEaTXEdQbjMNNAF\"\n    }\n  }\n}",
@@ -2101,7 +2101,7 @@ var data = [
         "info": "Get a merchants by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -2372,7 +2372,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants<id>18</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "'id' for the merchant in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2430,7 +2430,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/search?search=<search>MUh6o9SVp55pk9LfPRbGTMz4</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2519,7 +2519,7 @@ var data = [
         "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -2531,15 +2531,15 @@ var data = [
     {
         "routeName": "Get Merchant Total",
         "info": "Get a Merchant Identity by id. GET Route",
-        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
+        "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "'id' for the Merchant Identity in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
-  \"{{url('')}}/api/cardwiz/merchants/totals/id>3</id>\"",
+  \"{{url('')}}/api/cardwiz/merchants/totals/<id>3</id>\"",
         "exampleResponse": ``
     },
     {
@@ -2547,12 +2547,12 @@ var data = [
         "info": "Search merchants identities by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
-  -H \"apikey:  <id>your_api_key_here</id>\" \
+  -H \"apikey:  <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/merchants/totals/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": ``
     }, {
@@ -2560,11 +2560,11 @@ var data = [
         "info": "Fill  a PCI form. POST Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' The id for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'first_name' The first name for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"first_name\"></span>. 'Last_name' The last name for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"Last_name\"></span>.'PCI_title' The title for the pci Agreement <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"PCI_title\"></span>. 'browser' of the PCI holder <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"browser\"></span>.",
         "header": "Endpoint",
-        'test':{method:'POST',url:'{{url('')}}/ap/cardwiz/merchants/pcis/fill',urlparams:[],headers:[],data:['apikey','first_name','Last_name','PCI_title','id','browser']},
-        "errors": [{code:301}],
+        'test':{method:'POST',url:'{{url('')}}/api/cardwiz/merchants/pcis/fill',urlparams:[],headers:[],data:['apikey','first_name','Last_name','PCI_title','id','browser']},
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "",
         "data":"'apikey' either user or merchant.'id' The id for the pci Agreement. 'first_name' The first name for the pci Agreement. 'Last_name' The last name for the pci Agreement.'PCI_title' The title for the pci Agreement. 'browser' of the PCI holder.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/ap/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"<apikey>apikey<apikey>\",\"first_name\":\"<first_name>Jhon<first_name>\",\"Last_name\":\"<Last_name>Doe<Last_name>\",\"PCI_title\":\"<PCI_title>CTO<PCI_title>\",\"id\":<id>2</id>,\"browser\":\"<browser>Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)<browser>\"}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/merchants/pcis/fill -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"first_name\":\"<first_name>Jhon</first_name>\",\"Last_name\":\"<Last_name>Doe</Last_name>\",\"PCI_title\":\"<PCI_title>CTO</PCI_title>\",\"id\":<id>2</id>,\"browser\":\"<browser>Mozilla 5.0(Macintosh; IntelMac OS X 10 _14_6)</browser>\"}'",
         "exampleResponse": ``}
     ,
     {
@@ -2572,27 +2572,27 @@ var data = [
         "info": "Get a PCI forms by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/pcis',urlparams:[],headers:['apikey'],data:[]},
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
-  \"{{url('')}}/api/cardwiz/pcis\"",
+  \"{{url('')}}/api/cardwiz/merchants/pcis\"",
         "exampleResponse":``
     },
     {
         "routeName": "Get PCI",
         "info": "Get a PCI by id. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
-        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/pcis/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get pci_form\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the PCI in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
-  \"{{url('')}}/api/cardwiz/pcis/<id>3</id>\"",
+  \"{{url('')}}/api/cardwiz/merchants/pcis/<id>3</id>\"",
         "exampleResponse": ``
     },
     {
@@ -2600,13 +2600,13 @@ var data = [
         "info": "Search a merchants by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
-        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search',urlparams:['search'],headers:['apikey'],data:[]},
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
-  \"{{url('')}}/api/cardwiz/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
+  \"{{url('')}}/api/cardwiz/merchants/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>\"",
         "exampleResponse": ``
     },
 
@@ -2616,7 +2616,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' for the dispute <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'file' the file to update the dispute with or 'note' to update the dispute with <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"note\"></span>.",
         "header": "Endpoint. 'id' for the dispute.",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/disputes/<id>2</id>',urlparams:['id'],headers:[],data:['apikey',"note"]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "",
         "data": "'apikey' either user or merchant. 'file' the file to update the dispute with or 'note' to update the dispute with.",
         "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/2 -d '{\"apikey\":\"apikey\"}' -F 'file=@filename' \nor\n curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/disputes/<id>2</id> -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"note\":\"<note>this is a note</note>\"}'",
@@ -2627,7 +2627,7 @@ var data = [
         "info": "Accept a Dispute. POST Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'id' for the dispute <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>. 'note' to update the dispute with <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"note\"></span>.",
         'test':{method:'POST',url:'{{url('')}}/api/cardwiz/disputes/<id>2</id>',urlparams:['id'],headers:[],data:['apikey',"note"]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'id' for the dispute.",
         "query": "",
         "data": "'apikey' either user or merchant. 'note' to update the dispute with.",
@@ -2639,7 +2639,7 @@ var data = [
         "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/disputes',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -2653,7 +2653,7 @@ var data = [
         "info": "Get a Hold by id. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Hold either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the Hold in the url",
         "data": "N/A",
@@ -2667,7 +2667,7 @@ var data = [
         "info": "Search a Holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:301}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
@@ -2861,7 +2861,14 @@ function highlightJSON(text) {
     .replace(/,\\{1,1}\n/g, ",\n")
     .replace(/{\\{1,1}\n/g, "{\n")
     .replace(/([1-9]|"|>)\\/g, '$1')
+    var buttons="<button class=\"toggleBTN\" code=\"201\">201</button>";
+    var divs="";
     // .replace('curl',"CURL");
+    // "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+    route.errors.forEach(error=>{
+        buttons+=` <button class="toggleBTN" code="${error.code}">${error.code}</button>`;
+        divs+=`<pre hidden class="toggle${error.code} language-json">${highlightJSON(error.response)}</pre>`;
+    })
     route.parameters=route.parameters.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.data=route.data.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
     route.query=route.query.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
@@ -2904,7 +2911,7 @@ function highlightJSON(text) {
                 <code class="language-curl">${highlightCurl(route.exampleRequest.replace(/<[^>]*?>/g,''))}</code>
             </div>
             <div class="jsonHolder">
-                <h4  class="h5"><b>Example Response Http Code: 201</b>
+                <h4  class="h5"><b>Response: ${buttons}</b>
                     <button class="copyBtn2" data-toggle="tooltip" title="Copied!"> <i class="fa fa-copy"></i></button>
                     <button class="collapseBtn"  data-toggle="tooltip" title="Collapsed!">
                         <i class="fa fa-minus-circle"></i>
@@ -2913,7 +2920,10 @@ function highlightJSON(text) {
                         <i class="fa fa-plus-circle"></i>
                     </button>
                 </h4>
-                <pre class="language-json" id="json${idCounter}">${highlightJSON(route.exampleResponse)}</pre>
+                <div class="togglers">
+                ${divs}
+                <pre class="language-json toggle201" id="json${idCounter}">${highlightJSON(route.exampleResponse)}</pre>
+                </div>
             </div>
         </div>
     </div>
@@ -2933,73 +2943,93 @@ function highlightJSON(text) {
             const copyBtn = section.querySelector('.copyBtn');
             const copyBtn2 = section.querySelector('.copyBtn2');
             const collapseBtn = section.querySelector('.collapseBtn');
+            const toggleBTN = section.querySelectorAll('.toggleBTN');
             const uncollapseBtn = section.querySelector('.uncollapseBtn');
             const testBtn = section.querySelector('.testBtn');
+                    if(toggleBTN){
+                        toggleBTN.forEach((toggler)=>{toggler.addEventListener('click', function() {
+                                var code = this.getAttribute('code');
+                                var parent = section.querySelector(".togglers");
+
+                                // Iterate through direct children of the parent div
+                                Array.from(parent.children).forEach(function(child) {
+                                    // Check if the child has the class 'toggle' + code
+                                    if (child.classList.contains('toggle' + code)) {
+                                        // If yes, remove the 'hidden' attribute
+                                        child.removeAttribute('hidden');
+                                    } else {
+                                        // If no, add the 'hidden' attribute
+                                        child.setAttribute('hidden', '');
+                                    }
+                                });
+                            });
+                        })
+                    }
                     if(testBtn){
-    testBtn.addEventListener('click', function() {
-        // Flatten headers, data, and urlParams arrays
-        const flatHeaders = route.test.headers.reduce((acc, header) => {
-            const input = section.querySelector(`input[name="${header}"]`);
-            acc[header] = input.value;
-            return acc;
-        }, {});
+                        testBtn.addEventListener('click', function() {
+                            // Flatten headers, data, and urlParams arrays
+                            const flatHeaders = route.test.headers.reduce((acc, header) => {
+                                const input = section.querySelector(`input[name="${header}"]`);
+                                acc[header] = input.value;
+                                return acc;
+                            }, {});
 
-        const flatData = route.test.data.reduce((acc, dataItem) => {
-            const input = section.querySelector(`input[name="${dataItem}"]`);
-            acc[dataItem] = input.value;
-            return acc;
-        }, {});
+                            const flatData = route.test.data.reduce((acc, dataItem) => {
+                                const input = section.querySelector(`input[name="${dataItem}"]`);
+                                acc[dataItem] = input.value;
+                                return acc;
+                            }, {});
 
-        const flatUrlParams = route.test.urlparams.reduce((acc, param) => {
-            const input = section.querySelector(`input[name="${param}"]`);
-            acc[param] = input.value;
-            return acc;
-        }, {});
+                            const flatUrlParams = route.test.urlparams.reduce((acc, param) => {
+                                const input = section.querySelector(`input[name="${param}"]`);
+                                acc[param] = input.value;
+                                return acc;
+                            }, {});
 
-        // Replace placeholders in URL
-        let url = route.test.url;
-        Object.entries(flatUrlParams).forEach(([paramName, paramValue]) => {
-            const regExp = new RegExp(`<${paramName}>[^<]*<\/${paramName}>`, "g");
-            url = url.replace(regExp, paramValue);
-        });
+                            // Replace placeholders in URL
+                            let url = route.test.url;
+                            Object.entries(flatUrlParams).forEach(([paramName, paramValue]) => {
+                                const regExp = new RegExp(`<${paramName}>[^<]*<\/${paramName}>`, "g");
+                                url = url.replace(regExp, paramValue);
+                            });
 
-        // Construct AJAX request
-        $.ajax({
-            url: url,
-            type: route.test.method,
-            headers: flatHeaders,
-            data: flatData,
-            success: function(response) {
-                $.confirm({
-                    columnClass: 'col-md-12',
-                    title: 'Success!',
-                    content: JSON.stringify(response),
-                    buttons: {
-                        confirm: function () {
-                            // $.alert('Confirmed!');
-                        },
+                            // Construct AJAX request
+                            $.ajax({
+                                url: url,
+                                type: route.test.method,
+                                headers: flatHeaders,
+                                data: flatData,
+                                success: function(response) {
+                                    $.confirm({
+                                        columnClass: 'col-md-12',
+                                        title: 'Success!',
+                                        content: JSON.stringify(response),
+                                        buttons: {
+                                            confirm: function () {
+                                                // $.alert('Confirmed!');
+                                            },
+                                        }
+                                    });
+                                    // Handle success
+                                    console.log(response);
+                                },
+                                error: function(xhr, status, error) {
+                                    $.confirm({
+                                        columnClass: 'col-md-12',
+                                        title: 'Failed!',
+                                        content: `code: ${xhr.status} <br>response: ${JSON.stringify(xhr.responseText)}`,
+                                        buttons: {
+                                            confirm: function () {
+                                                // $.alert('Confirmed!');
+                                            },
+                                        }
+                                    });
+                                    // Handle error
+                                    console.error(xhr.responseText);
+                                }
+                            });
+                        });
                     }
-                });
-                // Handle success
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                $.confirm({
-                    columnClass: 'col-md-12',
-                    title: 'Failed!',
-                    content: JSON.stringify(xhr.responseText),
-                    buttons: {
-                        confirm: function () {
-                            // $.alert('Confirmed!');
-                        },
-                    }
-                });
-                // Handle error
-                console.error(xhr.responseText);
-            }
-        });
-    });
-}
 
 
             const inputs = section.querySelectorAll('input');
@@ -3017,8 +3047,8 @@ function highlightJSON(text) {
                         re = new RegExp(`<${inputName}>.*</${inputName}>`,"g");
                         route.exampleRequest=route.exampleRequest.replace(re,`<${inputName}>${inputValue}</${inputName}>`)
                         if(inputValue&&inputValue!=''){
-                            re2 = new RegExp(`<${inputName} meta[^>]*>.*</${inputName}>`,"g");
-                            route.exampleRequest=route.exampleRequest.replace(re2,`<${inputName} meta="needsKey" value="${inputValue}">,${inputValue}:"${inputValue}"</${inputName}>`)
+                            re2 = new RegExp(`(\n    )?<${inputName} meta[^>]*>.*</${inputName}>`,"g");
+                            route.exampleRequest=route.exampleRequest.replace(re2,`,\n    <${inputName} meta="needsKey" value="${inputValue}">"${inputName}":"${inputValue}"</${inputName}>`)
                         }
                         // Find the corresponding <dataname> tag with the same name
                             const curlElement = section.querySelector('.language-curl');

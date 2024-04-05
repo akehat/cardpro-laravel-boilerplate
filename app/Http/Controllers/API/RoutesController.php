@@ -302,7 +302,7 @@ public function getCustomers(){
         $custumers=identities::authenticateGetCustomer($info['api_userID'],$info['apikey']);
     }
     if(empty($custumers)){
-         return response()->json(['error'=>"failed to get customer"], 301);
+         return response()->json(['error'=>"failed to get customer"], 300);
     }
     return response()->json($custumers->toArray(), 201 , [] , JSON_PRETTY_PRINT);
 }
@@ -320,7 +320,7 @@ public function customers_search(){
         $charges=identities::authenticateSearchCustomer($info['api_userID'],$info['apikey'], $search);
     }
     if(empty($charges)){
-         return response()->json(['error'=>"failed to get charges"], 301);
+         return response()->json(['error'=>"failed to get customer"], 300);
     }
     return response()->json($charges->toArray(), 201 , [] , JSON_PRETTY_PRINT);
 }
@@ -353,17 +353,17 @@ public function createCharges(){
     }
 
     if(empty($merchant)){
-        return response()->json(['error'=>"failed to identify merchant"], 301);
+        return response()->json(['error'=>"failed to identify merchant"], 302);
     }
     $amount=0;
     try {
        $amount=floatval($request['amount']);
-       if($amount<=0){return response()->json(['error'=>"invalid amount"], 301);}
+       if($amount<=0){return response()->json(['error'=>"invalid amount"], 303);}
     } catch (\Throwable $th) {
-            return response()->json(['error'=>"invalid amount"], 301);
+            return response()->json(['error'=>"invalid amount"], 303);
     }
     if(!isset($request['currency'])||empty($request['currency'])){
-        return response()->json(['error'=>"invalid currency"], 301);
+        return response()->json(['error'=>"invalid currency"], 304);
     }
     $currency=strtoupper($request['currency']);
     if($info['live']){
@@ -374,7 +374,7 @@ public function createCharges(){
     if($payment['worked']){
         return response()->json($payment['ref'], 201, [] , JSON_PRETTY_PRINT);
     }
-    return response()->json($payment, 301 , [] , JSON_PRETTY_PRINT);
+    return response()->json($payment, 305 , [] , JSON_PRETTY_PRINT);
 }
 public function updateCharge(){}
 public function getCharge($id){

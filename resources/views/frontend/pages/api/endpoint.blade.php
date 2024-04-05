@@ -21,7 +21,17 @@ https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
 
 
     <style>
-        .white{
+      /* Style for the message div */
+      #message {
+        position: absolute;
+        display: none;
+        padding: 10px;
+        background-color: #333;
+        pointer-events:none;
+        color: #fff;
+        border-radius: 5px;
+    }
+    .white{
             color:white!important;
         }
         .lightblue{
@@ -64,6 +74,9 @@ https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css
     box-shadow: 5px 5px 10px black;
     border:1px solid lightblue;
     max-width: 81vw;
+}
+.jsonHolder{
+    min-height: 500px;
 }
 .language-json{
     width:100%;
@@ -264,6 +277,8 @@ section:last-of-type{
         <main id="mainContent">
         </main>
     </div>
+    <div id="message"></div>
+
     <script>
         // JavaScript to toggle the display of the navigation menu on hover for phones
         document.querySelector('#sidenav').addEventListener('mouseenter', function () {
@@ -287,6 +302,7 @@ document.querySelector('#sidenav').addEventListener('mouseleave', function () {
 });
 var working=false;
 function convertCurl(text, language) {
+    if(working){return;}
     working=true;
     // Create a dynamic iframe element
     var iframe = document.createElement('iframe');
@@ -300,7 +316,7 @@ function convertCurl(text, language) {
         // working2=true;
 
         var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
+        var generatedContentOld = iframeDocument.getElementById('generated-code').innerHTML;
         // Set the iframe source dynamically based on the language
 
         // Access the curl-code textarea in the iframe and set its value
@@ -312,8 +328,9 @@ function convertCurl(text, language) {
         curlText.dispatchEvent(event);
 
         // Wait for a short delay for the code to be generated
-        setTimeout(function() {
+        var getGenerated=function(){setTimeout(function() {
             var generatedElement = iframeDocument.getElementById('generated-code');
+            if(generatedElement.innerHTML == generatedContentOld){getGenerated();return;}
             var content = `<pre id="copyThis">` + generatedElement.innerHTML + '</pre>';
 
             // Display the generated code in an alert
@@ -335,7 +352,8 @@ function convertCurl(text, language) {
 
             // Remove the dynamic iframe element
             document.body.removeChild(iframe);
-        }, 500);
+        }, 100);}
+        getGenerated();
     };
     working=false;
 }
@@ -385,7 +403,7 @@ var data = [
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get customer\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/customers\"",
@@ -502,7 +520,7 @@ var data = [
         "query": "'id' for the customer in the url",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers/<id>74</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get customer\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/customers/<id>74</id>\"",
@@ -534,7 +552,7 @@ var data = [
         "query": "page the page of the query like page=2 by 20,'search' for in the customer.",
         "data": "'apikey' either user or merchant. ",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/customers/search?search=<search>ID9BBQfNDBnt5hUxvp3W1w6S</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get customer\"}"},{code:301,response:"{\"error\":\"search not provided\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
    {{url('')}}/api/cardwiz/customers/search?search=<search>ID9BBQfNDBnt5hUxvp3W1w6S</search>",
@@ -648,7 +666,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Payment Way\"}"}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -774,7 +792,7 @@ var data = [
         "info": "Get a Payment Way by id. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Payment Way either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/payment_ways/<id>56</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Payment Way\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the Payment Way in the url",
         "data": "N/A",
@@ -829,7 +847,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:  "{{url('')}}/api/cardwiz/payment_ways/search?search=<search>APZmjWMcUWgvxGcBV3V6FJ7</search>",urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get Payment Way\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -959,7 +977,7 @@ var data = [
         "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
         "query": "N/A",
         "data": "'apikey' either user or merchant. 'cardID' for in the card. 'currency' of the charge.",
-        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/charges -d '{\"apikey\":\<apikey>apikey</apikey>\",\"cardID\":<cardID>2</cardID>,\"amount\":<amount>200</amount>,\"currency\":\"<currency>USD</currency>\" <MerchantID meta=\"needsKey\"></MerchantID>}'",
+        "exampleRequest": "curl -X POST -H \"Content-Type: application/json\"  {{url('')}}/api/cardwiz/charges -d '{\"apikey\":\"<apikey>apikey</apikey>\",\"cardID\":<cardID>2</cardID>,\"amount\":<amount>200</amount>,\"currency\":\"<currency>USD</currency>\" <MerchantID meta=\"needsKey\"></MerchantID>}'",
         "exampleResponse": `{
     "id": 30,
     "created_at": "2024-02-18T04:09:29.000000Z",
@@ -1016,7 +1034,7 @@ var data = [
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Charges\"}"}],
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
   \"{{url('')}}/api/cardwiz/charges\"",
@@ -1197,7 +1215,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the charge either the number or the long on <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/<id>30</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Charge\"}"}],
         "query": "'id' for the charge in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1258,7 +1276,7 @@ var data = [
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/charges/search?search=<search>TRxADa5jzJ2GRRM5yejSvpPU</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get Charges\"}"}],
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
@@ -1455,7 +1473,7 @@ var data = [
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get holds\"}"}],
         "data": "N/A",
         "exampleRequest": "curl -X GET \
   -H \"apikey: <apikey>your_api_key_here</apikey>\" \
@@ -1535,7 +1553,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Hold either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get hold\"}"}],
         "query": "'id' for the Hold in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1584,7 +1602,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get holds\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1764,7 +1782,7 @@ var data = [
         "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Merchant Identities\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -1882,7 +1900,7 @@ var data = [
         "parameters": "apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant Identity either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/<id>84</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Merchant Identity\"}"}],
         "query": "'id' for the Merchant Identity in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -1913,7 +1931,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/identity/search?search=<search>ID5kQmeLzHM7XZg9gxp7TLsq</search>',urlparams:['id','search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2101,7 +2119,7 @@ var data = [
         "info": "Get a merchants by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Merchants\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -2372,7 +2390,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants<id>18</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Merchant\"}"}],
         "query": "'id' for the merchant in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2430,7 +2448,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/search?search=<search>MUh6o9SVp55pk9LfPRbGTMz4</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get Merchants\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2519,7 +2537,7 @@ var data = [
         "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Merchant Total\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -2534,7 +2552,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Merchant Total\"}"}],
         "query": "'id' for the Merchant Identity in the url",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2547,7 +2565,7 @@ var data = [
         "info": "Search merchants identities by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/totals/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get Merchant Totals\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
@@ -2573,7 +2591,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/pcis',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get PCIs\"}"}],
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2586,7 +2604,7 @@ var data = [
         "info": "Get a PCI by id. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the merchant either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/pcis/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get pci_form\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get pci_form\"}"},{code:300,response:"{\"error\":\"failed to get PCI\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the PCI in the url",
         "data": "N/A",
@@ -2601,7 +2619,7 @@ var data = [
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         "header": "Endpoint. 'apikey' either user or merchant.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/merchants/pcis/search?search=<search>AU89QZLoYQBzeJAt2iysRr2H0</search',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get PCIs\"}"}],
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
         "exampleRequest": "curl -X GET \
@@ -2639,7 +2657,7 @@ var data = [
         "info": "Get a holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/disputes',urlparams:[],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Disputes\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20",
         "data": "N/A",
@@ -2653,7 +2671,7 @@ var data = [
         "info": "Get a Hold by id. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>. 'id' for the Hold either the number or the long one <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"id\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['id'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:300,response:"{\"error\":\"failed to get Dispute\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "'id' for the Hold in the url",
         "data": "N/A",
@@ -2667,7 +2685,7 @@ var data = [
         "info": "Search a Holds by 20. GET Route",
         "parameters": "'apikey' either user or merchant <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"apikey\"></span>.'search' what to search for <span hidden=\"true\" class=\"edit\"><br><input type=\"text\" name=\"search\"></span>.",
         'test':{method:'GET',url:'{{url('')}}/api/cardwiz/holds/<id>3</id>',urlparams:['search'],headers:['apikey'],data:[]},
-        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
+        "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"},{code:301,response:"{\"error\":\"search not provided\"}"},{code:300,response:"{\"error\":\"failed to get Disputes\"}"}],
         "header": "Endpoint. 'apikey' either user or merchant.",
         "query": "page the page of the query like page=2 by 20. 'search' what to search for.",
         "data": "N/A",
@@ -2861,12 +2879,12 @@ function highlightJSON(text) {
     .replace(/,\\{1,1}\n/g, ",\n")
     .replace(/{\\{1,1}\n/g, "{\n")
     .replace(/([1-9]|"|>)\\/g, '$1')
-    var buttons="<button class=\"toggleBTN\" code=\"201\">201</button>";
+    var buttons="<button class=\"toggleBTN\"  hover=\"http code 201\" code=\"201\">201</button>";
     var divs="";
     // .replace('curl',"CURL");
     // "errors": [{code:401,response:"{\"error\":\"Invalid API key\"}"}],
     route.errors.forEach(error=>{
-        buttons+=` <button class="toggleBTN" code="${error.code}">${error.code}</button>`;
+        buttons+=` <button class="toggleBTN" hover="http code ${error.code}" code="${error.code}">${error.code}</button>`;
         divs+=`<pre hidden class="toggle${error.code} language-json">${highlightJSON(error.response)}</pre>`;
     })
     route.parameters=route.parameters.split('.').join('.\n').replace(/\n\s*/g, "\n").replace(/('[^'\" ]*')/g, "<b>$1</b>");
@@ -2882,9 +2900,8 @@ function highlightJSON(text) {
             <h2>${route.routeName}</h2>
             <p>${route.info}</p>
             <div class="paramHolder">
-
                 <h5>Parameters
-                        <button class="editButton" onclick="editRoute(this)">
+                        <button class="editButton" hover="Edit button" onclick="editRoute(this)">
                             <i class="fa fa-pencil"></i>
                         </button>
                 </h5>
@@ -2901,10 +2918,10 @@ function highlightJSON(text) {
         <div>
             <div class="curlHolder">
                 <h4 class="h5" id="curlholder${++idCounter}"><b>Example Request</b>
-                <button class="copyBtn" data-toggle="tooltip" title="Copied!">
+                <button class="copyBtn" data-toggle="tooltip" hover="Copy button" title="Copied!">
                     <i class="fa fa-copy"></i>
                 </button>
-                <button class="testBtn" data-toggle="tooltip" title="Test Button">
+                <button class="testBtn" data-toggle="tooltip" hover="Test button" title="Testing">
                         <i class="fa fa-check"></i>
                 </button>
                 </h4>
@@ -2912,11 +2929,11 @@ function highlightJSON(text) {
             </div>
             <div class="jsonHolder">
                 <h4  class="h5"><b>Response: ${buttons}</b>
-                    <button class="copyBtn2" data-toggle="tooltip" title="Copied!"> <i class="fa fa-copy"></i></button>
-                    <button class="collapseBtn"  data-toggle="tooltip" title="Collapsed!">
+                    <button class="copyBtn2" data-toggle="tooltip" hover="Copy button" title="Copied!"> <i class="fa fa-copy"></i></button>
+                    <button class="collapseBtn"  data-toggle="tooltip" hover="Collapse button" title="Collapsed!">
                         <i class="fa fa-minus-circle"></i>
                     </button>
-                    <button class="uncollapseBtn" data-toggle="tooltip" title="Uncollapsed!">
+                    <button class="uncollapseBtn" data-toggle="tooltip" hover="Uncollapse button" title="Uncollapsed!">
                         <i class="fa fa-plus-circle"></i>
                     </button>
                 </h4>
@@ -3070,7 +3087,7 @@ function highlightJSON(text) {
         }
         if(copyBtn2){
             copyBtn2.addEventListener('click', function() {
-                copyToClipboard(route.exampleResponseUncolapsed);
+                copyToClipboard(section.querySelector(".togglers > pre:not([hidden])").textContent);
                 toggleTooltip(this);
             });
         }
@@ -3098,6 +3115,31 @@ function highlightJSON(text) {
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip({trigger:'manual'})
             })
+            function showMessage(event) {
+            var messageDiv = document.getElementById("message");
+                messageDiv.style.display = "inline-block";
+                messageDiv.textContent = event.target.getAttribute('hover');
+                messageDiv.style.left = (event.clientX - 50) + "px"; // Adjust position to center message
+                messageDiv.style.top = (event.clientY + 10) + "px"; // Adjust position to center message
+
+            // Hide the message after 2 seconds
+
+    }
+
+    // Event listener for mouse enter
+    document.querySelectorAll("button").forEach((button)=>{
+
+        if(! button.getAttribute('hover'))return;
+
+        button.addEventListener("mouseenter", function(event) {
+        showMessage(event);
+    });
+    button.addEventListener("mouseleave", function(event) {
+        document.getElementById("message").style.display = "none";
+    });
+
+});
+
         }
         function copyToClipboard(text) {
                     // alert(text);

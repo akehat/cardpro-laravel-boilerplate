@@ -10,3 +10,9 @@ Route::get('dashboard', [DashboardController::class, 'index'])
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('admin.dashboard'));
     });
+Route::get('table/controller', [DashboardController::class, 'tableController'])
+    ->name('table.controller')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('dashboard'), route('admin.table.controller'));
+    });
+Route::post('update/tables', [DashboardController::class, 'updateTables'])->name('table.update');

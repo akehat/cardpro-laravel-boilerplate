@@ -101,6 +101,12 @@
                             :text="__('Logs')" />
                     </li>
                 </ul>
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        :href="route('admin.table.controller')"
+                        class="c-sidebar-nav-link"
+                        :text="__('Tables controll')" />
+                </li>
             </li>
         @endif
     </ul>

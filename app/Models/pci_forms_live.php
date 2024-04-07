@@ -35,32 +35,77 @@ public function scopeAccessible($query)
             Cache::forget($cacheKey);
         }
     }
-static function getColumnNames($tableName) {
+static function getRemovedNames($tableName, $allcolumns) {
+        $cacheKey = 'removed_names_' . $tableName;
+        if (Cache::has($cacheKey)) {
+            $removed = Cache::get($cacheKey);
+        } else {
+            $record = removed_items::where('table', $cacheKey)->first();
+            if ($record != null) {
+                $removed = (array)json_decode($record->json);
+                Cache::forever($cacheKey, $removed);
+            } else {
+                $removed = [];
+                Cache::forever($cacheKey, []);
+            }
+        }
+        if($allcolumns==false){return $removed;}
+        // Filtering out removed columns from allcolumns
+        $filteredColumns = array_diff($allcolumns, $removed);
+
+        return $filteredColumns;
+    }
+
+    static function setRemovedNames($tableName, $array) {
+        $cacheKey = 'removed_names_' . $tableName;
+        $record = removed_items::where('table', $cacheKey)->first();
+        if ($record != null) {
+            $record->json = json_encode($array);
+            $record->save();
+            Cache::forever($cacheKey, $array);
+        } else {
+            $removed = removed_items::create([
+                'table' => $cacheKey,
+                'json' => json_encode($array)
+            ]);
+            Cache::forever($cacheKey, $array);
+        }
+    }
+
+    static function getColumnNames($tableName, $all = false) {
         $cacheKey = 'column_names_' . $tableName;
 
         // Check if column names for the table are already cached
         if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
+            $columns = Cache::get($cacheKey);
+            if ($all) {
+                return $columns;
+            }
+            return self::getRemovedNames($tableName, $columns);
         }
 
         // Attempt to fetch a record from the table
         $record = \DB::table($tableName)->first();
         if ($record) {
             // If a record is found, get column names from the record
-            $columns = array_keys((array) $record);
+            $columns = array_keys((array)$record);
 
             // Cache the column names retrieved from the record
             Cache::forever($cacheKey, $columns);
-
-            return $columns;
+            if ($all) {
+                return $columns;
+            }
+            return self::getRemovedNames($tableName, $columns);
         } else {
             // If no record is found, get column names from the schema
             $columns = Schema::getColumnListing($tableName);
 
             // Cache the column names retrieved from the schema
-            // Cache::forever($cacheKey, $columns);
-
-            return $columns;
+            Cache::forever($cacheKey, $columns);
+            if ($all) {
+                return $columns;
+            }
+            return self::getRemovedNames($tableName, $columns);
         }
     }
 
@@ -79,7 +124,7 @@ static function getColumnNames($tableName) {
                 $orderDir = $request->input('order.0.dir'); // Get the order direction
             }
 
-            $query = self::accessible();
+            $query = self::accessible()->select($columns);
 
             if (!empty($search)) {
                 $query->where(function ($query) use ($columns, $search) {
@@ -110,7 +155,7 @@ static function getColumnNames($tableName) {
         } else {
             $queryCount = self::accessible()->count();
             if ($queryCount < config('app.json_table_limit')) {
-                $array['data'] = self::accessible()->get()->toArray();
+                $array['data'] = self::accessible()->select($columns)->get()->toArray();
                 $array['next_page_url'] = null;
                 $array['prev_page_url'] = null;
                 $array['data'] = isset($array['data']) ? $array['data'] : null;

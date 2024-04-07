@@ -61,12 +61,16 @@ static function getRemovedNames($tableName, $allcolumns) {
         if ($record != null) {
             $record->json = json_encode($array);
             $record->save();
+             Cache::forget($cacheKey);
             Cache::forever($cacheKey, $array);
         } else {
             $removed = removed_items::create([
                 'table' => $cacheKey,
                 'json' => json_encode($array)
             ]);
+            $removed ->save();
+             $removed ->refresh();
+            Cache::forget($cacheKey);
             Cache::forever($cacheKey, $array);
         }
     }

@@ -16,11 +16,11 @@
                     @php
                         $columns=$columnsSet[0];
                         $removed=$columnsSet[1];
-
+                        if($removed=="[]")$removed=[];
                     @endphp
                     <div class="column">
                         <h3>{{ str_replace("_"," ",$tableName) }}</h3>
-                        <form class="updateForm" method="POST" action="{{ route('admin.table.update') }}">
+                        <form class="updateForm" method="POST" data-table="{{ $tableName }}" action="{{ route('admin.table.update') }}">
                             @csrf
                             <div class="column-checkboxes">
                                 @foreach($columns as $column)
@@ -44,6 +44,19 @@
                             event.preventDefault();
                             var formData = new FormData(this);
 
+                            // Check if any checkboxes are checked
+                            var checked = false;
+                            form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                                if (checkbox.checked) {
+                                    checked = true;
+                                }
+                            });
+
+                            // If none are checked, add an empty array for the table name
+                            if (!checked) {
+                                formData.append(this.getAttribute('data-table'), []);
+                            }
+
                             // Sending AJAX request
                             axios.post(this.action, formData)
                                 .then(function(response) {
@@ -57,6 +70,7 @@
                         });
                     });
                 </script>
+
 
 <style>
     .table-container{
